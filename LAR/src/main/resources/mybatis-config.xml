@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<!-- 
+	VO / DTO Aliases
+	<typeAliases>
+		Alias example
+		<typeAlias type="pathOfClass" alias="example"/>
+	</typeAliases>
+	 -->
+	<!--  
+	TypeHandlers
+	<typeHandlers>
+		TypeHandlers example	
+		<package name="com.kh.spring.common.typehandler"/>
+	</typeHandlers>
+	-->
+</configuration>
