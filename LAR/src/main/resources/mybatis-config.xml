@@ -7,8 +7,16 @@
 		Alias example
 		<typeAlias type="pathOfClass" alias="example"/>
 	</typeAliases>
-	 -->
-	<!--  
+	-->
+	<typeAliases>
+		<typeAlias type="com.misoot.lar.admin.model.vo.Admin" alias="admin"/>
+		<typeAlias type="com.misoot.lar.community.model.vo.Community" alias="community"/>
+		<typeAlias type="com.misoot.lar.home.model.vo.Home" alias="home"/>
+		<typeAlias type="com.misoot.lar.lecture.model.vo.Lecture" alias="lecture"/>
+		<typeAlias type="com.misoot.lar.user.model.vo.User" alias="user"/>
+	</typeAliases>
+	
+	<!--
 	TypeHandlers
 	<typeHandlers>
 		TypeHandlers example	
