@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="lecture">
+	<!-- TABLE_LECTURE  -->
+	
+	<!-- TABLE_LECTURE_BOARD  -->	
+	<insert  id="insertLectureBoardinsert">
+		insert into TABLE_LECTURE_BOARD values(
+		 seq_lecture_board_index.nextval,#{lecture_board_lecture_index},#{lecture_board_title},#{lecture_board_content},default,default,0)
+	</insert>
+	
+	<insert id="insertLectureBoardAttachment">
+		 INSERT INTO TABLE_LECTURE_ATTACH VALUES(
+    		SEQ_LECTURE_ATTACH_INDEX.nextval,#{lecture_attach_board_index},#{lecture_attach_originfilename},#{lecture_attach_renamedfilename},SYSDATE)
+    </insert>
+	<select id="selectLectureBoardCount" resultType="_int">
+		SELECT COUNT(*) FROM TABLE_LECTURE_BOARD
+	</select>
+	<select id="selectLectureBoardOne" parameterType="_int">
+		SELECT * FROM TABLE_LECTURE_BOARD WHERE LECTURE_BOARD_INDEX = #{lecture_board_index} and LECTURE_BOARD_LECTURE_INDEX = #{lecture_board_lecture_index}
+	</select>
+	
+	<select id="selectLectureBoardList" resultType="BoardLecture">
+	  select * from TABLE_LECTURE_BOARD where LECTURE_BOARD_LECTURE_INDEX = #{lectureNo} order by LECTURE_BOARD_INDEX
+	</select>
+	
+	<select  id="selectLectureBoardAttachmentList" parameterType="_int">
+		 select * from table_lecture_attach where LECTURE_BOARD_LECTURE_INDEX = #{lecture_board_index}
+	</select>
+	
+	
+</mapper>
