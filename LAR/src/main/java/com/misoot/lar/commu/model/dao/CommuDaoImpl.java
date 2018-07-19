@@ -150,6 +150,10 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		
 	}
 
+	public List<Map<String, String>> selectNewsList() {
+		return sqlSession.selectList("commu.selectNewsList");
+	}
+
 	
 	
 

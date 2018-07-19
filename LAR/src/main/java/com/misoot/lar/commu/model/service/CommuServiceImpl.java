@@ -145,6 +145,10 @@ public class CommuServiceImpl implements LarService<Commu> {
 	public int deleteCommu(String user_index) {
 		return ((CommuDaoImpl)commuDaoImpl).deleteCommu(user_index);
 	}
+
+	public List<Map<String, String>> selectNewsList() {
+		return ((CommuDaoImpl)commuDaoImpl).selectNewsList();
+	}
 	
 
 

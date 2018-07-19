@@ -91,6 +91,7 @@ public class CommuController {
 		}
 		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
+		List<Map<String, String>> newslist = ((CommuServiceImpl) commuServiceImpl).selectNewsList();
 		// 반환자료형이 Model이라서 붙여써도 무방하다.
 		model.addAttribute("commuList", commulist).addAttribute("commuNumPerPage", numPerPage);
 		model.addAttribute("commuTotalContents", commuTotalContents);
@@ -104,6 +105,7 @@ public class CommuController {
 		model.addAttribute("infoNumPerPage",numPerPage);
 		model.addAttribute("infocPage",infocPage);
 		model.addAttribute("commucPage",commucPage);
+		model.addAttribute("newslist",newslist);
 		
 		return "commu/commuMain";
 
@@ -161,7 +163,7 @@ public class CommuController {
 		// System.out.println(commu);
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 시작 --------------- //
 		// 파일 저장 경로 생성하기
-		String saveDir = request.getSession().getServletContext().getRealPath("/resource/uploadFiles/commu");
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/commu");
 		File dir = new File(saveDir);
 		System.out.println(saveDir);
 		// 만약 현재 저장하려는 경로에 폴더가 없다면 만들겠습니다.
@@ -224,7 +226,7 @@ public class CommuController {
 			HttpServletResponse response) {
 
 		// 파일저장디렉토리
-		String saveDirectory = request.getSession().getServletContext().getRealPath("/resource/uploadFiles/commu");
+		String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/commu");
 
 		BufferedInputStream bis = null;
 		ServletOutputStream sos = null;

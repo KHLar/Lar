@@ -46,10 +46,13 @@ $(function(){
        var fileName = $(this).prop('files')[0].name;//파일명
        console.log($(this).val());
        $(this).next('.custom-file-label').html(fileName);
-   })
+   });
+   
 });
 </script>
-
+<% 
+String commucPageTemp = request.getParameter("commucPage");
+%>
 </head>
 <body>
 
@@ -81,7 +84,7 @@ $(function(){
                     </div>
                     <div class="form-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple>
+                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple >
                         </div>
                       </div>
                      <div class="form-group">

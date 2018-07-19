@@ -17,33 +17,18 @@ public class Commu {
 	private int commu_Is_Deleted;
 	private String commu_Writer;
 	private int fileCount;
+	private String commu_Attach_Renamedfilename;
 	
 	//첨부파일 관련 필드 추가하기
 	private List<Attachment> files = new ArrayList<>();
 
 	public Commu() {
 		super();
-	}	
-
-	public Commu(int commu_Writer_Index, String commu_Title, String commu_Content) {
-		super();
-		this.commu_Writer_Index = commu_Writer_Index;
-		this.commu_Title = commu_Title;
-		this.commu_Content = commu_Content;
 	}
-
-	public Commu(int commu_Writer_Index, String commu_Title, String commu_Content, List<Attachment> files) {
-		super();
-		this.commu_Writer_Index = commu_Writer_Index;
-		this.commu_Title = commu_Title;
-		this.commu_Content = commu_Content;
-		this.files = files;
-	}
-
 
 	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
 			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
-			String commu_Writer, int fileCount) {
+			String commu_Writer, int fileCount, String commu_Attach_Renamedfilename, List<Attachment> files) {
 		super();
 		this.commu_Index = commu_Index;
 		this.commu_Writer_Index = commu_Writer_Index;
@@ -56,11 +41,13 @@ public class Commu {
 		this.commu_Is_Deleted = commu_Is_Deleted;
 		this.commu_Writer = commu_Writer;
 		this.fileCount = fileCount;
+		this.commu_Attach_Renamedfilename = commu_Attach_Renamedfilename;
+		this.files = files;
 	}
 
 	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
 			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
-			String commu_Writer, int fileCount, List<Attachment> files) {
+			String commu_Writer) {
 		super();
 		this.commu_Index = commu_Index;
 		this.commu_Writer_Index = commu_Writer_Index;
@@ -72,8 +59,6 @@ public class Commu {
 		this.commu_Update_Date = commu_Update_Date;
 		this.commu_Is_Deleted = commu_Is_Deleted;
 		this.commu_Writer = commu_Writer;
-		this.fileCount = fileCount;
-		this.files = files;
 	}
 
 	public int getCommu_Index() {
@@ -164,6 +149,14 @@ public class Commu {
 		this.fileCount = fileCount;
 	}
 
+	public String getCommu_Attach_Renamedfilename() {
+		return commu_Attach_Renamedfilename;
+	}
+
+	public void setCommu_Attach_Renamedfilename(String commu_Attach_Renamedfilename) {
+		this.commu_Attach_Renamedfilename = commu_Attach_Renamedfilename;
+	}
+
 	public List<Attachment> getFiles() {
 		return files;
 	}
@@ -178,9 +171,11 @@ public class Commu {
 				+ ", commu_Category_Index=" + commu_Category_Index + ", commu_Title=" + commu_Title + ", commu_Content="
 				+ commu_Content + ", commu_Hits=" + commu_Hits + ", commu_Upload_Date=" + commu_Upload_Date
 				+ ", commu_Update_Date=" + commu_Update_Date + ", commu_Is_Deleted=" + commu_Is_Deleted
-				+ ", commu_Writer=" + commu_Writer + ", fileCount=" + fileCount + ", files=" + files + "]";
+				+ ", commu_Writer=" + commu_Writer + ", fileCount=" + fileCount + ", commu_Attach_Renamedfilename="
+				+ commu_Attach_Renamedfilename + ", files=" + files + "]";
 	}
 
+	
 	
 	
 	

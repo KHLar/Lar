@@ -11,6 +11,9 @@
 
 
 <style>
+.centers{
+ text-align: center;
+}
 tr, th {
 	text-align: center;
 }
@@ -154,18 +157,21 @@ td {
 								id="listArea">
 								<thead>
 									<tr>
-										<th class="col-md-1">번호</th>
-										<th class="col-md-5">제목</th>
-										<th class="col-md-2">작성자</th>
-										<th class="col-md-2">날짜</th>
-										<th class="col-md-1">파일</th>
-										<th class="col-md-1">조회수</th>
+										<th class="col-md-1 centers">번호</th>
+										<th class="col-md-5 centers">제목</th>
+										<th class="col-md-2 centers">작성자</th>
+										<th class="col-md-2 centers">날짜</th>
+										<th class="col-md-1 centers">파일</th>
+										<th class="col-md-1 centers">조회수</th>
 									</tr>
 								</thead>
 								<tbody>
+								<c:set var="commuCount" value="${(commucPage*10)-10}" />
 									<c:forEach items="${commuList}" var="c">
+									<c:set var="commuCount" value="${commuCount + 1}"/>
 										<tr id="${c.commu_Index}">
-											<td>${c.commu_Index}</td>
+										 <td style="display:none;">${c.commu_Index}</td>
+											<td>${commuCount}</td>
 											<td class="commuContent">${c.commu_Title}</td>
 											<td>${c.commu_Writer}</td>
 											<td>${c.commu_Update_Date}</td>
@@ -266,18 +272,22 @@ td {
 								id="listArea">
 								<thead>
 									<tr>
-										<th class="col-md-1">번호</th>
-										<th class="col-md-5">제목</th>
-										<th class="col-md-2">작성자</th>
-										<th class="col-md-2">날짜</th>
-										<th class="col-md-1">파일</th>
-										<th class="col-md-1">조회수</th>
+										<th class="col-md-1 centers">번호</th>
+										<th class="col-md-5 centers">제목</th>
+										<th class="col-md-2 centers">작성자</th>
+										<th class="col-md-2 centers">날짜</th>
+										<th class="col-md-1 centers">파일</th>
+										<th class="col-md-1 centers">조회수</th>
 									</tr>
 								</thead>
 								<tbody>
+								<c:set var="infoCount" value="${(infocPage*10)-10}" />
 									 <c:forEach items="${infolist}" var="i">
+									 
+									<c:set var="infoCount" value="${infoCount + 1}"/>
 										<tr id="${i.commu_Index}">
-											<td>${i.commu_Index}</td>
+										<td style="display:none;">${i.commu_Index}</td>
+											<td>${infoCount}</td>
 											<td class="infoContent">${i.commu_Title}</td>
 											<td>${i.commu_Writer}</td>
 											<td>${i.commu_Update_Date}</td>
@@ -313,6 +323,28 @@ td {
 			</div>
 			<div id="News" class="tab-pane fade">
 				<div class="container_fluid">
+				<div class="row no-gutters">
+				<c:forEach items="${newslist}" var="n">
+				
+          <div class="col-lg-4">
+            <a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView?no=${n.commu_Index}">
+              <span class="caption">
+                <span class="caption-content">
+                  <h2>${n.commu_Writer }</h2>
+                  <p>${n.commu_Title }</p>
+                </span>
+              </span>
+              <img class="img-fluid" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width:100%;"/>
+            </a>
+          </div>
+          </c:forEach>
+          
+        </div>
+        <div class="col-lg-11 col-md-11 col-sm-11"></div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<button type="button" class="btn btn-primary"
+								onclick="testCommuModify('B03');">글쓰기</button>
+						</div>
 				</div>
 			</div>
 		</div>
