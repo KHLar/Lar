@@ -13,8 +13,7 @@
 <link
 	href="${pageContext.request.contextPath}/resources/summernote/summernote.css"
 	rel="stylesheet">
-<br><br><br><br>
-<br><br><br>
+</header>
 <div class=container>
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10">
@@ -23,7 +22,7 @@
 				<form id="defaultForm" method="post" class="form-horizontal" enctype="multipart/form-data" action="${pageContext.request.contextPath}/lecture/lectureBoardInsert">
 					<div class="form-group">
 						<br /><br /><br />
-						<div class="col-sm-8">
+						<div class="col-sm-9">
 							<div class="form-row">
 							
 							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_board_title" required/>
@@ -46,17 +45,8 @@
 				</form>
 			</div>
 		</div>
-	<div class="col-lg-2 col-md-2 col-sm-2">
-			<div>
-				<img
-					src="${pageContext.request.contextPath}/resources/images/ad.JPG"></img>
-			</div>
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
+
+
 <script>
 	$(function() {
 		$('#summernote').summernote({

@@ -14,12 +14,13 @@ function fn_goBoardForm(){
 	$(function(){
 	   $("tr[id]").on("click",function(){
 	      var boardNo = $(this).attr("id");
-	      console.log("bordNo="+boardNo);
+	      console.log("bordNo="+boardNo);  
 	      location.href = "${pageContext.request.contextPath}/board/boardView.do?no="+boardNo;
 	   });
 	});
 
 </script>
+</header>
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
 	rel="stylesheet">
@@ -31,11 +32,10 @@ function fn_goBoardForm(){
 <br>
 <br>
 <br>
-<br>
-<br>
 <div class="container">
 
 	<div class="row">
+	
 
 		<div class="col-lg-3">
 
@@ -104,17 +104,9 @@ function fn_goBoardForm(){
 				</ul>
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
 			</div>
-	<div class="col-lg-2 col-md-2 col-sm-2">
-			<div>
-				<img
-					src="${pageContext.request.contextPath}/resources/images/ad.JPG"></img>
-			</div>
-		</div>
-	</div>
-</div>
-<br>
-<br>
-<br>
+	
+
+
 <script
 	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <script
