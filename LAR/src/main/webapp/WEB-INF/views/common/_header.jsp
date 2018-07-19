@@ -106,7 +106,7 @@
 						<a class="lectureRegist" href="/lar/lecture/regist">강의등록 신청</a>
 					</li>
 					<li>
-						<a class="" href="">커뮤니티</a>
+						<a href="/lar/commu/commuMain">커뮤니티</a>
 					</li>
 					<c:if test="${empty session_user}">
 					<li>

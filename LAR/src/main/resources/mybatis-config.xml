@@ -10,10 +10,12 @@
 	-->
 	<typeAliases>
 		<typeAlias type="com.misoot.lar.admin.model.vo.Admin" alias="admin"/>
-		<typeAlias type="com.misoot.lar.community.model.vo.Community" alias="community"/>
 		<typeAlias type="com.misoot.lar.home.model.vo.Home" alias="home"/>
 		<typeAlias type="com.misoot.lar.lecture.model.vo.Lecture" alias="lecture"/>
 		<typeAlias type="com.misoot.lar.user.model.vo.User" alias="user"/>
+		<typeAlias type="com.misoot.lar.commu.model.vo.Commu" alias="commu"/>
+		<typeAlias type="com.misoot.lar.commu.model.vo.Attachment" alias="attachment"/>
+		<typeAlias type="com.misoot.lar.commu.model.vo.CommuReply" alias="commuReply"/>
 	</typeAliases>
 	
 	<!--
