@@ -1,9 +1,15 @@
 /* _header.jsp */
 
 /* slave-1 custom css start */
+
+header {
+	border-bottom: 1px solid lightgray;
+}
+
 @media ( min-width : 768px) {
 	header {
 		margin-top: 100px;
+		margin-bottom: 50px;
 	}
 	.navbar-left {
 		padding-left: 15%;
@@ -25,6 +31,8 @@
 		color: #fff !important;
 	}
 }
+
+
 
 .slide {
 	width: 100%;
@@ -101,18 +109,19 @@ a {
 
 /* --------- home.jsp ---------- */
 .thumbnail img {
-	height: 53%;
+	height: 65% !important;
+	width: 100%;
 }
 
 .thumbnail {
-	height: 320px;
-	width: 230px;
-	paddig: 5px;
+	height: 310px;
+	max-width: 95%;
+	margin: 1% 1%;
 }
 
 .thumbnail .glyphicon {
-	font-size: 20px;
-	margin: 5px;
+	font-size: 90%;
+	margin: 3px;
 }
 
 .thumbnail .glyphicon-heart {
@@ -445,4 +454,18 @@ a {
 
 .cartList .glyphicon-star {
 	color: #fed136;
+}
+
+div.col-md-10.col-sm-10 {
+	border-right: solid 1px lightgray;
+	padding-right: 5%;
+}
+
+div.wrapper {
+	margin-bottom: 50px;
+}
+
+div.wrapper > div.container-fluid {
+	margin-left: 8.33333333%;
+	margin-right: 8.33333333%;
 }

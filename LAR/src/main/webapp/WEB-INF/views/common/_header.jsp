@@ -39,11 +39,10 @@
 	</style>
 </head>
 <body>
+
 	<script>
 		console.log("${session_user}");
 	</script>
-
-	
 
 	<!-- Navigation -->
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -130,3 +129,6 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
+	
+	<div class="wrapper">
+		<header>

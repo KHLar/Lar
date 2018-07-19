@@ -107,6 +107,12 @@ public class UserDaoImpl implements LarDao<User> {
 	public List<Map<String, String>> myCoupontList(int user_index) {
 		return sqlSession.selectList("user.myCouponList", user_index);
 	}
+
+	public int deleteWishList(Map<String, Object> checkList) {
+		System.out.println(checkList);
+		
+		return sqlSession.delete("user.deleteWishList",checkList);
+	}
 	
 	/*
 	 * My page end

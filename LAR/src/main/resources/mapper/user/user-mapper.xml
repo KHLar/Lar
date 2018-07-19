@@ -122,4 +122,13 @@
 		JOIN TABLE_LECTURE ON(LECTURE_INDEX = LECTURE_Q_LECTURE_INDEX)
 		WHERE LECTURE_Q_WRITER_INDEX = #{user_index} ORDER BY LECTURE_Q_UPLOAD_DATE DESC
 	</select>
+	
+	<delete id="deleteWishList" parameterType="hashmap">
+		DELETE FROM TABLE_WISH_LIST
+		WHERE WISH_LECTURE_INDEX IN
+		<foreach item="index" collection="wishList" separator=", " open="(" close=")">
+		#{index}
+		</foreach>
+		AND WISH_USER_INDEX = #{userIdx}
+	</delete>
 </mapper>

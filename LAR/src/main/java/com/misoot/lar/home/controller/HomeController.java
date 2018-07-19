@@ -33,4 +33,9 @@ public class HomeController {
 	public String get_modal_sign(@PathVariable("target") String target) {
 		return "modal/_" + target;
 	}
+	
+	@RequestMapping(value= "/importExample")
+	public String importExample() {
+		return "example/importExample";
+	}
 }
