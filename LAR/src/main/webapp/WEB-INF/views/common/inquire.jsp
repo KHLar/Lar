@@ -63,7 +63,8 @@
 					</div>
 					<div class="inquire_option" style="display: block; color: skyblue;">
 							<span style="float: left;">첨부한 파일</span>
-							<span style="padding-left: 270px;">수정</span>
+							<div style="display: inline; width: 270px;" id="void"></div>
+							<span>수정</span>
 							<span style="float: right;">삭제</span>
 						</div>
 					</div>
@@ -226,7 +227,7 @@
 		var $base_sent = $('<div class="row msg_container base_sent">');
 		var $col = $('<div class="col-xs-10 col-md-10">');
 		var $message = $('<div class="messages msg_sent" style="word-wrap: break-word; white-space:pre-line;">');
-		var $pre = $('<pre style="word-break:break-all; border: 0; background-color: white;">');
+		var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
 		var $timeData = $('<time>');
 		var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
 		var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
@@ -234,11 +235,11 @@
 		var $div = $('<div class="inquire_option">');
 
 		$base_sent.append(
-				$col.append($message.text(data.inquire_content)
+				$col.append($message.append($pre.text(data.inquire_content))
 						.append($timeData.text(data.inquire_sender_index + ":"+ date)
 								))).append($avatar.append($img));
 
-		$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">첨부한 파일</span><span style="padding-left: 270px;">수정</span><span style="float: right;">삭제</span></div></div>');
+		$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">첨부한 파일</span><div id="void" style="display: inline-block; width: 270px;"></div><span>수정</span><span style="display : none;">수정 완료</span><span style="display : none;">답변 확인</span><span style="display : none;">숨기기</span><span style="float: right;">삭제</span></div>');
 		/* $inquire_container.append($base_sent).append($div); */
 		$msg_container_base.append($inquire_container.append($base_sent).append($div));		
 		
@@ -249,16 +250,62 @@
 		// $("#greetings").append("<tr><td>" + data.sender+" : "+ data.content + " | " + new Date(data.sendDate).toLocaleString() + "</td></tr>");
 	}
 	
-	$(document).on('click','.inquire_option span:nth-child(2)', function(){		// 수정
+	$(document).on("mouseenter", '.inquire_option span', function(){
 		$(this).css('cursor', 'pointer');
-		console.log($(this).parents('time').text());
-		console.log($(this).parents('.messages').val());
-		$('#chat-area').val($(this).parents('.messages').val());
-		
 	});
 	
+		$(document).on('click','.inquire_option span:nth-child(3)', function(){		// modifying
+			/* var msg = $(this).parent().parent().parent().find('.messages').html();
+			var parseMsg = msg.substring(0, msg.indexOf('<time>')); */
+			var $loc = $(this);
+			
+			//$('#chat-area').val(parseMsg);
+			$('#chat-area').val($(this).parents('.inquire_container').find('span').eq(0).text()).focus();
+			$('#btn-chat').css('display', 'none');
+			$(this).parent().children('#void').text('esc : 수정취소').css({'font-size':'3px', 'text-align':'center', 'color' : 'red'});
+			$(this).parent().children(':last').css('display', 'none');
+			$(this).css('display', 'none');
+			$(this).parent().children(':nth-child(4)').css('display', 'inline-block');
+			
+			$('#chat-area').keydown(function(e) {
+				if (e.keyCode == 27) {		// esc 버튼
+					$('#btn-chat').css('display', 'block');
+					$loc.parent().children(':last').css('display', 'inline-block');
+					$loc.css('display', 'inline-block');
+					$loc.parent().children(':nth-child(4)').css('display', 'none');
+					$('.inquire_option span').parent().children('#void').text(null);
+					$('#chat-area').val(null);
+				}
+			}).off('keydown');
+			
+		});	
+	
+		$(document).on('click','.inquire_option span:nth-child(4)', function(){		// modified
+			$('#btn-chat').css('display', 'block');
+			$(this).parents(".inquire_container").find('span').eq(0).text($('#chat-area').val());
+			$('#chat-area').val(null);
+			$(this).parent().children('#void').text(null);
+			$(this).parent().children(':last').css('display', 'inline-block');
+			$(this).css('display', 'none');
+			$(this).parent().children(':nth-child(3)').css('display', 'inline-block');
+			
+			$('#chat-area').keydown(function(e) {
+				if (e.keyCode == 13) {			
+					if (e.ctrlKey)  $(this).val(function(i, val) {return val + "\n";});
+					else if (e.shiftKey) return $(this).val();
+					else {
+						sendMsg();
+						$('#chat-area').val(null);
+						$('.upload-name').val('파일 선택');
+						$('.upload-thumb-wrap').empty();
+						return false;
+					}
+				}
+			});
+		});
+		
+
 	$(document).on("click",".inquire_option span:last-child",function() { // 삭제
-		$(this).css('cursor', 'pointer');
 		c =  confirm("정말 삭제하시겠습니까?");
 		if(c==true) $(this).parents('.inquire_container').remove();
 		else return false;
