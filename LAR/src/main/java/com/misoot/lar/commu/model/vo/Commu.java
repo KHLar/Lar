@@ -1,0 +1,191 @@
+package com.misoot.lar.commu.model.vo;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Commu {
+
+	private int commu_Index;
+	private int commu_Writer_Index;
+	private String commu_Category_Index;
+	private String commu_Title;
+	private String commu_Content;
+	private int commu_Hits;
+	private Date commu_Upload_Date;	
+	private Date commu_Update_Date;
+	private int commu_Is_Deleted;
+	private String commu_Writer;
+	private int fileCount;
+	
+	//첨부파일 관련 필드 추가하기
+	private List<Attachment> files = new ArrayList<>();
+
+	public Commu() {
+		super();
+	}	
+
+	public Commu(int commu_Writer_Index, String commu_Title, String commu_Content) {
+		super();
+		this.commu_Writer_Index = commu_Writer_Index;
+		this.commu_Title = commu_Title;
+		this.commu_Content = commu_Content;
+	}
+
+	public Commu(int commu_Writer_Index, String commu_Title, String commu_Content, List<Attachment> files) {
+		super();
+		this.commu_Writer_Index = commu_Writer_Index;
+		this.commu_Title = commu_Title;
+		this.commu_Content = commu_Content;
+		this.files = files;
+	}
+
+
+	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
+			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
+			String commu_Writer, int fileCount) {
+		super();
+		this.commu_Index = commu_Index;
+		this.commu_Writer_Index = commu_Writer_Index;
+		this.commu_Category_Index = commu_Category_Index;
+		this.commu_Title = commu_Title;
+		this.commu_Content = commu_Content;
+		this.commu_Hits = commu_Hits;
+		this.commu_Upload_Date = commu_Upload_Date;
+		this.commu_Update_Date = commu_Update_Date;
+		this.commu_Is_Deleted = commu_Is_Deleted;
+		this.commu_Writer = commu_Writer;
+		this.fileCount = fileCount;
+	}
+
+	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
+			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
+			String commu_Writer, int fileCount, List<Attachment> files) {
+		super();
+		this.commu_Index = commu_Index;
+		this.commu_Writer_Index = commu_Writer_Index;
+		this.commu_Category_Index = commu_Category_Index;
+		this.commu_Title = commu_Title;
+		this.commu_Content = commu_Content;
+		this.commu_Hits = commu_Hits;
+		this.commu_Upload_Date = commu_Upload_Date;
+		this.commu_Update_Date = commu_Update_Date;
+		this.commu_Is_Deleted = commu_Is_Deleted;
+		this.commu_Writer = commu_Writer;
+		this.fileCount = fileCount;
+		this.files = files;
+	}
+
+	public int getCommu_Index() {
+		return commu_Index;
+	}
+
+	public void setCommu_Index(int commu_Index) {
+		this.commu_Index = commu_Index;
+	}
+
+	public int getCommu_Writer_Index() {
+		return commu_Writer_Index;
+	}
+
+	public void setCommu_Writer_Index(int commu_Writer_Index) {
+		this.commu_Writer_Index = commu_Writer_Index;
+	}
+
+	public String getCommu_Category_Index() {
+		return commu_Category_Index;
+	}
+
+	public void setCommu_Category_Index(String commu_Category_Index) {
+		this.commu_Category_Index = commu_Category_Index;
+	}
+
+	public String getCommu_Title() {
+		return commu_Title;
+	}
+
+	public void setCommu_Title(String commu_Title) {
+		this.commu_Title = commu_Title;
+	}
+
+	public String getCommu_Content() {
+		return commu_Content;
+	}
+
+	public void setCommu_Content(String commu_Content) {
+		this.commu_Content = commu_Content;
+	}
+
+	public int getCommu_Hits() {
+		return commu_Hits;
+	}
+
+	public void setCommu_Hits(int commu_Hits) {
+		this.commu_Hits = commu_Hits;
+	}
+
+	public Date getCommu_Upload_Date() {
+		return commu_Upload_Date;
+	}
+
+	public void setCommu_Upload_Date(Date commu_Upload_Date) {
+		this.commu_Upload_Date = commu_Upload_Date;
+	}
+
+	public Date getCommu_Update_Date() {
+		return commu_Update_Date;
+	}
+
+	public void setCommu_Update_Date(Date commu_Update_Date) {
+		this.commu_Update_Date = commu_Update_Date;
+	}
+
+	public int getCommu_Is_Deleted() {
+		return commu_Is_Deleted;
+	}
+
+	public void setCommu_Is_Deleted(int commu_Is_Deleted) {
+		this.commu_Is_Deleted = commu_Is_Deleted;
+	}
+
+	public String getCommu_Writer() {
+		return commu_Writer;
+	}
+
+	public void setCommu_Writer(String commu_Writer) {
+		this.commu_Writer = commu_Writer;
+	}
+
+	public int getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(int fileCount) {
+		this.fileCount = fileCount;
+	}
+
+	public List<Attachment> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<Attachment> files) {
+		this.files = files;
+	}
+
+	@Override
+	public String toString() {
+		return "Commu [commu_Index=" + commu_Index + ", commu_Writer_Index=" + commu_Writer_Index
+				+ ", commu_Category_Index=" + commu_Category_Index + ", commu_Title=" + commu_Title + ", commu_Content="
+				+ commu_Content + ", commu_Hits=" + commu_Hits + ", commu_Upload_Date=" + commu_Upload_Date
+				+ ", commu_Update_Date=" + commu_Update_Date + ", commu_Is_Deleted=" + commu_Is_Deleted
+				+ ", commu_Writer=" + commu_Writer + ", fileCount=" + fileCount + ", files=" + files + "]";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+}
