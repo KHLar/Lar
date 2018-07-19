@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lecture">
+	
 	<!-- TABLE_LECTURE  -->
 	<insert id="insertLecture">
 		INSERT INTO TABLE_LECTURE VALUES(
-  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_title},#{lecture_intro},#{lecture_level},#{lecture_price},SYSDATE,0 
+  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
  		)
-		
-		
 	</insert>
+	
+	<select id="selectlectureTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM TABLE_LECTURE
+	</select>
+	
+	
+	<select id="selectLectureList" resultType="lecture">
+		SELECT LECTURE_INDEX,LECTURE_TITLE ,LECTURE_INTRO , LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE 
+		FROM TABLE_LECTURE TL LEFT JOIN TABLE_LECTURE_TOTAL_SCORE TLS ON(TL.LECTURE_INDEX = TLS.TOTAL_LECTURE_INDEX)
+		<if test=" _parameter neq 'total'">
+		WHERE LECTURE_CATEGORY_INDEX = #{category}
+		</if>
+	</select>
 	
 	<!-- TABLE_LECTURE_BOARD  -->	
 	<insert  id="insertLectureBoardinsert">

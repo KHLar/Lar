@@ -54,9 +54,15 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
   			
 							</div>
 							<br />	
+							
+							<div class="form-group">
+    						<label for="exampleFormControlTextarea1">intro</label>
+    						<input type="hidden" id="lecture_intro" name="lecture_intro"/>
+   							<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
+  							</div>
 								
 							<div id="summernote" ></div>
-							<input type="hidden"  id="lecture_intro" name="lecture_intro" required />
+							<input type="hidden"  id="lecture_content" name="lecture_content"  value="뀨" "required />
 							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">제출하기 </button>
 						</div>
 					</div>
@@ -75,8 +81,10 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		});
 	});
 	 function funcNote(){
-         document.getElementById("lecture_intro").value=$('#summernote').summernote('code');
+		 $('#lecture_intro').val($('#exampleFormControlTextarea1').val());
+         document.getElementById("lecture_content").value=$('#summernote').summernote('code');
          //alert(document.getElementById("commu_Content").value);
      }
+	 
 </script>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

@@ -1,7 +1,9 @@
 package com.misoot.lar.lecture.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return null;
 	}
 
-	@Override
-	public List<Lecture> selectList() {
-		return null;
+	
+	public List<Map<String, String>> selectList(String category, int cPage, int numPerPage) {
+		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
+		return sqlSession.selectList("lecture.selectLectureList", category, rows);
 	}
 
 	@Override
@@ -53,6 +57,18 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public List<Lecture> selectBoardList(int lectureNo) {
 		return sqlSession.selectList("lecture.selectLectureBoardList", lectureNo);
+	}
+
+
+	@Override
+	public List<Lecture> selectList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public int selectlectureTotalCount() {
+		return sqlSession.selectOne("lecture.selectlectureTotalCount");
 	}
 	
 

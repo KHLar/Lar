@@ -11,6 +11,8 @@ public class BoardLecture {
 	  private int lecture_board_hits;
 	  private Date lecture_board_upload_date;
 	  private int lecture_board_is_deleted;
+	  
+	 
 	
 	  public BoardLecture() {
 		super();
@@ -29,6 +31,7 @@ public class BoardLecture {
 		this.lecture_board_upload_date = lecture_board_upload_date;
 		this.lecture_board_is_deleted = lecture_board_is_deleted;
 	}
+	
 
 	public int getLecture_board_index() {
 		return lecture_board_index;

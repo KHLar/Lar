@@ -13,12 +13,17 @@ public class Lecture implements java.io.Serializable {
 	private int lecture_price;
 	private Date lecture_upload_date;
 	private int lecture_is_deleted;
+	private int lecture_hits;
+	private String lecture_content;
+	private int lecture_total_score;
 	
-	public Lecture() { }
+	public Lecture() {
+		super();
+	}
 
 	public Lecture(int lecture_index, String lecture_category_index, int lecture_instructor_index, String lecture_title,
 			String lecture_intro, String lecture_level, int lecture_price, Date lecture_upload_date,
-			int lecture_is_deleted) {
+			int lecture_is_deleted, int lecture_hits, String lecture_content, int lecture_total_score) {
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;
@@ -29,6 +34,9 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_price = lecture_price;
 		this.lecture_upload_date = lecture_upload_date;
 		this.lecture_is_deleted = lecture_is_deleted;
+		this.lecture_hits = lecture_hits;
+		this.lecture_content = lecture_content;
+		this.lecture_total_score = lecture_total_score;
 	}
 
 	public int getLecture_index() {
@@ -103,13 +111,39 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_is_deleted = lecture_is_deleted;
 	}
 
+	public int getLecture_hits() {
+		return lecture_hits;
+	}
+
+	public void setLecture_hits(int lecture_hits) {
+		this.lecture_hits = lecture_hits;
+	}
+
+	public String getLecture_content() {
+		return lecture_content;
+	}
+
+	public void setLecture_content(String lecture_content) {
+		this.lecture_content = lecture_content;
+	}
+
+	public int getLecture_total_score() {
+		return lecture_total_score;
+	}
+
+	public void setLecture_total_score(int lecture_total_score) {
+		this.lecture_total_score = lecture_total_score;
+	}
+
 	@Override
 	public String toString() {
 		return "Lecture [lecture_index=" + lecture_index + ", lecture_category_index=" + lecture_category_index
 				+ ", lecture_instructor_index=" + lecture_instructor_index + ", lecture_title=" + lecture_title
 				+ ", lecture_intro=" + lecture_intro + ", lecture_level=" + lecture_level + ", lecture_price="
 				+ lecture_price + ", lecture_upload_date=" + lecture_upload_date + ", lecture_is_deleted="
-				+ lecture_is_deleted + "]";
+				+ lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content=" + lecture_content
+				+ ", lecture_total_score=" + lecture_total_score + "]";
 	}
+	
 	
 }

@@ -1,6 +1,7 @@
 package com.misoot.lar.lecture.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,6 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	@Override
-	public List<Lecture> selectList() {
-		
-		return null;
-	}
-
-
-	@Override
 	public int update(Lecture t) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -44,17 +38,19 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	@Override
 	public int insert(Lecture t) {
 		
 		return ((LectureDaoImpl)lectureDaoImpl).insert(t);
 	}
+
+	public List<Map<String, String>> selectList (String category, int cPage, int numPerPage) {
+		
+		return ((LectureDaoImpl)lectureDaoImpl).selectList(category, cPage, numPerPage);
+	}
 	
 	public int insertBoardLeceture(BoardLecture boardLecture, List<BoardLectureAttachment> list ) {
-		
-		
-	int result = 0, lecture_board_index =0;
+		int result = 0, lecture_board_index =0;
 		
 		try {
 			result = ((LectureDaoImpl)lectureDaoImpl).insertBoardLeceture(boardLecture);
@@ -81,6 +77,17 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public List<Lecture> selectBoardList(int lectureNo) {
 		return ((LectureDaoImpl)lectureDaoImpl).selectBoardList(lectureNo);
+	}
+
+	@Override
+	public List<Lecture> selectList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int selectlectureTotalCount() {
+		// TODO Auto-generated method stub
+		return ((LectureDaoImpl)lectureDaoImpl).selectlectureTotalCount();
 	}
 
 

@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,8 @@ public class LectureController {
 	@Autowired
 	LarService<Lecture> LectureServiceImpl;
 
+	/*  Lecture*/
+	
 	@RequestMapping(value = "lecture/regist")
 	public String lectureRegist() {
 		return "lecture/regist";
@@ -45,42 +48,54 @@ public class LectureController {
 	public String lectureRecommanded() {
 		return "lecture/recommanded";
 	}
-
-	@RequestMapping(value = "/lectureList/")
-	public String lectureList() {
-		return "lecture/lectureList";
-	}
-
-	@RequestMapping(value = "/lectureDetail/")
-	public String lectureDetail(@RequestParam int lectureNo, Model model) {
-		model.addAttribute("Blist", ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lectureNo));
-		return "lecture/lectureDetail";
-	}
-
-	@RequestMapping(value = "/lectureView/")
+	
+	@RequestMapping(value = "/lectureView")
 	public String lectureView() {
 		return "lecture/lectureView";
 	}
 
-	@RequestMapping(value = "/lectureInsert/")
+	@RequestMapping(value = "/lectureInsert")
 	public String lectureInsert() {
 		return "lecture/lectureInsert";
 	}
-	@RequestMapping(value = "/lectureBoardInsert/")
+	@RequestMapping(value = "/lectureBoardInsert")
 	public String lectureBoardInsert() {
 		return "lecture/lectureBoardInsert";
 	}
-	//게시글 등록하기 
+	// 게시글 등록
 	@RequestMapping(value="/lecture/lectureInsert", method=RequestMethod.POST)
 	public String insertLecture(Lecture Lecture){
 		
 		int result = ((LectureServiceImpl)LectureServiceImpl).insert(Lecture);
 		
+		return "redirect:/lectureList";
+	}
+	
+	@RequestMapping(value = "/lectureList")
+	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
 		
+		int numPerPage = 5;	// 한 페이지 당 게시글 수
+		
+			// 1. 현재 페이지 컨텐츠 리스트 받아오기
+		List<Map<String, String>> lList = ((LectureServiceImpl)LectureServiceImpl).selectList(category,cPage, numPerPage);
+		
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount();
+		
+		model.addAttribute("lList", lList).addAttribute("numPerPage", numPerPage).addAttribute("totalContents", totalContents);
 		return "lecture/lectureList";
 	}
-	//강의 동영상 게시글 한개 등록 처리
-	@RequestMapping(value = "/lecture/lectureBoardInsert/" , method=RequestMethod.POST)
+	
+	/*     lectureBoard */
+	//게시글 등록하기 
+	@RequestMapping(value = "/lectureDetail/")
+	public String lectureDetailList(@RequestParam int lectureNo, Model model) {
+		model.addAttribute("Blist", ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lectureNo));
+		return "lecture/lectureDetail";
+	}
+	
+	//강의 동영상 한개 등록 처리
+	@RequestMapping(value = "/lecture/lectureBoardInsert" , method=RequestMethod.POST)
 	public  String insertLectureBoardinsert(BoardLecture boardLecture	,Model model,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request) {
 			System.out.println("boardLecture"+boardLecture);
