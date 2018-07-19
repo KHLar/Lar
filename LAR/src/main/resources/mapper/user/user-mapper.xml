@@ -131,4 +131,5 @@
 		</foreach>
 		AND WISH_USER_INDEX = #{userIdx}
 	</delete>
+	
 </mapper>

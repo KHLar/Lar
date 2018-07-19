@@ -104,7 +104,6 @@ public class UserServiceImpl implements LarService<User> {
 	public int deleteWishList(Map<String, Object> checkList) {
 		return ((UserDaoImpl)userDaoImpl).deleteWishList(checkList);
 	}
-
 	/*
 	 * My page end
 	 */
