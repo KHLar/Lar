@@ -25,12 +25,15 @@
 </div>
 <div class="modal-footer">
 	<p>
-		Not a member? <a onclick="getModal('signup')">Sign Up</a>
-	</p>
-	<p>
 		<a onclick="getModal('forgotUserId')">Forgot Your ID?</a>
 	</p>
 	<p>
 		<a onclick="getModal('forgotUserPassword')">Forgot Your Password?</a>
+	</p>
+	<p>
+		<a onclick="getModal('unlock')">Is your account locked?</a>
+	</p>
+	<p>
+		Not a member? <a onclick="getModal('signup')">Sign Up</a>
 	</p>
 </div>

@@ -70,6 +70,18 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).trySigninCountReset(user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return ((UserDaoImpl)userDaoImpl).trySigninCountResetForUnlock(id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return ((UserDaoImpl)userDaoImpl).passwordModify(temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return ((UserDaoImpl)userDaoImpl).isUserExist(user_id);
+	}
+	
 	/*
 	 * User account end
 	*/
@@ -101,6 +113,7 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).myCoupontList(user_index);
 	}
 
+	
 	/*
 	 * My page end
 	 */
