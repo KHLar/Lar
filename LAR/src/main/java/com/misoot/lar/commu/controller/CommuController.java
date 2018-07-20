@@ -166,6 +166,9 @@ public class CommuController {
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/commu");
 		File dir = new File(saveDir);
 		System.out.println(saveDir);
+		String loc = "/commu/commuMain";
+		String msg = "";
+		
 		// 만약 현재 저장하려는 경로에 폴더가 없다면 만들겠습니다.
 		if (!dir.exists())
 			System.out.println("dir.mkdirs() = " + dir.mkdirs());
@@ -177,6 +180,17 @@ public class CommuController {
 				// 파일명 재생성하여 원본 파일과 매칭 시키기
 				String originFileName = f.getOriginalFilename();
 				String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
+				if(commu_Category_Index.equals("B03")){
+					if(ext.equals("jpg")||ext.equals("JPG")||ext.equals("png")||ext.equals("PNG")){
+						
+					}else{
+						loc="/commu/commuForm/B03";
+						msg="이미지파일만 첨부 가능합니다..";
+						model.addAttribute("loc", loc).addAttribute("msg", msg);
+
+						return "common/msg";
+					}
+				}
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
 				int randomNum = (int) (Math.random() * 1000);
@@ -206,8 +220,7 @@ public class CommuController {
 			throw new CommuException("게시글 등록 실패!");
 		}
 
-		String loc = "/commu/commuMain";
-		String msg = "";
+		
 		if (result > 0)
 			msg = "게시글 등록 성공!";
 		else {

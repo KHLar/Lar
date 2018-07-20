@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -11,21 +11,21 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>--%>
 <c:import url="/WEB-INF/views/common/_header.jsp">
-	<c:param value="장바구니" name="pageTitle" />
+   <c:param value="장바구니" name="pageTitle" />
 </c:import>
 
 </header>
 
 <div class="container-fluid">
-	<div class="row">
+   <div class="row">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link
-	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css"
-	rel="stylesheet">
+   href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css"
+   rel="stylesheet">
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
-	<script> 
+   src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+   <script> 
 
 function validate(){
     var content = $("#commu_Content").val();
@@ -34,8 +34,8 @@ function validate(){
       return false;
    } 
    if($('#commu_Writer_Index').val()==""||$('#commu_Writer_Index').val()==null){
-	   alert('로그인 먼저해주세요^^');
-	   return false;
+      alert('로그인 먼저해주세요^^');
+      return false;
    }
    return true;
 }
@@ -50,20 +50,31 @@ $(function(){
    
 });
 </script>
-<% 
-String commucPageTemp = request.getParameter("commucPage");
-%>
+<c:set var="req" value="" />
+<c:if test="${commu_Category_Index eq 'B03'}">
+<c:set var="req" value="required" />
+</c:if>
+<%-- <% 
+String aa=(String) request.getParameter("bb");
+String commu_Category_Index = (String)request.getParameter("commu_Category_Index");
+System.out.println(commu_Category_Index);
+System.out.println(aa);
+String re="";
+if(commu_Category_Index.equals("B03"))
+   re="required";
+
+%> --%>
 </head>
 <body>
 
 
-	<div class="container col-lg-10 col-md-10 col-sm-10">
-			<div class="blog-heading">
-				<h3 class="text-capitalize">게시판 글쓰기</h3>
-			</div>
-			<br>
-			<br>
-			<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+   <div class="container col-lg-10 col-md-10 col-sm-10">
+         <div class="blog-heading">
+            <h3 class="text-capitalize">게시판 글쓰기</h3>
+         </div>
+         <br>
+         <br>
+         <form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
                     <div class="col-lg-2 col-md-2 col-sm-2" style="text-align:center;">
                         <div class="form-group">
                             <label>글 제목</label>
@@ -84,7 +95,7 @@ String commucPageTemp = request.getParameter("commucPage");
                     </div>
                     <div class="form-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple >
+                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req }>
                         </div>
                       </div>
                      <div class="form-group">
@@ -96,12 +107,13 @@ String commucPageTemp = request.getParameter("commucPage");
                 <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: right">
                     <button type="submit" class="btn btn-primary" onclick="funcNote();">작성완료</button>
                 </div>
+                
                 <input type="hidden" id="commu_Category_Index" name="commu_Category_Index" value="${commu_Category_Index}" />
                 <input type="hidden" id="commu_Content" name="commu_Content">
                <input type="hidden" id="commu_Writer_Index" name="commu_Writer_Index" value="${session_user.user_index}">
             </form>
             
-	<script>
+   <script>
       $('#summernote').summernote({
         placeholder: 'Hello bootstrap 4',
         tabsize: 2,
@@ -113,7 +125,7 @@ String commucPageTemp = request.getParameter("commucPage");
       }
     </script>
 
-	</div>
+   </div>
 
 
 

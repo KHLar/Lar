@@ -11,6 +11,15 @@ $(document).ready(function() {
 	 * this).fadeIn("slow"); }, function() { $('.mega-dropdownmenu',
 	 * this).fadeOut("slow");} );
 	 */
+	$(window).resize(function() {
+		if (window.matchMedia("(min-width: 768px)").matches) {
+			  $('#lecture-dropdown').attr('data-toggle', '');
+		} else {
+			$('#lecture-dropdown').attr('data-toggle', 'dropdown');
+		}
+	});
+	
+	
 	// mypage.jsp
 	
 	$('.star').on('click', function() {
