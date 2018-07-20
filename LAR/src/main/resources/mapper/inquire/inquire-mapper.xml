@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inquire">
+
+	<!-- <resultMap type="exam" id="Inquire">
+		<result column="INQUIRE_CONTENT" property="content" typeHandler="strArrTypeHandler"/>
+	</resultMap> -->
+
+	<select id="selectUserInquireList">
+		select * from TABLE_INQUIRE WHERE INQUIRE_SENDER_INDEX = #{index} order by INQUIRE_SENDDATE ASC
+	</select>
+	
+	<select id="select" parameterType="_int">
+		select * from EXAMPLE where INDEX = #{index}
+	</select>
+	
+	<insert id="insert" >
+		insert into TABLE_INQUIRE
+		values(SEQ_INQUIRE.NEXTVAL, #{val1}, #{val2})
+	</insert>
+	
+	<update id="update">
+		update EXAMPLE
+		set VAL1 = #{val1}, VAL2 = #{val2}
+		where INDEX = #{index}
+	</update>
+	
+	<delete id="delete" parameterType="_int">
+		delete from EXAMPLE where INDEX = #{index}
+	</delete>
+	
+</mapper>

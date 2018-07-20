@@ -109,12 +109,13 @@ a {
 
 /* --------- home.jsp ---------- */
 .thumbnail img {
-	height: 53%;
+	height: 65% !important;
+	width: 100%;
 }
 
 .thumbnail {
-	height: 330px;
-	max-width: 220px;
+	height: 310px;
+	max-width: 95%;
 	margin: 1% 1%;
 }
 

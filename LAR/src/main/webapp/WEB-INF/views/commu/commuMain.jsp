@@ -334,6 +334,7 @@ td {
                   <p>${n.commu_Title }</p>
                 </span>
               </span>
+              <c:if test="${n.commu_Attach_Renamedfilename ne ''}"></c:if>
               <img class="img-fluid" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width:100%;"/>
             </a>
           </div>
