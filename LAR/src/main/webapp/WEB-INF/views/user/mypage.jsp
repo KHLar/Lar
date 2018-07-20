@@ -39,6 +39,7 @@
 </script>
 
 </header>
+</div>
 
 <% 
 	HashMap<String, Object> pagingInf = (HashMap<String, Object>)(request.getAttribute("pagingInf"));					
@@ -62,7 +63,7 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-10 col-md-10 col-sm-10">
+		<div class="col-lg-10 col-md-10 col-sm-10" style="margin-bottom: 100px;">
 			<div class="row" style="width: 100%">
 				<div class="panel panel-default"
 					style="margin-bottom: 5px; margin-left: 10px;">

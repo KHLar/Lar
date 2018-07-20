@@ -11,7 +11,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-<div class="quest">
+<div class="quest" style="z-index: 1000;">
 	<p>문의하기</p>
 </div>
 
