@@ -78,7 +78,7 @@ public class CommuController {
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchTitle(infocPage, numPerPage,
 					infoSearchText);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsTitle(infoSearchText);
-			
+			 
 		} else if (infoSearchType.equals("Iwriter")&&!infoSearchText.equals("")) {
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchWriter(infocPage, numPerPage,
 					infoSearchText);
