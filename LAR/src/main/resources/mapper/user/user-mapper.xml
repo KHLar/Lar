@@ -132,4 +132,27 @@
 		AND WISH_USER_INDEX = #{userIdx}
 	</delete>
 	
+	<select id="cartList" resultType="hashmap">
+		SELECT * FROM TABLE_LECTURE L JOIN TABLE_CART C
+		ON(L.LECTURE_INDEX=C.CART_LECTURE_INDEX) WHERE C.CART_USER_INDEX=#{user_index}
+	</select>
+   
+	<delete id="deleteCart" parameterType="hashmap">
+		DELETE FROM TABLE_CART
+		WHERE CART_LECTURE_INDEX IN
+		<foreach item="index" collection="cartList" separator=", " open="(" close=")">
+		#{index}
+		</foreach>
+		AND CART_USER_INDEX = #{userIdx}
+   	</delete>
+   	
+   	<select id="purchaseList" parameterType="string" resultType="hashmap">
+   		SELECT *
+   		FROM TABLE_LECTURE
+   		WHERE LECTURE_INDEX IN 
+   		<foreach item="index" collection="array" separator=", " open="(" close=")">
+		#{index}
+		</foreach>
+   	</select>
+	
 </mapper>

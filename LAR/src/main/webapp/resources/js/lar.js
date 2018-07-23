@@ -11,14 +11,23 @@ $(document).ready(function() {
 	 * this).fadeIn("slow"); }, function() { $('.mega-dropdownmenu',
 	 * this).fadeOut("slow");} );
 	 */
+	if (window.matchMedia("(min-width: 768px)").matches) {
+		  $('#lecture-dropdown').attr('data-toggle', '');
+		  $('.mega-dropdown .caret').css('display', 'none');
+	} else {
+		$('#lecture-dropdown').attr('data-toggle', 'dropdown');
+		$('.mega-dropdown .caret').css('display', '');
+	}
+	
 	$(window).resize(function() {
 		if (window.matchMedia("(min-width: 768px)").matches) {
 			  $('#lecture-dropdown').attr('data-toggle', '');
+			  $('.mega-dropdown .caret').css('display', 'none');
 		} else {
 			$('#lecture-dropdown').attr('data-toggle', 'dropdown');
+			$('.mega-dropdown .caret').css('display', '');
 		}
 	});
-	
 	
 	// mypage.jsp
 	
@@ -45,14 +54,5 @@ $(document).ready(function() {
 		$('.deleteCkbox').css('display', 'none');
 		$('.deleteWishList').css('display', '');
 		$('.cancelDeleteWishList').css('display', 'none');
-	});
-
-	// cart.jsp
-	$(".selectPurchase").on('click', function() {
-		location.href = "/lar/user/purchase";
-	});
-
-	$(".allPurchase").on('click', function() {
-		location.href = "/lar/user/purchase";
 	});
 });

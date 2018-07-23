@@ -1,5 +1,10 @@
 package com.misoot.lar.common.util;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
+
 public class Utils {
 	
 	public static String getPageBar(int totalContents, int cPage, int numPerPage, String url ){
@@ -317,4 +322,49 @@ public class Utils {
 		
 		return pageBar; 
 	}
+	
+	public String convertClobToString(Clob clob) {
+
+		Reader reader = null;
+
+		StringBuilder sb = null;
+
+		try {
+
+			reader = clob.getCharacterStream();
+
+			int c = -1;
+
+			sb = new StringBuilder();
+
+			while ((c = reader.read()) != -1) {
+
+				sb.append(((char) c));
+
+			}
+
+		} catch (IOException | SQLException e1) {
+
+			e1.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (reader != null)
+
+					reader.close();
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+
+			}
+
+		}
+
+		return sb.toString();
+
+	}
+
 }

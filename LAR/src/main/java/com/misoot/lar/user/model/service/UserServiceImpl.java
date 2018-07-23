@@ -107,5 +107,27 @@ public class UserServiceImpl implements LarService<User> {
 	/*
 	 * My page end
 	 */
+
+	/*
+	 * cart start
+	 */
+	public List<Map<String, Object>> cartList(int user_index) {
+		return ((UserDaoImpl)userDaoImpl).cartList(user_index);
+	}
+	public int deleteCart(Map<String, Object> delcartList) {
+		return ((UserDaoImpl)userDaoImpl).deleteCart(delcartList);
+	}
+	/*
+	 * cart end
+	 */
 	
+	/*
+	 * purchase start
+	 */
+	public List<Map<String, Object>> purchaseList(String[] check) {
+		return ((UserDaoImpl)userDaoImpl).purchaseList(check);
+	}
+	/*
+	 * purchase end
+	 */
 }

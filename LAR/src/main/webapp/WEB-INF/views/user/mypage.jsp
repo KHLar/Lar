@@ -31,7 +31,7 @@
 				if (data.result) {
 					location.href = '${pageContext.request.contextPath}'+data.href;
 				} else {
-					alert('뭔가 잘못됐어~~~');
+					alert('에러발생 ! 관리자에게 문의하세요.');
 				}
 			}
 		});
@@ -72,10 +72,11 @@
 							<img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
 						</div>
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
-							<div class="container">
-								<h2>${session_user.user_nickname}</h2>
+							<div class="wrapprofile">
+								<h2 style="display: inline-block;">${session_user.user_nickname}</h2>&nbsp;&nbsp;
+								<button type="button" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
 							</div>
-							<hr style="border: 0.03em solid #fed136">
+							<hr style="border: 0.03em solid #337ab7">
 							<ul class="container details" style="list-style: none;">
 								<li>
 									<label>
@@ -89,8 +90,8 @@
 								</li>
 							</ul>
 							<hr style="border: 0.03em solid #fed136">
-							<div class="col-sm-5 col-xs-6 tital">
-								<h5>소개</h5>
+							<div class="col-sm-5 col-xs-6 tital">								
+								<h4>소개</h4>
 							</div>
 						</div>
 					</div>

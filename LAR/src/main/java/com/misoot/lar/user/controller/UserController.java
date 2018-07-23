@@ -1,5 +1,6 @@
 package com.misoot.lar.user.controller;
 
+import java.sql.Clob;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
+import com.misoot.lar.common.util.Utils;
+import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.service.UserServiceImpl;
 import com.misoot.lar.user.model.vo.User;
 
@@ -148,13 +151,63 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/cart")
-	public String cart() {
-		return "user/cart";
+	public String cart(@ModelAttribute("session_user") User user, Model model) {
+	      List<Map<String, Object>> clist = ((UserServiceImpl)userServiceImpl).cartList(user.getUser_index());
+	      
+	      Utils util = new Utils();
+	      
+	      for(Map<String, Object> list : clist) {
+	    	  for ( String key : list.keySet() ) {
+	    		  if(key.equals("LECTURE_INTRO")) {
+	    			  list.put(key, util.convertClobToString((Clob)list.get(key)));
+	    		  }
+	    	  }
+	      }
+	      
+	      model.addAttribute("lecList",clist);
+	      
+	      return "user/cart";
+	}
+	
+	@RequestMapping(value = "/user/deleteCart")
+	public String userDeleteCart(@RequestParam("radio") String[] check, @ModelAttribute("session_user") User user, Model model){
+		Map<String, Object> delcartList = new HashMap<String, Object>();
+		
+		delcartList.put("userIdx", user.getUser_index());
+		delcartList.put("cartList", check);
+		
+		int deleteCart=((UserServiceImpl) userServiceImpl).deleteCart(delcartList);
+		
+		if(deleteCart>0) System.out.println("삭제완료");
+		else System.out.println("삭제실패");
+	
+		return "redirect:/user/cart";
 	}
 	
 	@RequestMapping(value = "/user/purchase")
-	public String purchase() {
+	public String purchaseList(@RequestParam("radio") String[] check, Model model) {
+		List<Map<String, Object>> plist = ((UserServiceImpl)userServiceImpl).purchaseList(check);
+	      
+		Utils util = new Utils();
+	      
+		for(Map<String, Object> list : plist) {
+			for ( String key : list.keySet() ) {
+				if(key.equals("LECTURE_INTRO")) {
+					list.put(key, util.convertClobToString((Clob)list.get(key)));
+				}
+			}
+		}
+	    
+		model.addAttribute("pchList",plist);
 		return "user/purchase";
+	}
+	
+	@RequestMapping(value = "/purchase/coupon")
+	public String couponList(@ModelAttribute("session_user") User user, Model model) {
+		List<Map<String, String>> coupon = ((UserServiceImpl)userServiceImpl).myCoupontList(user.getUser_index());
+		
+		model.addAttribute("coupon",coupon);
+		return "user/_coupon";
 	}
 	
 	@RequestMapping(value = "/mypage")

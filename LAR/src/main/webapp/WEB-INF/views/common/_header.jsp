@@ -7,6 +7,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122666585-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122666585-1');
+</script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,7 +43,7 @@
 		.navbar-default .navbar-nav>.open>a,
 		.navbar-default .navbar-nav>.open>a:hover {
 			color: tomato;
-			background-color: #222;
+			background-color: #4C0B5;
 		}
 	</style>
 </head>
@@ -62,7 +71,7 @@
 						<a href="/lar/lecture/recommanded">추천 강좌</a>
 					</li>
 					<li class="dropdown mega-dropdown">
-						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button">분류별<span class="caret"></span></a>
+						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button">분류별 <span class="caret"></span></a>
 						<ul class="dropdown-menu mobile-dropdown" aria-labelledby="lecture-dropdown"">
 							<li><a>Web</a></li>
 							<li><a>Android</a></li>
@@ -115,7 +124,7 @@
 					</c:if>
 					<c:if test="${!empty session_user}">
 					<li class="dropdown">
-						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:lightgreen;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
+						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:#F5A9BC;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="user-btn">
 							<li><a href="/lar/mypage" style="color:black;"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
 							<li><a href="/lar/user/cart" style="color:black;"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>

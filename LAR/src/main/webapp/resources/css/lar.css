@@ -32,8 +32,6 @@ header {
 	}
 }
 
-
-
 .slide {
 	width: 100%;
 	height: 100%;
@@ -54,11 +52,11 @@ header {
 }
 
 #nav-signin {
-	color: #fec503;
+	color: #fff;
 }
 
 #nav-signin:hover {
-	color: #5cb85c;
+	color: #cbbde2;
 }
 
 .FindUser {
@@ -276,11 +274,6 @@ a {
 	border-collapse: collapse;
 }
 
-.wrapPaymentList th, td {
-	border: 1px solid #eee;
-	padding: 10px;
-}
-
 /* QnAList */
 #wrapQnA table tr th {
 	text-align: center;
@@ -362,17 +355,12 @@ a {
 	border-bottom: 1px solid #eee;
 }
 
-.cartList .table tbody tr:not(:first-child):hover td:not(:last-child) {
-	cursor: pointer;
-	background-color: #eee;
-}
-
 .cartList .table tbody tr th {
 	text-align: center;
 	white-space: nowrap;
 }
 
-.cartList .table tbody tr td {
+.cartList .table tbody tr td{
 	padding: 10px;
 	vertical-align: middle;
 	border-top-color: #eee;
@@ -456,11 +444,15 @@ a {
 	color: #fed136;
 }
 
+.cartList a {
+	color: black;
+}
+
 div.col-md-10.col-sm-10 {
 	border-right: solid 1px lightgray;
 	padding-right: 5%;
 }
-
+ 
 div.wrapper {
 	margin-bottom: 50px;
 }
