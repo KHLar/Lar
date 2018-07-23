@@ -71,6 +71,18 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.update("user.trySigninCountReset", user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return sqlSession.update("user.trySigninCountResetForUnlock", id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return sqlSession.update("user.passwordModify", temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return (Integer)sqlSession.selectOne("user.isUserExist", user_id) != 0 ? true : false;
+	}
+	
 	/*
 	 * User account end
 	*/

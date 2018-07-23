@@ -93,6 +93,13 @@ header {
 	font-size: 30px;
 }
 
+.modal-header.unlockuserid, .unlockuserid h4, .close {
+	background-color: #f0ad4e;
+	color: white !important;
+	text-align: center;
+	font-size: 30px;
+}
+
 .modal-footer {
 	background-color: #f9f9f9;
 }
