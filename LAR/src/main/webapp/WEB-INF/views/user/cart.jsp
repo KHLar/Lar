@@ -51,7 +51,14 @@
 										</a>
 										<div class="media-body">
 											<h4 class="title"><a href="">${l.LECTURE_TITLE}</a></h4>
-											<p class="summary"><a href="">${l.LECTURE_INTRO}</a></p>
+											<c:choose>
+												<c:when test="${fn:length(l.LECTURE_INTRO) > 50}">
+													<p><c:out value="${fn:substring(l.LECTURE_INTRO,0,49)}"/>....</p>
+												</c:when>
+												<c:otherwise>
+													<p><c:out value="${l.LECTURE_INTRO}"/></p>
+												</c:otherwise> 
+											</c:choose>	
 											<span>
 												<i class="glyphicon glyphicon-star"></i> 
 												<i class="glyphicon glyphicon-star"></i> 
