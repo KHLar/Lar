@@ -150,4 +150,9 @@ public class CommuServiceImpl implements LarService<Commu> {
 		return ((CommuDaoImpl) commuDaoImpl).selectNewsList();
 	}
 
+	public List<Map<String, String>> selectCommuListSearchTags(int cPage, int numPerPage, String commuSearchText) {
+		
+		return ((CommuDaoImpl) commuDaoImpl).selectCommuListSearchTags(cPage, numPerPage, commuSearchText);
+	}
+
 }
