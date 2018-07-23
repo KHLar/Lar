@@ -11,9 +11,10 @@
 
 
 <style>
-.centers{
- text-align: center;
+.centers {
+	text-align: center;
 }
+
 tr, th {
 	text-align: center;
 }
@@ -31,6 +32,7 @@ th {
 
 td {
 	background-color: white;
+	vertical-align: middle !important;
 }
 
 .NContent {
@@ -45,34 +47,34 @@ td {
 }
 </style>
 <%
-		int commuTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("commuTotalContents")));
-		int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
-		int infoTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("infoTotalContents")));
-		int infoNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("infoNumPerPage")));
+	int commuTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("commuTotalContents")));
+	int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
+	int infoTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("infoTotalContents")));
+	int infoNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("infoNumPerPage")));
 
-		//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
-		String commucPageTemp = request.getParameter("commucPage");
-		String commuSearchType = (String) request.getParameter("commuSearchType");
-		String commuSearchText = (String) request.getParameter("commuSearchText");
-		String infocPageTemp = request.getParameter("infocPage");
-		String infoSearchType = (String) request.getParameter("infoSearchType");
-		String infoSearchText = (String) request.getParameter("infoSearchText");
-		
-		String liCommu="";
-		String liInfo="";
-		if(infoSearchType==null||infoSearchType==""){
-			liCommu="active";
-		}else{
-			liInfo="active";
-		}
-		
-		int commucPage = 1;
-		int infocPage=1;
-		try {
-			commucPage = Integer.parseInt(commucPageTemp);
-			infocPage = Integer.parseInt(infocPageTemp);
-			
-		} catch (NumberFormatException e) {
+	//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
+	String commucPageTemp = request.getParameter("commucPage");
+	String commuSearchType = (String) request.getParameter("commuSearchType");
+	String commuSearchText = (String) request.getParameter("commuSearchText");
+	String infocPageTemp = request.getParameter("infocPage");
+	String infoSearchType = (String) request.getParameter("infoSearchType");
+	String infoSearchText = (String) request.getParameter("infoSearchText");
+
+	String liCommu = "";
+	String liInfo = "";
+	if (infoSearchType == null || infoSearchType == "") {
+		liCommu = "active";
+	} else {
+		liInfo = "active";
+	}
+
+	int commucPage = 1;
+	int infocPage = 1;
+	try {
+		commucPage = Integer.parseInt(commucPageTemp);
+		infocPage = Integer.parseInt(infocPageTemp);
+
+	} catch (NumberFormatException e) {
 	}
 %>
 <%-- <%=com.misoot.lar.common.util.UtilCommu.getCommuPageBar(commuTotalContents, commucPage, commuNumPerPage, commuSearchType,
@@ -92,299 +94,303 @@ td {
 		}
 		return true;
 	}
-	function move(){
+	function move() {
 		location.href = "${pageContext.request.contextPath}/commu/commuMain";
 	}
-	 function testCommuModify(commu_Category_Index) {
-		location.href = "${pageContext.request.contextPath}/commu/commuForm/"+commu_Category_Index;
-	} 
-	
+	function testCommuModify(commu_Category_Index) {
+		location.href = "${pageContext.request.contextPath}/commu/commuForm/"
+				+ commu_Category_Index;
+	}
 </script>
 </head>
 <body>
-	
-<c:import url="/WEB-INF/views/common/_header.jsp">
-	<c:param value="장바구니" name="pageTitle" />
-</c:import>
 
-</header>
+	<c:import url="/WEB-INF/views/common/_header.jsp">
+		<c:param value="장바구니" name="pageTitle" />
+	</c:import>
 
-<div class="container-fluid">
-	<div class="row">
-	<div class="container col-lg-10 col-md-10 col-sm-10">
-		<h2>게시판 목록</h2>
-		<ul class="nav nav-tabs">
-			<li class="<%=liCommu %>" id="commuTab"><a data-toggle="tab" href="#Commu">잡담게시판</a></li>
-			<li id="noticeTab"><a data-toggle="tab" href="#Notice">공지사항</a></li>
-			<li class="<%=liInfo %>" id="qaTab"><a data-toggle="tab" href="#QA">질의응답</a></li>
-			<li id="newsTab"><a data-toggle="tab" href="#News">소식</a></li>
-		</ul>
+	</header>
 
-		<div class="tab-content">
-			<div id="Commu" class="tab-pane fade in <%=liCommu %>">
-				<div class="container_fluid">
-					 <!-- <div class="col-lg-10 col-md-10 col-sm-10">  -->
-						<h2>잡담게시판</h2>
-						<div style="text-align: right">
-							<nav class="navbar navbar-default">
-								<div class="container-fluid">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="container col-lg-10 col-md-10 col-sm-10">
+				<h2>게시판 목록</h2>
+				<ul class="nav nav-tabs">
+					<li class="<%=liCommu%>" id="commuTab"><a data-toggle="tab"
+						href="#Commu">잡담게시판</a></li>
+					<li id="noticeTab"><a data-toggle="tab" href="#Notice">공지사항</a></li>
+					<li class="<%=liInfo%>" id="qaTab"><a data-toggle="tab"
+						href="#QA">질의응답</a></li>
+					<li id="newsTab"><a data-toggle="tab" href="#News">소식</a></li>
+				</ul>
 
-									<form class="navbar-form navbar-right"
-										action="${pageContext.request.contextPath}/commu/commuMain"
-										onsubmit="return commuValidate();">
-										<ul class="nav navbar-nav">
-											<li class="active"><select class="form-control "
-												id="commuSearchType" name="commuSearchType">
-													<option value="Ctitle">제목</option>
-													<option value="Cwriter">작성자</option>
-											</select></li>
-										</ul>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Search"
-												id="commuSearchText" name="commuSearchText">
-										</div>
-										<button class="btn btn-default" type="submit" id="commuSearch">
-											<i class="glyphicon glyphicon-search"></i>
-										</button>
-									</form>
-								</div>
-							</nav>
-						</div>
-						<br>
-						<div class="table-responsive">
-							<table
-								class="table tBorder table-bordered table-condensed table-hover"
-								id="listArea">
-								<thead>
-									<tr>
-										<th class="col-md-1 centers">번호</th>
-										<th class="col-md-5 centers">제목</th>
-										<th class="col-md-2 centers">작성자</th>
-										<th class="col-md-2 centers">날짜</th>
-										<th class="col-md-1 centers">파일</th>
-										<th class="col-md-1 centers">조회수</th>
-									</tr>
-								</thead>
-								<tbody>
-								<c:set var="commuCount" value="${(commucPage*10)-10}" />
-									<c:forEach items="${commuList}" var="c">
-									<c:set var="commuCount" value="${commuCount + 1}"/>
-										<tr id="${c.commu_Index}">
-										 <td style="display:none;">${c.commu_Index}</td>
-											<td>${commuCount}</td>
-											<td class="commuContent">${c.commu_Title}</td>
-											<td>${c.commu_Writer}</td>
-											<td>${c.commu_Update_Date}</td>
-											<td align="center"><c:if test="${c.fileCount>0}">
-													<img alt="첨부파일"
-														src="${pageContext.request.contextPath}/resources/images/file.png"
-														width=15px>
-												</c:if>
-												<c:if test="${c.fileCount==0}">
+				<div class="tab-content">
+					<div id="Commu" class="tab-pane fade in <%=liCommu%>">
+						<div class="container_fluid">
+							<!-- <div class="col-lg-10 col-md-10 col-sm-10">  -->
+							<h2>잡담게시판</h2>
+							<div style="text-align: right">
+								<nav class="navbar navbar-default">
+									<div class="container-fluid">
+
+										<form class="navbar-form navbar-right"
+											action="${pageContext.request.contextPath}/commu/commuMain"
+											onsubmit="return commuValidate();">
+											<ul class="nav navbar-nav">
+												<li class="active"><select class="form-control "
+													id="commuSearchType" name="commuSearchType">
+														<option value="Ctitle">제목</option>
+														<option value="Cwriter">작성자</option>
+												</select></li>
+											</ul>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="Search"
+													id="commuSearchText" name="commuSearchText">
+											</div>
+											<button class="btn btn-default" type="submit"
+												id="commuSearch">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</form>
+									</div>
+								</nav>
+							</div>
+							<br>
+							<div class="table-responsive">
+								<table
+									class="table tBorder table-bordered table-condensed table-hover"
+									id="listArea">
+									<thead>
+										<tr>
+											<th class="col-md-1 centers">번호</th>
+											<th class="col-md-5 centers">제목</th>
+											<th class="col-md-2 centers">작성자</th>
+											<th class="col-md-2 centers">날짜</th>
+											<th class="col-md-1 centers">파일</th>
+											<th class="col-md-1 centers">조회수</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="commuCount" value="${(commucPage*10)-10}" />
+										<c:forEach items="${commuList}" var="c">
+											<c:set var="commuCount" value="${commuCount + 1}" />
+											<tr id="${c.commu_Index}">
+												<td style="display: none;">${c.commu_Index}</td>
+												<td>${commuCount}</td>
+												<td class="commuContent"><p style="font-size:18px;">${c.commu_Title}</p>
+												<c:forTokens items="${c.commu_tags}" var="tag" delims=",">
+														<a href="${pageContext.request.contextPath}/commu/commuMain?commuSearchText=${tag}&commuSearchType=tags" class="bg-warning labelinput badge badge-warning" 
+														style="background-color: #fed136; color: #4c0b5f; font-size:10px;">#${tag}</a>
+												</c:forTokens>
+												</td>
+												<td>${c.commu_Writer}</td>
+												<td>${c.commu_Update_Date}</td>
+												<td align="center"><c:if test="${c.fileCount>0}">
+														<img alt="첨부파일"
+															src="${pageContext.request.contextPath}/resources/images/file.png"
+															width=15px>
+													</c:if> <c:if test="${c.fileCount==0}">
 													X
 												</c:if></td>
-											<td>${c.commu_Hits}</td>
-										</tr>
-									</c:forEach>
+												<td>${c.commu_Hits}</td>
+											</tr>
+										</c:forEach>
 
-								</tbody>
-							</table>
-						</div>
-						<nav style="text-align: center;">
-							<%-- 페이지바를 위한 Utils의 정적메소드 사용 --%>
-							<%=UtilCommu.getCommuPageBar(commuTotalContents, commucPage, commuNumPerPage, commuSearchType,
-									commuSearchText, "commuMain") %>
-							
-						</nav>
-						<div class="col-lg-11 col-md-11 col-sm-11"></div>
-						<div class="col-lg-1 col-md-1 col-sm-1">
-							<button type="button" class="btn btn-primary"
-								onclick="testCommuModify('B04');">글쓰기</button>
-						</div>
-					<%--</div>
+									</tbody>
+								</table>
+							</div>
+							<nav style="text-align: center;">
+								<%-- 페이지바를 위한 Utils의 정적메소드 사용 --%>
+								<%=UtilCommu.getCommuPageBar(commuTotalContents, commucPage, commuNumPerPage, commuSearchType,
+					commuSearchText, "commuMain")%>
+
+							</nav>
+							<div class="col-lg-11 col-md-11 col-sm-11"></div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<button type="button" class="btn btn-primary"
+									onclick="testCommuModify('B04');">글쓰기</button>
+							</div>
+							<%--</div>
 					<div class="col-lg-3 col-md-3 col-sm-3">
 						<img
 							src="${pageContext.request.contextPath}/resources/images/advertise.jpg" />
 					</div> --%>
-				</div>
-			</div>
-			<div id="Notice" class="tab-pane fade">
-
-				<div class="container_fluid">
-						<h2>공지사항</h2>
-						<div class="panel-group" id="accordion">
-							<c:forEach items="${noticeList}" var="n">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<%--  <%String a= %>${n.commu_Content }
-						      <%System.out.println(a); %> --%>
-											<a data-toggle="collapse" data-parent="#accordion"
-												href="#collapse${n.commu_Index}"
-												style="text-decoration: none;"> <strong>${n.commu_Title}</strong></a>
-										</h4>
-									</div>
-									<div id="collapse${n.commu_Index}"
-										class="panel-collapse collapse out">
-										<div class="panel-body">
-											<p class="NContent">${n.commu_Content }</p>
-										</div>
-									</div>
-								</div>
-
-							</c:forEach>
 						</div>
 					</div>
+					<div id="Notice" class="tab-pane fade">
 
-			</div>
-			<div id="QA" class="tab-pane fade in <%=liInfo %>">
-				<div class="container_fluid">
-					<h2>질의응답</h2>
-						<div style="text-align: right">
-							<nav class="navbar navbar-default">
-								<div class="container-fluid">
-
-									<form class="navbar-form navbar-right"
-										action="${pageContext.request.contextPath}/commu/commuMain"
-										onsubmit="return infoValidate();">
-										<ul class="nav navbar-nav">
-											<li class="active"><select class="form-control "
-												id="infoSearchType" name="infoSearchType">
-													<option value="Ititle">제목</option>
-													<option value="Iwriter">작성자</option>
-											</select></li>
-										</ul>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Search"
-												id="infoSearchText" name="infoSearchText">
+						<div class="container_fluid">
+							<h2>공지사항</h2>
+							<div class="panel-group" id="accordion">
+								<c:forEach items="${noticeList}" var="n">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<%--  <%String a= %>${n.commu_Content }
+						      <%System.out.println(a); %> --%>
+												<a data-toggle="collapse" data-parent="#accordion"
+													href="#collapse${n.commu_Index}"
+													style="text-decoration: none;"> <strong>${n.commu_Title}</strong></a>
+											</h4>
 										</div>
-										<button class="btn btn-default" type="submit" id="infoSearch">
-											<i class="glyphicon glyphicon-search"></i>
-										</button>
-									</form>
-								</div>
-							</nav>
+										<div id="collapse${n.commu_Index}"
+											class="panel-collapse collapse out">
+											<div class="panel-body">
+												<p class="NContent">${n.commu_Content }</p>
+											</div>
+										</div>
+									</div>
+
+								</c:forEach>
+							</div>
 						</div>
-						<br>
-						<div class="table-responsive">
-							<table
-								class="table tBorder table-bordered table-condensed table-hover"
-								id="listArea">
-								<thead>
-									<tr>
-										<th class="col-md-1 centers">번호</th>
-										<th class="col-md-5 centers">제목</th>
-										<th class="col-md-2 centers">작성자</th>
-										<th class="col-md-2 centers">날짜</th>
-										<th class="col-md-1 centers">파일</th>
-										<th class="col-md-1 centers">조회수</th>
-									</tr>
-								</thead>
-								<tbody>
-								<c:set var="infoCount" value="${(infocPage*10)-10}" />
-									 <c:forEach items="${infolist}" var="i">
-									 
-									<c:set var="infoCount" value="${infoCount + 1}"/>
-										<tr id="${i.commu_Index}">
-										<td style="display:none;">${i.commu_Index}</td>
-											<td>${infoCount}</td>
-											<td class="infoContent">${i.commu_Title}</td>
-											<td>${i.commu_Writer}</td>
-											<td>${i.commu_Update_Date}</td>
-											<td align="center"><c:if test="${i.fileCount>0}">
-													<img alt="첨부파일"
-														src="${pageContext.request.contextPath}/resources/images/file.png"
-														width=15px>
-												</c:if>
-												<c:if test="${i.fileCount==0}">
+
+					</div>
+					<div id="QA" class="tab-pane fade in <%=liInfo%>">
+						<div class="container_fluid">
+							<h2>질의응답</h2>
+							<div style="text-align: right">
+								<nav class="navbar navbar-default">
+									<div class="container-fluid">
+
+										<form class="navbar-form navbar-right"
+											action="${pageContext.request.contextPath}/commu/commuMain"
+											onsubmit="return infoValidate();">
+											<ul class="nav navbar-nav">
+												<li class="active"><select class="form-control "
+													id="infoSearchType" name="infoSearchType">
+														<option value="Ititle">제목</option>
+														<option value="Iwriter">작성자</option>
+												</select></li>
+											</ul>
+											<div class="form-group">
+												<input type="text" class="form-control" placeholder="Search"
+													id="infoSearchText" name="infoSearchText">
+											</div>
+											<button class="btn btn-default" type="submit" id="infoSearch">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</form>
+									</div>
+								</nav>
+							</div>
+							<br>
+							<div class="table-responsive">
+								<table
+									class="table tBorder table-bordered table-condensed table-hover"
+									id="listArea">
+									<thead>
+										<tr>
+											<th class="col-md-1 centers">번호</th>
+											<th class="col-md-5 centers">제목</th>
+											<th class="col-md-2 centers">작성자</th>
+											<th class="col-md-2 centers">날짜</th>
+											<th class="col-md-1 centers">파일</th>
+											<th class="col-md-1 centers">조회수</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="infoCount" value="${(infocPage*10)-10}" />
+										<c:forEach items="${infolist}" var="i">
+
+											<c:set var="infoCount" value="${infoCount - 1}" />
+											<tr id="${i.commu_Index}">
+												<td style="display: none;">${i.commu_Index}</td>
+												<td>${infoCount}</td>
+												<td class="infoContent">${i.commu_Title}</td>
+												<td>${i.commu_Writer}</td>
+												<td>${i.commu_Update_Date}</td>
+												<td align="center"><c:if test="${i.fileCount>0}">
+														<img alt="첨부파일"
+															src="${pageContext.request.contextPath}/resources/images/file.png"
+															width=15px>
+													</c:if> <c:if test="${i.fileCount==0}">
 													X
 												</c:if></td>
-											<td>${i.commu_Hits}</td>
-										</tr>
-									</c:forEach> 
+												<td>${i.commu_Hits}</td>
+											</tr>
+										</c:forEach>
 
-								</tbody>
-							</table>
+									</tbody>
+								</table>
+							</div>
+							<nav style="text-align: center;">
+								<%-- 페이지바를 위한 Utils의 정적메소드 사용 --%>
+
+								<%=UtilCommu.getInfoPageBar(infoTotalContents, infocPage, infoNumPerPage, infoSearchType,
+					infoSearchText, "commuMain")%>
+							</nav>
+							<div class="col-lg-11 col-md-11 col-sm-11"></div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<button type="button" class="btn btn-primary"
+									onclick="testCommuModify('B02');">글쓰기</button>
+							</div>
+
 						</div>
-						<nav style="text-align: center;">
-							<%-- 페이지바를 위한 Utils의 정적메소드 사용 --%>
-							
-							 <%=UtilCommu.getInfoPageBar(infoTotalContents, infocPage, infoNumPerPage, infoSearchType,
-									infoSearchText, "commuMain")%> 
-						</nav>
-						<div class="col-lg-11 col-md-11 col-sm-11"></div>
-						<div class="col-lg-1 col-md-1 col-sm-1">
-							<button type="button" class="btn btn-primary"
-								onclick="testCommuModify('B02');">글쓰기</button>
+
+					</div>
+					<div id="News" class="tab-pane fade">
+						<div class="container_fluid">
+							<div class="row no-gutters">
+								<c:forEach items="${newslist}" var="n">
+
+									<div class="col-lg-4">
+										<a class="portfolio-item"
+											href="${pageContext.request.contextPath}/commu/commuView?no=${n.commu_Index}">
+											<span class="caption"> <span class="caption-content">
+													<h2>${n.commu_Writer }</h2>
+													<p>${n.commu_Title }</p>
+											</span>
+										</span> <c:if test="${n.commu_Attach_Renamedfilename ne ''}"></c:if>
+											<img class="img-fluid"
+											src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}"
+											style="width: 100%;" />
+										</a>
+									</div>
+								</c:forEach>
+
+							</div>
+							<div class="col-lg-11 col-md-11 col-sm-11"></div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<button type="button" class="btn btn-primary"
+									onclick="testCommuModify('B03');">글쓰기</button>
+							</div>
 						</div>
-					
+					</div>
 				</div>
-
 			</div>
-			<div id="News" class="tab-pane fade">
-				<div class="container_fluid">
-				<div class="row no-gutters">
-				<c:forEach items="${newslist}" var="n">
-				
-          <div class="col-lg-4">
-            <a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView?no=${n.commu_Index}">
-              <span class="caption">
-                <span class="caption-content">
-                  <h2>${n.commu_Writer }</h2>
-                  <p>${n.commu_Title }</p>
-                </span>
-              </span>
-              <c:if test="${n.commu_Attach_Renamedfilename ne ''}"></c:if>
-              <img class="img-fluid" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width:100%;"/>
-            </a>
-          </div>
-          </c:forEach>
-          
-        </div>
-        <div class="col-lg-11 col-md-11 col-sm-11"></div>
-						<div class="col-lg-1 col-md-1 col-sm-1">
-							<button type="button" class="btn btn-primary"
-								onclick="testCommuModify('B03');">글쓰기</button>
-						</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
-	<script>
-		$(function() {
-			$('.commuContent')
-					.mouseenter(function() {
-						$(this).css({
-							"cursor" : "pointer"
-						});
-					})
-					.click(
-							function() {
-								var no = $(this).parent().children().eq(0)
-										.text();
-								location.href = "${pageContext.request.contextPath}/commu/commuView?no="
-										+ no;
-							});
-			$('.infoContent')
-			.mouseenter(function() {
-				$(this).css({
-					"cursor" : "pointer"
+			<script>
+				$(function() {
+					$('.commuContent p')
+							.mouseenter(function() {
+								$(this).css({
+									"cursor" : "pointer"
+								});
+							})
+							.click(
+									function() {
+										var no = $(this).parent().children()
+												.eq(0).text();
+										location.href = "${pageContext.request.contextPath}/commu/commuView?no="
+												+ no;
+									});
+					$('.infoContent')
+							.mouseenter(function() {
+								$(this).css({
+									"cursor" : "pointer"
+								});
+							})
+							.click(
+									function() {
+										var no = $(this).parent().children()
+												.eq(0).text();
+										location.href = "${pageContext.request.contextPath}/commu/commuView?no="
+												+ no;
+									});
 				});
-			})
-			.click(
-					function() {
-						var no = $(this).parent().children().eq(0)
-								.text();
-						location.href = "${pageContext.request.contextPath}/commu/commuView?no="
-								+ no;
-					});
-		});
-		
-	</script>
-
-
+			</script>
 </body>
 </html>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

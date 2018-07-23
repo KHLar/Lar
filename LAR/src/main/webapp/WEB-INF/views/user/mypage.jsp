@@ -124,9 +124,6 @@
 					</ul>
 				</div>
 			</div>
-
-
-
 			<div class="mypageBody tab-content">
 				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
 					<h3>나의 강의</h3>

@@ -11,6 +11,11 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script> --%>
+<script
+	src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
+	
 <c:import url="/WEB-INF/views/common/_header.jsp">
 	<c:param value="커뮤니티" name="pageTitle" />
 </c:import>
@@ -105,12 +110,29 @@ function fileDownload(oName, rName){
          첨부파일 - ${a.commu_Attach_Originfilename }
       </button>
    </c:forEach>
-                        <div style="text-align: right;">
+                      <!--  <div style="text-align: right;">
                         <br /><br />
                             <span class="bg-warning">${commu.commu_Writer}</span>&nbsp;&nbsp;
                         <span class="bg-warning">${commu.commu_Update_Date}</span>&nbsp;&nbsp;
                         <span class="bg-warning">${commu.commu_Hits}</span>
                         </div>
+                       -->
+                        <ul style="list-style:none; ">
+                        <li style="text-align: left;">
+                    <!-- Tag입니다. 건들지 마요 -_- -->
+                        <div class="bootstrap-tagsinput form-group">
+							<div class="tags" id="tags">
+							<c:forTokens items="${commu.commu_tags}" var="tag" delims=",">
+								<a class="bg-warning labelinput" style="color: yellow;">#${tag}</a>
+							</c:forTokens>
+							</div>
+						</div>
+					<!-- Tag입니다. 건들지 마요 -_- -->
+						</li>
+                        <li style="text-align: right;"><span class="bg-warning">${commu.commu_Writer}</span>&nbsp;&nbsp;
+                        <span class="bg-warning">${commu.commu_Update_Date}</span>&nbsp;&nbsp;
+                        <span class="bg-warning">${commu.commu_Hits}</span></li>
+                        </ul>                      
                     </div>
                 </div>
                 

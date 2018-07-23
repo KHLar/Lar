@@ -150,6 +150,4 @@ public class UserDaoImpl implements LarDao<User> {
 	/*
 	 * purchase end
 	 */
-
-	
 }

@@ -170,6 +170,5 @@
    		<foreach item="index" collection="array" separator=", " open="(" close=")">
 		#{index}
 		</foreach>
-   	</select>
-	
+   	</select>	
 </mapper>

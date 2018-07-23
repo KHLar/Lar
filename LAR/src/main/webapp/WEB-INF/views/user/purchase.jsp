@@ -145,8 +145,4 @@
 <br>
 <br>
 
-<!-- 부모창에서 자식창 열때
-	.open("path", "사이즈 관련 있음");
- -->
-
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

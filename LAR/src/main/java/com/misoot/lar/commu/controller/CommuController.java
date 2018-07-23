@@ -68,6 +68,10 @@ public class CommuController {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchWriter(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
+		}  else if (commuSearchType.equals("tags")&&!commuSearchText.equals("")) {
+			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTags(commucPage, numPerPage,
+					commuSearchText);
+			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
 			
 		} else {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuList(commucPage, numPerPage);
@@ -89,6 +93,8 @@ public class CommuController {
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContents();
 			
 		}
+		
+		System.out.println("infoList!!!!!!!!!!!!!!!!!! : " + commulist);
 		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
 		List<Map<String, String>> newslist = ((CommuServiceImpl) commuServiceImpl).selectNewsList();
@@ -147,19 +153,25 @@ public class CommuController {
 			@RequestParam("commu_Category_Index") String commu_Category_Index,
 			@RequestParam("commu_Title") String commu_Title,
 			@RequestParam("commu_Content") String commu_Content,
+			@RequestParam("result") String commu_tag,
 			@RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
 			Model model) {
+		
+		//---------------------------------------//
+		
+		//---------------------------------------//
 		/*System.out.println(commu_Category_Index);
 		  System.out.println(commu_Title); 
 		  System.out.println(commu_Content);
-		  System.out.println(commu_Writer_Index);*/
-		
+		  System.out.println(commu_Writer_Index);
+		  System.out.println("컨트롤러 태그 확인 : "+commu_tag);*/
 		Commu commu = new Commu();
 		commu.setCommu_Title(commu_Title);
 		commu.setCommu_Content(commu_Content);
 		commu.setCommu_Writer_Index(commu_Writer_Index);
 		commu.setCommu_Category_Index(commu_Category_Index);
+		commu.setCommu_tags(commu_tag);
 		// System.out.println(commu);
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 시작 --------------- //
 		// 파일 저장 경로 생성하기
@@ -231,7 +243,11 @@ public class CommuController {
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 
 		return "common/msg";
+		
+		/* 해쉬태그 */
+		
 	}
+	
 
 	// 게시글 파일 다운로드
 	@RequestMapping("/commu/fileDownload")
@@ -357,7 +373,6 @@ public class CommuController {
 		// int upResult= commuReplyService.updateCommuReply_Reply2(cReply);
 		int deResult = ((CommuReplyServiceImpl) commuReplyServiceImpl)
 				.deleteCommuReply_Reply(cReply.getCommu_Reply_Index());
-
 		String loc = "/commu/commuView?no=" + cReply.getCommu_Reply_Commu_Index();
 		String msg = "";
 		if (deResult > 0)
