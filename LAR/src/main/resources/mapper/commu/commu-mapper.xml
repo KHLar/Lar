@@ -12,6 +12,7 @@
 	<result property="commu_Upload_Date" column="COMMU_UPLOAD_DATE" /> 
 	<result property="commu_Update_Date" column="COMMU_UPDATE_DATE" />
 	<result property="commu_Is_Deleted" column="COMMU_IS_DELETED" /> 
+	<result property="commu_tags" column="COMMU_TAGS" />
 	<result property="fileCount" column="FILECOUNT" />  
 	<result property="commu_Writer" column="COMMU_WRITER" /> 
 </resultMap>
@@ -24,6 +25,7 @@
 	<result property="commu_Hits" column="COMMU_HITS" /> 
 	<result property="commu_Upload_Date" column="COMMU_UPLOAD_DATE" /> 
 	<result property="commu_Update_Date" column="COMMU_UPDATE_DATE" />
+	<result property="commu_tags" column="COMMU_TAGS" />
 	<result property="commu_Is_Deleted" column="COMMU_IS_DELETED" /> 
 	<result property="commu_Writer" column="COMMU_WRITER" /> 
 </resultMap>
@@ -55,6 +57,14 @@
 		FROM TABLE_COMMU A WHERE COMMU_CATEGORY_INDEX='B04' AND COMMU_IS_DELETED=0 AND
               (SELECT USER_NICKNAME FROM TABLE_USER WHERE USER_INDEX = A.COMMU_WRITER_INDEX) LIKE #{searchText} ORDER BY COMMU_INDEX DESC
 	</select>
+	
+	<select id="selectInfoListSearchTags" resultMap="getselectCommuList">
+	SELECT A.*, (SELECT COUNT(*) FROM TABLE_COMMU_ATTACH WHERE COMMU_ATTACH_COMMU_INDEX = A.COMMU_INDEX) FILECOUNT ,
+(SELECT USER_NICKNAME FROM TABLE_USER WHERE USER_INDEX = A.COMMU_WRITER_INDEX) COMMU_WRITER
+		FROM TABLE_COMMU A WHERE COMMU_CATEGORY_INDEX='B04' AND COMMU_IS_DELETED=0 AND
+              COMMU_TAGS LIKE #{searchText} ORDER BY COMMU_INDEX DESC
+	</select>
+	
 	<select id="selectInfoListSearchWriter" resultMap="getselectCommuList">
 	SELECT A.*, (SELECT COUNT(*) FROM TABLE_COMMU_ATTACH WHERE COMMU_ATTACH_COMMU_INDEX = A.COMMU_INDEX) FILECOUNT ,
 (SELECT USER_NICKNAME FROM TABLE_USER WHERE USER_INDEX = A.COMMU_WRITER_INDEX) COMMU_WRITER
@@ -85,7 +95,7 @@
 	</select>
 	
 	<select id="selectCommuOne" parameterType="_int" resultMap="getselectCommuOne">
-		SELECT COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME COMMU_WRITER
+		SELECT COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME COMMU_WRITER, COMMU_TAGS
 FROM TABLE_USER U JOIN TABLE_COMMU C ON(C.COMMU_WRITER_INDEX=U.USER_INDEX) WHERE C.COMMU_INDEX=#{commuNo}
 	</select>
 	<select id="selectNewsList" resultType="commu" >
@@ -103,8 +113,9 @@ FROM TABLE_USER U JOIN TABLE_COMMU C ON(C.COMMU_WRITER_INDEX=U.USER_INDEX) WHERE
 		<selectKey keyProperty="commu_Index" resultType="_int" order="AFTER">
 			SELECT SEQ_COMMU_INDEX.CURRVAL FROM DUAL 
 		</selectKey>
-		INSERT INTO TABLE_COMMU(COMMU_INDEX, COMMU_TITLE, COMMU_WRITER_INDEX, COMMU_CONTENT,COMMU_CATEGORY_INDEX)	
-		 VALUES(SEQ_COMMU_INDEX.NEXTVAL,#{commu_Title},#{commu_Writer_Index},#{commu_Content},#{commu_Category_Index})
+		INSERT INTO TABLE_COMMU(COMMU_INDEX, COMMU_TITLE, COMMU_WRITER_INDEX, COMMU_CONTENT,COMMU_CATEGORY_INDEX, COMMU_TAGS)	
+		 VALUES(SEQ_COMMU_INDEX.NEXTVAL,#{commu_Title},#{commu_Writer_Index},#{commu_Content},#{commu_Category_Index}, #{commu_tags})
+>>>>>>> refs/remotes/origin/jh_branch
 	</insert>
 	<insert id="insertAttachment" parameterType="attachment">
 		INSERT INTO TABLE_COMMU_ATTACH(COMMU_ATTACH_INDEX,COMMU_ATTACH_COMMU_INDEX,COMMU_ATTACH_ORIGINFILENAME,COMMU_ATTACH_RENAMEDFILENAME) 

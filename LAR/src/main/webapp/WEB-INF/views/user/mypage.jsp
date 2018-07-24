@@ -31,7 +31,7 @@
 				if (data.result) {
 					location.href = '${pageContext.request.contextPath}'+data.href;
 				} else {
-					alert('뭔가 잘못됐어~~~');
+					alert('에러발생 ! 관리자에게 문의하세요.');
 				}
 			}
 		});
@@ -61,21 +61,22 @@
 	String url = "/lar/mypage";
 %>
 
-<div class="container-fluid">
+<div class="container-fluid" style="margin-left:5%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10" style="margin-bottom: 100px;">
 			<div class="row" style="width: 100%">
 				<div class="panel panel-default"
-					style="margin-bottom: 5px; margin-left: 10px;">
+					style="margin-left: 10px; border-bottom:0; box-shadow:0;">
 					<div class="panel-body">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 							<img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
 						</div>
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
-							<div class="container">
-								<h2>${session_user.user_nickname}</h2>
+							<div class="wrapprofile">
+								<h2 style="display: inline-block;">${session_user.user_nickname}</h2>&nbsp;&nbsp;
+								<button type="button" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
 							</div>
-							<hr style="border: 0.03em solid #fed136">
+							<hr style="border: 0.03em solid #cbbde2">
 							<ul class="container details" style="list-style: none;">
 								<li>
 									<label>
@@ -88,51 +89,37 @@
 									</label>
 								</li>
 							</ul>
-							<hr style="border: 0.03em solid #fed136">
-							<div class="col-sm-5 col-xs-6 tital">
-								<h5>소개</h5>
+							<hr style="border: 0.03em solid #cbbde2">
+							<div class="col-sm-5 col-xs-6 tital">								
+								<h4>소개</h4>
 							</div>
-						</div>
-					</div>
-					<div class="row" style="width: 100%; text-align: center;">
-						<div class="" id="bs-example-navbar-collapse-1" style="margin-left: 50px;">
-							<ul class="nav navbar-nav myTab mypageTab" role="tablist" style="border-top: 0.03em solid #fed136; width: 100%;">
-								<li role="presentation" class="active">
-									<a class="myLecture" data-target="#wrapMyLecture" id="myLecture" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="QnAList" data-target="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="wishList" data-target="#wrapWishList" id="wishList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;위시리스트&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="paymentList" data-target="#wrapPaymentList" id="paymentList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="couponList" data-target="#wrapCoupon" id="couponList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="alarm" data-target="#wrapAlarm" id="alarm" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<div class="tabs" style="width: 100%;">
+				<ul class="nav mypageTab nav-tabs" role="tablist" style="width: 98%;">
+					<li role="presentation" class="active"><a class="myLecture" 
+						data-target="#wrapMyLecture" id="myLecture" data-toggle="tab"> 
+							&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="QnAList"
+						data-target="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="wishList"
+						data-target="#wrapWishList" id="wishList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;위시리스트&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="paymentList"
+						data-target="#wrapPaymentList" id="paymentList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="couponList" data-target="#wrapCoupon" id="couponList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;</a></li>
+					<li role="presentation"><a class="alarm"
+						data-target="#wrapAlarm" id="alarm" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp; </a></li>
+				</ul>
+			</div>
+			
 			<div class="mypageBody tab-content">
 				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
 					<h3>나의 강의</h3>

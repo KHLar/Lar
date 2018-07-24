@@ -8,15 +8,12 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +31,6 @@ import com.misoot.lar.commu.model.service.CommuServiceImpl;
 import com.misoot.lar.commu.model.vo.Attachment;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
-import com.sun.tools.javac.util.StringUtils;
 
 @Controller
 public class CommuController {
@@ -43,7 +39,7 @@ public class CommuController {
 	LarService<Commu> commuServiceImpl;
 
 	@Autowired
-	LarService<CommuReply> commuReplyServiceImpl;  
+	LarService<CommuReply> commuReplyServiceImpl;
 
 	// 게시글 목록 보기
 	@RequestMapping("/commu/commuMain")
@@ -72,6 +68,10 @@ public class CommuController {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchWriter(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
+		}  else if (commuSearchType.equals("tags")&&!commuSearchText.equals("")) {
+			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTags(commucPage, numPerPage,
+					commuSearchText);
+			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
 			
 		} else {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuList(commucPage, numPerPage);
@@ -93,6 +93,8 @@ public class CommuController {
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContents();
 			
 		}
+		
+		System.out.println("infoList!!!!!!!!!!!!!!!!!! : " + commulist);
 		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
 		List<Map<String, String>> newslist = ((CommuServiceImpl) commuServiceImpl).selectNewsList();
@@ -116,42 +118,16 @@ public class CommuController {
 	}
 
 	// 게시글 한개 보기
-	@RequestMapping("/commu/commuView/{no}")
-	public String selectCommuOne(HttpServletResponse response, HttpServletRequest request,@PathVariable("no") int no, Model model) {
-		// 저장된 쿠키 불러오기
-				Cookie cookies[] = request.getCookies();
-				System.out.println(cookies);
-				Map mapCookie = new HashMap(); 
-				if(request.getCookies() != null){ 
-					for (int i = 0; i < cookies.length; i++) { 
-						mapCookie.put(cookies[i].getName(),cookies[i].getValue()); 
-						} 
-					} 
-				// 저장된 쿠키중에 read_count 만 불러오기 
-				String cookie_read_count = (String) mapCookie.get("read_count"); 
-				System.out.println(cookie_read_count);
-				// 저장될 새로운 쿠키값 생성 
-				String new_cookie_read_count = "|" + no; 
-				// 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사 
-				if(cookie_read_count==null)
-					cookie_read_count="";
-				//if(StringUtils.indexOfIgnoreCase(cookie_read_count, new_cookie_read_count)==-1) {
-				if(cookie_read_count.contains(new_cookie_read_count)){
-					// 없을 경우 쿠키 생성 
-					Cookie cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count); 
-					//cookie.setMaxAge(1000); // 초단위 
-					response.addCookie(cookie); // 조회수 업데이트 
-					int increase = ((CommuServiceImpl) commuServiceImpl).IncreaseCommu(no);
-					if (increase > 0)
-						System.out.println("증가 성공!");
-				}
-				
-		
-		
-		model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(no));
-		model.addAttribute("attachmentList", ((CommuServiceImpl) commuServiceImpl).selectAttachmentList(no));
+	@RequestMapping("/commu/commuView")
+	public String selectCommuOne(@RequestParam("no") int commuNo, Model model) {
 
-		List<CommuReply> list = ((CommuReplyServiceImpl) commuReplyServiceImpl).selectCommuReplyList(no);
+		int increase = ((CommuServiceImpl) commuServiceImpl).IncreaseCommu(commuNo);
+		if (increase > 0)
+			System.out.println("증가 성공!");
+		model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne((commuNo)))
+				.addAttribute("attachmentList", ((CommuServiceImpl) commuServiceImpl).selectAttachmentList((commuNo)));
+
+		List<CommuReply> list = ((CommuReplyServiceImpl) commuReplyServiceImpl).selectCommuReplyList(commuNo);
 		for (CommuReply cReply : list) {
 			if (cReply.getCommu_Reply_Is_Deleted() == 1) {// 댓글 삭제된거
 				cReply.setCommu_Reply_Content("삭제된 댓글입니다.");
@@ -169,29 +145,33 @@ public class CommuController {
 	@RequestMapping("/commu/commuForm/{commu_Category_Index}")
 	public String commuForm(@PathVariable("commu_Category_Index") String commu_Category_Index,Model model) {
 		model.addAttribute("commu_Category_Index",commu_Category_Index);
-		System.out.println(commu_Category_Index);
-		model.addAttribute("aa","bb");
 		return "commu/commuForm";
 	}
 
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
-	public String insertCommu(
+	public String insertBoard(
 			@RequestParam("commu_Category_Index") String commu_Category_Index,
 			@RequestParam("commu_Title") String commu_Title,
 			@RequestParam("commu_Content") String commu_Content,
+			@RequestParam("result") String commu_tag,
 			@RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
 			Model model) {
+		
+		//---------------------------------------//
+		
+		//---------------------------------------//
 		/*System.out.println(commu_Category_Index);
 		  System.out.println(commu_Title); 
 		  System.out.println(commu_Content);
-		  System.out.println(commu_Writer_Index);*/
-		
+		  System.out.println(commu_Writer_Index);
+		  System.out.println("컨트롤러 태그 확인 : "+commu_tag);*/
 		Commu commu = new Commu();
 		commu.setCommu_Title(commu_Title);
 		commu.setCommu_Content(commu_Content);
 		commu.setCommu_Writer_Index(commu_Writer_Index);
 		commu.setCommu_Category_Index(commu_Category_Index);
+		commu.setCommu_tags(commu_tag);
 		// System.out.println(commu);
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 시작 --------------- //
 		// 파일 저장 경로 생성하기
@@ -263,7 +243,11 @@ public class CommuController {
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 
 		return "common/msg";
+		
+		/* 해쉬태그 */
+		
 	}
+	
 
 	// 게시글 파일 다운로드
 	@RequestMapping("/commu/fileDownload")
@@ -389,7 +373,6 @@ public class CommuController {
 		// int upResult= commuReplyService.updateCommuReply_Reply2(cReply);
 		int deResult = ((CommuReplyServiceImpl) commuReplyServiceImpl)
 				.deleteCommuReply_Reply(cReply.getCommu_Reply_Index());
-
 		String loc = "/commu/commuView?no=" + cReply.getCommu_Reply_Commu_Index();
 		String msg = "";
 		if (deResult > 0)

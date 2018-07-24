@@ -11,11 +11,19 @@
 	<typeAliases>
 		<typeAlias type="com.misoot.lar.admin.model.vo.Admin" alias="admin"/>
 		<typeAlias type="com.misoot.lar.home.model.vo.Home" alias="home"/>
-		<typeAlias type="com.misoot.lar.lecture.model.vo.Lecture" alias="lecture"/>
 		<typeAlias type="com.misoot.lar.user.model.vo.User" alias="user"/>
 		<typeAlias type="com.misoot.lar.commu.model.vo.Commu" alias="commu"/>
 		<typeAlias type="com.misoot.lar.commu.model.vo.Attachment" alias="attachment"/>
 		<typeAlias type="com.misoot.lar.commu.model.vo.CommuReply" alias="commuReply"/>
+		
+		<!-- Lecture Vo -->
+		<typeAlias alias="lecture" type="com.misoot.lar.lecture.model.vo.Lecture"/>		
+		<typeAlias alias="lectureBoard" type="com.misoot.lar.lecture.model.vo.LectureBoard"/>		
+		<typeAlias alias="LectureQ" type="com.misoot.lar.lecture.model.vo.LectureQ"/>		
+		<typeAlias alias="LectureA" type="com.misoot.lar.lecture.model.vo.LectureA"/>		
+		<typeAlias alias="LectureReview" type="com.misoot.lar.lecture.model.vo.LectureReview"/>
+		<typeAlias alias="LectureHistory" type="com.misoot.lar.lecture.model.vo.LectureHistory"/>
+		<typeAlias alias="BoardLectureAttachment" type="com.misoot.lar.lecture.model.vo.BoardLectureAttachment"/>
 	</typeAliases>
 	
 	<!--

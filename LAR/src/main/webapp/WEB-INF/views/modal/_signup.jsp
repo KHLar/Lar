@@ -47,12 +47,15 @@
 </div>
 <div class="modal-footer">
 	<p>
-		Already a member? <a onclick="getModal('signin')">Sign In</a>
-	</p>
-	<p>
 		<a onclick="getModal('forgotUserId')">Forgot Your ID?</a>
 	</p>
 	<p>
 		<a onclick="getModal('forgotUserPassword')">Forgot Your Password?</a>
+	</p>
+	<p>
+		<a onclick="getModal('unlock')">Is your account locked?</a>
+	</p>
+	<p>
+		Already a member? <a onclick="getModal('signin')">Sign In</a>
 	</p>
 </div>

@@ -12,7 +12,7 @@
 	<form role="form" action="" method="post">
 		<div class="form-group">
 			<label for="user_phone"><span class="glyphicon glyphicon-phone"></span> Phone</label>
-			<input type="text" class="form-control" id="user_phone" name="user_id" placeholder="Enter email" required>
+			<input type="text" class="form-control" id="user_phone" name="user_id" placeholder="Enter Phone" required>
 		</div>
 		<button type="submit" class="btn btn-primary btn-block">
 			<span class="glyphicon glyphicon-off"></span> Find
@@ -22,6 +22,9 @@
 <div class="modal-footer">
 	<p>
 		<a onclick="getModal('forgotUserPassword')">Forgot Your Password?</a>
+	</p>
+	<p>
+		<a onclick="getModal('unlock')">Is your account locked?</a>
 	</p>
 	<p>
 		Not a member? <a onclick="getModal('signup')">Sign Up</a>

@@ -16,6 +16,7 @@ public class Commu {
 	private Date commu_Update_Date;
 	private int commu_Is_Deleted;
 	private String commu_Writer;
+	private String commu_tags;
 	private int fileCount;
 	private String commu_Attach_Renamedfilename;
 	
@@ -164,6 +165,14 @@ public class Commu {
 	public void setFiles(List<Attachment> files) {
 		this.files = files;
 	}
+	
+	public String getCommu_tags() {
+		return commu_tags;
+	}
+
+	public void setCommu_tags(String commu_tags) {
+		this.commu_tags = commu_tags;
+	}
 
 	@Override
 	public String toString() {
@@ -175,12 +184,4 @@ public class Commu {
 				+ commu_Attach_Renamedfilename + ", files=" + files + "]";
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 }

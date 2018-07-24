@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.common.interfaces.LarDao;
+import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -70,6 +71,18 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.update("user.trySigninCountReset", user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return sqlSession.update("user.trySigninCountResetForUnlock", id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return sqlSession.update("user.passwordModify", temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return (Integer)sqlSession.selectOne("user.isUserExist", user_id) != 0 ? true : false;
+	}
+	
 	/*
 	 * User account end
 	*/
@@ -112,5 +125,29 @@ public class UserDaoImpl implements LarDao<User> {
 	}
 	/*
 	 * My page end
+	 */
+
+	/*
+	 * cart start
+	 */
+	public List<Map<String, Object>> cartList(int user_index) {
+		return sqlSession.selectList("user.cartList", user_index);
+	}
+	
+	public int deleteCart(Map<String, Object> delcartList) {
+		return sqlSession.delete("user.deleteCart", delcartList);
+	}
+	/*
+	 * cart end
+	 */
+
+	/*
+	 * purchase start
+	 */
+	public List<Map<String, Object>> purchaseList(String[] check) {
+		return sqlSession.selectList("user.purchaseList", check);
+	}
+	/*
+	 * purchase end
 	 */
 }

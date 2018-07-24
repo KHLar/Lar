@@ -7,6 +7,7 @@ public class User implements java.io.Serializable {
 	private String user_nickname;
 	private String user_enrolled_date;
 	private String user_phone;
+	private int user_level;
 	private boolean user_is_secession;
 	private int user_try_signin_count;
 	
@@ -27,11 +28,12 @@ public class User implements java.io.Serializable {
 
 	// If signining successed, use to this constructor 
 	public User(String user_id, String user_nickname, String user_enrolled_date,
-			String user_phone, boolean user_is_secession, int user_try_signin_count) {
+			String user_phone, int user_level, boolean user_is_secession, int user_try_signin_count) {
 		this.user_id = user_id;
 		this.user_nickname = user_nickname;
 		this.user_enrolled_date = user_enrolled_date;
 		this.user_phone = user_phone;
+		this.user_level = user_level;
 		this.user_is_secession = user_is_secession;
 		this.user_try_signin_count = user_try_signin_count;
 	}
@@ -162,7 +164,7 @@ public class User implements java.io.Serializable {
 	public String toString() {
 		return "User [user_index=" + user_index + ", user_id=" + user_id + ", user_password=" + user_password
 				+ ", user_nickname=" + user_nickname + ", user_enrolled_date=" + user_enrolled_date + ", user_phone="
-				+ user_phone + ", user_is_secession=" + user_is_secession + ", user_try_signin_count="
-				+ user_try_signin_count + "]";
+				+ user_phone + ", user_level=" + user_level + ", user_is_secession=" + user_is_secession
+				+ ", user_try_signin_count=" + user_try_signin_count + "]";
 	}
 }

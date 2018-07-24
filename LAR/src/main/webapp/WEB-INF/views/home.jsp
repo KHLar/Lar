@@ -97,5 +97,4 @@
 				</div>
 			</div>
 		</div>
-		      
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />
