@@ -22,14 +22,14 @@ public class LarMailSenderImpl implements LarMailSender {
 	JavaMailSender javaMailSender;
 
 	private final String from = "KHMisootLar@gmail.com";
-
+	
 	@Override
-	public boolean emailSender(String to, String subject, String content) {
+	public boolean emailSender(String purpose, String to, String subject, String content) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-				mimeMessage.setFrom(new InternetAddress(from));
+				mimeMessage.setFrom(new InternetAddress(from, purpose));
 				mimeMessage.setSubject(subject);
 				mimeMessage.setText(content, "UTF-8", "HTML");
 			}

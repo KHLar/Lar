@@ -30,8 +30,13 @@
 			</div>
 			<div class="col-md-4">
 				<ul class="list-inline quicklinks">
+<<<<<<< HEAD
 					<li><a id="footer_Privacy_Policy" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('Privacy_Policy');">Privacy Policy</a></li>
 					<li><a id="footer-Terms_of_Use" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('Terms_of_Use');">Terms of Use</a></li>
+=======
+					<li><a href="#">Privacy Policy</a></li>
+					<li><a id="footer-Terms_of_Use" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('Terms_of_Use');">Terms of Use</a></li>
+>>>>>>> branch 'master' of https://github.com/KHLar/Lar.git
 				</ul>
 			</div>
 		</div>

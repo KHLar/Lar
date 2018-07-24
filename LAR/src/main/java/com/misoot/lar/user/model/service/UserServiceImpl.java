@@ -70,6 +70,18 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).trySigninCountReset(user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return ((UserDaoImpl)userDaoImpl).trySigninCountResetForUnlock(id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return ((UserDaoImpl)userDaoImpl).passwordModify(temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return ((UserDaoImpl)userDaoImpl).isUserExist(user_id);
+	}
+	
 	/*
 	 * User account end
 	*/
@@ -104,8 +116,31 @@ public class UserServiceImpl implements LarService<User> {
 	public int deleteWishList(Map<String, Object> checkList) {
 		return ((UserDaoImpl)userDaoImpl).deleteWishList(checkList);
 	}
+
 	/*
 	 * My page end
 	 */
+
+	/*
+	 * cart start
+	 */
+	public List<Map<String, Object>> cartList(int user_index) {
+		return ((UserDaoImpl)userDaoImpl).cartList(user_index);
+	}
+	public int deleteCart(Map<String, Object> delcartList) {
+		return ((UserDaoImpl)userDaoImpl).deleteCart(delcartList);
+	}
+	/*
+	 * cart end
+	 */
 	
+	/*
+	 * purchase start
+	 */
+	public List<Map<String, Object>> purchaseList(String[] check) {
+		return ((UserDaoImpl)userDaoImpl).purchaseList(check);
+	}
+	/*
+	 * purchase end
+	 */
 }

@@ -11,7 +11,6 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script> --%>
-
 <script
 	src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
 <link rel="stylesheet"
@@ -133,8 +132,7 @@ function fileDownload(oName, rName){
                         <li style="text-align: right;"><span class="bg-warning">${commu.commu_Writer}</span>&nbsp;&nbsp;
                         <span class="bg-warning">${commu.commu_Update_Date}</span>&nbsp;&nbsp;
                         <span class="bg-warning">${commu.commu_Hits}</span></li>
-                        </ul>
-                        
+                        </ul>                      
                     </div>
                 </div>
                 

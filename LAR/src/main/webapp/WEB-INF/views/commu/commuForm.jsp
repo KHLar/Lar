@@ -158,10 +158,6 @@ if(commu_Category_Index.equals("B03"))
 		</script>
 
 	</div>
-
-
-
-
 </body>
 
 </html>

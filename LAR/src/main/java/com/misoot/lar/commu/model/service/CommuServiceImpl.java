@@ -154,5 +154,4 @@ public class CommuServiceImpl implements LarService<Commu> {
 		
 		return ((CommuDaoImpl) commuDaoImpl).selectCommuListSearchTags(cPage, numPerPage, commuSearchText);
 	}
-
 }

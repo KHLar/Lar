@@ -68,7 +68,6 @@ public class CommuController {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchWriter(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
-			
 		}  else if (commuSearchType.equals("tags")&&!commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTags(commucPage, numPerPage,
 					commuSearchText);
@@ -372,7 +371,6 @@ public class CommuController {
 		// int upResult= commuReplyService.updateCommuReply_Reply2(cReply);
 		int deResult = ((CommuReplyServiceImpl) commuReplyServiceImpl)
 				.deleteCommuReply_Reply(cReply.getCommu_Reply_Index());
-		
 		String loc = "/commu/commuView?no=" + cReply.getCommu_Reply_Commu_Index();
 		String msg = "";
 		if (deResult > 0)

@@ -159,8 +159,4 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		infoSearchText="%"+infoSearchText+"%";
 		return sqlSession.selectList("commu.selectInfoListSearchTags",infoSearchText,rows);
 	}
-
-	
-	
-
 }
