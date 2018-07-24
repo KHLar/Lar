@@ -93,6 +93,7 @@
     </header>
 
     <!-- Page Content -->
+    
     <div class="container" style="height:auto;">
       <div class="row">
     
@@ -100,39 +101,29 @@
         <div class="col-md-9">
 
           <!-- Title -->
-          <h1 class="mt-4">강의명</h1>
+          <h1 class="mt-4">${lecture.lecture_title}</h1>
 
           <!-- Author -->
           <p class="lead"> by
-            <a href="#">강사 닉네임</a>
+            <a href="#">${lecture.user_nickname}</a>
+            
           </p>
-        q
+        
 
           <!-- Date/Time -->
-          <p>sysdate</p>
+          <p>업로드 날짜:${lecture.lecture_upload_date }</p>
           <hr>
           <!-- Preview Image -->
           <div class="col-sm-12">
-          	<iframe style="width:100%;height: 400px;" src="https://www.youtube.com/embed/HJy2AzhWHxo/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          	${lecture.lecture_content }
           <br><br>
           </div>
           
 
           <!-- Post Content -->
           
-          <h3>강좌소계</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-         
-            <h3>강좌 특징</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
-            <h3>이 강좌로 할 수 있는 것들</h3>
-            ㅁㄴㅇㅁㄴㅇ
-            
-            <h4>참고 자료</h4>
-            자바 파이선 등등등
-          <hr>
+        
+    
           <!-- User Rating -->
           <span class="heading">강좌 평가</span>
           <span class="fa fa-star checked"></span>
@@ -236,21 +227,29 @@
             <table class="table table-hover">
                 <tbody>
                   <tr class="lecture_section" scope="col">
-                        <td colspan="6">Chapter 1 -Introduction</td>
+                       
+         
                     </tr>
-                    <c:forEach items="${Blist}" var="bl" >
-                  	<tr>
-                        <td class="play_icons"><a class="lectureView"><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
-                        <td class="play_title"><a class="lectureView">${bl.lecture_board_title}</a></td> 
+                    <c:forEach items="${blist}" var="bl" >
+                    <c:set value="${bl.lecture_board_chapter}" var="chap" />
+                     <tr>                  		
+                        <td class="play_icons"><!-- <a class="lectureView"> --><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
+                        <td class="play_title"><a class="lectureView">${bl.lecture_board_title}</a>
+                        <input type="hidden"  value="${bl.lecture_board_index}" class="my_boardLecture_index"/>
+                  		<input type="hidden" value="${lecture.lecture_index}"  class="my_lecture_index"/></td> 
                         <td class="preview"> <img src="${pageContext.request.contextPath}/resources/images/free.png"></td>  
                         <td class="time" >${bl.lecture_board_upload_date }</td>
                         <td class="attachment"><img src="${pageContext.request.contextPath}/resources/images/attachment.png"></td>
                     </tr>	
+                    
                     </c:forEach>
                 </tbody>
             </table>
             </div>
+            <input type="hidden" id="my_lecture_index" value="${lecture.lecture_index}" /> 
             <button class="btn btn-warning pull-right" id="lectureBoardInsert">등록하기</button>
+            <button class="btn btn-warning pull-right" id="lectureBoardDelete">삭제하기</button>&nbsp;
+            <button class="btn btn-warning pull-right" id="lectureBoardModify">수정하기</button>&nbsp;
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -263,11 +262,12 @@
             <div class="card-body">
             <div class="text-center">
  				 <img src="${pageContext.request.contextPath}/resources/images/play-icon.png" class="rounded-circle" alt="..." width="125" height="125">
- 				  <p> 이름</p>
+ 				  <p>${lecture.user_nickname}</p>
  				  <ul class="list-group list-group-flush">
-   				   <li class="list-group-item">가격</li>
-		 		   <li class="list-group-item">난이도</li>
+   				   <li class="list-group-item">${lecture.lecture_price}원</li>
+		 		   <li class="list-group-item">${lecture.lecture_level }</li>
 		           <li class="list-group-item">n개의 강의, 총 N시간</li>
+		           <input type="hidden" value="${lecutre.lecture_index }" />
 		          </ul>
 			</div>
 		</div>

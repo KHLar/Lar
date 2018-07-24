@@ -9,9 +9,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.misoot.lar.common.interfaces.LarDao;
-import com.misoot.lar.lecture.model.vo.BoardLecture;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureBoard;
 
 @Repository
 public class LectureDaoImpl implements LarDao<Lecture> {
@@ -38,25 +38,25 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	@Override
 	public int update(Lecture t) {
-		return 0;
+		return sqlSession.update("lecture.updateLecture");
 	}
 
 	@Override
 	public int delete(int index) {
-		return 0;
+		return sqlSession.update("lecture.deleteLecture",index);
 	}
 
-	public int insertBoardLeceture(BoardLecture boardLecture) {
+	public int insertBoardLeceture(LectureBoard lectureBoard) {
 	
-		return sqlSession.insert("lecture.insertLectureBoardinsert",boardLecture);
+		return sqlSession.insert("lecture.insertLectureBoardinsert",lectureBoard);
 	}
 
 	public int insertLectureAttachment(BoardLectureAttachment a) {
 		return sqlSession.insert("lecture.insertLectureBoardAttachment", a);
 	}
 
-	public List<Lecture> selectBoardList(int lectureNo) {
-		return sqlSession.selectList("lecture.selectLectureBoardList", lectureNo);
+	public List<LectureBoard> selectBoardList(int lecture_index) {
+		return sqlSession.selectList("lecture.selectBoardList", lecture_index);
 	}
 
 
@@ -66,9 +66,19 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return null;
 	}
 
-
+     /* lecture insert*/
 	public int selectlectureTotalCount() {
 		return sqlSession.selectOne("lecture.selectlectureTotalCount");
+	}
+
+
+	public Lecture selectLectureOne(int lecture_index) {
+		return sqlSession.selectOne("lecture.selectLectureOne", lecture_index);
+	}
+
+
+	public LectureBoard selectLectureView(Map<String, Integer> map) {
+		return sqlSession.selectOne("lecture.selectLectureView",map);
 	}
 	
 

@@ -19,7 +19,7 @@
 
 <typeAlias alias="lecture" type="com.misoot.lar.lecture.model.vo.Lecture"/>
 
-<typeAlias alias="BoardLecture" type="com.misoot.lar.lecture.model.vo.BoardLecture"/>
+<typeAlias alias="lectureBoard" type="com.misoot.lar.lecture.model.vo.LectureBoard"/>
 
 <typeAlias alias="LectureQ" type="com.misoot.lar.lecture.model.vo.LectureQ"/>
 

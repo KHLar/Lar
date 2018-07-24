@@ -27,13 +27,14 @@
 							
 							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_board_title" required/>
 							<input type="hidden" class="form-control" >
-							
-							</div>
+						
 							<br />
 							<div class="form-inline">
-							 <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="카테고리" name="lecture_board_lecture_index" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  							  <input type="text" class="form-control mb-2 mr-sm-2" placeHolder="chapter" name="lecture_board_chapter" required>
+  							  <input type="file" class="form-control mb-2 mr-sm-2 pull-right" id="inlineFormInputName2" placeholder="파일 업로드" name="upFile" multiple>
+							 <input type="hidden" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="강의넘버" name="lecture_board_lecture_index" value="${param.index }" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  							  <input type="file" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="파일 업로드" name="upFile" multiple>
+							</div>
 							</div>
 							<br />	
 								

@@ -16,6 +16,7 @@ public class Lecture implements java.io.Serializable {
 	private int lecture_hits;
 	private String lecture_content;
 	private int lecture_total_score;
+	private String user_nickname;
 	
 	public Lecture() {
 		super();
@@ -23,7 +24,8 @@ public class Lecture implements java.io.Serializable {
 
 	public Lecture(int lecture_index, String lecture_category_index, int lecture_instructor_index, String lecture_title,
 			String lecture_intro, String lecture_level, int lecture_price, Date lecture_upload_date,
-			int lecture_is_deleted, int lecture_hits, String lecture_content, int lecture_total_score) {
+			int lecture_is_deleted, int lecture_hits, String lecture_content, int lecture_total_score,
+			String user_nickname) {
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;
@@ -37,6 +39,7 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_hits = lecture_hits;
 		this.lecture_content = lecture_content;
 		this.lecture_total_score = lecture_total_score;
+		this.user_nickname = user_nickname;
 	}
 
 	public int getLecture_index() {
@@ -135,6 +138,14 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_total_score = lecture_total_score;
 	}
 
+	public String getUser_nickname() {
+		return user_nickname;
+	}
+
+	public void setUser_nickname(String user_nickname) {
+		this.user_nickname = user_nickname;
+	}
+
 	@Override
 	public String toString() {
 		return "Lecture [lecture_index=" + lecture_index + ", lecture_category_index=" + lecture_category_index
@@ -142,8 +153,11 @@ public class Lecture implements java.io.Serializable {
 				+ ", lecture_intro=" + lecture_intro + ", lecture_level=" + lecture_level + ", lecture_price="
 				+ lecture_price + ", lecture_upload_date=" + lecture_upload_date + ", lecture_is_deleted="
 				+ lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content=" + lecture_content
-				+ ", lecture_total_score=" + lecture_total_score + "]";
+				+ ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname + "]";
 	}
 	
 	
+	
+	
+
 }

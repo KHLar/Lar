@@ -8,16 +8,14 @@
 	<c:param value="강의 리스트" name="pageTitle" />
 </c:import>
 <script>
-function fn_goBoardForm(){
-	   location.href = "${pageContext.request.contextPath}/board/boardForm.do";
-	}
-	$(function(){
-	   $("tr[id]").on("click",function(){
-	      var boardNo = $(this).attr("id");
-	      console.log("bordNo="+boardNo);  
-	      location.href = "${pageContext.request.contextPath}/board/boardView.do?no="+boardNo;
-	   });
-	});
+	/* $(function(){
+		  $(document).click("#Detail",function(){
+		      var lecture_index = $("#index").val;
+		      console.log("lecture_index="+lecture_index);  
+		      location.href = "${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index="+lecture_index;
+		   });
+	}); */
+	
 
 </script>
 </header>
@@ -77,13 +75,19 @@ function fn_goBoardForm(){
 						</a>
 					</div>
 					<div class="col-md-6">
-						<h3></h3>
-						<span class="text-warning">&#9733; &#9733; &#9733; &#9733;
-							&#9734;</span><%-- ${lList.lecture_total_score} --%>
-						<h4>${lList.lecture_price }원</h4>
-						<p>
-							<a class="lectureDetail">${lList.lecture_intro }</a>
+						
+						
+						<input class="index" type="hidden" value="${lList.lecture_index}">
+						<h3>${lList.lecture_title}</h3><span class="text-warning">&#9733; &#9733; &#9733; &#9733;
+							&#9734;</span> ${lList.lecture_total_score}
+							<p>
+							<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
+							${lList.lecture_intro }</a>
 						</p>
+						
+						<button type="button" class="btn btn-warning pull-right" id="lectureUpdate">수정하기</button>
+						<button type="button" class="btn btn-warning pull-right lecturedelete">삭제하기</button>
+						<h4 class="pull-right">${lList.lecture_price }원</h4>
 					</div>
 				</div>
 				<hr>
@@ -107,7 +111,7 @@ function fn_goBoardForm(){
       
    %>
    <%=com.misoot.lar.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "/lar/lectureList") %>
-		
+			
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
 			</div>
 	

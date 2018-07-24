@@ -12,23 +12,49 @@
 	<select id="selectlectureTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM TABLE_LECTURE
 	</select>
+	 
+	<select id="selectLectureOne" parameterType="_int" resultType="lecture">
 	
+		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_CATEGORY_INDEX,LECTURE_INSTRUCTOR_INDEX,LECTURE_TITLE,LECTURE_INTRO,LECTURE_CONTENT,
+		LECTURE_LEVEL,LECTURE_PRICE,LECTURE_UPLOAD_DATE,LECTURE_IS_DELETED,LECTURE_HITS,USER_NICKNAME
+		FROM TABLE_LECTURE TL 
+		LEFT JOIN TABLE_USER TU ON(TL.LECTURE_INSTRUCTOR_INDEX = TU.USER_INDEX)
+		where  LECTURE_INDEX = #{lecture_index}	 
+	</select>
 	
 	<select id="selectLectureList" resultType="lecture">
-		SELECT LECTURE_INDEX,LECTURE_TITLE ,LECTURE_INTRO , LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE 
+		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_TITLE ,LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE 
 		FROM TABLE_LECTURE TL LEFT JOIN TABLE_LECTURE_TOTAL_SCORE TLS ON(TL.LECTURE_INDEX = TLS.TOTAL_LECTURE_INDEX)
+		LEFT JOIN TABLE_USER TU ON(TL.LECTURE_INSTRUCTOR_INDEX = TU.USER_INDEX)
 		<if test=" _parameter neq 'total'">
-		WHERE LECTURE_CATEGORY_INDEX = #{category}
+		WHERE LECTURE_CATEGORY_INDEX = #{category}  AND LECTURE_IS_DELETED = 0 
 		</if>
 	</select>
+
+	<update id="updateLecture" parameterType="lecture">
+		UPDATE TABLE_LECTURE
+		SET LECTURE_TITLE = #{lecture_title}, LECTURE_INTRO = #{lecture_intro} ,LECTURE_CONTENT = #{lecture_content} , LECTURE_LEVEL= #{lecture_level},LECTURE_PRICE= #{lecture_price}
+		WHERE LECTURE_INDEX = #{lecture_index}
+	</update> 
+	
+	<update id="deleteLecture">
+		UPDATE TABLE_LECTURE
+		SET LECTURE_IS_DELETED =1
+		WHERE LECTURE_INDEX = #{index}	
+	</update>
 	
 	<!-- TABLE_LECTURE_BOARD  -->	
 	<insert  id="insertLectureBoardinsert">
-		insert into TABLE_LECTURE_BOARD values(
-		 seq_lecture_board_index.nextval,#{lecture_board_lecture_index},#{lecture_board_title},#{lecture_board_content},default,default,0)
+		<selectKey keyProperty="lecture_board_index" resultType="_int" order="AFTER">
+			SELECT seq_lecture_board_index.currval FROM DUAL
+		</selectKey>
+		insert into TABLE_LECTURE_BOARD values(seq_lecture_board_index.nextval,#{lecture_board_lecture_index},#{lecture_board_title},#{lecture_board_content},default,default,0,#{lecture_board_chapter})
 	</insert>
 	
 	<insert id="insertLectureBoardAttachment">
+		<!-- <selectKey keyProperty="lecture_board_index" resultType="_int" order="BEFORE">
+			seq_lecture_board_index.CURRVAL FROM DUAL
+		</selectKey> -->
 		 INSERT INTO TABLE_LECTURE_ATTACH VALUES(
     		SEQ_LECTURE_ATTACH_INDEX.nextval,#{lecture_attach_board_index},#{lecture_attach_originfilename},#{lecture_attach_renamedfilename},SYSDATE)
     </insert>
@@ -39,13 +65,22 @@
 		SELECT * FROM TABLE_LECTURE_BOARD WHERE LECTURE_BOARD_INDEX = #{lecture_board_index} and LECTURE_BOARD_LECTURE_INDEX = #{lecture_board_lecture_index}
 	</select>
 	
-	<select id="selectLectureBoardList" resultType="BoardLecture">
-	  select * from TABLE_LECTURE_BOARD where LECTURE_BOARD_LECTURE_INDEX = #{lectureNo} order by LECTURE_BOARD_INDEX
+	<select id="selectBoardList" resultType="lectureBoard">
+	  select LECTURE_BOARD_INDEX,LECTURE_BOARD_LECTURE_INDEX,LECTURE_BOARD_TITLE,LECTURE_BOARD_CONTENT,LECTURE_BOARD_HITS,
+  	  LECTURE_BOARD_UPLOAD_DATE,LECTURE_BOARD_IS_DELETED,LECTURE_ATTACH_BOARD_INDEX,LECTURE_ATTACH_ORIGINFILENAME,LECTURE_ATTACH_RENAMEDFILENAME,LECTURE_BOARD_CHAPTER
+	  from TABLE_LECTURE_BOARD TLB
+	  left join TABLE_LECTURE_ATTACH TLA ON(TLB.LECTURE_BOARD_INDEX = TLA.LECTURE_ATTACH_BOARD_INDEX)
+	  where LECTURE_BOARD_LECTURE_INDEX = #{lecture_index} order by LECTURE_BOARD_INDEX
 	</select>
 	
 	<select  id="selectLectureBoardAttachmentList" parameterType="_int">
 		 select * from table_lecture_attach where LECTURE_BOARD_LECTURE_INDEX = #{lecture_board_index}
 	</select>
 	
-	
+	<select  id="selectLectureView" resultType="LectureBoard" parameterType="_int">
+		<!-- SELECT*FROM TABLE_LECTURE_BOARD WHERE LECTURE_BOARD_INDEX = #{lecture_board_index} -->
+		SELECT LECTURE_BOARD_INDEX, LECTURE_INDEX, LECTURE_BOARD_TITLE ,LECTURE_BOARD_CONTENT,LECTURE_BOARD_HITS,
+        LECTURE_BOARD_UPLOAD_DATE,LECTURE_BOARD_IS_DELETED FROM   TABLE_LECTURE_BOARD TB
+        LEFT JOIN TABLE_LECTURE TL ON(TB.LECTURE_BOARD_LECTURE_INDEX = TL.LECTURE_INDEX) WHERE LECTURE_BOARD_INDEX =#{ lecture_board_index }  AND LECTURE_INDEX =#{ lecture_index }
+	</select>
 </mapper>

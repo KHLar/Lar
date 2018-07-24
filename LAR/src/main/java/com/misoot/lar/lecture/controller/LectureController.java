@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,15 +22,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
-import com.misoot.lar.lecture.model.vo.BoardLecture;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureBoard;
 
 @Controller
 public class LectureController {
@@ -49,10 +51,10 @@ public class LectureController {
 		return "lecture/recommanded";
 	}
 	
-	@RequestMapping(value = "/lectureView")
+/*	@RequestMapping(value = "/lectureView")
 	public String lectureView() {
 		return "lecture/lectureView";
-	}
+	}*/
 
 	@RequestMapping(value = "/lectureInsert")
 	public String lectureInsert() {
@@ -70,36 +72,91 @@ public class LectureController {
 		
 		return "redirect:/lectureList";
 	}
+	//게시글 삭제
+	@RequestMapping(value="/lectureDelete")
+	public String DeleteLecture(@RequestParam int index){
+	
+		int result = ((LectureServiceImpl)LectureServiceImpl).delete(index);
+		System.out.println("index"+ index +"result=" +result);	
+		
+		return "redirect:/lectureList";
+	}
+	//게시글 수정
+	@RequestMapping(value="/lectureUpdate")
+	public String updateLecture(Lecture t){
+			
+		
+		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
+		
+		return "lecture/lectureList";
+	}
 	
 	@RequestMapping(value = "/lectureList")
 	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
 		
-		int numPerPage = 5;	// 한 페이지 당 게시글 수
+		int numPerPage = 7;	// 한 페이지 당 게시글 수
 		
 			// 1. 현재 페이지 컨텐츠 리스트 받아오기
 		List<Map<String, String>> lList = ((LectureServiceImpl)LectureServiceImpl).selectList(category,cPage, numPerPage);
+	
 		
 		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount();
 		
 		model.addAttribute("lList", lList).addAttribute("numPerPage", numPerPage).addAttribute("totalContents", totalContents);
 		return "lecture/lectureList";
 	}
-	
-	/*     lectureBoard */
-	//게시글 등록하기 
-	@RequestMapping(value = "/lectureDetail/")
-	public String lectureDetailList(@RequestParam int lectureNo, Model model) {
-		model.addAttribute("Blist", ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lectureNo));
+	//동영상 하나보기
+	@RequestMapping(value="/lectureBoardView")
+	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index, Model model){
+		
+		
+		Map< String, Integer> map = new HashMap<String, Integer>();
+		map.put( "lecture_board_index", lecture_board_index );
+		map.put( "lecture_index", lecture_index );
+		
+		LectureBoard bLecture = ((LectureServiceImpl)LectureServiceImpl).selectLectureView(map);
+		
+		List<LectureBoard> blist = ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);
+		
+		
+		System.out.println("bLecture="+bLecture+"blist="+blist);
+		
+		System.out.println(lecture_index);
+		
+		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
+		return "lecture/lectureView";
+	}
+	//게시글 하나보기 // 강의 리스트 가져오기
+	@RequestMapping(value="lecture/lectureDetail")
+	public String lectureDetail(@RequestParam("lecture_index") int lecture_index, Model model){
+		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
+			
+		List<LectureBoard> blist =  ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);
+	 /* List<BoardLectureAttachment> alist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment();*/
+		model.addAttribute("blist",blist).addAttribute(lecture);
+		
+		
 		return "lecture/lectureDetail";
 	}
+	@RequestMapping(value="/lecture/lecturedelete")
+	public String deleteLecture(@RequestParam int index){
+		
+		int result = ((LectureServiceImpl)LectureServiceImpl).delete(index);
+		
+	return "redirect:/lecture/lectureList";	
+	}
+	
+	/*     lectureBoard */
+
 	
 	//강의 동영상 한개 등록 처리
 	@RequestMapping(value = "/lecture/lectureBoardInsert" , method=RequestMethod.POST)
-	public  String insertLectureBoardinsert(BoardLecture boardLecture	,Model model,
+	public  String insertLectureBoardinsert(LectureBoard lectureBoard,@RequestParam("lecture_board_lecture_index") int lecture_index,Model model,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request) {
-			System.out.println("boardLecture"+boardLecture);
+			System.out.println("boardLecture"+lectureBoard);
 	
+		
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/BoardLecture");
 		
 		File dir = new File(saveDir);
@@ -132,93 +189,26 @@ public class LectureController {
 				list.add(blat);
 			}
 		}
-			int result = 0;
+			int result =0;
 			try{
-			result = ((LectureServiceImpl)LectureServiceImpl).insertBoardLeceture(boardLecture, list);
+			result = ((LectureServiceImpl)LectureServiceImpl).insertBoardLeceture(lectureBoard, list);
 			}	catch(Exception e){
 				e.printStackTrace();
 			}
-			String location = "common/_message";
 			String message = "";
 			if(result>0){
 				message="게시글 등록 성공";
-				location = "lecture/lectureDetail";
-				System.out.println("location"+location);
+				/*location = "lecture/lectureDetail"
+						+ "?lecture_index="+lecture_index;
+						?lecture_index="+lecture.getLecture_index();
+				System.out.println("location:"+location);*/
 				
 			}	else message="게시글 등록 실패";
 				
-			// 그페이지에 보내주는 역할
-			model.addAttribute("message", message).addAttribute("location", location);
 			
-		return location;
+			
+		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
 	}
-	
-/*
-	@RequestMapping("lecture/lectureView")
-	public String selectBoardOne(@RequestParam("no") int boardNo, Model model){
-		model.addAttribute("lecture", LectureServiceImpl.selectList()).addAttribute("attachmentList", LectureServiceImpl.selectList());
-		
-		return "lecture/lectureView";
-	}*/
-/*	// 게시글 파일 다운로드
-		@RequestMapping("/board/fileDownload.do")
-		   public void fileDownload(@RequestParam String oName, @RequestParam String rName,
-		                        HttpServletRequest request, HttpServletResponse response){ 
-		      
-		      //파일저장디렉토리
-		      String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/board");   
-		   
-		      BufferedInputStream bis = null;
-		      ServletOutputStream sos = null;
-		          
-		      try {
-		         sos = response.getOutputStream();
-		         File savedFile = new File(saveDirectory + "/" + rName);
-		         response.setContentType("application/octet-stream; charset=utf-8");
-
-		         // 한글파일명 처리 : 브라우져에 따른 인코딩분기
-		         String resFilename = "";
-		         boolean isMSIE = request.getHeader("user-agent").indexOf("MSIE") != -1 
-		                    || request.getHeader("user-agent").indexOf("Trident") != -1;
-		         System.out.println("isMSIE="+isMSIE);
-		         if(isMSIE){
-		            //ie는 utf-8인코딩을 명시적으로 해줌. 공백을 의미하는 +를 %20로 치환.
-		            resFilename = URLEncoder.encode(oName, "UTF-8");
-		            System.out.println("ie : "+resFilename);//ie : %EC%B7%A8+%EC%97%85+%ED%8A%B9+%EA%B0%95.txt
-		                           
-		            resFilename = resFilename.replaceAll("\\+", "%20");
-		            System.out.println("ie : "+resFilename);//ie : %EC%B7%A8%20%EC%97%85%20%ED%8A%B9%20%EA%B0%95.txt
-		         } else {
-		            resFilename = new String(oName.getBytes("UTF-8"),"ISO-8859-1");
-		            System.out.println("not ie : "+resFilename);
-		         }
-		         response.addHeader("Content-Disposition",
-		               "attachment; filename=\"" + resFilename + "\"");
-
-		         //파일크기지정
-		         response.setContentLength((int)savedFile.length());
-
-		         FileInputStream fis = new FileInputStream(savedFile);
-		         bis = new BufferedInputStream(fis);
-		         int read = 0;
-
-		         while ((read = bis.read()) != -1) {
-		            sos.write(read);
-		         }
-		         
-		      } catch (Exception e) {
-		         e.printStackTrace();
-		      } finally {
-		         
-		         try {
-		            sos.close();
-		            bis.close();
-		         } catch (IOException e) {
-		            e.printStackTrace();
-		         }
-		         
-		      }
-		}*/
 	
 
 }
