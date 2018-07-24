@@ -95,8 +95,6 @@ public class CommuController {
 			
 		}
 		
-		System.out.println("infoList!!!!!!!!!!!!!!!!!! : " + commulist);
-		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
 		List<Map<String, String>> newslist = ((CommuServiceImpl) commuServiceImpl).selectNewsList();
 		// 반환자료형이 Model이라서 붙여써도 무방하다.

@@ -99,7 +99,7 @@ if(commu_Category_Index.equals("B03"))
 				</div>
 				<br>
 				<div class="form-group">
-					<label>해쉬태그<label>
+					<label>해쉬태그</label>
 				</div>
 				<br>
 				<div class="form-group">
