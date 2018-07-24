@@ -80,9 +80,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public LectureBoard selectLectureView(Map<String, Integer> map) {
 		return sqlSession.selectOne("lecture.selectLectureView",map);
 	}
-	
 
-	
-	
+
+	public List<Map<String, Object>> selectAttachment(int lecture_index) {
+		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
+	}
 	
 }

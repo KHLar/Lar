@@ -7,17 +7,7 @@
 <c:import url="/WEB-INF/views/common/_header.jsp">
 	<c:param value="강의 리스트" name="pageTitle" />
 </c:import>
-<script>
-	/* $(function(){
-		  $(document).click("#Detail",function(){
-		      var lecture_index = $("#index").val;
-		      console.log("lecture_index="+lecture_index);  
-		      location.href = "${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index="+lecture_index;
-		   });
-	}); */
-	
 
-</script>
 </header>
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
@@ -31,12 +21,8 @@
 <br>
 <br>
 <div class="container">
-
 	<div class="row">
-	
-
 		<div class="col-lg-3">
-
 			<ul class="list-group">
 				<li class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
@@ -121,9 +107,3 @@
 <script
 	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />
-<a href="#" class="list-group-item list-primary" data-toggle="collapse"
-	data-target="#body">카테고리</a>
-
-
-
-

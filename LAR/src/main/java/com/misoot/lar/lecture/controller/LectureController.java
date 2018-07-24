@@ -127,18 +127,19 @@ public class LectureController {
 		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
 		return "lecture/lectureView";
 	}
+	
 	//게시글 하나보기 // 강의 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
 	public String lectureDetail(@RequestParam("lecture_index") int lecture_index, Model model){
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
-			
-		List<LectureBoard> blist =  ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);
-	 /* List<BoardLectureAttachment> alist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment();*/
-		model.addAttribute("blist",blist).addAttribute(lecture);
 		
+	    List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
+		model.addAttribute("blist",blist).addAttribute(lecture);
+		System.out.println("blist"+blist);
 		
 		return "lecture/lectureDetail";
 	}
+	
 	@RequestMapping(value="/lecture/lecturedelete")
 	public String deleteLecture(@RequestParam int index){
 		
@@ -198,10 +199,6 @@ public class LectureController {
 			String message = "";
 			if(result>0){
 				message="게시글 등록 성공";
-				/*location = "lecture/lectureDetail"
-						+ "?lecture_index="+lecture_index;
-						?lecture_index="+lecture.getLecture_index();
-				System.out.println("location:"+location);*/
 				
 			}	else message="게시글 등록 실패";
 				
@@ -212,11 +209,3 @@ public class LectureController {
 	
 
 }
-	
-	
-
-
-
-
-
-

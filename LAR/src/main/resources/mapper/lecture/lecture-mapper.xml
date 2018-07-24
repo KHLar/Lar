@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lecture">
-	
 	<!-- TABLE_LECTURE  -->
 	<insert id="insertLecture">
 		INSERT INTO TABLE_LECTURE VALUES(
@@ -44,7 +43,7 @@
 	</update>
 	
 	<!-- TABLE_LECTURE_BOARD  -->	
-	<insert  id="insertLectureBoardinsert">
+	<insert id="insertLectureBoardinsert">
 		<selectKey keyProperty="lecture_board_index" resultType="_int" order="AFTER">
 			SELECT seq_lecture_board_index.currval FROM DUAL
 		</selectKey>
@@ -52,9 +51,9 @@
 	</insert>
 	
 	<insert id="insertLectureBoardAttachment">
-		<!-- <selectKey keyProperty="lecture_board_index" resultType="_int" order="BEFORE">
+		 <!-- <selectKey keyProperty="lecture_board_index" resultType="_int" order="BEFORE">
 			seq_lecture_board_index.CURRVAL FROM DUAL
-		</selectKey> -->
+		</selectKey> --> 
 		 INSERT INTO TABLE_LECTURE_ATTACH VALUES(
     		SEQ_LECTURE_ATTACH_INDEX.nextval,#{lecture_attach_board_index},#{lecture_attach_originfilename},#{lecture_attach_renamedfilename},SYSDATE)
     </insert>
@@ -73,8 +72,10 @@
 	  where LECTURE_BOARD_LECTURE_INDEX = #{lecture_index} order by LECTURE_BOARD_INDEX
 	</select>
 	
-	<select  id="selectLectureBoardAttachmentList" parameterType="_int">
-		 select * from table_lecture_attach where LECTURE_BOARD_LECTURE_INDEX = #{lecture_board_index}
+	<select  id="selectLectureBoardAttachmentList" parameterType="_int" resultType="hashmap">
+		SELECT * FROM TABLE_LECTURE_BOARD 
+		LEFT JOIN TABLE_LECTURE_ATTACH ON(LECTURE_BOARD_INDEX = LECTURE_ATTACH_BOARD_INDEX)
+		LEFT JOIN TABLE_LECTURE ON(LECTURE_INDEX = LECTURE_BOARD_LECTURE_INDEX) WHERE LECTURE_INDEX =#{lecture_index}
 	</select>
 	
 	<select  id="selectLectureView" resultType="LectureBoard" parameterType="_int">

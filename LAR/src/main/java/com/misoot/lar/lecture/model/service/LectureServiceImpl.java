@@ -57,16 +57,16 @@ public class LectureServiceImpl implements LarService<Lecture> {
 			result = ((LectureDaoImpl)lectureDaoImpl).insertBoardLeceture(lectureBoard);
 			// if(result==0) ;
 			// mapper를 다녀온 Board 객체가 boardNo를 가져온다.
-				lecture_board_index = lectureBoard.getLecture_board_lecture_index();
+			lecture_board_index = lectureBoard.getLecture_board_index();
+			
 			System.out.println("lecture_board_index 확인 : "+lecture_board_index);
 			System.out.println("List Size : " + list.size());
 			System.out.println("result 값 확인" +result);
+			
 			if(list.size()>0){
 				for(BoardLectureAttachment a : list){
 					a.setLecture_attach_board_index(lecture_board_index);
 					result = ((LectureDaoImpl)lectureDaoImpl).insertLectureAttachment(a);
-					
-					/*if(result==0); */
 				}
 			}
 		} catch (Exception e) {
@@ -94,12 +94,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).selectLectureView(map);
 	}
 
-	public List<BoardLectureAttachment> selectAttachment() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> selectAttachment(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
 	}
-
-
-	
 
 }
