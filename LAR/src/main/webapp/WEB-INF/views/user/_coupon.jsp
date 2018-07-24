@@ -45,19 +45,30 @@
     </table>
     
     <script>
-   		function send_to_parent(name,idx, inf){
+   		function send_to_parent(name,idx, inf){    		    		    		
     		opener.document.getElementById('coupon').value = name;
     		opener.document.getElementById('couponidx').value = idx;
+    		var discount = 0;
     		
     		if(inf.substring(inf.length-1, inf.length) == '%') {
-    			inf = opener.document.getElementById('totalprice').textContent * (inf.substring(0,inf.length-1)/100);
+    			discount = opener.document.getElementById('totalprice').textContent * (inf.substring(0,inf.length-1)/100);
     		} else {
-    			inf = inf.substring(0,inf.length-1);
+    			discount = inf.substring(0,inf.length-1);
     		}
-    		opener.document.getElementById('discount').textContent = inf;
-    		opener.document.getElementById('afterdiscount').textContent = opener.document.getElementById('totalprice').textContent - inf;
+    		opener.document.getElementById('discount').textContent = discount;
+    		opener.document.getElementById('afterdiscount').textContent = opener.document.getElementById('totalprice').textContent - discount;
     		
-    		window.close();
+    		$.ajax({
+    			url:'${pageContext.request.contextPath}/purchase/priceInfSecurity',
+    			type:'post',
+    			dataType:'text',
+    			async: true,
+    			data: {
+    				'couponinf': inf
+    			}, success : function(){
+    				window.close();	
+    			}
+    		});   		
     	}
     </script>
 	

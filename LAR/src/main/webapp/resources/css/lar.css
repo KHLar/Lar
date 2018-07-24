@@ -145,6 +145,14 @@ a {
 	margin-left: 40px;
 }
 
+.tabs {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	margin: 1em 0 2em;
+	font-weight: 300;
+}
+
 /* myLecture */
 .wrapMyLecture a:link {
 	color: black;

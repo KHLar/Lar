@@ -333,18 +333,24 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/purchase")
-	public String purchaseList(@RequestParam("radio") String[] check, Model model) {
+	public String purchaseList(@RequestParam("radio") String[] check, Model model, HttpServletRequest request) {
 		List<Map<String, Object>> plist = ((UserServiceImpl)userServiceImpl).purchaseList(check);
-	      
+	    int price = 0;
+	    
 		Utils util = new Utils();
 	      
 		for(Map<String, Object> list : plist) {
 			for ( String key : list.keySet() ) {
 				if(key.equals("LECTURE_INTRO")) {
 					list.put(key, util.convertClobToString((Clob)list.get(key)));
+				} else if(key.equals("LECTURE_PRICE")) {
+					price += Integer.parseInt(String.valueOf(list.get(key)));
 				}
 			}
 		}
+		
+		request.getSession().setAttribute("session_price", price);
+		request.getSession().setAttribute("session_before_price", price);
 	    
 		model.addAttribute("pchList",plist);
 		return "user/purchase";
@@ -356,6 +362,37 @@ public class UserController {
 		
 		model.addAttribute("coupon",coupon);
 		return "user/_coupon";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/purchase/returnprice")
+	public Object returnprice(HttpServletRequest request) {
+		return request.getSession().getAttribute("session_before_price");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/purchase/priceInfSecurity", method={RequestMethod.GET, RequestMethod.POST})
+	public void priceInfSecurity(@RequestParam(value="couponinf", required = false) String couponinf, HttpServletRequest request) {
+		
+		int price = (int) request.getSession().getAttribute("session_price");
+		int subcouponinf = Integer.parseInt(couponinf.substring(0, couponinf.length()-1));
+		
+		System.out.println(couponinf.charAt(couponinf.length()-1));
+		System.out.println(subcouponinf);
+		
+		System.out.println((price)*((double)subcouponinf/100.0));
+		
+		if(couponinf.charAt(couponinf.length()-1) == '%') {
+			price = (int)(price - (price * ((double)subcouponinf / 100.0 )));
+		} else {
+			price = price - subcouponinf;
+		}
+		
+		System.out.println(price);
+		
+		request.getSession().setAttribute("session_before_price", price);
+		
+		return;
 	}
 	
 	@RequestMapping(value = "/mypage")
