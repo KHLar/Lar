@@ -101,6 +101,9 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).myCoupontList(user_index);
 	}
 
+	public int deleteWishList(Map<String, Object> checkList) {
+		return ((UserDaoImpl)userDaoImpl).deleteWishList(checkList);
+	}
 	/*
 	 * My page end
 	 */

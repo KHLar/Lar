@@ -1,40 +1,37 @@
-package com.misoot.lar.community.model.dao;
+package com.misoot.lar.common.sockJS.model.dao;
 
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.misoot.lar.common.interfaces.LarDao;
-import com.misoot.lar.community.model.vo.Community;
+import com.misoot.lar.common.sockJS.model.vo.Inquire;
 
 @Repository
-public class CommunityDaoImpl implements LarDao<Community> {
-
+public class InquireDaoImpl implements LarDao<Inquire>{
+	
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+
 	@Override
-	public Community selectOne(int index) {
-		// TODO Auto-generated method stub
+	public Inquire selectOne(int index) {
 		return null;
 	}
 
 	@Override
-	public List<Community> selectList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Inquire> selectList() {
+		return sqlSession.selectList("inquire.selectUserInquireList");
 	}
 
 	@Override
-	public int insert(Community t) {
+	public int insert(Inquire t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(Community t) {
+	public int update(Inquire t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -44,5 +41,6 @@ public class CommunityDaoImpl implements LarDao<Community> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
-import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.service.UserServiceImpl;
 import com.misoot.lar.user.model.vo.User;
 
@@ -184,19 +184,37 @@ public class UserController {
 		pagingInf.put("tab", "QnAList");
 		pagingInf.put("qnaTotalCnt",((UserServiceImpl) userServiceImpl).myPageTotalCnt(pagingInf));
 		
-		model.addAttribute("llist", llist)
-			.addAttribute("wlist", wlist)
-			.addAttribute("qnalist", qnalist)
-			.addAttribute("plist", plist)
-			.addAttribute("clist", couponlist)
+		Map<String, Object> mypageList = new HashMap<String, Object>();
+		
+		mypageList.put("llist", llist);
+		mypageList.put("wlist", wlist);
+		mypageList.put("qnalist", qnalist);
+		mypageList.put("plist", plist);
+		mypageList.put("clist", couponlist);
+		
+		model.addAttribute("mypageList", mypageList)
 			.addAttribute("numPerPage", numPerPage)
 			.addAttribute("pagingInf", pagingInf);
 		
 		return "user/mypage";
 	}
 	
-	@RequestMapping("/mypage/deleteWishList")
-	public String deleteWishList(){
-		return "redirect:/mypage";
+	@ResponseBody
+	@RequestMapping(value="/mypage/deleteWishList", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Map<String, Object> deleteWishList(@ModelAttribute("session_user") User user, 
+								 @RequestParam(value="checkArr[]") List<Integer> checkArr){
+		
+		Map<String, Object> checkList = new HashMap<String, Object>();
+		
+		checkList.put("userIdx", user.getUser_index());
+		checkList.put("wishList", checkArr);
+		
+		int result = ((UserServiceImpl) userServiceImpl).deleteWishList(checkList);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("result", true);
+		data.put("href", "/mypage");
+		
+		return data;
 	}
 }

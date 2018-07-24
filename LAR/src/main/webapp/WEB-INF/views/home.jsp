@@ -57,18 +57,15 @@
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10">
 			<div class="row">
-				<div class="main-newlecture">
+				<div class="main-newlecture" style="margin-bottom: 10px;">
 					<h3>신규 강좌</h3>
 					<div class="row">
 						<c:forEach var="i" begin="1" end="8" step="1">
 							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 								<div class="thumbnail container-fluid">
-									<img src="http://placehold.it/500x250/EEE">
+									<img src="http://placehold.it/500x500/EEE">
 									<div class="caption">
-										<h5>Thumbnail label</h5>
-										<p>
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-										</p>
+										<h4>Thumbnail label</h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -85,12 +82,9 @@
 						<c:forEach var="i" begin="1" end="8" step="1">
 							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 								<div class="thumbnail container-fluid">
-									<img src="http://placehold.it/500x250/EEE">
+									<img src="http://placehold.it/500x500/EEE">
 									<div class="caption">
-										<h5>Thumbnail label</h5>
-										<p>
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-										</p>
+										<h4>Thumbnail label</h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -103,4 +97,5 @@
 				</div>
 			</div>
 		</div>
+		      
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />

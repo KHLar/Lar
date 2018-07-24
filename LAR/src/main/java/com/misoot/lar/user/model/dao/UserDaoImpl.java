@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.common.interfaces.LarDao;
-import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -107,7 +106,10 @@ public class UserDaoImpl implements LarDao<User> {
 	public List<Map<String, String>> myCoupontList(int user_index) {
 		return sqlSession.selectList("user.myCouponList", user_index);
 	}
-	
+
+	public int deleteWishList(Map<String, Object> checkList) {
+		return sqlSession.delete("user.deleteWishList",checkList);
+	}
 	/*
 	 * My page end
 	 */

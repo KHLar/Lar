@@ -9,21 +9,37 @@
 </c:import>
 
 <script>
-	$(document).ready(function() {
-	    if (location.hash) {
-	        $("a[href='" + location.hash + "']").tab("show");
-	    }
-	    $(document.body).on("click", "a[data-toggle]", function(event) {
-	        location.hash = this.getAttribute("href");
-	    });
-	});
-	$(window).on("popstate", function() {
-	    var anchor = location.hash || $("a[data-toggle='tab']").first().attr("href");
-	    $("a[href='" + anchor + "']").tab("show");
-	});
+	$('.mypageTab a').click(function (e) {
+	    e.preventDefault();
+	    $(this).tab('show');
+	})
+	
+	function checkboxArr() {
+		var checkArr = [];
+		
+		$("input[name='wishIndex']:checked").each(function(i) {
+			checkArr.push($(this).val());
+		});
+		
+		$.ajax({
+			url:'${pageContext.request.contextPath}/mypage/deleteWishList',
+			type:'post',
+			dataType:'json',
+			data: {
+				'checkArr': checkArr
+			}, success : function(data){
+				if (data.result) {
+					location.href = '${pageContext.request.contextPath}'+data.href;
+				} else {
+					alert('뭔가 잘못됐어~~~');
+				}
+			}
+		});
+	}
 </script>
 
 </header>
+</div>
 
 <% 
 	HashMap<String, Object> pagingInf = (HashMap<String, Object>)(request.getAttribute("pagingInf"));					
@@ -47,7 +63,7 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-10 col-md-10 col-sm-10">
+		<div class="col-lg-10 col-md-10 col-sm-10" style="margin-bottom: 100px;">
 			<div class="row" style="width: 100%">
 				<div class="panel panel-default"
 					style="margin-bottom: 5px; margin-left: 10px;">
@@ -82,32 +98,32 @@
 						<div class="" id="bs-example-navbar-collapse-1" style="margin-left: 50px;">
 							<ul class="nav navbar-nav myTab mypageTab" role="tablist" style="border-top: 0.03em solid #fed136; width: 100%;">
 								<li role="presentation" class="active">
-									<a class="myLecture" href="#wrapMyLecture" id="myLecture" data-toggle="tab">
+									<a class="myLecture" data-target="#wrapMyLecture" id="myLecture" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
 								<li role="presentation">
-									<a class="QnAList" href="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
+									<a class="QnAList" data-target="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
 								<li role="presentation">
-									<a class="wishList" href="#wrapWishList" id="wishList" data-toggle="tab">
+									<a class="wishList" data-target="#wrapWishList" id="wishList" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;위시리스트&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
 								<li role="presentation">
-									<a class="paymentList" href="#wrapPaymentList" id="paymentList" data-toggle="tab">
+									<a class="paymentList" data-target="#wrapPaymentList" id="paymentList" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
 								<li role="presentation">
-									<a class="couponList" href="#wrapCoupon" id="couponList" data-toggle="tab">
+									<a class="couponList" data-target="#wrapCoupon" id="couponList" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
 								<li role="presentation">
-									<a class="alarm" href="#wrapAlarm" id="alarm" data-toggle="tab">
+									<a class="alarm" data-target="#wrapAlarm" id="alarm" data-toggle="tab">
 										&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp;
 									</a>
 								</li>
@@ -120,7 +136,7 @@
 			<div class="mypageBody tab-content">
 				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
 					<h3>나의 강의</h3>
-					<c:forEach  items="${llist}" var="mylecture">
+					<c:forEach  items="${mypageList.llist}" var="mylecture">
 						<input type="hidden" id="lIndex" value="${mylecture.lecture_index}"/>
 						<div class="well">
 							<div class="media">
@@ -167,7 +183,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${qnalist}" var="qnalist">
+							<c:forEach items="${mypageList.qnalist}" var="qnalist">
 								<tr>
 									<td>${qnalist.LECTURE_TITLE}</td>
 									<td>${qnalist.LECTURE_Q_TITLE}</td>
@@ -195,18 +211,17 @@
 						<button type="button" class="btn btn-danger deleteWishList" style="border: none">
 							<span class="glyphicon glyphicon-trash"></span>삭제하기
 						</button>
-						<button type="submit" class="btn btn-success cancelDeleteWishList" style="border: none; display: none">
+						<button type="button" class="btn btn-success cancelDeleteWishList" onclick="checkboxArr();" style="border: none; display: none">
 							<span class="glyphicon glyphicon-ok"></span>선택완료
 						</button>
 					</div>
 					<br><br>
 					<table class="table">
-						<c:forEach items="${wlist}" var="wishList">
-						<input type="hidden" id="wIndex" value="${wishList.lecture_index}"/>
+						<c:forEach items="${mypageList.wlist}" var="wishList">
 							<tr>
 								<td class="deleteCkbox" style="display: none">
 									<div class="ckbox">
-										<input type="checkbox" name="lectureIndex" id="checkbox${wishList.lecture_index}" value="${wishList.lecture_index}"> 
+										<input type="checkbox" name="wishIndex" id="checkbox${wishList.lecture_index}" value="${wishList.lecture_index}"> 
 										<label for="checkbox${wishList.lecture_index}"></label>
 									</div>
 								</td>
@@ -247,7 +262,7 @@
 							<th style="width: 25%; text-align: center;">사용쿠폰</th>
 							<th style="width: 10%; text-align: center;">결제금액</th>
 						</tr>
-						<c:forEach items="${plist}" var="plist">
+						<c:forEach items="${mypageList.plist}" var="plist">
 							<tr>
 								<td class="paymentDate" style="text-align: center;">${plist.PURCHASE_DATE}</td>
 								<td style="text-align: center;">
@@ -284,7 +299,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${clist}" var="clist">
+							<c:forEach items="${mypageList.clist}" var="clist">
 								<c:if test="${clist.USER_COUPON_USED_DATE eq null}">
 								<tr class="">
 									<td>${clist.USER_COUPON_GIVEN_DATE}</td>
@@ -306,7 +321,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${clist}" var="clist">
+							<c:forEach items="${mypageList.clist}" var="clist">
 								<c:if test="${clist.USER_COUPON_USED_DATE ne null}">
 								<tr class="">
 									<td>${clist.USER_COUPON_USED_DATE}</td>

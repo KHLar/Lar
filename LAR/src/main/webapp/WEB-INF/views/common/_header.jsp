@@ -62,8 +62,8 @@
 						<a href="/lar/lecture/recommanded">추천 강좌</a>
 					</li>
 					<li class="dropdown mega-dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">분류별</a>
-						<ul class="mobile-dropdown">
+						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button">분류별<span class="caret"></span></a>
+						<ul class="dropdown-menu mobile-dropdown" aria-labelledby="lecture-dropdown"">
 							<li><a>Web</a></li>
 							<li><a>Android</a></li>
 							<li><a>Database</a></li>
