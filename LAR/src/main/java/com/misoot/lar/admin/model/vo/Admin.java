@@ -15,4 +15,9 @@ public class Admin extends com.misoot.lar.user.model.vo.User implements java.io.
 	public int hashCode() {
 		return super.hashCode();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}	
 }
