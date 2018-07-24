@@ -8,10 +8,12 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -55,47 +57,49 @@ public class CommuController {
 		int numPerPage = 10; // 한 페이지 당 게시글 수
 		List<Map<String, String>> commulist;
 		List<Map<String, String>> infolist;
-		/*System.out.println("commucPage : "+commucPage);
-		System.out.println("infocPage : "+infocPage);*/
+		/*
+		 * System.out.println("commucPage : "+commucPage);
+		 * System.out.println("infocPage : "+infocPage);
+		 */
 		int commuTotalContents;
 		int infoTotalContents;
-		if (commuSearchType.equals("Ctitle")&&!commuSearchText.equals("")) {
+		if (commuSearchType.equals("Ctitle") && !commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTitle(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsTitle(commuSearchText);
-			
-		} else if (commuSearchType.equals("Cwriter")&&!commuSearchText.equals("")) {
+
+		} else if (commuSearchType.equals("Cwriter") && !commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchWriter(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
-		}  else if (commuSearchType.equals("tags")&&!commuSearchText.equals("")) {
+		} else if (commuSearchType.equals("tags") && !commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTags(commucPage, numPerPage,
 					commuSearchText);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
-			
+
 		} else {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuList(commucPage, numPerPage);
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContents();
 		}
-		
-		if (infoSearchType.equals("Ititle")&&!infoSearchText.equals("")) {
+
+		if (infoSearchType.equals("Ititle") && !infoSearchText.equals("")) {
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchTitle(infocPage, numPerPage,
 					infoSearchText);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsTitle(infoSearchText);
-			
-		} else if (infoSearchType.equals("Iwriter")&&!infoSearchText.equals("")) {
+
+		} else if (infoSearchType.equals("Iwriter") && !infoSearchText.equals("")) {
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchWriter(infocPage, numPerPage,
 					infoSearchText);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsWriter(infoSearchText);
-			
+
 		} else {
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoList(infocPage, numPerPage);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContents();
-			
+
 		}
-		
+
 		System.out.println("infoList!!!!!!!!!!!!!!!!!! : " + commulist);
-		
+
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
 		List<Map<String, String>> newslist = ((CommuServiceImpl) commuServiceImpl).selectNewsList();
 		// 반환자료형이 Model이라서 붙여써도 무방하다.
@@ -104,30 +108,55 @@ public class CommuController {
 		model.addAttribute("noticeList", noticelist);
 		model.addAttribute("commuSearchType", commuSearchType);
 		model.addAttribute("commuSearchText", commuSearchText);
-		model.addAttribute("infolist",infolist);
-		model.addAttribute("infoTotalContents",infoTotalContents);
+		model.addAttribute("infolist", infolist);
+		model.addAttribute("infoTotalContents", infoTotalContents);
 		model.addAttribute("infoSearchType", infoSearchType);
 		model.addAttribute("infoSearchText", infoSearchText);
-		model.addAttribute("infoNumPerPage",numPerPage);
-		model.addAttribute("infocPage",infocPage);
-		model.addAttribute("commucPage",commucPage);
-		model.addAttribute("newslist",newslist);
-		
+		model.addAttribute("infoNumPerPage", numPerPage);
+		model.addAttribute("infocPage", infocPage);
+		model.addAttribute("commucPage", commucPage);
+		model.addAttribute("newslist", newslist);
+
 		return "commu/commuMain";
 
 	}
 
-	// 게시글 한개 보기
-	@RequestMapping("/commu/commuView")
-	public String selectCommuOne(@RequestParam("no") int commuNo, Model model) {
+	@RequestMapping("/commu/commuView/{no}")
+	public String selectCommuOne(HttpServletResponse response, HttpServletRequest request, @PathVariable("no") int no,
+			Model model) {
+		// 저장된 쿠키 불러오기
+		Cookie cookies[] = request.getCookies();
+		System.out.println(cookies);
+		Map mapCookie = new HashMap<>();
+		if (request.getCookies() != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				mapCookie.put(cookies[i].getName(), cookies[i].getValue());
+			}
+		}
+		// 저장된 쿠키중에 read_count 만 불러오기
+		String cookie_read_count = (String) mapCookie.get("read_count");
+		System.out.println(cookie_read_count);
+		// 저장될 새로운 쿠키값 생성
+		String new_cookie_read_count = "|" + no;
+		// 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사
+		if (cookie_read_count == null)
+			cookie_read_count = "";
+		// if(StringUtils.indexOfIgnoreCase(cookie_read_count,
+		// new_cookie_read_count)==-1) {
+		if (cookie_read_count.contains(new_cookie_read_count)) {
+			// 없을 경우 쿠키 생성
+			Cookie cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count);
+			// cookie.setMaxAge(1000); // 초단위
+			response.addCookie(cookie); // 조회수 업데이트
+			int increase = ((CommuServiceImpl) commuServiceImpl).IncreaseCommu(no);
+			if (increase > 0)
+				System.out.println("증가 성공!");
+		}
 
-		int increase = ((CommuServiceImpl) commuServiceImpl).IncreaseCommu(commuNo);
-		if (increase > 0)
-			System.out.println("증가 성공!");
-		model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne((commuNo)))
-				.addAttribute("attachmentList", ((CommuServiceImpl) commuServiceImpl).selectAttachmentList((commuNo)));
+		model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(no));
+		model.addAttribute("attachmentList", ((CommuServiceImpl) commuServiceImpl).selectAttachmentList(no));
 
-		List<CommuReply> list = ((CommuReplyServiceImpl) commuReplyServiceImpl).selectCommuReplyList(commuNo);
+		List<CommuReply> list = ((CommuReplyServiceImpl) commuReplyServiceImpl).selectCommuReplyList(no);
 		for (CommuReply cReply : list) {
 			if (cReply.getCommu_Reply_Is_Deleted() == 1) {// 댓글 삭제된거
 				cReply.setCommu_Reply_Content("삭제된 댓글입니다.");
@@ -143,29 +172,27 @@ public class CommuController {
 
 	// 게시글 한 개 등록 페이지
 	@RequestMapping("/commu/commuForm/{commu_Category_Index}")
-	public String commuForm(@PathVariable("commu_Category_Index") String commu_Category_Index,Model model) {
-		model.addAttribute("commu_Category_Index",commu_Category_Index);
+	public String commuForm(@PathVariable("commu_Category_Index") String commu_Category_Index, Model model) {
+		model.addAttribute("commu_Category_Index", commu_Category_Index);
 		return "commu/commuForm";
 	}
 
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
-	public String insertBoard(
-			@RequestParam("commu_Category_Index") String commu_Category_Index,
-			@RequestParam("commu_Title") String commu_Title,
-			@RequestParam("commu_Content") String commu_Content,
-			@RequestParam("result") String commu_tag,
-			@RequestParam("commu_Writer_Index") int commu_Writer_Index,
+	public String insertBoard(@RequestParam("commu_Category_Index") String commu_Category_Index,
+			@RequestParam("commu_Title") String commu_Title, @RequestParam("commu_Content") String commu_Content,
+			@RequestParam("result") String commu_tag, @RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
 			Model model) {
-		
-		//---------------------------------------//
-		
-		//---------------------------------------//
-		/*System.out.println(commu_Category_Index);
-		  System.out.println(commu_Title); 
-		  System.out.println(commu_Content);
-		  System.out.println(commu_Writer_Index);
-		  System.out.println("컨트롤러 태그 확인 : "+commu_tag);*/
+
+		// ---------------------------------------//
+
+		// ---------------------------------------//
+		/*
+		 * System.out.println(commu_Category_Index);
+		 * System.out.println(commu_Title); System.out.println(commu_Content);
+		 * System.out.println(commu_Writer_Index);
+		 * System.out.println("컨트롤러 태그 확인 : "+commu_tag);
+		 */
 		Commu commu = new Commu();
 		commu.setCommu_Title(commu_Title);
 		commu.setCommu_Content(commu_Content);
@@ -180,7 +207,7 @@ public class CommuController {
 		System.out.println(saveDir);
 		String loc = "/commu/commuMain";
 		String msg = "";
-		
+
 		// 만약 현재 저장하려는 경로에 폴더가 없다면 만들겠습니다.
 		if (!dir.exists())
 			System.out.println("dir.mkdirs() = " + dir.mkdirs());
@@ -192,12 +219,12 @@ public class CommuController {
 				// 파일명 재생성하여 원본 파일과 매칭 시키기
 				String originFileName = f.getOriginalFilename();
 				String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
-				if(commu_Category_Index.equals("B03")){
-					if(ext.equals("jpg")||ext.equals("JPG")||ext.equals("png")||ext.equals("PNG")){
-						
-					}else{
-						loc="/commu/commuForm/B03";
-						msg="이미지파일만 첨부 가능합니다..";
+				if (commu_Category_Index.equals("B03")) {
+					if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG")) {
+
+					} else {
+						loc = "/commu/commuForm/B03";
+						msg = "이미지파일만 첨부 가능합니다..";
 						model.addAttribute("loc", loc).addAttribute("msg", msg);
 
 						return "common/msg";
@@ -232,7 +259,6 @@ public class CommuController {
 			throw new CommuException("게시글 등록 실패!");
 		}
 
-		
 		if (result > 0)
 			msg = "게시글 등록 성공!";
 		else {
@@ -243,11 +269,10 @@ public class CommuController {
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 
 		return "common/msg";
-		
+
 		/* 해쉬태그 */
-		
+
 	}
-	
 
 	// 게시글 파일 다운로드
 	@RequestMapping("/commu/fileDownload")
@@ -298,7 +323,7 @@ public class CommuController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		} finally {
 
 			try {
@@ -354,10 +379,9 @@ public class CommuController {
 			msg += "대댓글 등록 성공!";
 		else
 			msg += "대댓글 등록 실패!";
-		/*if (upResult > 0)
-			msg += "대댓글 업뎃 성공!";
-		else
-			msg += "대댓글 업뎃 실패!";*/
+		/*
+		 * if (upResult > 0) msg += "대댓글 업뎃 성공!"; else msg += "대댓글 업뎃 실패!";
+		 */
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 
 		return "common/msg";
@@ -383,20 +407,20 @@ public class CommuController {
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 		return "common/msg";
 	}
-	@RequestMapping(value="/commu/commuDelete/{user_index}")
-	public String commuDelete(@PathVariable("user_index") String  user_index, Model model){
-		
-		//String loc="";
-		//String msg="";
-		int commuDelete=((CommuServiceImpl) commuServiceImpl).deleteCommu(user_index);
-		if(commuDelete>0){
+
+	@RequestMapping(value = "/commu/commuDelete/{user_index}")
+	public String commuDelete(@PathVariable("user_index") String user_index, Model model) {
+
+		// String loc="";
+		// String msg="";
+		int commuDelete = ((CommuServiceImpl) commuServiceImpl).deleteCommu(user_index);
+		if (commuDelete > 0) {
 			System.out.println("삭제성공");
-		}else{
+		} else {
 			System.out.println("삭제실패");
 		}
-		
-		
+
 		return "redirect:/commu/commuMain";
 	}
-	
+
 }
