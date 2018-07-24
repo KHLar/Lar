@@ -50,9 +50,20 @@ $(function(){
    
 });
 </script>
-<% 
-String commucPageTemp = request.getParameter("commucPage");
-%>
+<c:set var="req" value="" />
+<c:if test="${commu_Category_Index eq 'B03'}">
+<c:set var="req" value="required" />
+</c:if>
+<%-- <% 
+String aa=(String) request.getParameter("bb");
+String commu_Category_Index = (String)request.getParameter("commu_Category_Index");
+System.out.println(commu_Category_Index);
+System.out.println(aa);
+String re="";
+if(commu_Category_Index.equals("B03"))
+	re="required";
+
+%> --%>
 </head>
 <body>
 
@@ -84,7 +95,7 @@ String commucPageTemp = request.getParameter("commucPage");
                     </div>
                     <div class="form-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple >
+                          <input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req }>
                         </div>
                       </div>
                      <div class="form-group">
@@ -96,6 +107,7 @@ String commucPageTemp = request.getParameter("commucPage");
                 <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: right">
                     <button type="submit" class="btn btn-primary" onclick="funcNote();">작성완료</button>
                 </div>
+                
                 <input type="hidden" id="commu_Category_Index" name="commu_Category_Index" value="${commu_Category_Index}" />
                 <input type="hidden" id="commu_Content" name="commu_Content">
                <input type="hidden" id="commu_Writer_Index" name="commu_Writer_Index" value="${session_user.user_index}">

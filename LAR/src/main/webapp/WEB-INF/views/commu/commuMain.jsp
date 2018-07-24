@@ -363,8 +363,7 @@ td {
 							function() {
 								var no = $(this).parent().children().eq(0)
 										.text();
-								location.href = "${pageContext.request.contextPath}/commu/commuView?no="
-										+ no;
+								location.href = "${pageContext.request.contextPath}/commu/commuView/"+ no;
 							});
 			$('.infoContent')
 			.mouseenter(function() {
@@ -376,8 +375,7 @@ td {
 					function() {
 						var no = $(this).parent().children().eq(0)
 								.text();
-						location.href = "${pageContext.request.contextPath}/commu/commuView?no="
-								+ no;
+						location.href = "${pageContext.request.contextPath}/commu/commuView/"+ no;
 					});
 		});
 		
