@@ -86,8 +86,36 @@ public class User implements java.io.Serializable {
 		this.user_phone = user_phone;
 	}
 
+	public int getUser_level() {
+		return user_level;
+	}
+
+	public void setUser_level(int user_level) {
+		this.user_level = user_level;
+	}
+
 	public boolean isUser_is_secession() {
 		return user_is_secession;
+	}
+
+	public void setUser_is_secession(boolean user_is_secession) {
+		this.user_is_secession = user_is_secession;
+	}
+
+	public int getUser_try_signin_count() {
+		return user_try_signin_count;
+	}
+
+	public void setUser_try_signin_count(int user_try_signin_count) {
+		this.user_try_signin_count = user_try_signin_count;
+	}
+
+	@Override
+	public String toString() {
+		return "User [user_index=" + user_index + ", user_id=" + user_id + ", user_password=" + user_password
+				+ ", user_nickname=" + user_nickname + ", user_enrolled_date=" + user_enrolled_date + ", user_phone="
+				+ user_phone + ", user_level=" + user_level + ", user_is_secession=" + user_is_secession
+				+ ", user_try_signin_count=" + user_try_signin_count + "]";
 	}
 
 	@Override
@@ -98,6 +126,7 @@ public class User implements java.io.Serializable {
 		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		result = prime * result + user_index;
 		result = prime * result + (user_is_secession ? 1231 : 1237);
+		result = prime * result + user_level;
 		result = prime * result + ((user_nickname == null) ? 0 : user_nickname.hashCode());
 		result = prime * result + ((user_password == null) ? 0 : user_password.hashCode());
 		result = prime * result + ((user_phone == null) ? 0 : user_phone.hashCode());
@@ -128,6 +157,8 @@ public class User implements java.io.Serializable {
 			return false;
 		if (user_is_secession != other.user_is_secession)
 			return false;
+		if (user_level != other.user_level)
+			return false;
 		if (user_nickname == null) {
 			if (other.user_nickname != null)
 				return false;
@@ -146,25 +177,5 @@ public class User implements java.io.Serializable {
 		if (user_try_signin_count != other.user_try_signin_count)
 			return false;
 		return true;
-	}
-
-	public void setUser_is_secession(boolean user_is_secession) {
-		this.user_is_secession = user_is_secession;
-	}
-
-	public int getUser_try_signin_count() {
-		return user_try_signin_count;
-	}
-
-	public void setUser_try_signin_count(int user_try_signin_count) {
-		this.user_try_signin_count = user_try_signin_count;
-	}
-
-	@Override
-	public String toString() {
-		return "User [user_index=" + user_index + ", user_id=" + user_id + ", user_password=" + user_password
-				+ ", user_nickname=" + user_nickname + ", user_enrolled_date=" + user_enrolled_date + ", user_phone="
-				+ user_phone + ", user_level=" + user_level + ", user_is_secession=" + user_is_secession
-				+ ", user_try_signin_count=" + user_try_signin_count + "]";
-	}
+	}	
 }
