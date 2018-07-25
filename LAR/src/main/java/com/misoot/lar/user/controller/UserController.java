@@ -44,8 +44,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value="/user/idDuplicateCheck", method=RequestMethod.POST)
-	public boolean idDuplicateCheck(@RequestParam("value") String user_id) {
-		
+	public boolean idDuplicateCheck(@RequestParam("value") String user_id) {	
 		System.out.println(user_id);
 		return ((UserServiceImpl)userServiceImpl).idDuplicateCheck(user_id);
 	}

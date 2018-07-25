@@ -227,21 +227,23 @@
             <table class="table table-hover">
                 <tbody>
                   <tr class="lecture_section" scope="col">
-                       
-         
+                     
+         			
                     </tr>
                     <c:forEach items="${blist}" var="bl" >
-                    <c:set value="${bl.lecture_board_chapter}" var="chap" />
-                     <tr>                  		
-                        <td class="play_icons"><!-- <a class="lectureView"> --><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
-                        <td class="play_title"><a class="lectureView">${bl.lecture_board_title}</a>
-                        <input type="hidden"  value="${bl.lecture_board_index}" class="my_boardLecture_index"/>
-                  		<input type="hidden" value="${lecture.lecture_index}"  class="my_lecture_index"/></td> 
-                        <td class="preview"> <img src="${pageContext.request.contextPath}/resources/images/free.png"></td>  
-                        <td class="time" >${bl.lecture_board_upload_date }</td>
-                        <td class="attachment"><img src="${pageContext.request.contextPath}/resources/images/attachment.png"></td>
-                    </tr>	
-                    
+                     	<tr>                  		
+	                        <td class="play_icons"><!-- <a class="lectureView"> --><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
+	                        <td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
+	                        <input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
+	                  		<input type="hidden" value="${lecture.lecture_index}"  class="my_lecture_index"/></td> 
+	                        <td class="preview"> <img src="${pageContext.request.contextPath}/resources/images/free.png"></td>  
+	                        <td class="time" >${bl.LECTURE_BOARD_UPLOAD_DATE }</td>
+	                        <td class="attachment">
+	                        <c:if test="${bl.LECTURE_ATTACH_RENAMEDFILENAME ne null}">
+	                        	<a href="${pageContext.request.contextPath}/resources/uploadFiles/BoardLecture/${bl.LECTURE_ATTACH_RENAMEDFILENAME}" download><img src="${pageContext.request.contextPath}/resources/images/attachment.png"></a>
+	                        </c:if>
+	                        </td>
+                    	</tr>	
                     </c:forEach>
                 </tbody>
             </table>
