@@ -25,25 +25,25 @@ th, td {
 			
 			<table class="table table-bordered" style="width:60%; margin-left: auto; margin-right: auto; margin-bottom: 40px;">
 				<tr>
-					<th style="width: 15%">결제일</th>
+					<th style="width: 20%">결제일</th>
 					<td>${pc.PURCHASE_DATE}</td>
 				</tr>
 				<tr>
-					<th style="width: 15%">신청강의</th>
+					<th style="width: 20%">신청강의</th>
 					<td>${pc.PURCHASE_LECTURE_LIST}</td>
 				</tr>
 				<tr>
-					<th style="width: 15%">사용쿠폰</th>
+					<th style="width: 20%">사용쿠폰</th>
 					<td>${pc.COUPON_NAME}</td>
 				</tr>
 				<tr>
-					<th style="width: 15%">결제금액</th>
+					<th style="width: 20%">결제금액</th>
 					<td>${pc.PAID_AMOUNT}</td>
 				</tr>
 			</table>
 			
 			<button class="btn btn outline" style="background-color: #4C0B5F; color:white" onclick="location.href='/lar/'">홈으로</button>
-			<button class="btn btn outline" style="background-color: #4C0B5F; color:white" onclick="location.href='/lar/mypage'">장바구니</button>
+			<button class="btn btn outline" style="background-color: #4C0B5F; color:white" onclick="location.href='/lar/user/cart'">장바구니</button>
 		</div>
 		
 		

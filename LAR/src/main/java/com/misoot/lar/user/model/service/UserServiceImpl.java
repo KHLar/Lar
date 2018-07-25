@@ -142,7 +142,7 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).purchaseList(check);
 	}
 	
-	public int insertPurchase(Map<String, Object> rsp) {
+	public int insertPurchase(Map<Object, Object> rsp) {
 		return ((UserDaoImpl)userDaoImpl).insertPurchase(rsp);
 	}
 	
@@ -150,12 +150,18 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).selectPurchase(msg);
 	}
 	
-	public int deleteUserCoupon(String user_coupon_inx) {
+	public int deleteUserCoupon(Object user_coupon_inx) {
 		return ((UserDaoImpl)userDaoImpl).deleteUserCoupon(user_coupon_inx);
+	}
+	
+	public int deletefromCart(Map<String, Object> delcartList) {
+		return ((UserDaoImpl)userDaoImpl).deletefromCart(delcartList);
 	}
 	/*
 	 * purchase end
 	 */
+
+	
 
 	
 }

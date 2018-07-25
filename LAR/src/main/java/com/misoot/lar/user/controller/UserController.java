@@ -3,6 +3,7 @@ package com.misoot.lar.user.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Clob;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -392,17 +393,32 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "user/purchase/insertPurchase", method=RequestMethod.POST, produces = "application/text; charset=utf8")
-	public String insertPurchase(@RequestBody Map<String, Object> rsp, @ModelAttribute("session_user") User user) {
+	public String insertPurchase(@RequestBody Map<Object, Object> rsp, @ModelAttribute("session_user") User user) {
 		
 		rsp.put("user_idx", user.getUser_index());
 		
 		String msg = "0";
 		
-		Map<String, Object> rsp2 = (Map<String, Object>)rsp.get("rsp");
+		Map<Object, Object> rsp2 = (Map<Object, Object>)rsp.get("rsp");
+		
+		List<Object> ucList = (List<Object>) rsp2.get("custom_data");
+		
+		Map<String, Object> delcartList = new HashMap<String, Object>();
+		
+		/*List<Object> cartList = new ArrayList<Object>();
+		
+		cartList.add(ucList.get(2));*/
+		
+		delcartList.put("userIdx", user.getUser_index());
+		delcartList.put("cartList", ucList.get(2));
+		
+		System.out.println(ucList);
 		
 		if(((UserServiceImpl)userServiceImpl).insertPurchase(rsp) > 0) {
-			if(((UserServiceImpl)userServiceImpl).deleteUserCoupon((String)rsp2.get("custom_data[1]")) > 0) {
-				msg = (String)rsp2.get("merchant_uid");
+			if( ucList.get(1).equals("") || ucList.get(1) == null || ((UserServiceImpl)userServiceImpl).deleteUserCoupon(ucList.get(1)) > 0) {
+				if( ((UserServiceImpl)userServiceImpl).deletefromCart(delcartList)  > 0 ) {
+					msg = (String)rsp2.get("merchant_uid");
+				}
 			}
 		}
 		

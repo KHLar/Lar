@@ -32,6 +32,7 @@
 									<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 								</a>
 								<div class="media-body">
+									<input type="hidden" name="lecIdx" value="${p.LECTURE_INDEX}"/>
 									<h4 class="title">${p.LECTURE_TITLE}</h4>
 									<c:choose>
 										<c:when test="${fn:length(p.LECTURE_INTRO) > 80}">
@@ -144,6 +145,14 @@
 		var idxarr = new Array();
 		idxarr[0] = $('#couponidx').val();
 		idxarr[1] = $('#usercouponidx').val();
+		
+		var lecIdxval = $("input[name='lecIdx']").length;
+	    var lecIdxData = new Array(lecIdxval);
+	    for(var i=0; i<lecIdxval; i++){                          
+	    	lecIdxData[i] = $("input[name='lecIdx']")[i].value;
+	    }
+	    
+		idxarr[2] =  lecIdxData;
 			
 		$.each(title, function(index, item){
 			if(index >= title.length-1) {
@@ -179,7 +188,7 @@
 					}
 				});				
 			} else {
-					
+				
 			}
 		});
 	}

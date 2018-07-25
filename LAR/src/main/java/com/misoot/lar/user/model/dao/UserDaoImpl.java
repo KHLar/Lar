@@ -148,16 +148,20 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.selectList("user.purchaseList", check);
 	}
 	
-	public int insertPurchase(Map<String, Object> rsp) {
+	public int insertPurchase(Map<Object, Object> rsp) {
 		return sqlSession.insert("user.insertPurchase", rsp);
+	}
+	
+	public int deleteUserCoupon(Object user_coupon_inx) {
+		return sqlSession.update("user.deleteUserCoupon", user_coupon_inx);
 	}
 	
 	public Map<String, Object> selectPurchase(String msg) {
 		return sqlSession.selectOne("user.selectPurchase", msg);
 	}
 	
-	public int deleteUserCoupon(String user_coupon_inx) {
-		return sqlSession.update("user.deleteUserCoupon", user_coupon_inx);
+	public int deletefromCart(Map<String, Object> delcartList) {
+		return sqlSession.delete("user.deletefromCart", delcartList);
 	}
 	/*
 	 * purchase end

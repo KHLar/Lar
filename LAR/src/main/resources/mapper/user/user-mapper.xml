@@ -179,11 +179,20 @@
    		)
    	</insert>	
    	
-   	<select id="selectPurchase" parameterType="string" resultType="hashmap">
-   		SELECT * FROM TABLE_PURCHASE JOIN TABLE_COUPON ON(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX) JOIN TABLE_USER_COUPON USING(COUPON_INDEX) WHERE USER_COUPON_INDEX = #{msg}
-   	</select>
-   	
    	<update id="deleteUserCoupon" parameterType="string">
    		UPDATE TABLE_USER_COUPON SET USER_COUPON_USED_DATE = SYSDATE WHERE USER_COUPON_INDEX = #{user_coupon_inx} 
    	</update>
+   	
+   	<select id="selectPurchase" parameterType="string" resultType="hashmap">
+   		SELECT * FROM TABLE_PURCHASE JOIN TABLE_COUPON ON(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX) WHERE MERCHANT_UID = #{msg}
+   	</select>
+   	
+   	<delete id="deletefromCart" parameterType="hashmap">
+   		DELETE FROM TABLE_CART
+		WHERE CART_LECTURE_INDEX IN
+		<foreach item="item" collection="cartList" separator=", " open="(" close=")">
+		#{item}
+		</foreach>
+		AND CART_USER_INDEX = #{userIdx}
+   	</delete>
 </mapper>
