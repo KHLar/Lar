@@ -61,6 +61,8 @@ public class CommuController {
 		 * System.out.println("commucPage : "+commucPage);
 		 * System.out.println("infocPage : "+infocPage);
 		 */
+		System.out.println(commuSearchType);
+		System.out.println(commuSearchText);
 		int commuTotalContents;
 		int infoTotalContents;
 		if (commuSearchType.equals("Ctitle") && !commuSearchText.equals("")) {
@@ -75,7 +77,7 @@ public class CommuController {
 		} else if (commuSearchType.equals("tags") && !commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTags(commucPage, numPerPage,
 					commuSearchText);
-			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsWriter(commuSearchText);
+			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContentsTag(commuSearchText);
 
 		} else {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuList(commucPage, numPerPage);
@@ -135,7 +137,7 @@ public class CommuController {
 		}
 		// 저장된 쿠키중에 read_count 만 불러오기
 		String cookie_read_count = (String) mapCookie.get("read_count");
-		System.out.println(cookie_read_count);
+		System.out.println("cookie : "+cookie_read_count);
 		// 저장될 새로운 쿠키값 생성
 		String new_cookie_read_count = "|" + no;
 		// 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사
@@ -143,14 +145,18 @@ public class CommuController {
 			cookie_read_count = "";
 		// if(StringUtils.indexOfIgnoreCase(cookie_read_count,
 		// new_cookie_read_count)==-1) {
-		if (cookie_read_count.contains(new_cookie_read_count)) {
+		Cookie cookie;
+		if (!cookie_read_count.contains(new_cookie_read_count)) {
 			// 없을 경우 쿠키 생성
-			Cookie cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count);
+			cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count);
 			// cookie.setMaxAge(1000); // 초단위
 			response.addCookie(cookie); // 조회수 업데이트
 			int increase = ((CommuServiceImpl) commuServiceImpl).IncreaseCommu(no);
 			if (increase > 0)
 				System.out.println("증가 성공!");
+		}else{
+			cookie=new Cookie("read_count",new_cookie_read_count);
+			response.addCookie(cookie); // 조회수 업데이트
 		}
 
 		model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(no));
@@ -349,7 +355,7 @@ public class CommuController {
 
 		int result = ((CommuReplyServiceImpl) commuReplyServiceImpl).insertCommuReply(cReply);
 
-		String loc = "/commu/commuView?no=" + commuIndex;
+		String loc = "/commu/commuView/" + commuIndex;
 		String msg = "";
 		if (result > 0)
 			msg = "게시글 등록 성공!";
@@ -373,7 +379,7 @@ public class CommuController {
 		int upResult = ((CommuReplyServiceImpl) commuReplyServiceImpl).updateCommuReply_Reply(cReply);
 		int inResult = ((CommuReplyServiceImpl) commuReplyServiceImpl).insertCommuReply_Reply(cReply);
 
-		String loc = "/commu/commuView?no=" + cReply.getCommu_Reply_Commu_Index();
+		String loc = "/commu/commuView/" + cReply.getCommu_Reply_Commu_Index();
 		String msg = "";
 		if (inResult > 0)
 			msg += "대댓글 등록 성공!";
@@ -397,7 +403,7 @@ public class CommuController {
 		// int upResult= commuReplyService.updateCommuReply_Reply2(cReply);
 		int deResult = ((CommuReplyServiceImpl) commuReplyServiceImpl)
 				.deleteCommuReply_Reply(cReply.getCommu_Reply_Index());
-		String loc = "/commu/commuView?no=" + cReply.getCommu_Reply_Commu_Index();
+		String loc = "/commu/commuView/" + cReply.getCommu_Reply_Commu_Index();
 		String msg = "";
 		if (deResult > 0)
 			msg += "댓글 삭제 성공!";

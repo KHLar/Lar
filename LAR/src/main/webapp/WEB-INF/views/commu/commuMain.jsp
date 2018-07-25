@@ -146,8 +146,8 @@ td {
 								</div>
 							</nav>
 						</div>
-						<div class="table-responsive">
-							<table class="table tBorder table-bordered table-condensed table-hover" id="listArea">
+						<div class="table-responsive-xl table-responsive-sm table-responsive-md table-responsive-lg">
+							<table class="table tBorder table-bordered table-condensed" id="listArea" style="overflow:auto">
 								<thead>
 									<tr>
 										<th class="col-md-1 centers">번호</th>
@@ -165,16 +165,16 @@ td {
 											<td class="commuContent"><p style="font-size: 18px;">${c.commu_Title}</p>
 												<c:forTokens items="${c.commu_tags}" var="tag" delims=",">
 													<a
-														href="${pageContext.request.contextPath}/commu/commuMain?commuSearchText=${tag}&commuSearchType=tags"
+														href="${pageContext.request.contextPath}/commu/commuMain?commuSearchType=tags&commuSearchText=${tag}"
 														class="bg-warning labelinput badge badge-warning"
 														style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
 												</c:forTokens></td>
 											<td>${c.commu_Writer}</td>
 											<td>${c.commu_Update_Date}</td>
 											<td align="center"><c:if test="${c.fileCount>0}">
-													<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file.png" width=15px>
+													<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file1.jpg" width=70px>
 												</c:if> <c:if test="${c.fileCount==0}">
-													X
+													<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px>
 												</c:if></td>
 											<td>${c.commu_Hits}</td>
 										</tr>
@@ -318,7 +318,7 @@ td {
 							.click(
 									function() {
 										var index = $(this).parent().parent().attr('id');
-										location.href = "${pageContext.request.contextPath}/commu/commuView?no="
+										location.href = "${pageContext.request.contextPath}/commu/commuView/"
 												+ index;
 									});
 					$('.infoContent p')
@@ -330,7 +330,7 @@ td {
 							.click(
 									function() {
 										var index = $(this).parent().parent().attr('id');
-										location.href = "${pageContext.request.contextPath}/commu/commuView?no="
+										location.href = "${pageContext.request.contextPath}/commu/commuView/"
 												+ index;
 									});
 				});

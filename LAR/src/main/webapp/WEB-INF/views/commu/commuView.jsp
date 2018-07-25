@@ -39,10 +39,7 @@ textarea {
 				.click(
 						function() {
 							location.href = "${pageContext.request.contextPath}/commu/commuDelete/"
-									+ $
-							{
-								commu.commu_Index
-							}
+									+ ${commu.commu_Index}
 						});
 		$('#commuReply')
 				.click(
@@ -60,15 +57,9 @@ textarea {
 								alert('내용을 입력하세요');
 							} else
 								location.href = "${pageContext.request.contextPath}/commu/commuReply?replyWriter="
-										+ $
-							{
-								session_user.user_index
-							}
+										+ ${session_user.user_index}
 							+"&replyContent=" + $('#replyComment').val()
-									+ "&commuIndex=" + $
-							{
-								commu.commu_Index
-							}
+									+ "&commuIndex=" + ${commu.commu_Index}
 							;
 
 						});
@@ -77,13 +68,7 @@ textarea {
 					+ s;
 			alert(s);
 		}
-		/* $('.commuReply_Reply').click(function(){
-			if($('#Comment${cr.commu_Reply_Index}').val().trim()==null||$('#Comment${cr.commu_Reply_Index}').val().trim()==""){
-			}
-		else
-			location.href="${pageContext.request.contextPath}/commu/commuReply_Reply?replyWriter="+${m.user_Index}+"&replyContent="+$('#Comment${cr.commu_Reply_Index}').val()+"&commuIndex="+${commu.commu_Index};
-			
-		}); */
+		
 	});
 	function fileDownload(oName, rName) {
 		//한글파일명이 있을 수 있으므로, 명시적으로 encoding

@@ -129,6 +129,10 @@
 		SELECT COUNT(*) FROM TABLE_COMMU WHERE COMMU_TITLE LIKE
 		#{searchText} AND COMMU_CATEGORY_INDEX='B02' AND COMMU_IS_DELETED=0
 	</select>
+	<select id="selectCommuTotalContentsTags" parameterType="String" resultType="_int">
+	SELECT COUNT(*) FROM TABLE_COMMU WHERE COMMU_TAGS LIKE
+		#{searchText} AND COMMU_CATEGORY_INDEX='B04' AND COMMU_IS_DELETED=0
+	</select>
 	<select id="selectCommuTotalContentsWriter" parameterType="String"
 		resultType="_int">
 		SELECT COUNT(*) FROM TABLE_COMMU A WHERE (SELECT
