@@ -37,7 +37,7 @@
 				<td>${clist.COUPON_NAME}</td>
 				<td>${clist.COUPON_DISCOUNT_INF}</td>
 				<td><button type="button" class="btn btn-primary btn-sm use_coupon_btn" 
-					onclick="script:send_to_parent('${clist.COUPON_NAME}', '${clist.USER_COUPON_INDEX}', '${clist.COUPON_DISCOUNT_INF}');">사용하기</button></td>
+					onclick="script:send_to_parent('${clist.COUPON_NAME}', '${clist.COUPON_INDEX}', '${clist.USER_COUPON_INDEX}','${clist.COUPON_DISCOUNT_INF}');">사용하기</button></td>
 			</tr>
 			</c:if>
 			</c:forEach>
@@ -45,9 +45,11 @@
     </table>
     
     <script>
-   		function send_to_parent(name,idx, inf){    		    		    		
+   		function send_to_parent(name, idx, ucidx, inf){    		    		    		
     		opener.document.getElementById('coupon').value = name;
     		opener.document.getElementById('couponidx').value = idx;
+    		opener.document.getElementById('usercouponidx').value = ucidx;
+    		
     		var discount = 0;
     		
     		if(inf.substring(inf.length-1, inf.length) == '%') {

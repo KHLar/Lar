@@ -1,5 +1,7 @@
 package com.misoot.lar.user.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Clob;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -376,22 +379,46 @@ public class UserController {
 		int price = (int) request.getSession().getAttribute("session_price");
 		int subcouponinf = Integer.parseInt(couponinf.substring(0, couponinf.length()-1));
 		
-		System.out.println(couponinf.charAt(couponinf.length()-1));
-		System.out.println(subcouponinf);
-		
-		System.out.println((price)*((double)subcouponinf/100.0));
-		
 		if(couponinf.charAt(couponinf.length()-1) == '%') {
 			price = (int)(price - (price * ((double)subcouponinf / 100.0 )));
 		} else {
 			price = price - subcouponinf;
 		}
 		
-		System.out.println(price);
-		
 		request.getSession().setAttribute("session_before_price", price);
 		
 		return;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "user/purchase/insertPurchase", method=RequestMethod.POST, produces = "application/text; charset=utf8")
+	public String insertPurchase(@RequestBody Map<String, Object> rsp, @ModelAttribute("session_user") User user) {
+		
+		rsp.put("user_idx", user.getUser_index());
+		
+		String msg = "0";
+		
+		Map<String, Object> rsp2 = (Map<String, Object>)rsp.get("rsp");
+		
+		if(((UserServiceImpl)userServiceImpl).insertPurchase(rsp) > 0) {
+			if(((UserServiceImpl)userServiceImpl).deleteUserCoupon((String)rsp2.get("custom_data[1]")) > 0) {
+				msg = (String)rsp2.get("merchant_uid");
+			}
+		}
+		
+		return msg;
+	}
+	
+	@RequestMapping(value= "user/purchase/purchaseCompleted")
+	public String purchaseCompleted(@RequestParam(value="msg") String msg, Model model) throws UnsupportedEncodingException {
+		
+		msg = URLDecoder.decode(msg, "UTF-8");
+		
+		Map<String, Object> paycompleted = ((UserServiceImpl)userServiceImpl).selectPurchase(msg);
+		
+		model.addAttribute("pc", paycompleted);
+		
+		return "user/_purchaseCompleted";
 	}
 	
 	@RequestMapping(value = "/mypage")

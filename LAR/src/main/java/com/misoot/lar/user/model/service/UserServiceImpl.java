@@ -127,6 +127,7 @@ public class UserServiceImpl implements LarService<User> {
 	public List<Map<String, Object>> cartList(int user_index) {
 		return ((UserDaoImpl)userDaoImpl).cartList(user_index);
 	}
+	
 	public int deleteCart(Map<String, Object> delcartList) {
 		return ((UserDaoImpl)userDaoImpl).deleteCart(delcartList);
 	}
@@ -140,7 +141,21 @@ public class UserServiceImpl implements LarService<User> {
 	public List<Map<String, Object>> purchaseList(String[] check) {
 		return ((UserDaoImpl)userDaoImpl).purchaseList(check);
 	}
+	
+	public int insertPurchase(Map<String, Object> rsp) {
+		return ((UserDaoImpl)userDaoImpl).insertPurchase(rsp);
+	}
+	
+	public Map<String, Object> selectPurchase(String msg) {
+		return ((UserDaoImpl)userDaoImpl).selectPurchase(msg);
+	}
+	
+	public int deleteUserCoupon(String user_coupon_inx) {
+		return ((UserDaoImpl)userDaoImpl).deleteUserCoupon(user_coupon_inx);
+	}
 	/*
 	 * purchase end
 	 */
+
+	
 }
