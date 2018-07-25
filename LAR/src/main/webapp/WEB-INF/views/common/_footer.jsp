@@ -4,7 +4,7 @@
 
 <c:import url="/WEB-INF/views/common/inquire.jsp"/> 
 
-			<div class="col-lg-2 col-md-2 col-sm-2">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-top: 5%;">
 				<div>
 					<img src="${pageContext.request.contextPath}/resources/images/ad.JPG"></img>
 				</div>
@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-md-4">
 				<ul class="list-inline quicklinks">
-					<li><a href="#">Privacy Policy</a></li>
+					<li><a id="footer_Privacy_Policy" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('Privacy_Policy');">Privacy Policy</a></li>
 					<li><a id="footer-Terms_of_Use" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('Terms_of_Use');">Terms of Use</a></li>
 				</ul>
 			</div>

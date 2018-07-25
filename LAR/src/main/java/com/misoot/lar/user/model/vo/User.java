@@ -177,6 +177,5 @@ public class User implements java.io.Serializable {
 		if (user_try_signin_count != other.user_try_signin_count)
 			return false;
 		return true;
-	}
-	
+	}	
 }
