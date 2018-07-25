@@ -19,7 +19,8 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public Admin selectOne(int index) {
 		return null;
 	}
-
+	
+	@Deprecated
 	@Override
 	public List<Admin> selectList() {
 		return null;
@@ -39,5 +40,4 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int delete(int index) {
 		return 0;
 	}
-
 }

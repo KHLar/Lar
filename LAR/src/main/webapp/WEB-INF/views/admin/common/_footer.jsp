@@ -6,11 +6,8 @@
 			</div><!-- /#page-wrapper -->
 		</div><!-- /#wrapper -->
 
-		<!-- Morris Charts JavaScript -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/plugins/morris-data.js"></script>
-
+		<!-- Charts JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 	</body>
 
 </html>

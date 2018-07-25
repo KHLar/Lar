@@ -15,11 +15,13 @@ public class AdminServiceImpl implements LarService<Admin> {
 	@Autowired
 	LarDao<Admin> adminDaoImpl;
 	
+	@Deprecated
 	@Override
 	public Admin selectOne(int index) {
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public List<Admin> selectList() {
 		return null;
@@ -27,16 +29,16 @@ public class AdminServiceImpl implements LarService<Admin> {
 
 	@Override
 	public int insert(Admin t) {
-		return 0;
+		return adminDaoImpl.insert(t);
 	}
 
 	@Override
 	public int update(Admin t) {
-		return 0;
+		return adminDaoImpl.update(t);
 	}
 
 	@Override
 	public int delete(int index) {
-		return 0;
+		return adminDaoImpl.delete(index);
 	}
 }
