@@ -5,21 +5,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:import url="/WEB-INF/views/admin/common/_header.jsp">
-	<c:param value="Home" name="pageTitle" />
+	<c:param value="Lectures" name="pageTitle" />
 </c:import>
 
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
-			Home <small>Statistics Overview</small>
+			Lectures
 		</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-dashboard"></i> Home</li>
+			<li class="active"><i class="fa fa-dashboard"></i> Lectures</li>
 		</ol>
 	</div>
 
 	<div class="row">
-		숫자놀음ㅎㅎ
+		강의좀 보여주기
 	</div>
 </div>
 

@@ -9,6 +9,7 @@ public class User implements java.io.Serializable {
 	private String user_phone;
 	private int user_level;
 	private boolean user_is_secession;
+	private boolean user_is_kicked;
 	private int user_try_signin_count;
 	
 	public User() {
@@ -28,13 +29,14 @@ public class User implements java.io.Serializable {
 
 	// If signining successed, use to this constructor 
 	public User(String user_id, String user_nickname, String user_enrolled_date,
-			String user_phone, int user_level, boolean user_is_secession, int user_try_signin_count) {
+			String user_phone, int user_level, boolean user_is_secession, boolean user_is_kicked, int user_try_signin_count) {
 		this.user_id = user_id;
 		this.user_nickname = user_nickname;
 		this.user_enrolled_date = user_enrolled_date;
 		this.user_phone = user_phone;
 		this.user_level = user_level;
 		this.user_is_secession = user_is_secession;
+		this.user_is_kicked = user_is_kicked;
 		this.user_try_signin_count = user_try_signin_count;
 	}
 
@@ -101,6 +103,14 @@ public class User implements java.io.Serializable {
 	public void setUser_is_secession(boolean user_is_secession) {
 		this.user_is_secession = user_is_secession;
 	}
+	
+	public boolean isUser_is_kicked() {
+		return user_is_kicked;
+	}
+
+	public void setUser_is_kicked(boolean user_is_kicked) {
+		this.user_is_kicked = user_is_kicked;
+	}
 
 	public int getUser_try_signin_count() {
 		return user_try_signin_count;
@@ -115,7 +125,7 @@ public class User implements java.io.Serializable {
 		return "User [user_index=" + user_index + ", user_id=" + user_id + ", user_password=" + user_password
 				+ ", user_nickname=" + user_nickname + ", user_enrolled_date=" + user_enrolled_date + ", user_phone="
 				+ user_phone + ", user_level=" + user_level + ", user_is_secession=" + user_is_secession
-				+ ", user_try_signin_count=" + user_try_signin_count + "]";
+				+ ", user_is_kicked=" + user_is_kicked + ", user_try_signin_count=" + user_try_signin_count + "]";
 	}
 
 	@Override
@@ -125,6 +135,7 @@ public class User implements java.io.Serializable {
 		result = prime * result + ((user_enrolled_date == null) ? 0 : user_enrolled_date.hashCode());
 		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		result = prime * result + user_index;
+		result = prime * result + (user_is_kicked ? 1231 : 1237);
 		result = prime * result + (user_is_secession ? 1231 : 1237);
 		result = prime * result + user_level;
 		result = prime * result + ((user_nickname == null) ? 0 : user_nickname.hashCode());
@@ -155,6 +166,8 @@ public class User implements java.io.Serializable {
 			return false;
 		if (user_index != other.user_index)
 			return false;
+		if (user_is_kicked != other.user_is_kicked)
+			return false;
 		if (user_is_secession != other.user_is_secession)
 			return false;
 		if (user_level != other.user_level)
@@ -176,6 +189,6 @@ public class User implements java.io.Serializable {
 			return false;
 		if (user_try_signin_count != other.user_try_signin_count)
 			return false;
-		return true;
-	}	
+		return true;	
+	}
 }

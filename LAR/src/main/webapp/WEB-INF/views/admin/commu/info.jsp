@@ -5,21 +5,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:import url="/WEB-INF/views/admin/common/_header.jsp">
-	<c:param value="Home" name="pageTitle" />
+	<c:param value="Community" name="pageTitle" />
 </c:import>
 
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
-			Home <small>Statistics Overview</small>
+			Community
 		</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-dashboard"></i> Home</li>
+			<li><i class="fa fa-dashboard"></i> Community</li>
+			<li class="active"><i class="fa fa-dashboard"></i> Info</li>
 		</ol>
 	</div>
 
 	<div class="row">
-		숫자놀음ㅎㅎ
+		유저 리스트좀 일단 좀 보여줘버리기
 	</div>
 </div>
 

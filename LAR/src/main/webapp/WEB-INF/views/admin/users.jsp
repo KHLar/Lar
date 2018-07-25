@@ -11,15 +11,15 @@
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
-			Home <small>Statistics Overview</small>
+			Users
 		</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-dashboard"></i> Home</li>
+			<li class="active"><i class="fa fa-dashboard"></i> Users</li>
 		</ol>
 	</div>
 
 	<div class="row">
-		숫자놀음ㅎㅎ
+		유저 리스트좀 일단 좀 보여줘버리기
 	</div>
 </div>
 
