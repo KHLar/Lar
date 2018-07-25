@@ -269,7 +269,7 @@
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: center;">${ plist.PAID_AMOUNT }</td>
+								<td style="text-align: center;">${ plist.PURCHASE_PRICE }</td>
 							</tr>
 						</c:forEach>
 					</table>
