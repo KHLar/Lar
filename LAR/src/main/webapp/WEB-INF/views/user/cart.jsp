@@ -15,6 +15,7 @@
 		if(btn == 'delete') {
 			cartfm.action = "/lar/user/deleteCart";
 		} else if(btn == 'select') {
+			$('input[type=checkbox]').
 			cartfm.action = "/lar/user/purchase";
 		} else if(btn == 'selectAll'){
 			$('input[type=checkbox]').prop('checked',true);
