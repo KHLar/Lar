@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:import url="/WEB-INF/views/admin/common/_header.jsp">
-	<c:param value="Home" name="pageTitle" />
+	<c:param value="Users" name="pageTitle" />
 </c:import>
 
 <div class="col-lg-12">
@@ -19,7 +19,9 @@
 	</div>
 
 	<div class="row">
-		유저 리스트좀 일단 좀 보여줘버리기
+		<c:forEach items="${user_list}" var="u">
+			<p>${u}</p>
+		</c:forEach>
 	</div>
 </div>
 

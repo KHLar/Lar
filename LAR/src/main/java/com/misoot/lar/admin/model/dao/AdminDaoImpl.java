@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarDao;
+import com.misoot.lar.user.model.vo.User;
 
 @Repository
 public class AdminDaoImpl implements LarDao<Admin> {
@@ -39,5 +40,9 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	@Override
 	public int delete(int index) {
 		return 0;
+	}
+
+	public List<User> selectUserList(int user_level) {
+		return sqlSession.selectList("admin.selectUserList", user_level);
 	}
 }
