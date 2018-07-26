@@ -244,8 +244,8 @@
 					<h3>구매내역</h3>
 					<table class="table" frame=void>
 						<tr>
-							<th style="width: 15%; text-align: center;">결제일</th>
-							<th style="width: 50%; text-align: center;">강의정보</th>
+							<th style="width: 17%; text-align: center;">결제일</th>
+							<th style="width: 48%; text-align: center;">강의정보</th>
 							<th style="width: 25%; text-align: center;">사용쿠폰</th>
 							<th style="width: 10%; text-align: center;">결제금액</th>
 						</tr>
@@ -269,7 +269,7 @@
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: center;">${ plist.PURCHASE_PRICE }</td>
+								<td style="text-align: center;">${ plist.PAID_AMOUNT }</td>
 							</tr>
 						</c:forEach>
 					</table>

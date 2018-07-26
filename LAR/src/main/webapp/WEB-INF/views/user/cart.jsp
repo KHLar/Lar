@@ -15,8 +15,18 @@
 		if(btn == 'delete') {
 			cartfm.action = "/lar/user/deleteCart";
 		} else if(btn == 'select') {
-			$('input[type=checkbox]').
-			cartfm.action = "/lar/user/purchase";
+			var checkarr = $('input[type=checkbox]');
+			var checknum = 0;
+			
+			for(var i = 0; i < checkarr.length; i++) {
+				if(checkarr[i].checked == true) checknum ++;
+			}
+			
+			if(checknum == 0) {
+				alert("선택된 영역이 존재하지 않습니다.");
+			} else {
+				cartfm.action = "/lar/user/purchase";
+			}						
 		} else if(btn == 'selectAll'){
 			$('input[type=checkbox]').prop('checked',true);
 			cartfm.action = "/lar/user/purchase";

@@ -405,10 +405,6 @@ public class UserController {
 		
 		Map<String, Object> delcartList = new HashMap<String, Object>();
 		
-		/*List<Object> cartList = new ArrayList<Object>();
-		
-		cartList.add(ucList.get(2));*/
-		
 		delcartList.put("userIdx", user.getUser_index());
 		delcartList.put("cartList", ucList.get(2));
 		

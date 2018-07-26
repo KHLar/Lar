@@ -98,6 +98,7 @@
 							<input type="hidden" id="couponidx"/>
 							<input type="hidden" id="usercouponidx"/>
 							<button type="button" class="btn btn btn-warning btn-xm" onClick="window.open('/lar/purchase/coupon','coupon','width=500, height=' + (parseInt(window.innerHeight) * .25))">쿠폰선택</button>
+							<button type="button" class="btn btn btn-warning btn-xm cancel_btn" style="background-color:lightgray; border-color:lightgray;">적용취소</button>
 						</td>
 					</tr>
 				</table>
@@ -106,6 +107,12 @@
 		</div>
 
 <script>
+	$('.cancel_btn').on('click',function(){
+		$('#coupon').val('');
+		$('#couponidx').val('');
+		$('#usercouponidx').val('');
+	});
+
 	var IMP = window.IMP;
 	IMP.init("imp42497878");
 		
@@ -167,7 +174,7 @@
 			pay_method : "card",
 			merchant_uid : $('#inputEmail').val() + "_" + new Date().getTime(),
 			name : name,
-			amount : 101,
+			amount : data,
 			buyer_email : $('#inputEmail').val(),
 			buyer_name : $('#name').val(),
 			buyer_tel : $('#phone').val(),
