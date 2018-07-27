@@ -30,4 +30,9 @@
 		delete from EXAMPLE where INDEX = #{index}
 	</delete>
 	
+	<select id="selectUserList" parameterType="_int">
+		select * from TABLE_USER
+		WHERE USER_LEVEL <![CDATA[ < ]]> #{user_level}
+	</select>
+	
 </mapper>

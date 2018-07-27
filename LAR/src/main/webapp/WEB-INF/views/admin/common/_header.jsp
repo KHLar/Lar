@@ -15,8 +15,7 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 		<link href="${pageContext.request.contextPath}/resources/css/lar-admin.css" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" rel="stylesheet">
-		<link href="${pageContext.request.contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -28,7 +27,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html">LAR Admin</a>
+					<a class="navbar-brand" href="/lar/admin/"><span class="fa fa-fw fa-home"></span> LAR : Admin</a>
 				</div>
 
 				<ul class="nav navbar-right top-nav">
@@ -81,32 +80,32 @@
 
 				<div class="collapse navbar-collapse" id="admin-nav-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active">
-							<a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+						<li>
+							<a href="/lar/admin/charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
 						</li>
 						<li>
-							<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+							<a href="/lar/admin/tables"><i class="fa fa-fw fa-table"></i> Tables</a>
 						</li>
 						<li>
-							<a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+							<a href="/lar/admin/users"><i class="fa fa-fw fa-address-book"></i> Users</a>
 						</li>
 						<li>
-							<a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+							<a href="/lar/admin/lectures"><i class="fa fa-fw fa-book"></i> Lectures</a>
 						</li>
 						<li>
-							<a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-						</li>
-						<li>
-							<a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-						</li>
-						<li>
-							<a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="demo" class="collapse">
+							<a data-toggle="collapse" data-target="#commuDropdown"><i class="fa fa-fw fa-globe"></i> Community <i class="fa fa-fw fa-caret-down"></i></a>
+							<ul id="commuDropdown" class="collapse">
 								<li>
-									<a href="#">Dropdown Item</a>
+									<a href="/lar/admin/commu/notice">Notice</a>
 								</li>
 								<li>
-									<a href="#">Dropdown Item</a>
+									<a href="/lar/admin/commu/board">Board</a>
+								</li>
+								<li>
+									<a href="/lar/admin/commu/qa">Q & A</a>
+								</li>
+								<li>
+									<a href="/lar/admin/commu/info">Info</a>
 								</li>
 							</ul>
 						</li>

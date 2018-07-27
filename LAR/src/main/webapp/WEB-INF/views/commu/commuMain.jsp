@@ -330,6 +330,7 @@ td {
 									function() {
 										var index = $(this).parent().parent().attr('id');
 										location.href = "${pageContext.request.contextPath}/commu/commuView/"
+>>>>>>> refs/remotes/origin/ny_branch
 												+ index;
 									});
 				});

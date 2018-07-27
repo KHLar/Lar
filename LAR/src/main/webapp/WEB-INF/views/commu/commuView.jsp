@@ -68,7 +68,6 @@ textarea {
 					+ s;
 			alert(s);
 		}
-		
 	});
 	function fileDownload(oName, rName) {
 		//한글파일명이 있을 수 있으므로, 명시적으로 encoding

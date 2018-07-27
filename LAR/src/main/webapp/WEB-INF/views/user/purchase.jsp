@@ -32,6 +32,7 @@
 									<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 								</a>
 								<div class="media-body">
+									<input type="hidden" name="lecIdx" value="${p.LECTURE_INDEX}"/>
 									<h4 class="title">${p.LECTURE_TITLE}</h4>
 									<c:choose>
 										<c:when test="${fn:length(p.LECTURE_INTRO) > 80}">
@@ -59,8 +60,8 @@
 				<h3>수강생 정보</h3>
 				<table class="table" style="border-bottom: 1px solid #ddd;">
 					<tr>
-						<td>신청자 명</td>
-						<td><input type="text" class="form-control" id="name" style="width: 300px;" /></td>
+						<td>입금명</td>
+						<td><input type="text" class="form-control" id="name" style="width: 300px;" placeholder="ex) 홍길동"/></td>
 					</tr>
 					<tr>
 						<td>연락처</td>
@@ -71,7 +72,7 @@
 					<tr>
 						<td>이메일</td>
 						<td>
-							<input type="email" class="form-control" id="inputEmail" style="width: 300px;" value="${ session_user.user_id }">
+							<input type="text" class="form-control" id="inputEmail" style="width: 300px;" value="${ session_user.user_id }">
 						</td>
 					</tr>
 				</table>
@@ -95,7 +96,9 @@
 						<td colspan="2" class="form-inline">
 							<input type="text" class="form-control" id="coupon" style="width: 200px;" disabled/>
 							<input type="hidden" id="couponidx"/>
+							<input type="hidden" id="usercouponidx"/>
 							<button type="button" class="btn btn btn-warning btn-xm" onClick="window.open('/lar/purchase/coupon','coupon','width=500, height=' + (parseInt(window.innerHeight) * .25))">쿠폰선택</button>
+							<button type="button" class="btn btn btn-warning btn-xm cancel_btn" style="background-color:lightgray; border-color:lightgray;">적용취소</button>
 						</td>
 					</tr>
 				</table>
@@ -104,6 +107,12 @@
 		</div>
 
 <script>
+	$('.cancel_btn').on('click',function(){
+		$('#coupon').val('');
+		$('#couponidx').val('');
+		$('#usercouponidx').val('');
+	});
+
 	var IMP = window.IMP;
 	IMP.init("imp42497878");
 		
@@ -140,6 +149,17 @@
 	function requestPay(data) {
 		var title = $('.media-body .title');
 		var name = "";
+		var idxarr = new Array();
+		idxarr[0] = $('#couponidx').val();
+		idxarr[1] = $('#usercouponidx').val();
+		
+		var lecIdxval = $("input[name='lecIdx']").length;
+	    var lecIdxData = new Array(lecIdxval);
+	    for(var i=0; i<lecIdxval; i++){                          
+	    	lecIdxData[i] = $("input[name='lecIdx']")[i].value;
+	    }
+	    
+		idxarr[2] =  lecIdxData;
 			
 		$.each(title, function(index, item){
 			if(index >= title.length-1) {
@@ -152,29 +172,31 @@
 		IMP.request_pay({ // param
 			pg : "inicis",
 			pay_method : "card",
-			merchant_uid : $('#imputEmail').val() + "_" + new Date().getTime(),
+			merchant_uid : $('#inputEmail').val() + "_" + new Date().getTime(),
 			name : name,
 			amount : data,
-			buyer_email : $('#imputEmail').val(),
+			buyer_email : $('#inputEmail').val(),
 			buyer_name : $('#name').val(),
-			buyer_tel : $('#phone').val()
+			buyer_tel : $('#phone').val(),
+			custom_data : idxarr
 		}, function(rsp) { // callback
 			if (rsp.success) {
-				// 결제정보 db에 저장
 				// 결제 성공 시 cart에서 해당 강의 삭제
 				// 사용쿠폰 삭제
-				/* location.href="/lar/paymentSuccess"; */
-				 var msg = '결제가 완료되었습니다.';
-			        msg += '고유ID : ' + rsp.imp_uid;
-			        msg += '상점 거래ID : ' + rsp.merchant_uid;
-			        msg += '결제 금액 : ' + rsp.paid_amount;
-			        msg += '카드 승인번호 : ' + rsp.apply_num;
+				$.ajax({
+					url: "/lar/user/purchase/insertPurchase",
+					type: "post",
+					contentType : "application/json; charset=UTF-8",
+					data: JSON.stringify({ rsp : rsp }),
+					success: function(msg){
+						if(msg != '0') {
+							location.href="/lar/user/purchase/purchaseCompleted?msg="+msg;	
+						}
+					}
+				});				
 			} else {
-				// 에러페이지
-				var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
+				
 			}
-			alert(msg);
 		});
 	}
 </script>
