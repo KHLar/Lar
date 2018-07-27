@@ -47,7 +47,6 @@
 			</div>
 		</div>
 
-
 <script>
 	$(function() {
 		$('#summernote').summernote({

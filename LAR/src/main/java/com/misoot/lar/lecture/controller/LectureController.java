@@ -1,8 +1,6 @@
 package com.misoot.lar.lecture.controller;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.Clob;
@@ -12,28 +10,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureQ;
+import com.misoot.lar.user.model.vo.User;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.common.util.Utils;
@@ -92,8 +87,6 @@ public class LectureController {
 	//게시글 수정
 	@RequestMapping(value="/lectureUpdate")
 	public String updateLecture(Lecture t){
-			
-		
 		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
 		
 		return "lecture/lectureList";
@@ -130,6 +123,13 @@ public class LectureController {
 		
 		
 	    List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
+		 for(int i = 0; i < blist.size() - 1 ; i++){
+			 for(int j = i+1; j < blist.size() ; j++){
+				 if(blist.get(i).get("LECTURE_BOARD_CHAPTER").equals(blist.get(j).get("LECTURE_BOARD_CHAPTER"))){
+					 blist.get(j).put("LECTURE_BOARD_CHAPTER", "");
+				 }
+			 }
+		 }
 	    
 		model.addAttribute("blist",blist).addAttribute("lecture",lecture).addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist);
 		System.out.println("blist"+blist);
@@ -157,10 +157,10 @@ public class LectureController {
 				 }
 			 }
 		 }
-		
+	/*	
 		System.out.println("bLecture="+bLecture+"blist="+blist);
 		
-		System.out.println(lecture_index);
+		System.out.println(lecture_index);*/
 		
 		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
 		return "lecture/lectureView";
@@ -273,5 +273,43 @@ public class LectureController {
 	
 	
 	
-
+	@RequestMapping("/lecture/QnA")
+	public String lectureQnA(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="lecidx") int lecidx, Model model) {
+		lecidx = 1;
+		
+		int numPerPage = 10;
+		
+		List<Map<String, String>> qlist = ((LectureServiceImpl)LectureServiceImpl).lectureQlist(cPage, numPerPage, lecidx);
+		
+		/*int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecidx);*/
+		
+		model.addAttribute("qlist", qlist).
+			addAttribute("numPerPage", numPerPage);
+			/*addAttribute("totalContents", totalContents);*/
+		
+		return "lecture/lectureQnA";
+	}
+	
+	@RequestMapping("/lecture/QnA/writeForm")
+	public String writeFormView() {
+		return "lecture/wirteFormQnA";
+	}
+	
+	@RequestMapping("/lecture/QnA/insertQ")
+	public String insertQ(LectureQ lectureq, @ModelAttribute("session_user") User user,Model model) {
+		
+		Map<String, Object> qmap = new HashMap<String, Object>();
+		
+		qmap.put("useridx", user.getUser_index());
+		qmap.put("lectureq", lectureq);
+		
+		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(qmap);
+		
+		return "";
+	}
+	
+	@RequestMapping("/lecture/QnA/detail")
+	public String lectureQnAdetail() {
+		return "lecture/detailQnA";
+	}
 }

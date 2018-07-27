@@ -132,5 +132,12 @@
 		
 	</update>
 
+	<insert id="insertQ" parameterType="hashmap">
+		INSERT INTO TABLE_LECTURE_Q VALUES(
+		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{useridx}, 1, #{lectureq.lecture_q_title}, #{lectureq.lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
 	
+	<select id="lectureQlist" parameterType="_int" resultType="hashmap">
+		SELECT * FROM TABLE_LECTURE_Q JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} AND LECTURE_Q_IS_DELETED = 0
+	</select>
 </mapper>
