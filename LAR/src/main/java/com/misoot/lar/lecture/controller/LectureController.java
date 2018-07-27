@@ -93,17 +93,27 @@ public class LectureController {
 	
 	@RequestMapping(value = "/lectureList")
 	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
-			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
+			@RequestParam(value="LecSearchText", required=false, defaultValue="")String LecSearchText) {
 		
 		int numPerPage = 7;	// 한 페이지 당 게시글 수
+		List<Map<String, String>> lList;
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("category", category);
+		if(LecSearchText.equals("")){
+			LecSearchText="%"+LecSearchText+"%";
+		    parameters.put("LecSearchText", LecSearchText);
+			lList = ((LectureServiceImpl)LectureServiceImpl).selectList(parameters,cPage, numPerPage);
+		}else{
+			LecSearchText="%"+LecSearchText+"%";
+		    parameters.put("LecSearchText", LecSearchText);
+			lList = ((LectureServiceImpl)LectureServiceImpl).selectList(parameters,cPage, numPerPage);
+		}
 		
-			// 1. 현재 페이지 컨텐츠 리스트 받아오기
-		List<Map<String, String>> lList = ((LectureServiceImpl)LectureServiceImpl).selectList(category,cPage, numPerPage);
-	
-		
-		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount();
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount(category);
 		
 		model.addAttribute("lList", lList).addAttribute("numPerPage", numPerPage).addAttribute("totalContents", totalContents);
+		model.addAttribute("category",category);
 		return "lecture/lectureList";
 	}
 	//동영상 하나보기

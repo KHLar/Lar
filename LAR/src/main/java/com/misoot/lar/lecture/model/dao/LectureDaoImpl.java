@@ -25,10 +25,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	
-	public List<Map<String, String>> selectList(String category, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectList(Map<String, String> parameters, int cPage, int numPerPage) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		return sqlSession.selectList("lecture.selectLectureList", category, rows);
+		return sqlSession.selectList("lecture.selectLectureList", parameters, rows);
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
      /* lecture insert*/
-	public int selectlectureTotalCount() {
-		return sqlSession.selectOne("lecture.selectlectureTotalCount");
+	public int selectlectureTotalCount(String category) {
+		return sqlSession.selectOne("lecture.selectlectureTotalCount",category);
 	}
 
 
@@ -84,5 +84,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
 		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
 	}
+
+
+	/*public List<Map<String, String>> selectSearchList(Map<String, Object> parameters, int cPage, int numPerPage) {
+		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("lecture.selectSearchList",parameters,rows);
+	}*/
 	
 }

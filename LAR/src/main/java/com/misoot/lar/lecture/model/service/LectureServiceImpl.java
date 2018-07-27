@@ -43,9 +43,9 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).insert(t);
 	}
 
-	public List<Map<String, String>> selectList (String category, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectList (Map<String, String> parameters, int cPage, int numPerPage) {
 		
-		return ((LectureDaoImpl)lectureDaoImpl).selectList(category, cPage, numPerPage);
+		return ((LectureDaoImpl)lectureDaoImpl).selectList(parameters, cPage, numPerPage);
 	}
 	
 	public int insertBoardLeceture(LectureBoard lectureBoard, List<BoardLectureAttachment> list ) {
@@ -82,8 +82,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	
-	public int selectlectureTotalCount() {
-		return ((LectureDaoImpl)lectureDaoImpl).selectlectureTotalCount();
+	public int selectlectureTotalCount(String category) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectlectureTotalCount(category);
 	}
 
 	public Lecture selectLectureOne(int lecture_index) {
@@ -97,5 +97,9 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
 	}
+
+	/*public List<Map<String, String>> selectSearchList(Map<String, Object> parameters, int cPage, int numPerPage) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectSearchList(parameters,cPage,numPerPage);
+	}*/
 
 }
