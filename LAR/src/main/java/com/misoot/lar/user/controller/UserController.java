@@ -73,7 +73,7 @@ public class UserController {
 		System.out.println(user);
 		
 		user.setUser_password(bcryptPasswordEncoder.encode(user.getUser_password()));
-		
+			
 		int result = ((UserServiceImpl)userServiceImpl).insert(user);
 		
 		return "redirect:/";

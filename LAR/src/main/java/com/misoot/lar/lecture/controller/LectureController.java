@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,7 @@ import com.misoot.lar.user.model.vo.User;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.common.util.Utils;
+import com.misoot.lar.commu.model.service.CommuServiceImpl;
 
 @Controller
 public class LectureController {
@@ -123,13 +126,38 @@ public class LectureController {
 	
 	//게시글 하나보기 // 강의 리스트 가져오기 //댓글 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
-	public String lectureDetail(@RequestParam("lecture_index") int lecture_index, Model model){
+	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, Model model){
+		
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
 		
 		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);
 		
 		List<LectureReview> rlist = ((LectureServiceImpl)LectureServiceImpl).reviewList(lecture_index);
-		
+		Cookie cookies[] = request.getCookies();
+		Map mapCookie = new HashMap<>();
+		if (request.getCookies() != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				mapCookie.put(cookies[i].getName(), cookies[i].getValue());
+			}
+		}
+		String cookie_read_count = (String) mapCookie.get("read_count");
+		System.out.println("cookie : "+cookie_read_count);
+		String new_cookie_read_count = "|" + lecture_index;
+		// 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사
+		if (cookie_read_count == null)
+			cookie_read_count = "";
+		Cookie cookie;
+		if (!cookie_read_count.contains(new_cookie_read_count)) {
+			// 없을 경우 쿠키 생성
+			cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count);
+			response.addCookie(cookie); // 조회수 업데이트
+			int increase = ((LectureServiceImpl) LectureServiceImpl).IncreaseLecture(lecture_index);
+			if (increase > 0)
+				System.out.println("조회수증가 성공!");
+		}else{
+			cookie=new Cookie("read_count",new_cookie_read_count);
+			response.addCookie(cookie); 
+		}
 		
 		
 	    List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);

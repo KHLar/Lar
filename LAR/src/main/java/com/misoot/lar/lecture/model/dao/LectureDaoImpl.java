@@ -125,5 +125,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.selectList("lecture.lectureQlist", lecidx);
 	}
 
+
+	public int IncreaseLecture(int lecture_index) {
+		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
+	}
+
 	
 }

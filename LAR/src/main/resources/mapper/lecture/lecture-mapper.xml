@@ -40,10 +40,12 @@
 		<if test="category neq 'total'">
 		LECTURE_CATEGORY_INDEX = #{category}  AND 
 		</if>
-		LECTURE_TITLE LIKE #{LecSearchText} AND	LECTURE_IS_DELETED = 0 
-
+		UPPER(LECTURE_TITLE) LIKE UPPER(#{LecSearchText}) AND	LECTURE_IS_DELETED = 0 
 	</select>
-
+	<update id="IncreaseLecture">
+	UPDATE TABLE_LECTURE SET LECTURE_HITS=LECTURE_HITS+1 WHERE LECTURE_INDEX = #{lecture_index}
+	</update>
+	
 	<update id="updateLecture" parameterType="lecture">
 		UPDATE TABLE_LECTURE
 		SET LECTURE_TITLE = #{lecture_title}, LECTURE_INTRO = #{lecture_intro} ,LECTURE_CONTENT = #{lecture_content} , LECTURE_LEVEL= #{lecture_level},LECTURE_PRICE= #{lecture_price}

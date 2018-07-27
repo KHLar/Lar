@@ -227,7 +227,8 @@ function lecValidate() {
       String LecSearchText=request.getParameter("LecSearchText");
       if(LecSearchText==null)
     	  LecSearchText="";
-      
+      if(category==null)
+    	  category="";
       
       int cPage = 1;
       try{

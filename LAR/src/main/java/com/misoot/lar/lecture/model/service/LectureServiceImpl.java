@@ -150,4 +150,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).updaetStar(lecture_index);
 	}
 
+	public int IncreaseLecture(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).IncreaseLecture(lecture_index);
+	}
+
 }
