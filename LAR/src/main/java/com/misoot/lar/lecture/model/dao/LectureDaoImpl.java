@@ -12,6 +12,9 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureQ;
+import com.misoot.lar.lecture.model.vo.LectureReview;
+import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 
 @Repository
 public class LectureDaoImpl implements LarDao<Lecture> {
@@ -85,10 +88,42 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
 	}
 
+	public int insertReview(LectureReview lectureReview) {
+		return sqlSession.insert("lecture.insertLectureReview",lectureReview);
+	}
 
-	/*public List<Map<String, String>> selectSearchList(Map<String, Object> parameters, int cPage, int numPerPage) {
-		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return sqlSession.selectList("lecture.selectSearchList",parameters,rows);
-	}*/
+
+	public List<LectureReview> reviewList(int lecture_index) {
+		return sqlSession.selectList("lecture.reviewList", lecture_index);
+	}
+
+
+	public LectureTotalScore selectTotalScore(int lecture_index) {
+		return sqlSession.selectOne("lecture.selectTotalScore",lecture_index);
+	}
+
+
+	public int deleteLecture(int index) {
+		return sqlSession.update("lecture.deleteLecture",index);
+	}
+
+
+	public int insertToTal(int lecture_index) {
+		return sqlSession.insert("lecture.insertTotal",lecture_index);
+	}
+
+
+	public int updaetStar(int lecture_index) {
+		return sqlSession.update("lecture.updateStar",lecture_index);
+	}
+
+	public int insertQ(Map<String, Object> qmap) {
+		return sqlSession.insert("lecture.insertQ", qmap);
+	}
+
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return sqlSession.selectList("lecture.lectureQlist", lecidx);
+	}
+
 	
 }

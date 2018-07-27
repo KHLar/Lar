@@ -24,6 +24,7 @@
 		<typeAlias alias="LectureReview" type="com.misoot.lar.lecture.model.vo.LectureReview"/>
 		<typeAlias alias="LectureHistory" type="com.misoot.lar.lecture.model.vo.LectureHistory"/>
 		<typeAlias alias="BoardLectureAttachment" type="com.misoot.lar.lecture.model.vo.BoardLectureAttachment"/>
+		<typeAlias alias="LectureTotalScore" type="com.misoot.lar.lecture.model.vo.LectureTotalScore"/>
 	</typeAliases>
 	
 	<!--

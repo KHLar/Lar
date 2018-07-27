@@ -10,6 +10,9 @@ import com.misoot.lar.lecture.model.dao.LectureDaoImpl;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureQ;
+import com.misoot.lar.lecture.model.vo.LectureReview;
+import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 
@@ -39,8 +42,28 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 	@Override
 	public int insert(Lecture t) {
+	 int result = 0;  
+	 int lecture_index = 0;
+		try{
+			
+		 result =((LectureDaoImpl)lectureDaoImpl).insert(t);
+		 
+		 lecture_index = t.getLecture_index();
+		 
+		 if(result>0){
+			 
+			 result = ((LectureDaoImpl)lectureDaoImpl).insertToTal(lecture_index);
+		 }
 		
-		return ((LectureDaoImpl)lectureDaoImpl).insert(t);
+		
+		
+		
+		
+		}catch( Exception e){
+			throw e ;
+		}
+		
+		return result;
 	}
 
 	public List<Map<String, String>> selectList (Map<String, String> parameters, int cPage, int numPerPage) {
@@ -95,11 +118,36 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
+
 		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
 	}
 
-	/*public List<Map<String, String>> selectSearchList(Map<String, Object> parameters, int cPage, int numPerPage) {
-		return ((LectureDaoImpl)lectureDaoImpl).selectSearchList(parameters,cPage,numPerPage);
-	}*/
+	public int insertQ(Map<String, Object> qmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
+	}
+
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
+	}
+
+	public int insertReview(LectureReview lectureReview) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertReview(lectureReview);
+	}
+
+	public List<LectureReview> reviewList(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).reviewList(lecture_index);
+	}
+
+	public LectureTotalScore selectTotalScore(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectTotalScore(lecture_index) ;
+	}
+
+	public int deleteLecture(int index) {
+		return ((LectureDaoImpl)lectureDaoImpl).deleteLecture(index);
+	}
+
+	public int updaetStar(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).updaetStar(lecture_index);
+	}
 
 }
