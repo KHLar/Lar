@@ -13,12 +13,20 @@
 <!-- !important. header tag have margin! please don't delete -->
 </header>
 
+<ul class="nav nav-tabs">
+	<li class="" id="commuTab"><a data-toggle="tab" href="#Commu">강좌소계</a></li>
+	<li id="noticeTab"><a data-toggle="tab" href="#Notice">공지사항</a></li>
+	<li class="active" id="qaTab"><a data-toggle="tab" href="/lar/lecture/QnA?lecture=${lecture.lecture_index}">질의응답</a></li>
+	<li id="newsTab"><a data-toggle="tab" href="#News">소식</a></li>
+</ul>
+
 
 <!-- !important. div[class=container-fluid] ~ div[class=col-md-10 col-sm-10] -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
 			<div class="row">
+			<div class="QnA" style="margin-top: 50px">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -32,17 +40,32 @@
 					<c:forEach items="${qlist}" var="q">
 					<tbody>
 						<tr>
-							<td>${ q.lecture_q_title }</td>
-							<td><a href="/lar/lecture/QnA/detail">${ q.lecture_q_content }</a></td>
-							<td>${ q.user_nickname }</td>
-							<td>${ q.lecture_q_upload_date }</td>
-							<td>${ q.lecture_q_hits }</td>
+							<td>${ q.LECTURE_Q_INDEX }</td>
+							<td><a href="/lar/lecture/QnA/detail?content=${q.LECTURE_Q_INDEX}">${ q.LECTURE_Q_TITLE }</a></td>
+							<td>${ q.USER_NICKNAME }</td>
+							<td>${ q.LECTURE_Q_UPLOAD_DATE }</td>
+							<td>${ q.LECTURE_Q_HITS }</td>
 						</tr>
 					</tbody>
 					</c:forEach>
 				</table>
-				<hr />
 				<a class="btn btn-default pull-right" href="/lar/lecture/QnA/writeForm">글쓰기</a>
+				<div class="pagingArea" style="text-align: center">
+				<% 
+			      int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
+			      int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+			        
+			      String cPageTemp = request.getParameter("cPage");
+			      int cPage = 1;
+			      try{
+			         cPage = Integer.parseInt(cPageTemp);
+			      } catch(NumberFormatException e){
+			         
+			      }	      
+			   %>
+   			  <%= com.misoot.lar.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "/lar/lecture/QnA") %>
+				</div>
+			</div>
 			</div>
 		</div>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

@@ -25,41 +25,33 @@
 					<div class="panel">
 						<div class="panel-heading" style="border-bottom: 1px solid gray;">
 							<div class="text-left">							
-								<h3>Title</h3>
-								<small>nickname</small>
+								<h3>${ lectureQ.lecture_q_title }</h3>
+								<small>${ lectureQ.user_nickname }</small>
 							</div>
 						</div>
 
 						<div class="panel-body">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, <br>sed do
-							eiusmod tempor incididunt ut labore et dolore<br> magna aliqua. Ut
-							enim ad minim veniam, quis <br>nostrud exercitation ullamco laboris
-							nisi ut aliquip ex ea <br>commodo consequat. Duis aute irure dolor
-							in... <a href="#">Read more</a>
+							${ lectureQ.lecture_q_content }
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">
-							<small>2014-07-30 18:30:00</small>
+							<small>${ lectureQ.lecture_q_upload_date }</small>
 						</div>
 					</div>
-					<c:forEach var="i" begin="1" end="3">
+					<c:forEach items="${ lectureA }" var="a">
 					<div class="panel">
 						<div class="panel-heading" style="border-bottom: 1px solid gray;">
 							<div class="text-left">							
-								<h2 style="display: inline-block;">↳</h2>&nbsp;<small>nickname</small>
+								<h2 style="display: inline-block;">↳</h2>&nbsp;<small>${ a.user_nickname }</small>
 							</div>
 						</div>
 
 						<div class="panel-body">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, <br>sed do
-							eiusmod tempor incididunt ut labore et dolore<br> magna aliqua. Ut
-							enim ad minim veniam, quis <br>nostrud exercitation ullamco laboris
-							nisi ut aliquip ex ea <br>commodo consequat. Duis aute irure dolor
-							in... <a href="#">Read more</a>
+							${ a.lecture_a_content }
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">
-							<small>2014-07-30 18:30:00</small>
+							<small>${ a.lecture_a_upload_date }</small>
 						</div>
 					</div>
 					</c:forEach>
@@ -72,8 +64,10 @@
 			</div>
 			
 			<div class="row write_reply" style="display: none; margin-top: 50px">
-				<form action="">
+				<form action="/lar/lecture/QnA/insertA">
 					<div id="summernote"></div>
+					<input type="hidden" id="lecture_a_lecture_q_index" value="${ lectureQ.lecture_q_index }"/>
+					<input type="hidden" id="lecture_a_content"/>
 					<button type="submit" class="btn btn-default pull-right" style="margin-top: 10px">작성완료</button>
 				</form>
 			</div>
@@ -90,17 +84,21 @@
 				});
 			});
 			
-			 $('.reply_btn').on('click', function(){
-				 $('.write_reply').css('display','');
-				 $('.reply_cancel_btn').css('display','');
-				 $('.reply_btn').css('display', 'none');
-			 });
+			$('.reply_btn').on('click', function(){
+				$('.write_reply').css('display','');
+				$('.reply_cancel_btn').css('display','');
+				$('.reply_btn').css('display', 'none');
+			});
 			 
-			 $('.reply_cancel_btn').on('click', function(){
-				 $('.write_reply').css('display','none');
-				 $('.reply_cancel_btn').css('display','none');
-				 $('.reply_btn').css('display', '');
-				 $('#summernote').summernote('reset');
-			 });
+			$('.reply_cancel_btn').on('click', function(){
+				$('.write_reply').css('display','none');
+				$('.reply_cancel_btn').css('display','none');
+				$('.reply_btn').css('display', '');
+				$('#summernote').summernote('reset');
+			});
+			 
+			function inputcontent(){
+				document.getElementById("lecture_a_content").value=$('#summernote').summernote('code');
+			}
 		</script>
 			<c:import url="/WEB-INF/views/common/_footer.jsp" />

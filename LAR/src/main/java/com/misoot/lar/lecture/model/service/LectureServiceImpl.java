@@ -15,6 +15,7 @@ import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureA;
 
 @Service
 public class LectureServiceImpl implements LarService<Lecture> {
@@ -121,14 +122,6 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
 	}
 
-	public int insertQ(Map<String, Object> qmap) {
-		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
-	}
-
-	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
-		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
-	}
-
 	public int insertReview(LectureReview lectureReview) {
 		return ((LectureDaoImpl)lectureDaoImpl).insertReview(lectureReview);
 	}
@@ -148,5 +141,24 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public int updaetStar(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).updaetStar(lecture_index);
 	}
+	
+	public int insertQ(Map<String, Object> qmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
+	}
 
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
+	}
+
+	public int lectureQTotalContents(int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQTotalContents(lecidx);
+	}
+
+	public LectureQ lectureQdetail(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQdetail(qindex);
+	}
+
+	public List<LectureA> lectureAdetail(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureAdetail(qindex);
+	}
 }

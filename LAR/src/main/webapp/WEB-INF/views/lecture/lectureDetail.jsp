@@ -132,8 +132,8 @@
 					<li class="" id="commuTab"><a data-toggle="tab"
 						href="#Commu">강좌소계</a></li>
 					<li id="noticeTab"><a data-toggle="tab" href="#Notice">공지사항</a></li>
-					<li class="" id="qaTab"><a data-toggle="tab"
-						href="#QA">질의응답</a></li>
+					<li class="" id="qaTab"><a 
+						href="/lar/lecture/QnA?lecture=${lecture.lecture_index}">질의응답</a></li>
 					<li id="newsTab"><a data-toggle="tab" href="#News">소식</a></li>
 				</ul>
     

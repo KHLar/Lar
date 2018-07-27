@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
@@ -122,7 +123,21 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
-		return sqlSession.selectList("lecture.lectureQlist", lecidx);
+		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
+		return sqlSession.selectList("lecture.lectureQlist", lecidx, rows);
+	}
+
+	public int lectureQTotalContents(int lecidx) {
+		return sqlSession.selectOne("lecture.lectureQTotalContents", lecidx);
+	}
+
+	public LectureQ lectureQdetail(int qindex) {
+		return sqlSession.selectOne("lecture.lectureQdetail", qindex);
+	}
+
+	public List<LectureA> lectureAdetail(int qindex) {
+		return sqlSession.selectList("lecture.lectureAdetail", qindex);
 	}
 
 	

@@ -2,15 +2,13 @@ package com.misoot.lar.lecture.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.sql.Clob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletOutputStream;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +24,12 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
 import com.misoot.lar.lecture.model.vo.LectureQ;
-import com.misoot.lar.user.model.vo.User;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
-import com.misoot.lar.common.util.Utils;
+import com.misoot.lar.user.model.vo.User;
 
 @Controller
 public class LectureController {
@@ -267,18 +265,18 @@ public class LectureController {
 	
 	
 	@RequestMapping("/lecture/QnA")
-	public String lectureQnA(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="lecidx") int lecidx, Model model) {
+	public String lectureQnA(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="lecture") int lecidx, Model model) {
 		lecidx = 1;
 		
 		int numPerPage = 10;
 		
 		List<Map<String, String>> qlist = ((LectureServiceImpl)LectureServiceImpl).lectureQlist(cPage, numPerPage, lecidx);
 		
-		/*int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecidx);*/
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecidx);
 		
 		model.addAttribute("qlist", qlist).
-			addAttribute("numPerPage", numPerPage);
-			/*addAttribute("totalContents", totalContents);*/
+			addAttribute("numPerPage", numPerPage).
+			addAttribute("totalContents", totalContents);
 		
 		return "lecture/lectureQnA";
 	}
@@ -302,7 +300,19 @@ public class LectureController {
 	}
 	
 	@RequestMapping("/lecture/QnA/detail")
-	public String lectureQnAdetail() {
+	public String lectureQnAdetail(@RequestParam(value="content") int qindex, Model model) {
+		
+		LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(qindex);
+		List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(qindex);
+		
+		model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
+		
 		return "lecture/detailQnA";
+	}
+	
+	@RequestMapping("/lecture/QnA/insertA")
+	public String insertA(LectureA lecturea) {
+		
+		return "redirect: /lecture/QnA/detail?content=";
 	}
 }
