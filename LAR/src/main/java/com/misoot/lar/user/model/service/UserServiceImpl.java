@@ -161,4 +161,19 @@ public class UserServiceImpl implements LarService<User> {
 	 * purchase end
 	 */
 
+	public int idcheck(String transName) {
+		return ((UserDaoImpl)userDaoImpl).nickNameCheck(transName);
+	}
+
+
+	public String pwSearch(String userindex) {
+		
+		return ((UserDaoImpl)userDaoImpl).pwSearch(userindex);
+	}
+
+	public int change_pw(Map<Object, Object> map) {
+		
+		return ((UserDaoImpl)userDaoImpl).change_pw(map);
+	}
+
 }

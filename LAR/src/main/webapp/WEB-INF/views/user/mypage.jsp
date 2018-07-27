@@ -14,6 +14,10 @@
 	    $(this).tab('show');
 	})
 	
+	function infoBtn(){
+		location.href = "${pageContext.request.contextPath}/mypage/infoPage";
+	}
+	
 	function checkboxArr() {
 		var checkArr = [];
 		
@@ -35,6 +39,8 @@
 				}
 			}
 		});
+		
+		
 	}
 </script>
 
@@ -74,7 +80,8 @@
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
 							<div class="wrapprofile">
 								<h2 style="display: inline-block;">${session_user.user_nickname}</h2>&nbsp;&nbsp;
-								<button type="button" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
+								<button type="button" onclick="infoBtn();" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
+								
 							</div>
 							<hr style="border: 0.03em solid #cbbde2">
 							<ul class="container details" style="list-style: none;">

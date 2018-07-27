@@ -166,4 +166,17 @@ public class UserDaoImpl implements LarDao<User> {
 	/*
 	 * purchase end
 	 */
+
+	public int nickNameCheck(String transName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user.nicknameDuplicateCheck", transName);
+	}
+
+	public String pwSearch(String userindex) {
+		return sqlSession.selectOne("user.pwSearch", userindex);
+	}
+
+	public int change_pw(Map<Object, Object> map) {
+		return sqlSession.update("user.change_pw", map);
+	}
 }

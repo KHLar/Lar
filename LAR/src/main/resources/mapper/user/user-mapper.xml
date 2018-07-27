@@ -194,5 +194,14 @@
 		#{item}
 		</foreach>
 		AND CART_USER_INDEX = #{userIdx}
-   	</delete>
+   	</delete>	
+   	
+   	<select id="pwSearch" parameterType="String" resultType="String">
+   		SELECT USER_PASSWORD FROM TABLE_USER WHERE USER_INDEX= #{userindex}
+   	</select>
+   	
+   	<update id="change_pw" parameterType="map">
+   	 	update table_user SET USER_PASSWORD = #{change_pw}  where user_index= #{userindex}
+   	</update>
+
 </mapper>

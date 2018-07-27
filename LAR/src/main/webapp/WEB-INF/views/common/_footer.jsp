@@ -40,7 +40,7 @@
 <div id="dynamicModal">
 	<div class="modal fade dynamicModal" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-md">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content" id="modalContent"></div>
 		</div>
 	</div>
