@@ -32,7 +32,13 @@
 	
 	<select id="selectUserList" parameterType="_int" resultType="user">
 		select * from TABLE_USER
-		WHERE USER_LEVEL <![CDATA[ < ]]> #{user_level}
+		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
+		ORDER BY USER_LEVEL DESC
+	</select>
+	
+	<select id="selectUserCount" parameterType="_int" resultType="_int">
+		select COUNT(*) from TABLE_USER
+		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
 	</select>
 	
 </mapper>

@@ -98,8 +98,6 @@
 	href="${pageContext.request.contextPath}/resources/css/shop-item.css"
 	rel="stylesheet"> --%>
 
-
-
 <br>
 <br>
 <br>

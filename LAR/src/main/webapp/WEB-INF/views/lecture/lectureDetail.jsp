@@ -5,9 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:import url="/WEB-INF/views/common/_header.jsp" >
 </c:import>
+
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap2.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/blog-post.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     * {box-sizing: border-box;}
     
