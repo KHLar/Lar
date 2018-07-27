@@ -164,8 +164,7 @@ td {
 											<td>${c.commu_Index}</td>
 											<td class="commuContent"><p style="font-size: 18px;">${c.commu_Title}</p>
 												<c:forTokens items="${c.commu_tags}" var="tag" delims=",">
-													<a
-														href="${pageContext.request.contextPath}/commu/commuMain?commuSearchType=tags&commuSearchText=${tag}"
+													<a href="${pageContext.request.contextPath}/commu/commuMain?commuSearchType=tags&commuSearchText=${tag}"
 														class="bg-warning labelinput badge badge-warning"
 														style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
 												</c:forTokens></td>
