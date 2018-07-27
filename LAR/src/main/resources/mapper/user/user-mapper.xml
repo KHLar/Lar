@@ -14,7 +14,7 @@
 	<insert id="insert" parameterType="user">
 		insert into TABLE_USER
 		values(SEQ_USER_INDEX.NEXTVAL, #{user_id}, #{user_password},
-				#{user_nickname}, DEFAULT, #{user_phone}, DEFAULT, DEFAULT, DEFAULT)
+				#{user_nickname}, DEFAULT, #{user_phone}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="update" parameterType="user">
@@ -171,4 +171,11 @@
 		#{index}
 		</foreach>
    	</select>	
+   	
+   	<select id="pwSearch" parameterType="String" resultType="String">
+   		SELECT USER_PASSWORD FROM TABLE_USER WHERE USER_INDEX= #{userindex}
+   	</select>
+   	<update id="change_pw" parameterType="map">
+   	 	update table_user SET USER_PASSWORD = #{change_pw}  where user_index= #{userindex}
+   	</update>
 </mapper>
