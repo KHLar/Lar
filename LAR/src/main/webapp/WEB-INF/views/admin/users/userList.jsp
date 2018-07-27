@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:import url="/WEB-INF/views/admin/common/_header.jsp">
-	<c:param value="Users" name="pageTitle" />
+	<c:param value="User List" name="pageTitle" />
 </c:import>
 
 <div class="col-lg-12">
@@ -18,11 +18,41 @@
 		</ol>
 	</div>
 
-	<div class="row">
+	<div class="row table-responsive">
+		<table class="table">
+			<tr>
+				<td>Idx</td>
+				<td>ID</td>
+				<td>Nick</td>
+				<td>E_Date</td>
+				<td>Level</td>
+			</tr>
 		<c:forEach items="${user_list}" var="u">
-			<p>${u}</p>
+			<tr>
+				<td>
+					${u.user_index}
+				</td>
+				<td>
+					${u.user_id}
+				</td>
+				<td>
+					${u.user_nickname}
+				</td>
+				<td>
+					${u.user_enrolled_date}
+				</td>
+				<td>
+					${u.user_level}
+				</td>
+			</tr>
 		</c:forEach>
+		</table>
 	</div>
+	
+	<div class="row">
+		
+	</div>
+	
 </div>
 
 <c:import url="/WEB-INF/views/admin/common/_footer.jsp">

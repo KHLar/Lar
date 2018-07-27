@@ -2,11 +2,14 @@ package com.misoot.lar.admin.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
 import com.misoot.lar.admin.model.vo.Admin;
@@ -38,15 +41,27 @@ public class AdminController {
 	 * Admin Users area start
 	 */
 	
-	@RequestMapping(value= "/users")
-	public String users(Model model, @ModelAttribute("session_user") User session_user) {
-		List<User> user_list = ((AdminServiceImpl)adminServiceImpl).selectUserList(session_user.getUser_level());
-		model.addAttribute(user_list);
+	@RequestMapping(value= "/users/list/{page}")
+	public String users(Model model, @SessionAttribute("session_user") User session_user, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		RowBounds rowBounds = new RowBounds((page-1)*content_per_page, content_per_page);
+		List<User> user_list = ((AdminServiceImpl)adminServiceImpl).selectUserList(session_user.getUser_level(), rowBounds);
+		int max_list_count = ((AdminServiceImpl)adminServiceImpl).selectUserCount(session_user.getUser_level());
+
+		model.addAttribute("user_list", user_list)
+			.addAttribute("content_per_page", content_per_page)
+			.addAttribute("max_list_count", max_list_count);
+		
 		return "admin/users";
 	}
 	
+	@RequestMapping(value="/users/view/{user_index}")
+	public String user_View(Model model, @PathVariable("user_index") int user_index) {
+		return "";
+	}
+	
 	/*
-	 * Admin Users area start
+	 * Admin Users area End
 	 */
 	
 	

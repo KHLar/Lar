@@ -6,13 +6,8 @@
 
 <c:import url="/WEB-INF/views/common/_header.jsp" >
 </c:import>
- <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery1.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap2.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/blog-post.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     * {box-sizing: border-box;}
     

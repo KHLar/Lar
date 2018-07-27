@@ -9,13 +9,6 @@
 </c:import>
 
 </header>
-<link
-	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
-	rel="stylesheet">
-<!-- Custom styles for this template -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/shop-item.css"
-	rel="stylesheet">
 
 <br>
 <br>

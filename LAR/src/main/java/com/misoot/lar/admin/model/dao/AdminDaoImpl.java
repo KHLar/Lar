@@ -2,6 +2,7 @@ package com.misoot.lar.admin.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,7 +43,11 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return 0;
 	}
 
-	public List<User> selectUserList(int user_level) {
-		return sqlSession.selectList("admin.selectUserList", user_level);
+	public List<User> selectUserList(int user_level, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectUserList", user_level, rowBounds);
+	}
+
+	public int selectUserCount(int user_level) {
+		return sqlSession.selectOne("admin.selectUserCount", user_level);
 	}
 }

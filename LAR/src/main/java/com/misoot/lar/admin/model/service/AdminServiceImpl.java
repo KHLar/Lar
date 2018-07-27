@@ -2,6 +2,7 @@ package com.misoot.lar.admin.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,11 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return adminDaoImpl.delete(index);
 	}
 
-	public List<User> selectUserList(int user_level) {
-		return ((AdminDaoImpl)adminDaoImpl).selectUserList(user_level);
+	public List<User> selectUserList(int user_level, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectUserList(user_level, rowBounds);
+	}
+
+	public int selectUserCount(int user_level) {
+		return ((AdminDaoImpl)adminDaoImpl).selectUserCount(user_level);
 	}
 }
