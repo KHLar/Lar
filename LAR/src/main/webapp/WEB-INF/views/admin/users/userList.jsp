@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="row table-responsive">
-		<table class="table">
+		<table class="table table-striped table-condensed">
 			<tr>
 				<td>Idx</td>
 				<td>ID</td>
