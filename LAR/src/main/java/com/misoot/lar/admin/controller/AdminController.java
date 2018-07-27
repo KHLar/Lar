@@ -41,6 +41,7 @@ public class AdminController {
 	/*
 	 * Admin Users area start
 	 */
+	
 	@RequestMapping(value = "/users/list/{page}")
 	public String users(Model model, @SessionAttribute("session_user") User session_user,
 			@PathVariable("page") int page) {
@@ -61,7 +62,11 @@ public class AdminController {
 	
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_View(Model model, @PathVariable("user_index") int user_index) {
-		return "";
+		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
+		
+		model.addAttribute("view_user", view_user);
+		
+		return "admin/users/userView";
 	}
 	
 	/*

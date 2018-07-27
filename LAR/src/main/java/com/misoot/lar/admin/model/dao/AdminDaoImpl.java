@@ -50,4 +50,8 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int selectUserCount(int user_level) {
 		return sqlSession.selectOne("admin.selectUserCount", user_level);
 	}
+
+	public User selectUser(int user_index) {
+		return sqlSession.selectOne("admin.selectUser", user_index);
+	}
 }
