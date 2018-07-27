@@ -88,15 +88,12 @@
  
  </style>
  
- 
 </header>
 <%-- <link
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
 	rel="stylesheet"> --%>
 <!-- Custom styles for this template -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/shop-item.css"
-	rel="stylesheet"> --%>
+<link href="${pageContext.request.contextPath}/resources/css/shop-item.css" rel="stylesheet">
 
 <br>
 <br>
@@ -112,7 +109,6 @@ function lecValidate() {
 }
 </script>
 
->>>>>>> refs/remotes/origin/ny_branch
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
@@ -153,7 +149,7 @@ function lecValidate() {
 				<c:forEach items="${lList}" var="lList">
 				<div class="row">
 					<div class="col-md-3">
-						<a href="#"> <img class="img-fluid rounded mb-3 mb-md-0"
+						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><img class="img-fluid rounded mb-3 mb-md-0"
 							src="http://placehold.it/240x240" alt="">
 						</a>
 					</div>
@@ -161,7 +157,7 @@ function lecValidate() {
 						
 						
 						<input class="index" type="hidden" value="${lList.lecture_index}">
-						<h3>${lList.lecture_title}</h3>
+						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><p>${lList.lecture_title} </p></a>
 						<c:if test="${lList.lecture_total_score == 0}">
           				  <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
@@ -207,9 +203,16 @@ function lecValidate() {
 				          </c:if>
          					 <h1> ${lectureTotalScore.lecture_review_count } 개의 수강평</h1>
 							<p>
-							<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
-							${lList.lecture_intro }</a>
+							
 						</p>
+							<c:choose>
+							 <c:when test="${fn:length(lList.lecture_intro ) > 50}">
+								<p><c:out value="${fn:substring(lList.lecture_intro ,0,49)}"/>....</p>
+							</c:when>
+							<c:otherwise>
+							<p><c:out value="${lList.lecture_intro }"/></p>
+							</c:otherwise> 
+							</c:choose>	
 						
 						<button type="button" class="btn btn-warning pull-right" id="lectureUpdate">수정하기</button>
 						<button type="button" class="btn btn-warning pull-right lecturedelete">삭제하기</button>
@@ -247,11 +250,4 @@ function lecValidate() {
 			
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
 			</div>
-	
-
-<%-- <script
-	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --%>
-
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

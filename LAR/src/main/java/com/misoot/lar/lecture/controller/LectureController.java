@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletOutputStream;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +33,7 @@ import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.user.model.vo.User;
-import com.misoot.lar.common.util.Utils;
-import com.misoot.lar.commu.model.service.CommuServiceImpl;
+
 
 
 @Controller
@@ -162,6 +161,13 @@ public class LectureController {
 		
 		
 	    List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
+		 for(int i = 0; i < blist.size() - 1 ; i++){
+			 for(int j = i+1; j < blist.size() ; j++){
+				 if(blist.get(i).get("LECTURE_BOARD_CHAPTER").equals(blist.get(j).get("LECTURE_BOARD_CHAPTER"))){
+					 blist.get(j).put("LECTURE_BOARD_CHAPTER", "");
+				 }
+			 }
+		 }
 	    
 		model.addAttribute("blist",blist).addAttribute("lecture",lecture).addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist);
 		System.out.println("blist"+blist);
@@ -189,10 +195,10 @@ public class LectureController {
 				 }
 			 }
 		 }
-		
+	/*	
 		System.out.println("bLecture="+bLecture+"blist="+blist);
 		
-		System.out.println(lecture_index);
+		System.out.println(lecture_index);*/
 		
 		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
 		return "lecture/lectureView";

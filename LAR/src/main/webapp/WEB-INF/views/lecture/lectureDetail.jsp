@@ -5,10 +5,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:import url="/WEB-INF/views/common/_header.jsp" >
 </c:import>
-
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap2.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/blog-post.css" rel="stylesheet">
 <style>
+ 
+.youtubeWrap iframe {
+  position: absolute;
+  width: 100%;
+  height: 60%;
+}
+
+    
+
     * {box-sizing: border-box;}
     
     body {
@@ -161,7 +169,7 @@
           <p>업로드 날짜:${lecture.lecture_upload_date }</p>
           <hr>
           <!-- Preview Image -->
-          <div class="col-sm-12">
+          <div class="col-sm-12 ">
              ${lecture.lecture_content }
           <br><br>
           </div>
@@ -364,18 +372,23 @@
           </div>
           <hr />
             </c:forEach> 
+      
            
           <!-- Comment with nested comments -->
              <div class=""> 
-            <h3> 강좌 교육 과정</h3>
+            <h1> 강좌 교육 과정</h1>
             <table class="table table-hover">
-                <tbody>
-                  <tr class="lecture_section" scope="col">
-                     
+                <tbody>                     
                   
                     </tr>
                     <c:forEach items="${blist}" var="bl" >
-                        <tr>                        
+                    
+                        <tr>                      
+                        	  <c:if test="${!empty bl.LECTURE_BOARD_CHAPTER }">                       
+                         <tr class="lecture_section" scope="col">
+                        	<td colspan="6"><h3>${bl.LECTURE_BOARD_CHAPTER } </h3></td>
+                    	</tr>   	
+                    	</c:if>
                            <td class="play_icons"><!-- <a class="lectureView"> --><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
                            <td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
                            <input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
