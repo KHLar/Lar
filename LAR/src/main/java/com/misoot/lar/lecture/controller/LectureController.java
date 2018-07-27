@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.misoot.lar.common.interfaces.LarService;
@@ -287,32 +288,43 @@ public class LectureController {
 	}
 	
 	@RequestMapping("/lecture/QnA/insertQ")
-	public String insertQ(LectureQ lectureq, @ModelAttribute("session_user") User user,Model model) {
+	public String insertQ(LectureQ lectureq, @SessionAttribute("session_user") User user,Model model) {
 		
-		Map<String, Object> qmap = new HashMap<String, Object>();
+		lectureq.setUser_index(user.getUser_index());
 		
-		qmap.put("useridx", user.getUser_index());
-		qmap.put("lectureq", lectureq);
+		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(lectureq);
 		
-		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(qmap);
-		
-		return "";
+		return "redirect:/lecture/QnA/detail?content="+result;
 	}
 	
 	@RequestMapping("/lecture/QnA/detail")
 	public String lectureQnAdetail(@RequestParam(value="content") int qindex, Model model) {
 		
-		LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(qindex);
-		List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(qindex);
+		int result = ((LectureServiceImpl)LectureServiceImpl).updateQhits(qindex);
 		
-		model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
+		if(result > 0) {
+			LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(qindex);
+			
+			List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(qindex);
+			
+			model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
+		}
 		
 		return "lecture/detailQnA";
 	}
 	
 	@RequestMapping("/lecture/QnA/insertA")
-	public String insertA(LectureA lecturea) {
+	public String insertA(LectureA lecturea, @SessionAttribute("session_user") User user) {
 		
-		return "redirect: /lecture/QnA/detail?content=";
+		Map<String, Object> amap = new HashMap<String, Object>();
+		
+		System.out.println(user.getUser_index());
+		
+		amap.put("useridx", user.getUser_index());
+		amap.put("lecturea", lecturea);
+		
+		int result = ((LectureServiceImpl)LectureServiceImpl).insertA(amap);
+		
+		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
 	}
 }

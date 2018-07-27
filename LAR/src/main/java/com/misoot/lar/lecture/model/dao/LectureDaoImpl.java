@@ -28,7 +28,6 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return null;
 	}
 
-	
 	public List<Map<String, String>> selectList(String category, int cPage, int numPerPage) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
@@ -118,8 +117,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.updateStar",lecture_index);
 	}
 
-	public int insertQ(Map<String, Object> qmap) {
-		return sqlSession.insert("lecture.insertQ", qmap);
+	public int insertQ(LectureQ lectureq) {
+		return sqlSession.insert("lecture.insertQ", lectureq);
 	}
 
 	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
@@ -138,6 +137,14 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public List<LectureA> lectureAdetail(int qindex) {
 		return sqlSession.selectList("lecture.lectureAdetail", qindex);
+	}
+
+	public int insertA(Map<String, Object> amap) {
+		return sqlSession.insert("lecture.insertA", amap);
+	}
+
+	public int updateQhits(int qindex) {
+		return sqlSession.update("lecture.updateQhits", qindex);
 	}
 
 	

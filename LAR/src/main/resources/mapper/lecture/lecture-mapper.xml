@@ -132,9 +132,12 @@
 		
 	</update>
 
-	<insert id="insertQ" parameterType="hashmap">
+	<insert id="insertQ" parameterType="lectureQ">
+	<selectKey keyProperty="lecture_q_index" resultType="_int" order="AFTER">
+		SELECT SEQ_LECTURE_Q_INDEX.currval FROM DUAL
+	</selectKey>
 		INSERT INTO TABLE_LECTURE_Q VALUES(
-		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{useridx}, 1, #{lectureq.lecture_q_title}, #{lectureq.lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{user_index}, 1, #{lecture_q_title}, #{lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<select id="lectureQlist" parameterType="_int" resultType="hashmap">
@@ -152,4 +155,13 @@
 	<select id="lectureAdetail" parameterType="_int" resultType="lectureA">
 		SELECT * FROM TABLE_LECTURE_A JOIN TABLE_USER ON(LECTURE_A_WRITER_INDEX = USER_INDEX) WHERE LECTURE_A_LECTURE_Q_INDEX = #{qindex}
 	</select>
+	
+	<insert id="insertA" parameterType="hashmap">
+		INSERT INTO TABLE_LECTURE_A VALUES(
+		 SEQ_LECTURE_A_INDEX.NEXTVAL, #{useridx}, #{lecturea.lecture_a_lecture_q_index}, #{lecturea.lecture_a_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	<update id="updateQhits" parameterType="_int">
+		UPDATE TABLE_LECTURE_Q SET LECTURE_Q_HITS = ((SELECT LECTURE_Q_HITS FROM TABLE_LECTURE_Q WHERE LECTURE_Q_INDEX = #{qindex}) + 1) WHERE LECTURE_Q_INDEX = #{qindex} 
+	</update>
 </mapper>

@@ -73,9 +73,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 	
 	public int insertBoardLeceture(LectureBoard lectureBoard, List<BoardLectureAttachment> list ) {
-		int result = 0, lecture_board_index =0;
-		
-		
+		int result = 0, lecture_board_index =0;		
 		
 		try {
 			result = ((LectureDaoImpl)lectureDaoImpl).insertBoardLeceture(lectureBoard);
@@ -142,8 +140,12 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).updaetStar(lecture_index);
 	}
 	
-	public int insertQ(Map<String, Object> qmap) {
-		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
+	public int insertQ(LectureQ lectureq) {
+		int result = ((LectureDaoImpl)lectureDaoImpl).insertQ(lectureq);
+		if(result > 0) {
+			result = lectureq.getLecture_q_index();
+		}
+		return result;
 	}
 
 	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
@@ -160,5 +162,13 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public List<LectureA> lectureAdetail(int qindex) {
 		return ((LectureDaoImpl)lectureDaoImpl).lectureAdetail(qindex);
+	}
+
+	public int insertA(Map<String, Object> amap) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertA(amap);
+	}
+
+	public int updateQhits(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQhits(qindex);
 	}
 }

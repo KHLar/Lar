@@ -66,9 +66,9 @@
 			<div class="row write_reply" style="display: none; margin-top: 50px">
 				<form action="/lar/lecture/QnA/insertA">
 					<div id="summernote"></div>
-					<input type="hidden" id="lecture_a_lecture_q_index" value="${ lectureQ.lecture_q_index }"/>
-					<input type="hidden" id="lecture_a_content"/>
-					<button type="submit" class="btn btn-default pull-right" style="margin-top: 10px">작성완료</button>
+					<input type="hidden" id="lecture_a_lecture_q_index" name="lecture_a_lecture_q_index" value="${ lectureQ.lecture_q_index }"/>
+					<input type="hidden" id="lecture_a_content" name="lecture_a_content"/>
+					<button type="submit" class="btn btn-default pull-right" style="margin-top: 10px" onclick="inputcontent();">작성완료</button>
 				</form>
 			</div>
 		</div>
