@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,11 +26,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public Lecture selectOne(int index) {
 		return null;
 	}
-
-	public List<Map<String, String>> selectList(String category, int cPage, int numPerPage) {
+	
+	public List<Map<String, String>> selectList(Map<String, String> parameters, int cPage, int numPerPage) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		return sqlSession.selectList("lecture.selectLectureList", category, rows);
+		return sqlSession.selectList("lecture.selectLectureList", parameters, rows);
 	}
 
 	@Override
@@ -70,8 +69,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
      /* lecture insert*/
-	public int selectlectureTotalCount() {
-		return sqlSession.selectOne("lecture.selectlectureTotalCount");
+	public int selectlectureTotalCount(String category) {
+		return sqlSession.selectOne("lecture.selectlectureTotalCount",category);
 	}
 
 
@@ -145,6 +144,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public int updateQhits(int qindex) {
 		return sqlSession.update("lecture.updateQhits", qindex);
+	}
+
+
+	public int IncreaseLecture(int lecture_index) {
+		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
 	}
 
 	

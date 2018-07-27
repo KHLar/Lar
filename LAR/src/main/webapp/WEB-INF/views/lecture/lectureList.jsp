@@ -92,7 +92,7 @@
 </header>
 <%-- <link
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
-	rel="stylesheet">
+	rel="stylesheet"> --%>
 <!-- Custom styles for this template -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/shop-item.css"
@@ -101,6 +101,18 @@
 <br>
 <br>
 <br>
+
+<script>
+function lecValidate() {
+	if ($('#LecSearchText').val().trim() == null
+			|| $('#LecSearchText').val().trim() == "") {
+		location.href = "${pageContext.request.contextPath}/lectureList";
+	}
+	return true;
+}
+</script>
+
+>>>>>>> refs/remotes/origin/ny_branch
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
@@ -113,13 +125,15 @@
 				<div id="cool1">
 					<div data-toggle="collapse" data-target="#cool1"
 						aria-expanded="false">
-						<li class="list-group-item"><a href="/lar/lectureList?category=L01">JAVA</a></li>
-						<li class="list-group-item"><a href="/lar/lectureList?category=L02">C++</li>
-						<li class="list-group-item"><a href="/lar/lectureList?category=L03">JavaScript</li>
-						<li class="list-group-item"><a href="/lar/lectureList?category=L04">php</li>
-						<li class="list-group-item"><a href="/lar/lectureList?category=L05">JavaScript</li>
-
+					
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L04">php</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
+					
 					</div>
+				</div>
 			</ul>
 
 		
@@ -127,9 +141,11 @@
 		<div class="col-lg-7">
 			<br>
 			
-				<form action="" method="get">
+				<form action="${pageContext.request.contextPath}/lectureList" onsubmit="return lecValidate();">
+
 					<div class="input-group">
-						  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+						  <input type="text" class="form-control" placeholder="Search" id="LecSearchText" name="LecSearchText">
+						  <input type="hidden" name="category" value="${category}"/>
       					  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 					</div>
 				</form>
@@ -212,6 +228,13 @@
       
       //파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
       String cPageTemp = request.getParameter("cPage");
+      String category=request.getParameter("category");
+      String LecSearchText=request.getParameter("LecSearchText");
+      if(LecSearchText==null)
+    	  LecSearchText="";
+      if(category==null)
+    	  category="";
+      
       int cPage = 1;
       try{
          cPage = Integer.parseInt(cPageTemp);
@@ -220,8 +243,15 @@
       }
       
    %>
-   <%=com.misoot.lar.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "/lar/lectureList") %>
+   <%=com.misoot.lar.common.util.Utils.getLecPageBar(totalContents, cPage, numPerPage,category,LecSearchText,"/lar/lectureList") %>
 			
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
 			</div>
+	
+
+<%-- <script
+	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --%>
+
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

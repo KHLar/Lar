@@ -3,7 +3,6 @@ package com.misoot.lar.user.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Clob;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.Utils;
-import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.service.UserServiceImpl;
 import com.misoot.lar.user.model.vo.User;
 
@@ -74,9 +70,9 @@ public class UserController {
 		System.out.println(user);
 
 		user.setUser_password(bcryptPasswordEncoder.encode(user.getUser_password()));
-
-		int result = ((UserServiceImpl) userServiceImpl).insert(user);
-
+	
+		int result = ((UserServiceImpl)userServiceImpl).insert(user);
+		
 		return "redirect:/";
 	}
 
