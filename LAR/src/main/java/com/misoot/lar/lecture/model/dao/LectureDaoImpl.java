@@ -12,6 +12,8 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureReview;
+import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 
 @Repository
 public class LectureDaoImpl implements LarDao<Lecture> {
@@ -85,5 +87,38 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
 		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
 	}
+
+
+	public int insertReview(LectureReview lectureReview) {
+		return sqlSession.insert("lecture.insertLectureReview",lectureReview);
+	}
+
+
+	public List<LectureReview> reviewList(int lecture_index) {
+		return sqlSession.selectList("lecture.reviewList", lecture_index);
+	}
+
+
+	public LectureTotalScore selectTotalScore(int lecture_index) {
+		return sqlSession.selectOne("lecture.selectTotalScore",lecture_index);
+	}
+
+
+	public int deleteLecture(int index) {
+		return sqlSession.update("lecture.deleteLecture",index);
+	}
+
+
+	public int insertToTal(int lecture_index) {
+		return sqlSession.insert("lecture.insertTotal",lecture_index);
+	}
+
+
+	public int updaetStar(int lecture_index) {
+		return sqlSession.update("lecture.updateStar",lecture_index);
+	}
+
+
+	
 	
 }

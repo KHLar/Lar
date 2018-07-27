@@ -89,7 +89,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 	 function funcNote(){
 		 $('#lecture_intro').val($('#exampleFormControlTextarea1').val());
          document.getElementById("lecture_content").value=$('#summernote').summernote('code');
-         //alert(document.getElementById("commu_Content").value);
+      
      }
 	 
 </script>
