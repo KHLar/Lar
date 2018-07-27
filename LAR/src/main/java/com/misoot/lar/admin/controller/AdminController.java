@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
 import com.misoot.lar.admin.model.vo.Admin;
@@ -39,9 +40,14 @@ public class AdminController {
 	 */
 	
 	@RequestMapping(value= "/users")
-	public String users(Model model, @ModelAttribute("session_user") User session_user) {
+	public String users(Model model, @SessionAttribute("session_user") User session_user) {
 		List<User> user_list = ((AdminServiceImpl)adminServiceImpl).selectUserList(session_user.getUser_level());
-		model.addAttribute(user_list);
+		
+		for (User u : user_list) {
+			System.out.println(u);
+		}
+		
+		model.addAttribute("user_list", user_list);
 		return "admin/users";
 	}
 	

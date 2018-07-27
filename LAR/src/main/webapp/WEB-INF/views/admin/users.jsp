@@ -20,7 +20,7 @@
 
 	<div class="row">
 		<c:forEach items="${user_list}" var="u">
-			<p>${u}</p>
+			<c:out value="${u}"></c:out>
 		</c:forEach>
 	</div>
 </div>

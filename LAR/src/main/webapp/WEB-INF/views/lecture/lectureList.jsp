@@ -9,13 +9,13 @@
 </c:import>
 
 </header>
-<link
+<%-- <link
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
 	rel="stylesheet">
 <!-- Custom styles for this template -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/shop-item.css"
-	rel="stylesheet">
+	rel="stylesheet"> --%>
 
 <br>
 <br>
@@ -101,9 +101,9 @@
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
 			</div>
 	
-
+<%-- 
 <script
 	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --%>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

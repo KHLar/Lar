@@ -84,4 +84,13 @@
         LECTURE_BOARD_UPLOAD_DATE,LECTURE_BOARD_IS_DELETED FROM   TABLE_LECTURE_BOARD TB
         LEFT JOIN TABLE_LECTURE TL ON(TB.LECTURE_BOARD_LECTURE_INDEX = TL.LECTURE_INDEX) WHERE LECTURE_BOARD_INDEX =#{ lecture_board_index }  AND LECTURE_INDEX =#{ lecture_index }
 	</select>
+	
+	<insert id="insertQ" parameterType="hashmap">
+		INSERT INTO TABLE_LECTURE_Q VALUES(
+		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{useridx}, 1, #{lectureq.lecture_q_title}, #{lectureq.lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="lectureQlist" parameterType="_int" resultType="hashmap">
+		SELECT * FROM TABLE_LECTURE_Q JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} AND LECTURE_Q_IS_DELETED = 0
+	</select>
 </mapper>

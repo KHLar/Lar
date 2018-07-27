@@ -12,6 +12,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureQ;
 
 @Repository
 public class LectureDaoImpl implements LarDao<Lecture> {
@@ -83,6 +84,16 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
 		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
+	}
+
+
+	public int insertQ(Map<String, Object> qmap) {
+		return sqlSession.insert("lecture.insertQ", qmap);
+	}
+
+
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return sqlSession.selectList("lecture.lectureQlist", lecidx);
 	}
 	
 }

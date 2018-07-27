@@ -10,6 +10,7 @@ import com.misoot.lar.lecture.model.dao.LectureDaoImpl;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 
@@ -96,6 +97,14 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
+	}
+
+	public int insertQ(Map<String, Object> qmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
+	}
+
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
 	}
 
 }
