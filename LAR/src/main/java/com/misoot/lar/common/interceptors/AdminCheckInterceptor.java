@@ -21,7 +21,7 @@ public class AdminCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		User session_user = (User)session.getAttribute("session_user");
 		
-		if (session_user == null || session_user.getUser_level() < 5) {
+		if (session_user == null || !session_user.getUser_type().equals("admin") ) {
 			String href = "";
 			String message = "올바르지 않은 접근입니다.";
 			

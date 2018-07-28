@@ -5,6 +5,7 @@
 li, p{
 	text-align: left;
 }
+
 ::before {
 	display: none;
 }

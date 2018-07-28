@@ -11,8 +11,8 @@
 		select * from EXAMPLE order by INDEX desc
 	</select>
 	
-	<select id="select" parameterType="_int">
-		select * from EXAMPLE where INDEX = #{index}
+	<select id="selectUser" parameterType="_int" resultType="user">
+		select * from TABLE_USER where USER_INDEX = #{user_index}
 	</select>
 	
 	<insert id="insert" >
@@ -30,9 +30,15 @@
 		delete from EXAMPLE where INDEX = #{index}
 	</delete>
 	
-	<select id="selectUserList" parameterType="_int">
+	<select id="selectUserList" parameterType="_int" resultType="user">
 		select * from TABLE_USER
-		WHERE USER_LEVEL <![CDATA[ < ]]> #{user_level}
+		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
+		ORDER BY USER_LEVEL DESC
+	</select>
+	
+	<select id="selectUserCount" parameterType="_int" resultType="_int">
+		select COUNT(*) from TABLE_USER
+		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
 	</select>
 	
 </mapper>

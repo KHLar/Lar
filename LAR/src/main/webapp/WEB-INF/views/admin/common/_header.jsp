@@ -87,7 +87,7 @@
 							<a href="/lar/admin/tables"><i class="fa fa-fw fa-table"></i> Tables</a>
 						</li>
 						<li>
-							<a href="/lar/admin/users"><i class="fa fa-fw fa-address-book"></i> Users</a>
+							<a href="/lar/admin/users/list/1"><i class="fa fa-fw fa-address-book"></i> Users</a>
 						</li>
 						<li>
 							<a href="/lar/admin/lectures"><i class="fa fa-fw fa-book"></i> Lectures</a>
