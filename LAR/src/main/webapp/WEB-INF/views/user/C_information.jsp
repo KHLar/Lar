@@ -16,6 +16,56 @@ th, td {
 	padding: 15px;
 }
 </style>
+<script>
+function infoValidate() {
+	reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
+	NicknameResult = reg_Exp.test($('#transName').val());
+	
+	reg_Exp = /(01[016789])[-](\d{4}|\d{3})[-]\d{4}$/g;
+	phoneResult = reg_Exp.test( $('#myPhone').val());
+	if(($('#Phone').css('display')=='none')&&($('#nickname').css('display')!='none')){//닉네임만 보내주기
+		console.log('s닉');
+		if(($('#transName').val().trim() == null || $('#transName').val().trim() == "")){
+			alert('바꿀 닉네임을 입력해주세요')
+			return false;
+		}else if(idck==0){
+			alert('중복체크를 해주세요');
+			return false;
+		}else if(!NicknameResult){
+			alert('닉네임 형식이 올바르지 않습니다.');
+			return false;
+		}
+	}else if(($('#Phone').css('display')!='none')&&($('#nickname').css('display')=='none')){//핸드폰만 보내주기
+		console.log('폰');
+		if(($('#myPhone').val().trim() == null || $('#myPhone').val().trim() == "")){
+			alert('바꿀 비밀번호를 입력해주세요')
+			return false;
+		}else if (!phoneResult){
+			alert('핸드폰 형식이 올바르지 않습니다.');
+			return false;
+		}
+	}else if(($('#Phone').css('display')!='none')&&($('#nickname').css('display')!='none')){//둘다보내주기
+		console.log('둘다');
+		if(($('#transName').val().trim() == null || $('#transName').val().trim() == "")){
+			alert('바꿀 닉네임을 입력해주세요')
+			return false;
+		}else if(idck==0){
+			alert('중복체크를 해주세요');
+			return false;
+		}else if(($('#myPhone').val().trim() == null || $('#myPhone').val().trim() == "")){
+			alert('바꿀 비밀번호를 입력해주세요')
+			return false;
+		}else if (!phoneResult){
+			alert('핸드폰 형식이 올바르지 않습니다.');
+			return false;
+		}else if(!NicknameResult){
+			alert('닉네임 형식이 올바르지 않습니다.');
+			return false;
+		}
+	}
+	return true;
+}
+</script>
 </header>
 <div class="container-fluid" style="margin-left: 5%;">
 	<div class="">
@@ -72,8 +122,8 @@ th, td {
 								<tr>
 									<th>휴대전화</th>
 									<td class="tleft riot-vf riot-vf--mobile" colspan="2"
-										data-text="휴대전화" data-type="sms" data-target="010-6501-0280"
-										data-vf="1">휴대전화</td>
+										data-text="휴대전화" data-type="sms" data-target="${session_user.user_phone}"
+										data-vf="1">${session_user.user_phone}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -96,7 +146,8 @@ th, td {
 						</div>
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-8">
-
+						<form action="${pageContext.request.contextPath}/mypage/C_Info" onsubmit="return infoValidate();">
+						<input type="hidden" value="${session_user.user_index}" name="userindex"/>
 						<table class="request">
 							<tbody>
 
@@ -135,13 +186,13 @@ th, td {
 									</td>
 									<td><button type="button" class="btn btn-primary mb-2"
 											id="phoneBtn">휴대전화 수정</button></td>
+											
 								</tr>
 								<script>
 									$('#phoneBtn').on('click', function() {
 										$('#Phone').toggle();
 										hideSubmitBtn();
 									});
-									console.log($('#Phone').toggle());
 									$('#nicknameBtn').on('click', function() {
 										$('#nickname').toggle();
 										hideSubmitBtn();
@@ -157,23 +208,20 @@ th, td {
 									}
 									
 								</script>
+								
 								<tr style="display: none" id="nickname">
 									<th>Nickname</th>
-									<form action="#">
-										<td class="tleft"><input type="text" id="transName"
-											class="form-control" value=""></td>
+										<td class="tleft"><input type="text" id="transName" name="transName"
+											class="form-control" placeholder="한,영,숫자로 2~8 글자를 입력"></td>
 										<td style="text-align: center;">
 											<button type="button" class="btn btn-primary mb-2"
 												id="transNameBtn">중복체크</button>
 										</td>
-									</form>
 								</tr>
 								<tr style="display: none" id="Phone">
 									<th>Phone</th>
 									<td colspan="2">
-										<form name="phoen">
-											<input type="text" class="form-control">
-										</form>
+										<input type="text" class="form-control" name="myPhone" id="myPhone" placeholder="\-\-\ 문자를 포함해서 입력">
 									</td>
 									<td style="text-align: center;"></td>
 								</tr>
@@ -182,10 +230,12 @@ th, td {
 									<td><button type="submit" class="btn btn-primary mb-2">저장</button></td>
 									<td><button type="cancel" class="btn btn-primary mb-2">취소</button></td>
 								</tr>
+								
 
 
 							</tbody>
 						</table>
+						</form>
 					</div>
 
 				</div>
@@ -240,7 +290,71 @@ th, td {
 							style="height: 50px; width: 100px;">취소</button>
 					</div>
 				</div>
-				<div class="tab-pane active" id="secession"></div>
+				<div class="tab-pane" id="secession">
+				
+				<div class="contents-box border-box m_b40">
+				    <div>
+				        <!-- !inner-contents Start -->
+				        <p>회원탈퇴 시 주의사항</p>
+				        <ul class="">
+				            <li class="listSubject">
+				                <span style="color:#7a1b18;">회원탈퇴 시 LAR 서비스 내 모든 정보가 삭제되며, 이후 복구가 불가능합니다.</span></li>
+				            <li>- 회원탈퇴시 홈페이지 및 유료컨텐츠의 제한됩니다.</li>
+				            <li>- 회원가입 시 입력하신 개인정보 및 결제정보 등은 즉시 파기되며 복구하실 수 없습니다.</li>
+				            <!--            <li>- 즉시회원탈퇴를 하더라도 사용 중인 소환사명을 즉시 재 생성하실 수 없으며, 최대 10일 정도 기간이 소요될 수 있습니다.</li>-->
+				        </ul>
+				        <!-- 회원탈퇴 버튼 클릭시 보여주기 -->
+				        <div id="out" style="display:none;">
+				            <!-- UserBox01 Start -->
+				            <h3 class="subtitle type02">회원탈퇴를 위한 계정을 확인 해주세요.</h3>
+				            <div class="bg-contents withdraw_table">
+				                <table cellspacing="0" class="request member-info">
+				                    <caption>즉시 회원탈퇴를 위한 계정 정보</caption>
+				                    <colgroup>
+				                        <col style="width:20%">
+				                        <col style="width:20%">
+				                        <col style="width:20%">
+				                        <col style="width:20%">
+				                        <col style="width:20%">
+				                    </colgroup>
+				                    <thead>
+				                        <tr>
+				                            <th scope="col">계정명</th>
+				                            <th scope="col">성명</th>
+				                            <th scope="col">가입일자</th>
+				                            <th scope="col" class="last">잔여 금액</th>
+				                            <th scope="col">&nbsp;</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                        <tr>
+				                            <td class="tcenter">${session_user.user_id}</td>
+				                            <td class="tcenter">${session_user.user_nickname}</td>
+				                            <td class="tcenter">가입 데이터</td>
+				                            <td class="tcenter last">구매 내역</td>
+				                            <th scope="col"><button class="btn btn-primary" id="getout">즉시 탈퇴</button></th>
+				                        </tr>
+				                    </tbody>
+				                </table>
+				            </div>
+				        </div>
+				        <!--   //회원탈퇴 버튼 -->
+				        <div class="btnbox tright">
+				            <span class="btn-border type02"><input type="button" value="탈퇴 정보" title="탈퇴 정보" class="btn btn-primary" id="nSend"></span>
+				        </div>
+				    </div>
+				    <!--  !inner-contents End -->
+				    <script>
+				    $('#nSend').on('click', function() {
+						$('#out').toggle();
+						$('#nSend').toggle();
+					});
+				    $('#getout').on('click',function(){
+				    	location.href = "${pageContext.request.contextPath}/mypage/getout?userindex="+${session_user.user_index};
+				    })
+    				</script>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript">

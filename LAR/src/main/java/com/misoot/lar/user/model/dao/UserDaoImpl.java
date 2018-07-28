@@ -179,4 +179,18 @@ public class UserDaoImpl implements LarDao<User> {
 	public int change_pw(Map<Object, Object> map) {
 		return sqlSession.update("user.change_pw", map);
 	}
+
+	public int infoChange(Map<Object, Object> map) {
+		
+		return sqlSession.update("user.infoChange", map);
+	}
+
+	public User selectOneIndex(String userindex) {
+		return sqlSession.selectOne("user.selectOneIndex", userindex);
+	}
+
+	public int getout(Map<Object, Object> map) {
+
+		return sqlSession.update("user.getout", map);
+	}
 }

@@ -205,5 +205,28 @@
    	<update id="change_pw" parameterType="map">
    	 	update table_user SET USER_PASSWORD = #{change_pw}  where user_index= #{userindex}
    	</update>
+   	
 
+	<update id="infoChange" parameterType="map">
+		update table_user SET 
+		<if test="nickname != '' and phone ==''">
+		USER_NICKNAME = #{nickname}
+		</if>
+		<if test="nickname == '' and phone !=''">
+		USER_PHONE = #{phone}
+		</if>
+		<if test="nickname != '' and phone !=''">
+		USER_NICKNAME = #{nickname} , USER_PHONE = #{phone}
+		</if>
+		
+		where user_index= #{userindex}
+	</update>
+	<select id="selectOneIndex" parameterType="string" resultType="user">
+		select *
+		from TABLE_USER
+		where USER_INDEX = #{userindex}
+	</select>
+	<update id="getout" parameterType="map">
+	update table_user SET USER_IS_SECESSION=1  where user_index= #{userindex}
+	</update>
 </mapper>

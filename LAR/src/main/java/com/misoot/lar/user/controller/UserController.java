@@ -561,4 +561,45 @@ public class UserController {
 		return count;
 //	새로운 비밀번호를 입력 받아 암호화 처리후 값을 넘김
 	}
+	@RequestMapping("/mypage/C_Info")
+	public String infoChange(@RequestParam(value = "myPhone", required = false, defaultValue = "") String myPhone,
+			@RequestParam(value = "transName", required = false, defaultValue = "") String transName,
+			 @RequestParam("userindex") String userindex,Model model, HttpSession session, HttpServletRequest req){
+		
+		System.out.println("myPhone : "+myPhone);
+		System.out.println("transName : "+transName);
+		System.out.println("userindex : "+userindex);
+		
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("nickname", transName);
+		map.put("phone", myPhone);
+		map.put("userindex", userindex);
+		int count = ((UserServiceImpl) userServiceImpl).infoChange(map);
+		if(count==1)
+			System.out.println("업데성공");
+		else
+			System.out.println("실패");
+
+		User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
+		model.addAttribute("session_user", user);
+		
+		return "redirect:/mypage/infoPage";
+	}
+	@RequestMapping("/mypage/getout")
+	public String getout(@RequestParam("userindex") String userindex, SessionStatus status ){
+		
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		map.put("userindex", userindex);
+		int getout= ((UserServiceImpl) userServiceImpl).getout(map);
+		if(getout==1){
+			if (!status.isComplete())
+				status.setComplete();
+			return "redirect:/";
+		}else{
+			System.out.println("삭제 실패");
+			return "redirect:/mypage/infoPage";
+		}
+
+	}
 }

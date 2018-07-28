@@ -176,4 +176,17 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).change_pw(map);
 	}
 
+	public int infoChange(Map<Object, Object> map) {
+
+		return ((UserDaoImpl)userDaoImpl).infoChange(map);
+	}
+
+	public User selectOneIndex(String userindex) {
+		return ((UserDaoImpl)userDaoImpl).selectOneIndex(userindex);
+	}
+
+	public int getout(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).getout(map);
+	}
+
 }
