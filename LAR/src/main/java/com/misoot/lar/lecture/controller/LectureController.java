@@ -123,44 +123,57 @@ public class LectureController {
 		return "lecture/lectureList";
 	}
 
-	
 	//게시글 하나보기 // 강의 리스트 가져오기 //댓글 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
-	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, Model model){
+	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, 
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model){
 		
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
 		
 		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);
 		
 		List<LectureReview> rlist = ((LectureServiceImpl)LectureServiceImpl).reviewList(lecture_index);
+		
+		// QnA		
+		int numPerPage = 10;
+		
+		List<Map<String, String>> qlist = ((LectureServiceImpl)LectureServiceImpl).lectureQlist(cPage, numPerPage, lecture_index);
+		
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecture_index);
+		// QnA
+		
 		Cookie cookies[] = request.getCookies();
+		
 		Map mapCookie = new HashMap<>();
+		
 		if (request.getCookies() != null) {
 			for (int i = 0; i < cookies.length; i++) {
 				mapCookie.put(cookies[i].getName(), cookies[i].getValue());
 			}
 		}
+		
 		String cookie_read_count = (String) mapCookie.get("read_count");
-		System.out.println("cookie : "+cookie_read_count);
+		
 		String new_cookie_read_count = "|" + lecture_index;
+		
 		// 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사
-		if (cookie_read_count == null)
-			cookie_read_count = "";
+		if (cookie_read_count == null) cookie_read_count = "";
+		
 		Cookie cookie;
+		
 		if (!cookie_read_count.contains(new_cookie_read_count)) {
 			// 없을 경우 쿠키 생성
 			cookie = new Cookie("read_count", cookie_read_count + new_cookie_read_count);
 			response.addCookie(cookie); // 조회수 업데이트
 			int increase = ((LectureServiceImpl) LectureServiceImpl).IncreaseLecture(lecture_index);
-			if (increase > 0)
-				System.out.println("조회수증가 성공!");
+			
 		}else{
 			cookie=new Cookie("read_count",new_cookie_read_count);
 			response.addCookie(cookie); 
 		}
 		
-		
 	    List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
+	    
 		 for(int i = 0; i < blist.size() - 1 ; i++){
 			 for(int j = i+1; j < blist.size() ; j++){
 				 if(blist.get(i).get("LECTURE_BOARD_CHAPTER").equals(blist.get(j).get("LECTURE_BOARD_CHAPTER"))){
@@ -169,9 +182,10 @@ public class LectureController {
 			 }
 		 }
 	    
-		model.addAttribute("blist",blist).addAttribute("lecture",lecture).addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist);
-		System.out.println("blist"+blist);
-		System.out.println("lectureTotalScore"+lectureTotalScore);
+		model.addAttribute("blist",blist).addAttribute("lecture",lecture).
+		addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist).
+		addAttribute("qlist", qlist).addAttribute("numPerPage", numPerPage).
+		addAttribute("totalContents", totalContents);
 		
 		return "lecture/lectureDetail";
 	}
@@ -306,26 +320,6 @@ public class LectureController {
 		System.out.println("lectureReview="+lectureReview);
 		
 		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
-	}
-     
-	
-	
-	
-	@RequestMapping("/lecture/QnA")
-	public String lectureQnA(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, @RequestParam(value="lecture") int lecidx, Model model) {
-		lecidx = 1;
-		
-		int numPerPage = 10;
-		
-		List<Map<String, String>> qlist = ((LectureServiceImpl)LectureServiceImpl).lectureQlist(cPage, numPerPage, lecidx);
-		
-		int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecidx);
-		
-		model.addAttribute("qlist", qlist).
-			addAttribute("numPerPage", numPerPage).
-			addAttribute("totalContents", totalContents);
-		
-		return "lecture/lectureQnA";
 	}
 	
 	@RequestMapping("/lecture/QnA/writeForm")

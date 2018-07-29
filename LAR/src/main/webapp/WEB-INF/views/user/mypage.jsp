@@ -67,7 +67,7 @@
 	String url = "/lar/mypage";
 %>
 
-<div class="container-fluid" style="margin-left:5%;">
+<div class="container" style="margin-left:5%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10" style="margin-bottom: 100px;">
 			<div class="row" style="width: 100%">

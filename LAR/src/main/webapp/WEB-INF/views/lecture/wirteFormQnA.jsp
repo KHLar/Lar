@@ -13,10 +13,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 </header>
 
-<div class="container-fluid">
+<div class="container">
 	<div class="row">
-		<div class="col-md-10 col-sm-10">			
+		<div class="col-md-10 col-sm-10" style="margin-top: 10px; width:75%; text-align: center;">			
 			<div class="row">
+				<h2 class="pull-left">Q&A 글 작성</h2>
 				<form action="/lar/lecture/QnA/insertQ">
 					<input type="text" class="form-control" name="lecture_q_title" placeholder="Title" style="margin-bottom:10px"/>
 					<div id="summernote"></div>
@@ -29,7 +30,7 @@
 		<script>
 			$(function() {
 				$('#summernote').summernote({
-					height : 300, // 기본 높이값
+					height : 400, // 기본 높이값
 					minHeight : null, // 최소 높이값(null은 제한 없음)
 					maxHeight : null, // 최대 높이값(null은 제한 없음)
 					focus : true, // 페이지가 열릴때 포커스를 지정함

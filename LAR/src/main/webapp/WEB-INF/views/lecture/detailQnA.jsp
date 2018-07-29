@@ -58,9 +58,10 @@
 				</div>
 			</div>
 			
-			<div>
-				<button type="button" class="btn btn-default pull-right reply_btn" style="margin-top:10px; margin-bottom:10px;">답글작성</button>
-				<button type="button" class="btn btn-default pull-right reply_cancel_btn" style="margin-top:10px; margin-bottom:10px; display:none;">작성취소</button>
+			<div style="text-align: right;">
+				<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/lectureDetail?lecture_index=${ lectureQ.lecture_q_lecture_index }">목록으로</a>
+				<button type="button" class="btn btn-default reply_btn" style="margin-top:10px; margin-bottom:10px;">답글작성</button>
+				<button type="button" class="btn btn-default reply_cancel_btn" style="margin-top:10px; margin-bottom:10px; display:none;">작성취소</button>
 			</div>
 			
 			<div class="row write_reply" style="display: none; margin-top: 50px">
