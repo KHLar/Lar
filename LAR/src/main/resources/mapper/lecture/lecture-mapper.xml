@@ -7,7 +7,7 @@
 		SELECT SEQ_LECTURE_INDEX.currval FROM DUAL
 		</selectKey>
 		INSERT INTO TABLE_LECTURE VALUES(
-  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
+  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_thumbnail},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
  		)
 	</insert>
 	
@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="selectLectureList" parameterType="map" resultType="lecture">
-		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_TITLE ,LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE 
+		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_TITLE, LECTURE_THUMBNAIL, LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE 
 		FROM TABLE_LECTURE TL LEFT JOIN TABLE_LECTURE_TOTAL_SCORE TLS ON(TL.LECTURE_INDEX = TLS.TOTAL_LECTURE_INDEX)
 
 		LEFT JOIN TABLE_USER TU ON(TL.LECTURE_INSTRUCTOR_INDEX = TU.USER_INDEX) WHERE 

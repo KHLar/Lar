@@ -11,8 +11,119 @@
 </header>
 
 <div class="container-fluid">
-<div class="row">
-    <div class="col-lg-10 col-md-10 col-sm-10">
-    	<h3>추천 강좌</h3>
-	</div>
+	<div class="row">
+    	<div class="col-lg-10 col-md-10 col-sm-10" style="padding-right: 8px">
+    		<div class="orderby_recomand" style="padding-bottom: 50px">
+    			<h4>추천 순</h4>
+    			<div class="row">
+   				<c:forEach var="i" begin="1" end="6" step="1">
+					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+						<div style="float: left; margin-right:3px">
+							<small>${ i }</small>
+						</div>
+						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+							<img src="https://img.youtube.com/vi/_yj_D-pIO40/sddefault.jpg">
+							<div class="caption">
+								<small>Thumbnail label</small>
+								<p>
+									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+				</div>	
+    		</div>
+    		<div class="orderby_date" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+    			<h4>최신 순</h4>
+    			<div class="row">
+   				<c:forEach var="i" begin="1" end="6" step="1">
+					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+						<div style="float: left; margin-right:3px">
+							<small>${ i }</small>
+						</div>
+						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+							<img src="https://img.youtube.com/vi/wjLwmWyItWI/sddefault.jpg">
+							<div class="caption">
+								<small>Thumbnail label</small>
+								<p>
+									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+				</div>	
+    		</div>
+    		<div class="orderby_review" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+    			<h4>후기 순</h4>
+   				<div class="row">
+   				<c:forEach var="i" begin="1" end="6" step="1">
+					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+						<div style="float: left; margin-right:3px">
+							<small>${ i }</small>
+						</div>
+						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+							<img src="http://placehold.it/250x250/EEE">
+							<div class="caption">
+								<small>Thumbnail label</small>
+								<p>
+									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+				</div>	
+    		</div>
+    		<div class="orderby_score" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+    			<h4>별점 순</h4>	
+    			<div class="row">
+   				<c:forEach var="i" begin="1" end="6" step="1">
+					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+						<div style="float: left; margin-right:3px">
+							<small>${ i }</small>
+						</div>
+						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+							<img src="http://placehold.it/250x250/EEE">
+							<div class="caption">
+								<small>Thumbnail label</small>
+								<p>
+									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+				</div>
+    		</div>
+    		<div class="orderby_students" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+    			<h4>수강생 순</h4>
+    			<div class="row">
+   				<c:forEach var="i" begin="1" end="6" step="1">
+					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+						<div style="float: left; margin-right:3px">
+							<small>${ i }</small>
+						</div>
+						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+							<img src="http://placehold.it/250x250/EEE">
+							<div class="caption">
+								<small>Thumbnail label</small>
+								<p>
+									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+				</div>
+    		</div>    				
+    		
+		</div>
+		
 <c:import url="/WEB-INF/views/common/_footer.jsp"/>

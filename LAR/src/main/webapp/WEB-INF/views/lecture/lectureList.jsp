@@ -149,8 +149,8 @@ function lecValidate() {
 				<c:forEach items="${lList}" var="lList">
 				<div class="row">
 					<div class="col-md-3">
-						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><img class="img-fluid rounded mb-3 mb-md-0"
-							src="http://placehold.it/240x240" alt="">
+						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
+						<img class="img-fluid rounded mb-3 mb-md-0" src="${lList.lecture_thumbnail}" alt="">
 						</a>
 					</div>
 					<div class="col-md-6">

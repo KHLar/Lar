@@ -71,9 +71,14 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureInsert", method=RequestMethod.POST)
 	public String insertLecture(Lecture Lecture){
 		
+		int start = Lecture.getLecture_content().indexOf("//www.youtube.com/embed/") + ("//www.youtube.com/embed/").length();
+		
+		int end = Lecture.getLecture_content().indexOf("\" width");
+		
+		Lecture.setLecture_thumbnail(
+				"https://img.youtube.com/vi/"+Lecture.getLecture_content().substring(start, end)+"/sddefault.jpg");
+		
 		int result = ((LectureServiceImpl)LectureServiceImpl).insert(Lecture);
-	
-	
 		
 		return "redirect:/lectureList";
 	}
@@ -99,9 +104,6 @@ public class LectureController {
 	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
 			@RequestParam(value="LecSearchText", required=false, defaultValue="")String LecSearchText) {
-		
-		
-		
 		int numPerPage = 7;	// 한 페이지 당 게시글 수
 		List<Map<String, String>> lList;
 		Map<String, String> parameters = new HashMap<String, String>();

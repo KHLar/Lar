@@ -7,6 +7,7 @@ public class Lecture implements java.io.Serializable {
 	private int lecture_index;
 	private String lecture_category_index;
 	private int lecture_instructor_index;
+	private String lecture_thumbnail;
 	private String lecture_title;
 	private String lecture_intro;
 	private String lecture_level;
@@ -22,14 +23,15 @@ public class Lecture implements java.io.Serializable {
 		super();
 	}
 
-	public Lecture(int lecture_index, String lecture_category_index, int lecture_instructor_index, String lecture_title,
-			String lecture_intro, String lecture_level, int lecture_price, Date lecture_upload_date,
-			int lecture_is_deleted, int lecture_hits, String lecture_content, int lecture_total_score,
-			String user_nickname) {
+	public Lecture(int lecture_index, String lecture_category_index, int lecture_instructor_index,
+			String lecture_thumbnail, String lecture_title, String lecture_intro, String lecture_level, int lecture_price,
+			Date lecture_upload_date, int lecture_is_deleted, int lecture_hits, String lecture_content,
+			int lecture_total_score, String user_nickname) {
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;
 		this.lecture_instructor_index = lecture_instructor_index;
+		this.lecture_thumbnail = lecture_thumbnail;
 		this.lecture_title = lecture_title;
 		this.lecture_intro = lecture_intro;
 		this.lecture_level = lecture_level;
@@ -41,6 +43,8 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_total_score = lecture_total_score;
 		this.user_nickname = user_nickname;
 	}
+
+
 
 	public int getLecture_index() {
 		return lecture_index;
@@ -64,6 +68,14 @@ public class Lecture implements java.io.Serializable {
 
 	public void setLecture_instructor_index(int lecture_instructor_index) {
 		this.lecture_instructor_index = lecture_instructor_index;
+	}
+
+	public String getLecture_thumbnail() {
+		return lecture_thumbnail;
+	}
+
+	public void setLecture_thumbnail(String lecture_thumbnail) {
+		this.lecture_thumbnail = lecture_thumbnail;
 	}
 
 	public String getLecture_title() {
@@ -149,10 +161,11 @@ public class Lecture implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "Lecture [lecture_index=" + lecture_index + ", lecture_category_index=" + lecture_category_index
-				+ ", lecture_instructor_index=" + lecture_instructor_index + ", lecture_title=" + lecture_title
-				+ ", lecture_intro=" + lecture_intro + ", lecture_level=" + lecture_level + ", lecture_price="
-				+ lecture_price + ", lecture_upload_date=" + lecture_upload_date + ", lecture_is_deleted="
-				+ lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content=" + lecture_content
-				+ ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname + "]";
+				+ ", lecture_instructor_index=" + lecture_instructor_index + ", lecture_thumbnail=" + lecture_thumbnail
+				+ ", lecture_title=" + lecture_title + ", lecture_intro=" + lecture_intro + ", lecture_level="
+				+ lecture_level + ", lecture_price=" + lecture_price + ", lecture_upload_date=" + lecture_upload_date
+				+ ", lecture_is_deleted=" + lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content="
+				+ lecture_content + ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname
+				+ "]";
 	}
 }
