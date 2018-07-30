@@ -257,15 +257,21 @@ td {
 									<c:forEach items="${infolist}" var="i">
 									<tr id="${i.commu_Index}">
 										<td>${i.commu_Index}</td>
-										<td class="infoContent"><p>${i.commu_Title}</p></td>
+										<%-- <td class="infoContent"><p>${i.commu_Title}</p></td> --%>
+										<td class="infoContent"><p style="font-size: 18px;">${i.commu_Title}</p>
+												<c:forTokens items="${i.commu_tags}" var="tag" delims=",">
+													<a href="${pageContext.request.contextPath}/commu/commuMain?infoSearchType=tags&infoSearchText=${tag}"
+														class="bg-warning labelinput badge badge-warning"
+														style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
+												</c:forTokens></td>
 										<td>${i.commu_Writer}</td>
 										<td>${i.commu_Update_Date}</td>
 										<td align="center">
 											<c:if test="${i.fileCount>0}">
-												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file.png" width=15px>
+												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file1.jpg" width=70px>
 											</c:if>
 											<c:if test="${i.fileCount==0}">
-												X
+												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px>
 											</c:if>
 										</td>
 										<td>${i.commu_Hits}</td>

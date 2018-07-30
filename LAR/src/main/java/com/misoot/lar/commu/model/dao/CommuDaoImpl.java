@@ -154,15 +154,26 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		return sqlSession.selectList("commu.selectNewsList");
 	}
 
-	public List<Map<String, String>> selectCommuListSearchTags(int cPage, int numPerPage, String infoSearchText) {
+	public List<Map<String, String>> selectCommuListSearchTags(int cPage, int numPerPage, String commuSearchText) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectList("commu.selectInfoListSearchTags",infoSearchText,rows);
+		commuSearchText="%"+commuSearchText+"%";
+		return sqlSession.selectList("commu.selectCommuListSearchTags",commuSearchText,rows);
 	}
 
 	public int selectCommuTotalContentsTag(String commuSearchText) {
 		commuSearchText="%"+commuSearchText+"%";
 		return sqlSession.selectOne("commu.selectCommuTotalContentsTags",commuSearchText);
+	}
+
+	public int selectInfoTotalContentsTag(String infoSearchText) {
+		infoSearchText="%"+infoSearchText+"%";
+		return sqlSession.selectOne("commu.selectInfoTotalContentsTags",infoSearchText);
+	}
+
+	public List<Map<String, String>> selectInfoListSearchTags(int infocPage, int numPerPage, String infoSearchText) {
+		RowBounds rows = new RowBounds((infocPage-1)*numPerPage,numPerPage);
+		infoSearchText="%"+infoSearchText+"%";
+		return sqlSession.selectList("commu.selectInfoListSearchTags",infoSearchText,rows);
 	}
 
 }

@@ -63,6 +63,7 @@ public class CommuController {
 		 */
 		System.out.println(commuSearchType);
 		System.out.println(commuSearchText);
+		
 		int commuTotalContents;
 		int infoTotalContents;
 		if (commuSearchType.equals("Ctitle") && !commuSearchText.equals("")) {
@@ -94,10 +95,13 @@ public class CommuController {
 					infoSearchText);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsWriter(infoSearchText);
 
-		} else {
+		} else if(infoSearchType.equals("tags") && !infoSearchText.equals("")){
+			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoSearchTags(infocPage, numPerPage, infoSearchText);
+			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsTag(infoSearchText);
+
+		}else{
 			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoList(infocPage, numPerPage);
 			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContents();
-
 		}
 		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
