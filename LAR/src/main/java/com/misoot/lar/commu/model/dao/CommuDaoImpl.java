@@ -56,16 +56,16 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		
 		return sqlSession.selectList("commu.selectCommuList",null,rows);
 	}
-	public List<Map<String, String>> selectCommuListSearchTitle(int cPage, int numPerPage, String searchText) {
+	public List<Map<String, String>> selectCommuListSearchTitle(int cPage, int numPerPage, String commuSearchText) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		searchText="%"+searchText+"%";
-		return sqlSession.selectList("commu.selectCommuListSearchTitle",searchText,rows);
+		commuSearchText="%"+commuSearchText+"%";
+		return sqlSession.selectList("commu.selectCommuListSearchTitle",commuSearchText,rows);
 	}
 
-	public List<Map<String, String>> selectCommuListSearchWriter(int cPage, int numPerPage, String searchText) {
+	public List<Map<String, String>> selectCommuListSearchWriter(int cPage, int numPerPage, String commuSearchText) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		searchText="%"+searchText+"%";
-		return sqlSession.selectList("commu.selectCommuListSearchWriter",searchText,rows);
+		commuSearchText="%"+commuSearchText+"%";
+		return sqlSession.selectList("commu.selectCommuListSearchWriter",commuSearchText,rows);
 	}
 
 
@@ -93,13 +93,13 @@ public class CommuDaoImpl implements LarDao<Commu> {
 	public int IncreaseCommu(int commuNo) {
 		return sqlSession.update("commu.IncreaseCommu",commuNo);
 	}
-	public int selectCommuTotalContentsTitle(String searchText) {
-		searchText="%"+searchText+"%";
-		return sqlSession.selectOne("commu.selectCommuTotalContentsTitle",searchText);
+	public int selectCommuTotalContentsTitle(String commuSearchText) {
+		commuSearchText="%"+commuSearchText+"%";
+		return sqlSession.selectOne("commu.selectCommuTotalContentsTitle",commuSearchText);
 	}
-	public int selectCommuTotalContentsWriter(String searchText) {
-		searchText="%"+searchText+"%";
-		return sqlSession.selectOne("commu.selectCommuTotalContentsWriter",searchText);
+	public int selectCommuTotalContentsWriter(String commuSearchText) {
+		commuSearchText="%"+commuSearchText+"%";
+		return sqlSession.selectOne("commu.selectCommuTotalContentsWriter",commuSearchText);
 	}
 	public List<Map<String, String>> selectNoticeList() {
 		/*System.out.println("NoticeOffset : "+(cPage-1)*numPerPage);
@@ -113,36 +113,36 @@ public class CommuDaoImpl implements LarDao<Commu> {
 
 	
 	
-	public List<Map<String, String>> selectInfoListSearchTitle(int cPage, int numPerPage, String infoSearchText) {
+	public List<Map<String, String>> selectQAListSearchTitle(int cPage, int numPerPage, String qaSearchText) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectList("commu.selectInfoListSearchTitle",infoSearchText,rows);
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectList("commu.selectQAListSearchTitle",qaSearchText,rows);
 	}//
 
-	public List<Map<String, String>> selectInfoListSearchWriter(int cPage, int numPerPage, String infoSearchText) {
+	public List<Map<String, String>> selectQAListSearchWriter(int cPage, int numPerPage, String qaSearchText) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectList("commu.selectInfoListSearchWriter",infoSearchText,rows);
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectList("commu.selectQAListSearchWriter",qaSearchText,rows);
 	}//
 
-	public int selectInfoTotalContentsTitle(String infoSearchText) {
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectOne("commu.selectInfoTotalContentsTitle",infoSearchText);
+	public int selectQATotalContentsTitle(String qaSearchText) {
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectOne("commu.selectQATotalContentsTitle",qaSearchText);
 	}//
 
-	public int selectInfoTotalContentsWriter(String infoSearchText) {
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectOne("commu.selectInfoTotalContentsWriter",infoSearchText);
+	public int selectQATotalContentsWriter(String qaSearchText) {
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectOne("commu.selectQATotalContentsWriter",qaSearchText);
 	}//
 
-	public List<Map<String, String>> selectInfoList(int cPage, int numPerPage) {
+	public List<Map<String, String>> selectQAList(int cPage, int numPerPage) {
 		
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);
-		return sqlSession.selectList("commu.selectInfoList",null,rows);
+		return sqlSession.selectList("commu.selectQAList",null,rows);
 	}//
 
-	public int selectInfoTotalContents() {
-		return sqlSession.selectOne("commu.selectInfoTotalContents");
+	public int selectQATotalContents() {
+		return sqlSession.selectOne("commu.selectQATotalContents");
 	}
 
 	public int deleteCommu(String user_index) {
@@ -165,15 +165,15 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		return sqlSession.selectOne("commu.selectCommuTotalContentsTags",commuSearchText);
 	}
 
-	public int selectInfoTotalContentsTag(String infoSearchText) {
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectOne("commu.selectInfoTotalContentsTags",infoSearchText);
+	public int selectQATotalContentsTag(String qaSearchText) {
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectOne("commu.selectQATotalContentsTags",qaSearchText);
 	}
 
-	public List<Map<String, String>> selectInfoListSearchTags(int infocPage, int numPerPage, String infoSearchText) {
-		RowBounds rows = new RowBounds((infocPage-1)*numPerPage,numPerPage);
-		infoSearchText="%"+infoSearchText+"%";
-		return sqlSession.selectList("commu.selectInfoListSearchTags",infoSearchText,rows);
+	public List<Map<String, String>> selectQAListSearchTags(int qacPage, int numPerPage, String qaSearchText) {
+		RowBounds rows = new RowBounds((qacPage-1)*numPerPage,numPerPage);
+		qaSearchText="%"+qaSearchText+"%";
+		return sqlSession.selectList("commu.selectQAListSearchTags",qaSearchText,rows);
 	}
 
 }

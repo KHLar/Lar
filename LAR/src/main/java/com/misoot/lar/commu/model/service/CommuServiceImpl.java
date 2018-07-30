@@ -118,28 +118,28 @@ public class CommuServiceImpl implements LarService<Commu> {
 	}
 
 	// 정보공유
-	public List<Map<String, String>> selectInfoListSearchTitle(int cPage, int numPerPage, String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoListSearchTitle(cPage, numPerPage, infoSearchText);
+	public List<Map<String, String>> selectQAListSearchTitle(int cPage, int numPerPage, String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQAListSearchTitle(cPage, numPerPage, qaSearchText);
 	}
 
-	public int selectInfoTotalContentsTitle(String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoTotalContentsTitle(infoSearchText);
+	public int selectQATotalContentsTitle(String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQATotalContentsTitle(qaSearchText);
 	}
 
-	public List<Map<String, String>> selectInfoListSearchWriter(int cPage, int numPerPage, String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoListSearchWriter(cPage, numPerPage, infoSearchText);
+	public List<Map<String, String>> selectQAListSearchWriter(int cPage, int numPerPage, String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQAListSearchWriter(cPage, numPerPage, qaSearchText);
 	}
 
-	public int selectInfoTotalContentsWriter(String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoTotalContentsWriter(infoSearchText);
+	public int selectQATotalContentsWriter(String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQATotalContentsWriter(qaSearchText);
 	}
 
-	public List<Map<String, String>> selectInfoList(int cPage, int numPerPage) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoList(cPage, numPerPage);
+	public List<Map<String, String>> selectQAList(int cPage, int numPerPage) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQAList(cPage, numPerPage);
 	}
 
-	public int selectInfoTotalContents() {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoTotalContents();
+	public int selectQATotalContents() {
+		return ((CommuDaoImpl) commuDaoImpl).selectQATotalContents();
 	}
 
 	public int deleteCommu(String user_index) {
@@ -160,11 +160,11 @@ public class CommuServiceImpl implements LarService<Commu> {
 	}
 
 
-	public int selectInfoTotalContentsTag(String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoTotalContentsTag(infoSearchText);
+	public int selectQATotalContentsTag(String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQATotalContentsTag(qaSearchText);
 	}
 
-	public List<Map<String, String>> selectInfoSearchTags(int infocPage, int numPerPage, String infoSearchText) {
-		return ((CommuDaoImpl) commuDaoImpl).selectInfoListSearchTags(infocPage, numPerPage, infoSearchText);
+	public List<Map<String, String>> selectQASearchTags(int qacPage, int numPerPage, String qaSearchText) {
+		return ((CommuDaoImpl) commuDaoImpl).selectQAListSearchTags(qacPage, numPerPage, qaSearchText);
 	}
 }

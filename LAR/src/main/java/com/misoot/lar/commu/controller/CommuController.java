@@ -47,25 +47,25 @@ public class CommuController {
 	@RequestMapping("/commu/commuMain")
 	public String selectCommuMain(
 			@RequestParam(value = "commucPage", required = false, defaultValue = "1") int commucPage,
-			@RequestParam(value = "infocPage", required = false, defaultValue = "1") int infocPage,
+			@RequestParam(value = "qacPage", required = false, defaultValue = "1") int qacPage,
 			@RequestParam(value = "commuSearchType", required = false, defaultValue = "") String commuSearchType,
 			@RequestParam(value = "commuSearchText", required = false, defaultValue = "") String commuSearchText,
-			@RequestParam(value = "infoSearchType", required = false, defaultValue = "") String infoSearchType,
-			@RequestParam(value = "infoSearchText", required = false, defaultValue = "") String infoSearchText,
+			@RequestParam(value = "qaSearchType", required = false, defaultValue = "") String qaSearchType,
+			@RequestParam(value = "qaSearchText", required = false, defaultValue = "") String qaSearchText,
 			Model model) {
 
 		int numPerPage = 10; // 한 페이지 당 게시글 수
 		List<Map<String, String>> commulist;
-		List<Map<String, String>> infolist;
+		List<Map<String, String>> qalist;
 		/*
 		 * System.out.println("commucPage : "+commucPage);
-		 * System.out.println("infocPage : "+infocPage);
+		 * System.out.println("qacPage : "+qacPage);
 		 */
 		System.out.println(commuSearchType);
 		System.out.println(commuSearchText);
 		
 		int commuTotalContents;
-		int infoTotalContents;
+		int qaTotalContents;
 		if (commuSearchType.equals("Ctitle") && !commuSearchText.equals("")) {
 			commulist = ((CommuServiceImpl) commuServiceImpl).selectCommuListSearchTitle(commucPage, numPerPage,
 					commuSearchText);
@@ -85,23 +85,22 @@ public class CommuController {
 			commuTotalContents = ((CommuServiceImpl) commuServiceImpl).selectCommuTotalContents();
 		}
 
-		if (infoSearchType.equals("Ititle") && !infoSearchText.equals("")) {
-			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchTitle(infocPage, numPerPage,
-					infoSearchText);
-			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsTitle(infoSearchText);
+		if (qaSearchType.equals("Ititle") && !qaSearchText.equals("")) {
+			qalist = ((CommuServiceImpl) commuServiceImpl).selectQAListSearchTitle(qacPage , numPerPage, qaSearchText);
+			qaTotalContents = ((CommuServiceImpl) commuServiceImpl).selectQATotalContentsTitle(qaSearchText);
 
-		} else if (infoSearchType.equals("Iwriter") && !infoSearchText.equals("")) {
-			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoListSearchWriter(infocPage, numPerPage,
-					infoSearchText);
-			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsWriter(infoSearchText);
+		} else if (qaSearchType.equals("Iwriter") && !qaSearchText.equals("")) {
+			qalist = ((CommuServiceImpl) commuServiceImpl).selectQAListSearchWriter(qacPage, numPerPage,
+					qaSearchText);
+			qaTotalContents = ((CommuServiceImpl) commuServiceImpl).selectQATotalContentsWriter(qaSearchText);
 
-		} else if(infoSearchType.equals("tags") && !infoSearchText.equals("")){
-			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoSearchTags(infocPage, numPerPage, infoSearchText);
-			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContentsTag(infoSearchText);
+		} else if(qaSearchType.equals("tags") && !qaSearchText.equals("")){
+			qalist = ((CommuServiceImpl) commuServiceImpl).selectQASearchTags(qacPage, numPerPage, qaSearchText);
+			qaTotalContents = ((CommuServiceImpl) commuServiceImpl).selectQATotalContentsTag(qaSearchText);
 
 		}else{
-			infolist = ((CommuServiceImpl) commuServiceImpl).selectInfoList(infocPage, numPerPage);
-			infoTotalContents = ((CommuServiceImpl) commuServiceImpl).selectInfoTotalContents();
+			qalist = ((CommuServiceImpl) commuServiceImpl).selectQAList(qacPage, numPerPage);
+			qaTotalContents = ((CommuServiceImpl) commuServiceImpl).selectQATotalContents();
 		}
 		
 		List<Map<String, String>> noticelist = ((CommuServiceImpl) commuServiceImpl).selectNoticeList();
@@ -112,12 +111,12 @@ public class CommuController {
 		model.addAttribute("noticeList", noticelist);
 		model.addAttribute("commuSearchType", commuSearchType);
 		model.addAttribute("commuSearchText", commuSearchText);
-		model.addAttribute("infolist", infolist);
-		model.addAttribute("infoTotalContents", infoTotalContents);
-		model.addAttribute("infoSearchType", infoSearchType);
-		model.addAttribute("infoSearchText", infoSearchText);
-		model.addAttribute("infoNumPerPage", numPerPage);
-		model.addAttribute("infocPage", infocPage);
+		model.addAttribute("qalist", qalist);
+		model.addAttribute("qaTotalContents", qaTotalContents);
+		model.addAttribute("qaSearchType", qaSearchType);
+		model.addAttribute("qaSearchText", qaSearchText);
+		model.addAttribute("qaNumPerPage", numPerPage);
+		model.addAttribute("qacPage", qacPage);
 		model.addAttribute("commucPage", commucPage);
 		model.addAttribute("newslist", newslist);
 
