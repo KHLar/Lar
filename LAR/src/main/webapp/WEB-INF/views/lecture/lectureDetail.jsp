@@ -12,7 +12,7 @@
 	href="${pageContext.request.contextPath}/resources/css/blog-post.css"
 	rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 <style>
 .youtubeWrap iframe {
 	position: absolute;
@@ -233,7 +233,7 @@ body {
 
 			<div class="row">
 				<div class="col-md-9 tab-content" >
-					<div class="tab-pane" id="lectureList">
+					<div class="tab-pane active" id="lectureList">
 					<h1 class="mt-4">${lecture.lecture_title}</h1>
 					<p class="lead">by <a href="#">${lecture.user_nickname}</a></p>
 					<p>업로드 날짜:${lecture.lecture_upload_date }</p>
@@ -248,7 +248,7 @@ body {
 						<span class="fa fa-star "></span>
 						<span class="fa fa-star "></span>
 						<span class="fa fa-star "></span>
-						<span>(등록된 수강평이 없습니다.)</span>
+						<h5>(등록된 수강평이 없습니다.)</h5>
 					</c:if>
 					<c:if test="${lectureTotalScore.lecture_total_score == 1}">
 						<span class="fa fa-star checked"></span>
@@ -285,13 +285,12 @@ body {
 						<span class="fa fa-star checked"></span>
 						<span class="fa fa-star checked"></span>
 					</c:if>
-					<h1>${lectureTotalScore.lecture_review_count } 개의 수강평</h1>
+					 <h5>${lectureTotalScore.lecture_review_count } 개의 수강평</h5> 
 					<hr style="border: 3px solid #f1f1f1">
 
 					<div class="card my-4">
 						<c:if test="${session_user.user_index != null}">
-							<form method="get" name="cmtform"
-								action="${pageContext.request.contextPath}/lecture/lectureReview">
+							<form method="get" name="cmtform" action="${pageContext.request.contextPath}/lecture/lectureReview" onsubmit="return validate();" >
 								<input type="hidden" value="${lecture.lecture_index}"
 									name="lecture_review_lecture_index" /> <input type="hidden"
 									value="${session_user.user_index}"
@@ -302,9 +301,8 @@ body {
 									<label class="col-form-label">닉네임 :
 										${session_user.user_nickname}</label>
 									<div class="form-inline">
-										<label class="col-form-label">제목 : &nbsp;&nbsp;&nbsp;</label> <input
-											type="text" class="form-control mb-2 mr-sm-1"
-											name="lecture_review_title" />
+										<label class="col-form-label">제목 : &nbsp;&nbsp;&nbsp;</label> 
+										<input type="text" class="form-control mb-2 mr-sm-1" id="reviewTitle" name="lecture_review_title" />
 									</div>
 									<span id="image1" class="fa fa-star " onmouseover="show(1);"
 										onclick="mark(1);" onmouseout="noshow(1);"></span> <span
@@ -321,9 +319,9 @@ body {
 								<div class="card-body">
 									<div class="form-group">
 										<textarea class="form-control" rows="3"
-											name="lecture_review_content" placeholder="수강후기"></textarea>
+											name="lecture_review_content" placeholder="수강후기" id="lecture_review_content"></textarea>
 									</div>
-									<button type="submit" class="btn btn-primary" id="reviewForm">등록</button>
+									<button type="submit" class="btn btn-primary" >등록</button>
 								</div>
 							</form>
 						</c:if>
@@ -397,8 +395,9 @@ body {
 											src="${pageContext.request.contextPath}/resources/images/play-icon.png">
 										</td>
 										<td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
-											<input type="hidden" value="${bl.LECTURE_BOARD_INDEX}"
-											class="my_boardLecture_index" /> <input type="hidden"
+											<input type="hidden" 
+											value="${bl.LECTURE_BOARD_INDEX}"class="my_boardLecture_index" /> 
+											<input type="hidden"
 											value="${lecture.lecture_index}" class="my_lecture_index" /></td>
 										<td class="preview"><img
 											src="${pageContext.request.contextPath}/resources/images/free.png"></td>
@@ -411,7 +410,7 @@ body {
 										<c:set var="name" value="${bl.LECTURE_INSTRUCTOR_INDEX}" /> 
 										<c:set var="name2" value="${session_user.user_index}" /> 
 										<c:if test="${ name eq name2}">
-											<button class="btn btn-warning pull-right" id="lectureBoardDelete">삭제하기</button>
+										
 										</c:if></td>
 									</tr>
 								</c:forEach>
@@ -420,8 +419,9 @@ body {
 					</div>
 					
 					<input type="hidden" id="my_lecture_index" value="${lecture.lecture_index}" />
+					<c:if test="${session_user.user_index eq lecture.lecture_instructor_index }">
 					<button class="btn btn-warning pull-right" id="lectureBoardInsert">등록하기</button>&nbsp;
-					<button class="btn btn-warning pull-right" id="lectureBoardModify">수정하기</button>&nbsp;
+					</c:if>
 					</div>
 					
 					<div class="QnA tab-pane" id="QnA" >
@@ -505,36 +505,20 @@ body {
 <br>
 <br>
 <br>
-
 <script>
-	var num = $("#starScore").val();
-	console.log(num);
-
-	$("#reviewForm").click(function(num) {
-
-		if (num == '') {
-			alert("별점을 입력해 주세요 ");
-			return false;
-		}
-		return true;
-	});
-
-	/* /*  function reviewfun(){ */
-
-	/*  var doSomething = function() {
-		setTimeout(doSomething, 0);
-	},
-	submitAction = function() {
-		
-		return false;
-	};	 */
-
-	/*	 if(num == ''){
-	 alert("별점을 입력해 주세요 ");
-	 return false;
-	 }else{
-	 $("#reviewForm").submit();
-	 }
-	 */
+	function validate(){
+	if($("#reviewTitle").val() == '' ||  $("#reviewTitle").val() == 'null'  ){
+		alert("제목을 작성하세요");
+	return false;
+	}
+	if($("#starScore").val() == 0){
+		alert("별점을 등록하세요");
+	return false;
+	}
+	if($("#lecture_review_content").val() == 0){
+		alert("내용을 작성하세요");
+	return false;
+	}
+	}
 </script>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

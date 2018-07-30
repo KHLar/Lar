@@ -19,21 +19,21 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
 			<div class="container">
-				<h1 class="">강의 등록하기</h1>
-				<form id="defaultForm" method="post" class="form-horizontal" enctype="multipart/form-data" action="${pageContext.request.contextPath}/lecture/lectureInsert" onsubmit="return validate();">
+				<h1 class="">강의 수정하기</h1>
+				<form id="defaultForm" method="post" class="form-horizontal" enctype="multipart/form-data" action="${pageContext.request.contextPath}/lecture/lectureUpdateEnd">
 					<div class="form-group">
 						<br /><br /><br />
 						<div class="col-sm-8">
 							<div class="form-row">
-							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_title" required/>
+							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_title"  value="${lecture.lecture_title}" required/>
 							<input type="hidden" class="form-control" >
-							<input type="hidden"  id="lecture_instructor_index" name="lecture_instructor_index" value="${session_user.user_index}"  required/>
+							<input type="hidden" name="lecture_instructor_index" value="${session_user.user_index}"  required/>
 							
 							</div>
 							<br />
 							<div class="form-inline">
 							<label for="staticEmail" class=" col-form-label">카테고리 :</label>&nbsp;&nbsp;	 
-							<select class="form-control form-control mb-2 mr-sm-2" name="lecture_category_index" required>
+							<select class="form-control form-control mb-2 mr-sm-2" name="lecture_category_index" value="${lecture.lecture_category_index}" required>
  						 	<option>L01</option>
  						 	<option>L02</option>
  						 	<option>L03</option>
@@ -41,7 +41,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
  						 	<option>L05</option>
 							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="staticEmail" class=" col-form-label">난이도 :</label>&nbsp;&nbsp;
-							<select class="form-control form-control mb-2 mr-sm-2" name="lecture_level"required>
+							<select class="form-control form-control mb-2 mr-sm-2" name="lecture_level" value="${lecture.lecture_level}" required>
  						 	<option>상</option>
  						 	<option>중</option>
  						 	<option>하</option>
@@ -50,7 +50,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 								  &nbsp;&nbsp;&nbsp;&nbsp;
 						
 							<label for="staticEmail" class=" col-form-label">가격 :</label>&nbsp;&nbsp;
-							 <input type="number" class="form-control mb-2 mr-sm-2"  name="lecture_price"   required/>
+							 <input type="number" class="form-control mb-2 mr-sm-2"  name="lecture_price" value="${lecture.lecture_price}"required/>
   			
 							</div>
 								
@@ -58,20 +58,22 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 						
     						<label for="exampleFormControlTextarea1">intro</label>
     						<input type="hidden" id="lecture_intro" name="lecture_intro"/>
-   							<textarea class="form-control" id="exampleFormControlTextarea1" rows="4" ></textarea>
+   							<textarea class="form-control" id="exampleFormControlTextarea1" rows="4" > ${lecture.lecture_intro}</textarea>
   							
 							<br />	
 							
 							<div id="summernote" >
-								<h3>1. 소개글<br></h3>
-								<h3>2. 강의특징<br></h3>
-								<h3>3. 참고자료<br></h3>
+							${lecture.lecture_content}
 							</div>
-							<input type="hidden"  id="lecture_content" name="lecture_content"  value="" required />
-							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">제출하기 </button>
+							<input type="hidden"  id="lecture_content" name="lecture_content"  value="뀨" required />
+							<br><br>
+							<input type="text" class="index"  name="lecture_index" value="${lecture.lecture_index}" required />
+							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">수정하기 </button>
+							<button type="button" class="btn btn-warning pull-right lecturedelete">삭제하기</button>
 						</div>
 					</div>
 				</form>
+				
 			</div>
 		</div>
 		
@@ -91,27 +93,6 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
          document.getElementById("lecture_content").value=$('#summernote').summernote('code');
       
      }
-	 function validate() {
-			var intro = $("#lecture_intro").val();
-			if (intro.trim().length == 0) {
-				alert("intro 내용을 입력하세요");
-				return false;
-			}
-		
-			var content = $('#summernote').summernote('code');
-			
-			if(content.indexOf('<iframe') == -1 ){
-				alert("동영상을 등록해주세요");
-				return false;
-			}
-			
-			if ($('#lecture_instructor_index').val() == ""
-					|| $('#lecture_instructor_index').val() == null) {
-				alert('로그인 먼저해주세요^^');
-				return false;
-			}
-			return true;
-		}
 	 
 </script>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />
