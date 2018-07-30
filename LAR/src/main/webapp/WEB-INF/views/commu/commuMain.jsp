@@ -51,30 +51,30 @@ td {
 <%
 	int commuTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("commuTotalContents")));
 	int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
-	int infoTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("infoTotalContents")));
-	int infoNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("infoNumPerPage")));
+	int qaTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("qaTotalContents")));
+	int qaNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("qaNumPerPage")));
 
 	//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
 	String commucPageTemp = request.getParameter("commucPage");
 	String commuSearchType = (String) request.getParameter("commuSearchType");
 	String commuSearchText = (String) request.getParameter("commuSearchText");
-	String infocPageTemp = request.getParameter("infocPage");
-	String infoSearchType = (String) request.getParameter("infoSearchType");
-	String infoSearchText = (String) request.getParameter("infoSearchText");
+	String qacPageTemp = request.getParameter("qacPage");
+	String qaSearchType = (String) request.getParameter("qaSearchType");
+	String qaSearchText = (String) request.getParameter("qaSearchText");
 
 	String liCommu = "";
-	String liInfo = "";
-	if (infoSearchType == null || infoSearchType == "") {
+	String liqa = "";
+	if (qaSearchType == null || qaSearchType == "") {
 		liCommu = "active";
 	} else {
-		liInfo = "active";
+		liqa = "active";
 	}
 
 	int commucPage = 1;
-	int infocPage = 1;
+	int qacPage = 1;
 	try {
 		commucPage = Integer.parseInt(commucPageTemp);
-		infocPage = Integer.parseInt(infocPageTemp);
+		qacPage = Integer.parseInt(qacPageTemp);
 
 	} catch (NumberFormatException e) {
 	}
@@ -88,9 +88,9 @@ td {
 		}
 		return true;
 	}
-	function infoValidate() {
-		if ($('#infoSearchText').val().trim() == null
-				|| $('#infoSearchText').val().trim() == "") {
+	function qaValidate() {
+		if ($('#qaSearchText').val().trim() == null
+				|| $('#qaSearchText').val().trim() == "") {
 			location.href = "${pageContext.request.contextPath}/commu/commuMain";
 		}
 		return true;
@@ -112,7 +112,7 @@ td {
 				<li class="<%=liCommu%>" id="commuTab"><a data-toggle="tab"
 					href="#Commu">잡담게시판</a></li>
 				<li id="noticeTab"><a data-toggle="tab" href="#Notice">공지사항</a></li>
-				<li class="<%=liInfo%>" id="qaTab"><a data-toggle="tab"
+				<li class="<%=liqa%>" id="qaTab"><a data-toggle="tab"
 					href="#QA">질의응답</a></li>
 				<li id="newsTab"><a data-toggle="tab" href="#News">소식</a></li>
 			</ul>
@@ -173,7 +173,8 @@ td {
 											<td align="center"><c:if test="${c.fileCount>0}">
 													<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file1.jpg" width=70px>
 												</c:if> <c:if test="${c.fileCount==0}">
-													<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px>
+													<%-- <img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px> --%>
+													X
 												</c:if></td>
 											<td>${c.commu_Hits}</td>
 										</tr>
@@ -215,16 +216,16 @@ td {
 						</div>
 					</div>
 				</div>
-				<div id="QA" class="tab-pane fade in <%=liInfo%>">
+				<div id="QA" class="tab-pane fade in <%=liqa%>">
 					<div class="container_fluid">
 						<div style="text-align: right">
 							<nav class="navbar">
 								<div class="container-fluid">
-									<form class="navbar-form navbar-right" action="${pageContext.request.contextPath}/commu/commuMain" onsubmit="return infoValidate();" style="margin-top: 10px;">
+									<form class="navbar-form navbar-right" action="${pageContext.request.contextPath}/commu/commuMain" onsubmit="return qaValidate();" style="margin-top: 10px;">
 										<div class="form-group">
 											<ul class="nav">
 												<li class="active">
-													<select class="form-control" id="infoSearchType" name="infoSearchType">
+													<select class="form-control" id="qaSearchType" name="qaSearchType">
 														<option value="Ititle">제목</option>
 														<option value="Iwriter">작성자</option>
 													</select>
@@ -232,9 +233,9 @@ td {
 											</ul>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Search" id="infoSearchText" name="infoSearchText">
+											<input type="text" class="form-control" placeholder="Search" id="qaSearchText" name="qaSearchText">
 										</div>
-										<button class="btn btn-default" type="submit" id="infoSearch">
+										<button class="btn btn-default" type="submit" id="qaSearch">
 											<i class="glyphicon glyphicon-search"></i>
 										</button>
 									</form>
@@ -254,17 +255,24 @@ td {
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${infolist}" var="i">
-									<tr id="${i.commu_Index}">
-										<td>${i.commu_Index}</td>
-										<td class="infoContent"><p>${i.commu_Title}</p></td>
-										<td>${i.commu_Writer}</td>
-										<td>${i.commu_Update_Date}</td>
+									<c:forEach items="${qalist}" var="q">
+									<tr id="${q.commu_Index}">
+										<td>${q.commu_Index}</td>
+										<%-- <td class="qaContent"><p>${q.commu_Title}</p></td> --%>
+										<td class="qaContent"><p style="font-size: 18px;">${q.commu_Title}</p>
+												<c:forTokens items="${q.commu_tags}" var="tag" delims=",">
+													<a href="${pageContext.request.contextPath}/commu/commuMain?qaSearchType=tags&qaSearchText=${tag}"
+														class="bg-warning labelinput badge badge-warning"
+														style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
+												</c:forTokens></td>
+										<td>${q.commu_Writer}</td>
+										<td>${q.commu_Update_Date}</td>
 										<td align="center">
-											<c:if test="${i.fileCount>0}">
-												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file.png" width=15px>
+											<c:if test="${q.fileCount>0}">
+												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file1.jpg" width=70px>
 											</c:if>
-											<c:if test="${i.fileCount==0}">
+											<c:if test="${q.fileCount==0}">
+												<%-- <img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px> --%>
 												X
 											</c:if>
 										</td>
@@ -275,7 +283,7 @@ td {
 							</table>
 						</div>
 						<nav style="text-align: center;">
-							<%=UtilCommu.getInfoPageBar(infoTotalContents, infocPage, infoNumPerPage, infoSearchType, infoSearchText, "commuMain")%>
+							<%=UtilCommu.getqaPageBar(qaTotalContents, qacPage, qaNumPerPage, qaSearchType, qaSearchText, "commuMain")%>
 						</nav>
 						<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('B02');">글쓰기</button>
 					</div>
@@ -320,7 +328,7 @@ td {
 										location.href = "${pageContext.request.contextPath}/commu/commuView/"
 												+ index;
 									});
-					$('.infoContent p')
+					$('.qaContent p')
 							.mouseenter(function() {
 								$(this).css({
 									"cursor" : "pointer"

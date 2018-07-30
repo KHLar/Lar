@@ -72,7 +72,7 @@ public class UtilCommu {
 		return pageBar; 
 	}
 	
-	public static String getInfoPageBar(int totalContents, int cPage, int numPerPage,String searchType,String searchText, String url ){
+	public static String getqaPageBar(int totalContents, int cPage, int numPerPage,String searchType,String searchText, String url ){
 		String pageBar = "";
 		int pageBarSize = 5;
 		cPage = cPage==0?1:cPage;
@@ -135,7 +135,7 @@ public class UtilCommu {
 		//fn_paging함수
 		pageBar += "<script>";
 		pageBar += "function fn_paging(cPage){";
-		pageBar += "location.href='"+url+"?infocPage='+cPage+'&infoSearchType="+searchType+"&infoSearchText="+searchText+"';";
+		pageBar += "location.href='"+url+"?qacPage='+cPage+'&qaSearchType="+searchType+"&qaSearchText="+searchText+"';";
 		pageBar += "}";
 		pageBar += "</script>";
 		
