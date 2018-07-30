@@ -293,7 +293,7 @@ td {
 						<div class="row no-gutters">
 							<c:forEach items="${newslist}" var="n">
 								<div class="col-lg-4">
-									<a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView?no=${n.commu_Index}">
+									<a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView/${n.commu_Index}">
 										<span class="caption">
 											<span class="caption-content">
 												<h2>${n.commu_Writer }</h2>

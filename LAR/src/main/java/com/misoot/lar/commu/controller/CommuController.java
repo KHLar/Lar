@@ -43,6 +43,18 @@ public class CommuController {
 	@Autowired
 	LarService<CommuReply> commuReplyServiceImpl;
 
+	/*@RequestMapping("/commu/{category}/search/{filter}/{searchValue}/list/{page}")
+	public String selectCommuMain(@PathVariable("category") String category,
+			@PathVariable("filter") String filter, @PathVariable("searchValue") String searchValue,
+			@PathVariable("page") String page,
+			Model model) {
+		System.out.println(category);
+		System.out.println(filter);
+		System.out.println(searchValue);
+		System.out.println(page);
+		
+		return "common/msg";
+	}*/
 	// 게시글 목록 보기
 	@RequestMapping("/commu/commuMain")
 	public String selectCommuMain(
@@ -183,6 +195,15 @@ public class CommuController {
 		model.addAttribute("commu_Category_Index", commu_Category_Index);
 		return "commu/commuForm";
 	}
+	// 게시글 한 개 등록 페이지
+	@RequestMapping("/commu/commuForm/{commu_Category_Index}/{commu_Index}")
+	public String commuUpdateForm(@PathVariable("commu_Category_Index") String commu_Category_Index,
+			@PathVariable("commu_Index") int commu_Index,Model model) {
+			model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(commu_Index));
+			model.addAttribute("commu_Category_Index", commu_Category_Index);
+			model.addAttribute("commu_Index", commu_Index);
+			return "commu/commuForm";
+		}
 
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
 	public String insertBoard(@RequestParam("commu_Category_Index") String commu_Category_Index,

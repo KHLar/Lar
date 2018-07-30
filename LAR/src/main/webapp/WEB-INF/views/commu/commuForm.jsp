@@ -59,21 +59,32 @@
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
 			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border-right: none; padding-right: 0%;">
-				<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+			<c:if test="${commu ne null }">
+			<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+			</c:if>
+			<c:if test="${commu eq null}">
+			<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormUpdate" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+			</c:if>
 					<div class="form-group">
 						<label for="commu_title">제목</label>
 						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="title">
 					</div>
+					
 					<div class="form-group">
 						<label for="commu_file">파일</label>
 						<div class="custom-file">
+						<c:if test="${commu ne null }">
 							<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req}>
+						</c:if>
+						<c:if test="${commu eq null}">
+							<label>사진파일은 수정불가하옵니다.</label>
+						</c:if>
 						</div>
 					</div>
 					<div class="bootstrap-tagsinput form-group">
 						<div class="form-control tags" id="tags">
 							<input type="text" class="labelinput" />
-							<input type="hidden" value="" name="result">
+							<input type="hidden" value="" name="result" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -86,11 +97,12 @@
 				</form>
 			</div>
 		</div>
+		
 		<script>
 			$('#summernote').summernote({
-				placeholder : 'Hello bootstrap 4',
+				placeholder : '내용을 자유롭게 작성해주세요(너무 자유로우면 제재함)',
 				tabsize : 2,
-				height : 300
+				height : 300,
 			});
 			function funcNote() {
 				document.getElementById("commu_Content").value = $(

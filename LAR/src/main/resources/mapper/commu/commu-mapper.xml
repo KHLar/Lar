@@ -206,7 +206,7 @@
 		UPDATE TABLE_COMMU SET
 		COMMU_HITS=COMMU_HITS+1 WHERE COMMU_INDEX =#{commuNo} 
 	</update>
-	<update id="deleteCommu" parameterType="string">
+	<update id="deleteCommu" parameterType="string"> 
 		UPDATE TABLE_COMMU SET
 		COMMU_IS_DELETED=1 WHERE COMMU_INDEX=#{user_index}
 	</update>
