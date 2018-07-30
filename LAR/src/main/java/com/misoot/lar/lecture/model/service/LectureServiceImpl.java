@@ -6,15 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.misoot.lar.lecture.model.dao.LectureDaoImpl;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
+import com.misoot.lar.lecture.model.dao.LectureDaoImpl;
+import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
+import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
-import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
-import com.misoot.lar.lecture.model.vo.Lecture;
 
 @Service
 public class LectureServiceImpl implements LarService<Lecture> {
@@ -66,15 +67,13 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return result;
 	}
 
-	public List<Map<String, String>> selectList (String category, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectList (Map<String, String> parameters, int cPage, int numPerPage) {
 		
-		return ((LectureDaoImpl)lectureDaoImpl).selectList(category, cPage, numPerPage);
+		return ((LectureDaoImpl)lectureDaoImpl).selectList(parameters, cPage, numPerPage);
 	}
 	
 	public int insertBoardLeceture(LectureBoard lectureBoard, List<BoardLectureAttachment> list ) {
-		int result = 0, lecture_board_index =0;
-		
-		
+		int result = 0, lecture_board_index =0;		
 		
 		try {
 			result = ((LectureDaoImpl)lectureDaoImpl).insertBoardLeceture(lectureBoard);
@@ -105,8 +104,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	
-	public int selectlectureTotalCount() {
-		return ((LectureDaoImpl)lectureDaoImpl).selectlectureTotalCount();
+	public int selectlectureTotalCount(String category) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectlectureTotalCount(category);
 	}
 
 	public Lecture selectLectureOne(int lecture_index) {
@@ -118,15 +117,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
+
 		return ((LectureDaoImpl)lectureDaoImpl).selectAttachment(lecture_index);
-	}
-
-	public int insertQ(Map<String, Object> qmap) {
-		return ((LectureDaoImpl)lectureDaoImpl).insertQ(qmap);
-	}
-
-	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
-		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
 	}
 
 	public int insertReview(LectureReview lectureReview) {
@@ -147,6 +139,46 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public int updaetStar(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).updaetStar(lecture_index);
+	}
+
+	public int IncreaseLecture(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).IncreaseLecture(lecture_index);
+	}
+	
+	public int insertQ(LectureQ lectureq) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertQ(lectureq);
+	}
+
+	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQlist(cPage, numPerPage, lecidx);
+	}
+
+	public int lectureQTotalContents(int lecidx) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQTotalContents(lecidx);
+	}
+
+	public LectureQ lectureQdetail(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureQdetail(qindex);
+	}
+
+	public List<LectureA> lectureAdetail(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).lectureAdetail(qindex);
+	}
+
+	public int insertA(Map<String, Object> amap) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertA(amap);
+	}
+
+	public int updateQhits(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQhits(qindex);
+	}
+
+	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectBoardUpdate(map);
+	}
+
+	public int deleteBoardLecture(int bindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).deleteBoardLecture(bindex);
 	}
 
 }

@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
@@ -26,12 +27,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public Lecture selectOne(int index) {
 		return null;
 	}
-
 	
-	public List<Map<String, String>> selectList(String category, int cPage, int numPerPage) {
+	public List<Map<String, String>> selectList(Map<String, String> parameters, int cPage, int numPerPage) {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
-		return sqlSession.selectList("lecture.selectLectureList", category, rows);
+		return sqlSession.selectList("lecture.selectLectureList", parameters, rows);
 	}
 
 	@Override
@@ -41,7 +41,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	@Override
 	public int update(Lecture t) {
-		return sqlSession.update("lecture.updateLecture");
+		
+		return sqlSession.update("lecture.updateLecture",t);
 	}
 
 	@Override
@@ -70,8 +71,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
      /* lecture insert*/
-	public int selectlectureTotalCount() {
-		return sqlSession.selectOne("lecture.selectlectureTotalCount");
+	public int selectlectureTotalCount(String category) {
+		return sqlSession.selectOne("lecture.selectlectureTotalCount",category);
 	}
 
 
@@ -117,13 +118,47 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.updateStar",lecture_index);
 	}
 
-	public int insertQ(Map<String, Object> qmap) {
-		return sqlSession.insert("lecture.insertQ", qmap);
+	public int insertQ(LectureQ lectureq) {
+		return sqlSession.insert("lecture.insertQ", lectureq);
 	}
 
 	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {
-		return sqlSession.selectList("lecture.lectureQlist", lecidx);
+		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
+		return sqlSession.selectList("lecture.lectureQlist", lecidx, rows);
 	}
 
-	
+	public int lectureQTotalContents(int lecidx) {
+		return sqlSession.selectOne("lecture.lectureQTotalContents", lecidx);
+	}
+
+	public LectureQ lectureQdetail(int qindex) {
+		return sqlSession.selectOne("lecture.lectureQdetail", qindex);
+	}
+
+	public List<LectureA> lectureAdetail(int qindex) {
+		return sqlSession.selectList("lecture.lectureAdetail", qindex);
+	}
+
+	public int insertA(Map<String, Object> amap) {
+		return sqlSession.insert("lecture.insertA", amap);
+	}
+
+	public int updateQhits(int qindex) {
+		return sqlSession.update("lecture.updateQhits", qindex);
+	}
+
+
+	public int IncreaseLecture(int lecture_index) {
+		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
+	}
+
+	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
+		return sqlSession.selectOne("lecture.selectBoardUpdate",map);
+	}
+
+	public int deleteBoardLecture(int bindex) {
+		return sqlSession.update("lecture.deleteBoardLecture",bindex);
+	}
+
 }
