@@ -11,6 +11,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/blog-post.css"
 	rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <style>
 .youtubeWrap iframe {
 	position: absolute;
@@ -171,10 +173,48 @@ body {
 
 	}
 	
-	$('.lectureTab a').click(function (e) {
+	/* $('.lectureTab a').click(function (e) {
 	    e.preventDefault();
 	    $(this).tab('show');
 	})
+	 */
+	function make_button_active(tab, panel) { 
+		  var siblings = tab.siblings();
+		  var panSiblings = panel.siblings();
+
+		  siblings.each(function(){
+		      $(this).removeClass('active');
+		  });
+		  
+		  panSiblings.each(function(){
+			  $(this).removeClass('active');
+		  });
+
+		  tab.addClass('active');
+		  panel.addClass('active');
+	}
+
+		//Attach events to menu
+	$(document).ready(function(){
+		if (localStorage.getItem('tab') !== 'undefined' && localStorage.getItem('tab') !== null && 
+				localStorage.getItem('panel') !== 'undefined' && localStorage.getItem('panel') !== null) { 
+			var ind = localStorage['tab'];
+			var ind2 = localStorage['panel'];
+			make_button_active($('.nav-tabs li').eq(ind),$('.tab-pane').eq(ind2));
+		} else {
+			localStorage['tab'] = $("#lectureTab").index();
+			localStorage['panel'] = $("#lectureList").index();
+			make_button_active($("#lectureTab"), $("#lectureList"));
+		}
+		      
+		$(".nav-tabs li").click(function () {
+			if(localStorage){ 
+				localStorage['tab'] = $(this).index();
+				var panel = $(this).children().attr('data-target');
+				localStorage['panel'] = $("#"+panel.substring(1, panel.length)).index();
+			}
+		});
+	});
 </script>
 
 </header>
@@ -184,8 +224,8 @@ body {
 		<div class="col-md-10 col-sm-10">
 			<div class="tabs lectureTab" >
 				<ul class="nav nav-tabs" role="tablist" >
-					<li role="presentation" class="active" id="commuTab" ><a data-toggle="tab" data-target="#lectureList">강좌소개</a></li>
-					<li role="presentation" id="qaTab"><a data-toggle="tab" data-target="#QnA">질의응답</a></li>
+					<li role="presentation" id="lectureTab Tabs" ><a id="atab" data-toggle="tab" data-target="#lectureList">강좌소개</a></li>
+					<li role="presentation" id="qaTab Tabs"><a id="atab" data-toggle="tab" data-target="#QnA">질의응답</a></li>
 				</ul>
 			</div>
 
@@ -193,7 +233,7 @@ body {
 
 			<div class="row">
 				<div class="col-md-9 tab-content" >
-					<div class="tab-pane active" id="lectureList">
+					<div class="tab-pane" id="lectureList">
 					<h1 class="mt-4">${lecture.lecture_title}</h1>
 					<p class="lead">by <a href="#">${lecture.user_nickname}</a></p>
 					<p>업로드 날짜:${lecture.lecture_upload_date }</p>
@@ -465,8 +505,7 @@ body {
 <br>
 <br>
 <br>
-<script
-	src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundler.min.js"></script>
+
 <script>
 	var num = $("#starScore").val();
 	console.log(num);

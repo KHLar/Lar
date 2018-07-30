@@ -151,5 +151,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int IncreaseLecture(int lecture_index) {
 		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
 	}
+	
+	// 추천강의
+	public List<Lecture> recomandedList(Map<String, String> keyword) {
+		RowBounds rows = new RowBounds(1, 6);
+		return sqlSession.selectList("lecture.recomandedList", keyword, rows);
+	}
 
 }

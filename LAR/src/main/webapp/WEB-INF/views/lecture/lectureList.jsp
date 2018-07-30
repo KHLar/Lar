@@ -107,6 +107,10 @@ function lecValidate() {
 	}
 	return true;
 }
+
+$(document).on('click','#Detail',function(){
+	localStorage.clear();
+});
 </script>
 
 <div class="container">

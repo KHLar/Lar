@@ -369,4 +369,36 @@ public class LectureController {
 		
 		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
 	}
+	
+	// 추천강의
+	@RequestMapping("/recommanded")
+	public String recomandedList(Model model) {
+		
+		Map<String, String> keyword = new HashMap<String, String>();
+		
+		keyword.put("keyword", "latest");
+		List<Lecture> latest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "reviews");
+		List<Lecture> reviews = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "score");
+		List<Lecture> score = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "hotest");
+		List<Lecture> hotest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
+		
+		recomandedList.put("latest", latest);
+		recomandedList.put("reviews", reviews);
+		recomandedList.put("score", score);
+		recomandedList.put("hotest", hotest);
+		
+		System.out.println(recomandedList);
+		
+		model.addAttribute("recomandedList", recomandedList);
+		
+		return "lecture/recommanded";
+	}
 }

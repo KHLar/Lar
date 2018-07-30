@@ -18,15 +18,16 @@ public class Lecture implements java.io.Serializable {
 	private String lecture_content;
 	private int lecture_total_score;
 	private String user_nickname;
+	private int lecture_review_cnt;
 	
 	public Lecture() {
 		super();
 	}
-
+	
 	public Lecture(int lecture_index, String lecture_category_index, int lecture_instructor_index,
-			String lecture_thumbnail, String lecture_title, String lecture_intro, String lecture_level, int lecture_price,
-			Date lecture_upload_date, int lecture_is_deleted, int lecture_hits, String lecture_content,
-			int lecture_total_score, String user_nickname) {
+			String lecture_thumbnail, String lecture_title, String lecture_intro, String lecture_level,
+			int lecture_price, Date lecture_upload_date, int lecture_is_deleted, int lecture_hits,
+			String lecture_content, int lecture_total_score, String user_nickname, int lecture_review_cnt) {
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;
@@ -42,6 +43,7 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_content = lecture_content;
 		this.lecture_total_score = lecture_total_score;
 		this.user_nickname = user_nickname;
+		this.lecture_review_cnt = lecture_review_cnt;
 	}
 
 
@@ -158,6 +160,14 @@ public class Lecture implements java.io.Serializable {
 		this.user_nickname = user_nickname;
 	}
 
+	public int getLecture_review_cnt() {
+		return lecture_review_cnt;
+	}
+
+	public void setLecture_review_cnt(int lecture_review_cnt) {
+		this.lecture_review_cnt = lecture_review_cnt;
+	}
+
 	@Override
 	public String toString() {
 		return "Lecture [lecture_index=" + lecture_index + ", lecture_category_index=" + lecture_category_index
@@ -166,6 +176,8 @@ public class Lecture implements java.io.Serializable {
 				+ lecture_level + ", lecture_price=" + lecture_price + ", lecture_upload_date=" + lecture_upload_date
 				+ ", lecture_is_deleted=" + lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content="
 				+ lecture_content + ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname
-				+ "]";
+				+ ", lecture_review_cnt=" + lecture_review_cnt + "]";
 	}
+
+	
 }
