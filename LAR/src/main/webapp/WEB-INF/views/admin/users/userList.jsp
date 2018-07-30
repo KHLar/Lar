@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="row table-responsive">
-		<table class="table">
+		<table class="table table-striped table-condensed">
 			<tr>
 				<td>Idx</td>
 				<td>ID</td>
@@ -42,24 +42,17 @@
 
 	<%
 		PageInfo pi = (PageInfo)request.getAttribute("pi");
-	
-		System.out.println(pi.getCurrent_page());
-		System.out.println(pi.getMax_page_count());
-		System.out.println(pi.getMax_list_count());
-		System.out.println(pi.getPaging_count());
 	%>
 
 	<div class="row">
 		<nav class="text-center">
-			<ul class="pagination text-center">
+			<ul class="pagination">
 				<% if (pi.getCurrent_page() != 1) { %>
 					<li><a href="/lar/admin/users/list/1">&lt;&lt;</a></li>
 					<li><a href="/lar/admin/users/list/${pi.current_page -1}">&lt;</a></li>				
 				<% } %>
-				
-				<% int temp = pi.getCurrent_page() / pi.getPaging_count() + 1; %>
 								
-				<% for (int i=(temp-1)*10+1; i<=temp*pi.getPaging_count(); i++) { %>
+				<% for (int i=(pi.getQuotient()-1)*10+1; i<=pi.getQuotient()*pi.getPaging_count(); i++) { %>
 					<% if (i == pi.getCurrent_page()) { %>
 						<li class="active" disabled><a href="/lar/admin/users/list/<%=i%>"><%=i%></a></li>
 					<% } else if (i <= pi.getMax_page_count()) { %>
@@ -74,7 +67,6 @@
 			</ul>
 		</nav>
 	</div>
-
 </div>
 
 <c:import url="/WEB-INF/views/admin/common/_footer.jsp">

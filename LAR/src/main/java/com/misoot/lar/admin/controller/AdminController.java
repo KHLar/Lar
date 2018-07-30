@@ -6,15 +6,17 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
 import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
+import com.misoot.lar.commu.model.vo.Commu;
+import com.misoot.lar.commu.model.vo.CommuReply;
 import com.misoot.lar.user.model.vo.User;
 
 @Controller
@@ -69,32 +71,103 @@ public class AdminController {
 		return "admin/users/userView";
 	}
 	
+	@RequestMapping(value="/users/modify", method=RequestMethod.POST)
+	public String user_modify(Model model, User user) {
+		System.out.println(user);
+		int result = ((AdminServiceImpl)adminServiceImpl).modifyUserByAdmin(user);
+		System.out.println(user);
+		return "redirect:/admin/users/view/"+user.getUser_index();
+	}
+	
 	/*
 	 * Admin Users area End
 	 */
 		
-	@RequestMapping(value= "/lectures")
-	public String lectures(Model model) {
+	@RequestMapping(value= "/lectures/list/{page}")
+	public String lectures(Model model, @PathVariable("page") int page) {
 		return "admin/lectures";
 	}
+		
+	/*
+	 * community area
+	 */
 	
-	@RequestMapping(value= "/commu/notice")
-	public String commu_notice(Model model) {
+	@RequestMapping(value= "/commu/notice/list/{page}")
+	public String commu_notice(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Commu> commu_list;
 		return "admin/commu/notice";
 	}
-	
-	@RequestMapping(value= "/commu/board")
-	public String commu_board(Model model) {
+		
+	@RequestMapping(value= "/commu/board/list/{page}")
+	public String commu_board(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Commu> commu_list;
+		
 		return "admin/commu/board";
 	}
-	
-	@RequestMapping(value= "/commu/qa")
-	public String commu_qa(Model model) {
+		
+	@RequestMapping(value= "/commu/qa/list/{page}")
+	public String commu_qa(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Commu> commu_list;
+		
 		return "admin/commu/qa";
 	}
-	
-	@RequestMapping(value= "/commu/info")
-	public String commu_info(Model model) {
-		return "admin/commu/info";
+		
+	@RequestMapping(value= "/commu/news/list/{page}")
+	public String commu_news(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Commu> commu_list;
+		
+		return "admin/commu/news";
 	}
+	
+	@RequestMapping(value= "/commu/view/{index}")
+	public String commu_View(Model model, @PathVariable("index") int index) {
+		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByIndex(index);
+		List<CommuReply> reply_list = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyListByIndex(index);
+		model.addAttribute("view_commu", commu)
+			.addAttribute("view_commu_reply", reply_list);
+		
+		return "admin/commu/commuView";
+	}
+	
+	@RequestMapping(value= "/commu/trash/list/{page}")
+	public String commu_trash(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Commu> commu_list;
+		
+		return "admin/commu/trash";
+	}
+	
+	@RequestMapping(value= "/commu/trash/view/{index}")
+	public String commu_trash_View(Model model, @PathVariable("index") int index) {
+		return "admin/commu/commuView";
+	}
+	
+	/*
+	 * community area end
+	 */
+	
 }

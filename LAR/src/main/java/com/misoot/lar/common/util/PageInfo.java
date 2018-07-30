@@ -6,6 +6,7 @@ public class PageInfo implements java.io.Serializable {
    private int max_list_count;
    private int max_page_count;
    private int paging_count;
+   private int quotient;
    
    public PageInfo(int current_page, int content_per_page, int max_list_count, int paging_count) {
       this.current_page = current_page <= 0 ? 1 : current_page;
@@ -14,6 +15,7 @@ public class PageInfo implements java.io.Serializable {
       this.paging_count = paging_count;
       
       this.max_page_count = (max_list_count % content_per_page == 0) ? max_list_count / content_per_page : max_list_count / content_per_page + 1;
+      this.setQuotient(current_page / paging_count + 1);
    }
 
    public int getCurrent_page() {
@@ -55,4 +57,12 @@ public class PageInfo implements java.io.Serializable {
    public void setPaging_count(int paging_count) {
       this.paging_count = paging_count;
    }
+
+	public int getQuotient() {
+		return quotient;
+	}
+	
+	public void setQuotient(int quotient) {
+		this.quotient = quotient;
+	}
 }
