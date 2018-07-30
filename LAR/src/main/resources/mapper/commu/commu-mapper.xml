@@ -191,7 +191,7 @@
 	</insert>
 	<update id="IncreaseCommu" parameterType="_int">
 		UPDATE TABLE_COMMU SET
-		COMMU_HITS=COMMU_HITS+1 WHERE COMMU_INDEX =#{commuNo}
+		COMMU_HITS=COMMU_HITS+1 WHERE COMMU_INDEX =#{commuNo} 
 	</update>
 	<update id="deleteCommu" parameterType="string">
 		UPDATE TABLE_COMMU SET
