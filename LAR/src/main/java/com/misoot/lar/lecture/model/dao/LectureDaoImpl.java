@@ -157,5 +157,4 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		RowBounds rows = new RowBounds(1, 6);
 		return sqlSession.selectList("lecture.recomandedList", keyword, rows);
 	}
-
 }

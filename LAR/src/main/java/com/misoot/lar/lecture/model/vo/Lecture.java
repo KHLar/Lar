@@ -178,6 +178,4 @@ public class Lecture implements java.io.Serializable {
 				+ lecture_content + ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname
 				+ ", lecture_review_cnt=" + lecture_review_cnt + "]";
 	}
-
-	
 }

@@ -188,5 +188,4 @@ public class UserServiceImpl implements LarService<User> {
 	public int getout(Map<Object, Object> map) {
 		return ((UserDaoImpl)userDaoImpl).getout(map);
 	}
-
 }
