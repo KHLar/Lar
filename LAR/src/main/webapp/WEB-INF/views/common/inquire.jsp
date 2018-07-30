@@ -4,20 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="${pageContext.request.contextPath}/resources/css/chat.css"
-	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/resources/js/sockjs.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/chat.css" rel="stylesheet">
+<script	src="${pageContext.request.contextPath}/resources/js/sockjs.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-<div class="quest">
+<div class="quest" style="z-index: 1000;">
 	<p>문의하기</p>
 </div>
 
 <div class="chat_container">
-	<div class="row chat-window col-xs-6 col-md-6" id="chat_window_1"
-		style="margin-left: 10px;">
+	<div class="row chat-window col-xs-9 col-sm-8 col-md-7 col-lg-6" id="chat_window_1"	style="margin-left: 10px;">
 		<div class="col-xs-12 col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading top-bar">
@@ -39,33 +35,9 @@
 						</div>
 						<div class="col-xs-10 col-md-10">
 							<div class="messages msg_receive">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								<p>Ask if you don't know in LAR.</p>
+								<time datetime="2009-11-13T20:00">문의 담당자</time>
 							</div>
-						</div>
-					</div>
-					
-					<div class="inquire_container">
-					<div class="row msg_container base_sent">
-						<div class="col-md-10 col-xs-10 ">
-							<div class="messages msg_sent">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-							</div>
-						</div>
-						<div class="col-md-2 col-xs-2 avatar">
-							<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
-						</div>
-						
-					</div>
-					<div class="inquire_option" style="display: block; color: skyblue;">
-							<span style="float: left;">첨부한 파일</span>
-							<div style="display: inline; width: 270px;" id="void"></div>
-							<span>수정</span>
-							<span style="float: right;">삭제</span>
 						</div>
 					</div>
 					
@@ -92,16 +64,32 @@
 	var s; // Socket
 	var stompClient = null;
 	var c;	// confirm
+	var r;	// receiver
+	
+	if('${session_user.user_id}'=='inquire@co.kr'){	
+		$('.quest p').text("문의확인");
+		$('.panel-footer').css('display', 'none');
+		$('.preview-image').css('display', 'none');
+		}
 
 	$('.quest').on('click', function() {
-		if ($(this).css('display') != 'none') {
-			$(this).css('display', 'none');
-			$('.chat_container').css({
-				'display' : 'block',
-				'bottom' : '30px'
-			});
+		
+		if ('${session_user}' == '' || '${session_user}' == null) {
+			c = confirm("로그인 후에 이용 가능한 메뉴입니다. 로그인 하시겠습니까?");
+			if (c == true) {
+				$('.dynamicModal').modal('show');
+				getModal('signin');
+			} else	return;
+		} else {
+			if ($(this).css('display') != 'none') {
+				$(this).css('display', 'none');
+				$('.chat_container').css({
+					'display' : 'block',
+					'bottom' : '30px'
+				});
+			}
+			if(s==null) connect();
 		}
-		connect();
 	});
 
 	$('.icon_close').on('click', function() {
@@ -116,55 +104,10 @@
 		$('#chat-area').val(null);
 		$('.upload-name').val('파일 선택');
 		$('.upload-thumb-wrap').remove();
-		/* var check = confirm('Are you Server?');
-		if(check == true){
-			if(ws == undefined){
-				ws = new SockJS("/lar/myHandler");
-				
-				ws.onopen = function() {
-				     console.log('open');
-				     ws.send("사용자 : "+$("#chat-area").val());
-				 };
-
-				 ws.onmessage = function(e) {
-				     console.log('message', e.data);
-				     //ws.close();
-				 };
-
-				 ws.onclose = function() {
-				     console.log('close');
-				 };
-			}
-		} else {
-			if(ws == undefined){
-				ws = new SockJS("/lar/myHandler", 8040, 313);
-				ws.onopen = function() {
-				     console.log('open');
-				     ws.send("사용자 : "+$("#chat-area").val());
-				 };
-				 ws.onmessage = function(e) {
-				     console.log('message', e.data);
-				     //ws.close();
-				 };
-				 ws.onclose = function() {
-				     console.log('close');
-				 };
-			}
-		} */
+		/* var check = confirm('Are you Server?');		 */
 	});
 
-	/* 		function setConnected(connected) {
-	 $("#connect").prop("disabled", connected);
-	 $("#disconnect").prop("disabled", !connected);
-	 if (connected) {
-	 $("#conversation").show();
-	 } else {
-	 $("#conversation").hide();
-	 }
-	 $("#greetings").html("");
-	 } */
-
-	 
+	
 	// ctrl+Enter or shift+enter => enter & press enter => send message
 	$('#chat-area').keydown(function(e) {
 		if (e.keyCode == 13) {			
@@ -189,13 +132,106 @@
 			console.log('Connected: ' + frame);
 			stompClient.subscribe('/topic/greetings', function(msg) {
 				showGreeting(JSON.parse(msg.body));
+				});
+			
+		if('${session_user.user_id}'=='inquire@co.kr'){
+			$.ajax({
+				type : "POST",
+				dataType : "json",
+				url : "${pageContext.request.contextPath}/inquireAllView",
+				success : function(data){
+					$.each(data, function(i, v) {
+						var $msg_container_base = $('.msg_container_base');
+						var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
+						var $base_sent = $('<div class="row msg_container base_sent">');
+						var $base_receive = $('<div class="row msg_container base_receive">');
+						var $col = $('<div class="col-xs-10 col-md-10">');
+						var $message = $('<div class="messages msg_sent" style="word-wrap: break-word; white-space:pre-line;">');
+						var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
+						var $timeData = $('<time>');
+						var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
+						var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
+						var $div = $('<div class="inquire_option">');
+						
+						if(v.INQUIRE_SENDER_INDEX!='2'){
+						$base_sent.append(
+								$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
+										.append($timeData.text(v.INQUIRE_SENDER_INDEX + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
+												))).append($avatar.append($img));
+						if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
+						$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="reply('+v.inquire_sender_index+')">답신</span></div>');
+						
+						$msg_container_base.append($inquire_container.append($base_sent).append($div));
+						}	else{
+							$base_receive.append(
+									$avatar.append($img)).append(
+											$col.append(
+													$message.append(
+															$pre.text(v.INQUIRE_CONTENT)).append(
+																	$timeData.text('${session_user.user_nickname}'+" : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
+													));
+							$msg_container_base.append($inquire_container.append($base_receive));
+						}
+						scrollDown();
+						
+					});
+				}, error : function(data){
+					console.log("Load list error");
+				}
 			});
+		}
+		else{
+			$.ajax({
+			type : "POST",
+			dataType : "json",
+			url : "${pageContext.request.contextPath}/inquireUserView",
+			data : { user : '${session_user.user_index}'},
+			success : function(data){
+				$.each(data, function(i, v) {
+					var $msg_container_base = $('.msg_container_base');
+					var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
+					var $base_sent = $('<div class="row msg_container base_sent">');
+					var $base_receive = $('<div class="row msg_container base_receive">');
+					var $col = $('<div class="col-xs-10 col-md-10">');
+					var $message = $('<div class="messages msg_sent" style="word-wrap: break-word; white-space:pre-line;">');
+					var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
+					var $timeData = $('<time>');
+					var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
+					var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
+					var $div = $('<div class="inquire_option">');
+					
+					if(v.INQUIRE_SENDER_INDEX!='2'){
+					$base_sent.append(
+							$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
+									.append($timeData.text("${session_user.user_id}" + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
+											))).append($avatar.append($img));
+
+					if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
+					
+					$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="deleteContent('+v.inquire_no+')">삭제</span></div>');
+					
+					$msg_container_base.append($inquire_container.append($base_sent).append($div));
+					}	else{
+						$base_receive.append(
+								$avatar.append($img)).append(
+										$col.append(
+												$message.append(
+														$pre.text(v.INQUIRE_CONTENT)).append(
+																$timeData.text("문의 담당자 : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
+												));
+						$msg_container_base.append($inquire_container.append($base_receive));
+					}
+					scrollDown();
+					
+				});
+			},	error : function(data){	console.log("에러입니다");	}
+			
+				});
+			}
 		});
 	}
 
-	function scrollDown() {
-		$('.msg_container_base').scrollTop($('.msg_container_base').prop('scrollHeight'));
-	}
+	function scrollDown() {		$('.msg_container_base').scrollTop($('.msg_container_base').prop('scrollHeight'));}
 
 	// 메시지 전송
 	function sendMsg() {
@@ -207,14 +243,22 @@
 			} else
 				return;
 		} else {
-			if ($('#chat-area').val() != null && $('#chat-area').val().trim() != '')
+			if ($('#chat-area').val() != null && $('#chat-area').val().trim() != ''){
+				if('${session_user.user_index}'!='2'){
 				stompClient.send("/app/question", {}, JSON.stringify({
-					'inquire_sender_index' : '${session_user.user_id}',
-					'inquire_receiver_index' : 'admin',
-					'inquire_content' : $('#chat-area').val()
-				}));
-			else
-				alert("내용을 입력해주세요.");
+					'inquire_sender_index' : '${session_user.user_index}',
+					'inquire_receiver_index' : '2',
+					'inquire_content' : $('#chat-area').val(),
+					'inquire_attachment_file' : $('.upload-name').val()
+				}));}	else{
+					stompClient.send("/app/question", {}, JSON.stringify({
+						'inquire_sender_index' : '${session_user.user_index}',
+						'inquire_receiver_index' : r,
+						'inquire_content' : $('#chat-area').val()
+					}));
+					$('.panel-footer').css('display', 'none');
+				}
+			}	else	alert("내용을 입력해주세요.");
 		}
 
 	}
@@ -223,8 +267,9 @@
 	function showGreeting(data) {
 		
 		var $msg_container_base = $('.msg_container_base');
-		var $inquire_container = $('<div class="inquire_container">');
+		var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
 		var $base_sent = $('<div class="row msg_container base_sent">');
+		var $base_receive = $('<div class="row msg_container base_receive">');
 		var $col = $('<div class="col-xs-10 col-md-10">');
 		var $message = $('<div class="messages msg_sent" style="word-wrap: break-word; white-space:pre-line;">');
 		var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
@@ -233,83 +278,67 @@
 		var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
 		var date = new Date(data.inquire_sendDate).toLocaleString();
 		var $div = $('<div class="inquire_option">');
+		
+		if('${session_user.user_id}'!='inquire@co.kr'){
 
 		$base_sent.append(
 				$col.append($message.append($pre.text(data.inquire_content))
-						.append($timeData.text(data.inquire_sender_index + ":"+ date)
+						.append($timeData.text("${session_user.user_id}" + " : "+ date)
 								))).append($avatar.append($img));
-
-		$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">첨부한 파일</span><div id="void" style="display: inline-block; width: 270px;"></div><span>수정</span><span style="display : none;">수정 완료</span><span style="display : none;">답변 확인</span><span style="display : none;">숨기기</span><span style="float: right;">삭제</span></div>');
+		
+		if(data.inquire_attachment_file==null) data.inquire_attachment_file="";
+		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;">'+data.inquire_attachment_file+'</span><span style="float: right;" onclick="deleteContent('+data.inquire_no+')">삭제</span></div>');
 		/* $inquire_container.append($base_sent).append($div); */
-		$msg_container_base.append($inquire_container.append($base_sent).append($div));		
+		$msg_container_base.append($inquire_container.append($base_sent).append($div));
+		}	else{
+			$base_receive.append(
+					$avatar.append($img)).append(
+							$col.append(
+									$message.append(
+											$pre.text(data.inquire_content)).append(
+													$timeData.text('${session_user.user_nickname}'+" : "+date))
+									));
+			
+			$msg_container_base.append($inquire_container.append($base_receive));
+			
+		}
 		
 		scrollDown();
-		
-		
 		
 		// $("#greetings").append("<tr><td>" + data.sender+" : "+ data.content + " | " + new Date(data.sendDate).toLocaleString() + "</td></tr>");
 	}
 	
-	$(document).on("mouseenter", '.inquire_option span', function(){
-		$(this).css('cursor', 'pointer');
-	});
+	// cursur css pointer
+	$(document).on("mouseenter", '.inquire_option span', function(){	$(this).css('cursor', 'pointer');});
 	
-		$(document).on('click','.inquire_option span:nth-child(3)', function(){		// modifying
-			/* var msg = $(this).parent().parent().parent().find('.messages').html();
-			var parseMsg = msg.substring(0, msg.indexOf('<time>')); */
-			var $loc = $(this);
-			
-			//$('#chat-area').val(parseMsg);
-			$('#chat-area').val($(this).parents('.inquire_container').find('span').eq(0).text()).focus();
-			$('#btn-chat').css('display', 'none');
-			$(this).parent().children('#void').text('esc : 수정취소').css({'font-size':'3px', 'text-align':'center', 'color' : 'red'});
-			$(this).parent().children(':last').css('display', 'none');
-			$(this).css('display', 'none');
-			$(this).parent().children(':nth-child(4)').css('display', 'inline-block');
-			
-			$('#chat-area').keydown(function(e) {
-				if (e.keyCode == 27) {		// esc 버튼
-					$('#btn-chat').css('display', 'block');
-					$loc.parent().children(':last').css('display', 'inline-block');
-					$loc.css('display', 'inline-block');
-					$loc.parent().children(':nth-child(4)').css('display', 'none');
-					$('.inquire_option span').parent().children('#void').text(null);
-					$('#chat-area').val(null);
-				}
-			}).off('keydown');
-			
-		});	
-	
-		$(document).on('click','.inquire_option span:nth-child(4)', function(){		// modified
-			$('#btn-chat').css('display', 'block');
-			$(this).parents(".inquire_container").find('span').eq(0).text($('#chat-area').val());
-			$('#chat-area').val(null);
-			$(this).parent().children('#void').text(null);
-			$(this).parent().children(':last').css('display', 'inline-block');
-			$(this).css('display', 'none');
-			$(this).parent().children(':nth-child(3)').css('display', 'inline-block');
-			
-			$('#chat-area').keydown(function(e) {
-				if (e.keyCode == 13) {			
-					if (e.ctrlKey)  $(this).val(function(i, val) {return val + "\n";});
-					else if (e.shiftKey) return $(this).val();
-					else {
-						sendMsg();
-						$('#chat-area').val(null);
-						$('.upload-name').val('파일 선택');
-						$('.upload-thumb-wrap').empty();
-						return false;
-					}
+	function deleteContent(num){
+		
+		c = confirm("정말 삭제하시겠습니까?");
+		if(c==true){
+			$(document).on("click",".inquire_option span:last-child",function() {
+				$(this).parents('.inquire_container').remove();
+			});
+			$.ajax({
+				type : "POST",
+				dataType : "json",
+				url : "${pageContext.request.contextPath}/inquireDelete",
+				data : { no : num },
+				success : function(data){
+						console.log("SUCCESS");
+				}, error : function(data){
+					console.log("ERROR");
 				}
 			});
-		});
-		
-
-	$(document).on("click",".inquire_option span:last-child",function() { // 삭제
-		c =  confirm("정말 삭제하시겠습니까?");
-		if(c==true) $(this).parents('.inquire_container').remove();
+		}
 		else return false;
-    });
+		
+	}
+	
+	function reply(num){
+		$('.panel-footer').css('display', 'block');
+		r=num;
+	}
+	
 	
 	$(document).on('click', '.panel-heading span.icon_minim', function(e) {
 		var $this = $(this);
