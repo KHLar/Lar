@@ -140,10 +140,10 @@
 								<a class="pull-left" href="#"> <img class="media-object" src="http://placekitten.com/150/150"></a>
 								<div class="media-body">
 									<h4 class="media-heading">${mylecture.lecture_title}</h4>
-									<p class="text-right">${mylecture.lecture_instructor_nickname}</p>
+									<p class="text-right">${mylecture.user_nickname}</p>
 									<p>${mylecture.lecture_intro}</p>
 									<ul class="list-inline list-unstyled">
-										<li><span><i class="glyphicon glyphicon-calendar"></i></span></li>
+										<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
 										<li>|</li>
 										<span><i class="glyphicon glyphicon-comment"></i> ${mylecture.lecture_review_cnt} reviews</span>
 										<li>|</li>

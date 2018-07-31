@@ -595,6 +595,7 @@ public class UserController {
 	      else
 	         System.out.println("실패");
 
+
 	      User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
 	      model.addAttribute("session_user", user);
 	      
@@ -661,4 +662,5 @@ public class UserController {
 	      
 	   }
 	   
+
 }

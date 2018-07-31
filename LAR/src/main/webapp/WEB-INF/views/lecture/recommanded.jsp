@@ -38,15 +38,16 @@
     		<div class="orderby_date" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
     			<h4>최신 순</h4>
     			<div class="row">
-   				<c:forEach var="i" begin="1" end="6" step="1">
+   				<c:forEach items="recomandedList" var="l">
+   					<c:set value="1" var="i"/>
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
 						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
-							<img src="https://img.youtube.com/vi/wjLwmWyItWI/sddefault.jpg">
+							<img src="${l}">
 							<div class="caption">
-								<small>Thumbnail label</small>
+								<small>${latest.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -54,6 +55,7 @@
 							</div>
 						</div>
 					</div>
+					<c:set value="${i}+1" var="i"/>
 				</c:forEach>
 				</div>	
     		</div>
@@ -102,7 +104,7 @@
 				</div>
     		</div>
     		<div class="orderby_students" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
-    			<h4>수강생 순</h4>
+    			<h4>인기 순</h4>
     			<div class="row">
    				<c:forEach var="i" begin="1" end="6" step="1">
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
@@ -123,7 +125,5 @@
 				</c:forEach>
 				</div>
     		</div>    				
-    		
 		</div>
-		
 <c:import url="/WEB-INF/views/common/_footer.jsp"/>

@@ -25,18 +25,20 @@
   height: 100%;
 }
     body{
-    background-color: skyblue;
+    background-color:skyblue;
+    background-image:url('${pageContext.request.contextPath}/resources/images/abc.jpg');
+			   
     }
     
     </style>
     </head>
-    <body>
+    <body class="bm">
  <!-- Page Content -->
     <div class="container">
       <h1 class="my-4">${bLecture.lecture_board_title }</h1>
 
       <!-- Portfolio Item Row -->
-      <div class="row">
+      <div class="row">			
 		
 		<div class="col-1">
 		 	<div>  <button type="button" id="prevBtn" class="btn btn-primary" style=" margin-top: 800%; ">  &lt; </button> </div>
@@ -63,9 +65,10 @@
                     	</tr>   	
                     	</c:if>
                     	
-                    		<tr>
-                 			<td class="play_icons"><!-- <a class="lectureView"> --><img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></td>
-                           <td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
+                    	<tr>
+                 			<td class="play_icons"> <a class="lectureView">  <img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></a><input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
+                           <input type="hidden" value="${lecture_index}"  class="my_lecture_index"></td> 
+                            <td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
                            <input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
                            <input type="hidden" value="${lecture_index}"  class="my_lecture_index"/></td> 
                            <td class="preview"> <img src="${pageContext.request.contextPath}/resources/images/free.png"></td>  
@@ -77,8 +80,9 @@
                            	<c:set var="name" value="${bl.LECTURE_INSTRUCTOR_INDEX}" />
                           	<c:set var="name2" value="${session_user.user_index}"/>
                           	<c:if test="${ name eq name2}">
-                          
-                            <button class="btn btn-warning pull-right" id="lectureBoardDelete">삭제하기</button>
+                          	<input type="hidden" value="${lecture_index}" class="my_lecture_index" />
+                          	<input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
+                            <button class="btn btn-warning pull-right lectureBoardUpdate">수정하기</button>
                             </c:if>
                            </td>
                        </tr>   

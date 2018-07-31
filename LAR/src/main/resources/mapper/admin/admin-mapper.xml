@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
-	<!-- 
-	<resultMap type="exam" id="examMap">
-		<result column="examLang" property="examLang" typeHandler="strArrTypeHandler"/>
+
+	<!-- community result map -->
+	<resultMap id="getselectCommuList" type="commu">
+		<result property="commu_Index" column="COMMU_INDEX" />
+		<result property="commu_Writer_Index" column="COMMU_WRITER_INDEX" />
+		<result property="commu_Category_Index" column="COMMU_CATEGORY_INDEX" />
+		<result property="commu_Title" column="COMMU_TITLE" />
+		<result property="commu_Content" column="COMMU_CONTENT"
+			jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="commu_Hits" column="COMMU_HITS" />
+		<result property="commu_Upload_Date" column="COMMU_UPLOAD_DATE" />
+		<result property="commu_Update_Date" column="COMMU_UPDATE_DATE" />
+		<result property="commu_Is_Deleted" column="COMMU_IS_DELETED" />
+		<result property="commu_tags" column="COMMU_TAGS" />
+		<result property="fileCount" column="FILECOUNT" />
+		<result property="commu_Writer" column="COMMU_WRITER" />
 	</resultMap>
-	 -->
+	<resultMap id="getselectCommuOne" type="commu">
+		<result property="commu_Index" column="COMMU_INDEX" />
+		<result property="commu_Writer_Index" column="COMMU_WRITER_INDEX" />
+		<result property="commu_Category_Index" column="COMMU_CATEGORY_INDEX" />
+		<result property="commu_Title" column="COMMU_TITLE" />
+		<result property="commu_Content" column="COMMU_CONTENT"
+			jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="commu_Hits" column="COMMU_HITS" />
+		<result property="commu_Upload_Date" column="COMMU_UPLOAD_DATE" />
+		<result property="commu_Update_Date" column="COMMU_UPDATE_DATE" />
+		<result property="commu_tags" column="COMMU_TAGS" />
+		<result property="commu_Is_Deleted" column="COMMU_IS_DELETED" />
+		<result property="commu_Writer" column="COMMU_WRITER" />
+	</resultMap>
+	<resultMap id="getselectCommuReplyList" type="commuReply"> 
+		<result property="commu_Reply_Index" column="COMMU_REPLY_INDEX" /> 
+		<result property="commu_Reply_Commu_Index" column="COMMU_REPLY_COMMU_INDEX" /> 
+		<result property="commu_Reply_Parent_Index" column="COMMU_REPLY_PARENT_INDEX" /> 
+		<result property="commu_Reply_Writer_Index" column="COMMU_REPLY_WRITER_INDEX" /> 
+		<result property="commu_Reply_Content" column="COMMU_REPLY_CONTENT" jdbcType="CLOB" javaType="java.lang.String" /> 
+		<result property="commu_Reply_Upload_Date" column="COMMU_REPLY_UPLOAD_DATE" /> 
+		<result property="commu_Reply_Update_Date" column="COMMU_REPLY_UPDATE_DATE" /> 
+		<result property="commu_Reply_Depth_Index" column="COMMU_REPLY_DEPTH_INEDX" />
+		<result property="commu_Reply_Is_Deleted" column="COMMU_REPLY_IS_DELETED" /> 
+		<result property="commu_Reply_Is_Readed" column="COMMU_REPLY_IS_READED" />  
+		<result property="commu_Reply_Order_Index" column="COMMU_REPLY_ORDER_INDEX" />  
+	</resultMap>
 	 
 	<select id="selectList">
 		select * from EXAMPLE order by INDEX desc
@@ -32,13 +71,47 @@
 	
 	<select id="selectUserList" parameterType="_int" resultType="user">
 		select * from TABLE_USER
-		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
-		ORDER BY USER_LEVEL DESC
+		where USER_LEVEL <![CDATA[<]]> #{user_level} AND
+			(USER_TYPE like '%'||'user'||'%' OR 
+			USER_TYPE like '%'||'inst'||'%') 
+		order by USER_LEVEL DESC, USER_INDEX DESC
 	</select>
 	
 	<select id="selectUserCount" parameterType="_int" resultType="_int">
 		select COUNT(*) from TABLE_USER
-		WHERE USER_LEVEL <![CDATA[<]]> #{user_level}
+		where USER_LEVEL <![CDATA[<]]> #{user_level} AND
+			(USER_TYPE like '%'||'user'||'%' OR 
+			USER_TYPE like '%'||'inst'||'%') 
 	</select>
 	
+	<update id="modifyUserByAdmin" parameterType="user">
+		update TABLE_USER
+		<set>
+			<if test="user_nickname != null">USER_NICKNAME = #{user_nickname},</if>
+			<if test="user_phone != null">USER_PHONE = #{user_phone},</if>
+			USER_IS_SECESSION = #{user_is_secession},
+			USER_IS_KICKED = #{user_is_kicked},
+			<if test="user_try_signin_count gte 0">USER_try_signin_count = #{user_try_signin_count},</if>
+		</set>
+		where USER_INDEX = #{user_index} and USER_ID = #{user_id}
+	</update>
+	
+	<!-- community area -->
+	<select id="selectCommuList" parameterType="string" resultMap="getselectCommuList">
+		
+	</select>
+	
+	<select id="selectCommuByIndex" parameterType="_int" resultMap="getselectCommuOne">
+		SELECT
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		FROM TABLE_USER U JOIN TABLE_COMMU C ON(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		WHERE C.COMMU_INDEX=#{commuNo}
+	</select>
+	
+	<select id="selectCommuReplyList" resultMap="getselectCommuReplyList">
+		SELECT R.*,U.USER_NICKNAME COMMU_REPLY_WRITER FROM TABLE_COMMU_REPLY R JOIN TABLE_USER U 
+		ON(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX) WHERE COMMU_REPLY_COMMU_INDEX=#{commuNo}
+		ORDER BY COMMU_REPLY_PARENT_INDEX DESC, commu_Reply_Order_Index ASC
+	</select>
 </mapper>

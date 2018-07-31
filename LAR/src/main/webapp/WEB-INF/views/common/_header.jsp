@@ -68,7 +68,7 @@
 			<div class="collapse navbar-collapse" id="nav-collapse-menu" style="overflow:hiddne; max-height:380px;">
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a href="/lar/lecture/recommanded">추천 강좌</a>
+						<a href="/lar/recommanded">추천 강좌</a>
 					</li>
 					<li class="dropdown mega-dropdown">
 						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button" href = "/lar/lectureList">분류별 <span class="caret"></span></a>

@@ -18,29 +18,35 @@
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10">
 			<div class="container">
-				<h1 class="">강의 동영상 등록하기</h1>
-				<form id="defaultForm" method="post" class="form-horizontal" enctype="multipart/form-data"  onsubmit="return validate();" action="${pageContext.request.contextPath}/lecture/lectureBoardInsert">
+				<h1 class="">강의 동영상 수정하기</h1>
+				<form id="defaultForm" method="post" class="form-horizontal" enctype="multipart/form-data" onsubmit="return validate();" action="${pageContext.request.contextPath}/lecture/lectureBoardUpdateEnd">
 					<div class="form-group">
 						<br /><br /><br />
 						<div class="col-sm-9">
 							<div class="form-row">
 							
-							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_board_title" required/>
+							<input type="text" class="form-control md-6 mb-3" placeholder="강의명" name="lecture_board_title" value="${b.LECTURE_BOARD_TITLE}" required/>
 							<input type="hidden" class="form-control" >
 						
 							<br />
 							<div class="form-inline">
-  							  <input type="text" class="form-control mb-2 mr-sm-2" placeHolder="chapter" name="lecture_board_chapter" required>
-  							  <input type="file" class="form-control mb-2 mr-sm-2 pull-right" id="inlineFormInputName2" placeholder="파일 업로드" name="upFile" multiple>
-							 <input type="hidden" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="강의넘버" name="lecture_board_lecture_index" value="${param.index }" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  							  <input type="text" class="form-control mb-2 mr-sm-2" placeHolder="chapter" name="lecture_board_chapter" value="${b.LECTURE_BOARD_CHAPTER}" required>
+  							  <input type="text"/>
+  							  <input type="file" class="form-control mb-2 mr-sm-2 pull-right" id="inlineFormInputName2" placeholder="파일 업로드" name="upFile"  multiple>
+							 <input type="hidden" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="강의넘버" name="lecture_board_lecture_index" value="${b.LECTURE_BOARD_LECTURE_INDEX }" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							</div>
 							</div>
 							<br />	
 								
-							<div id="summernote"></div>
+							<div id="summernote">${b.LECTURE_BOARD_CONTENT}</div>
+							<br /><br />
+							
 							<input type="hidden"  id="lecture_board_content" name="lecture_board_content" required />
 							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">제출하기 </button>
+							<input type="hidden"  value="${param.index}" class="my_lecture_index"/>
+							<input type="hidden"  class="lectre_board_index" name="lectre_board_index" value="${b.LECTURE_BOARD_INDEX }"/>
+							<button type="button" class="btn btn-warning pull-right lectureBoardDelete">삭제하기</button>
 						</div>
 					</div>
 				</form>
@@ -69,6 +75,11 @@
 				return false;
 			}
 			
+			if ($('#lecture_instructor_index').val() == ""
+					|| $('#lecture_instructor_index').val() == null) {
+				alert('로그인 먼저해주세요^^');
+				return false;
+			}
 			return true;
 		}
 	 

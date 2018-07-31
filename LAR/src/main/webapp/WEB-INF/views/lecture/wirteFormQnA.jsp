@@ -15,7 +15,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-10 col-sm-10" style="margin-top: 10px; width:75%; text-align: center;">			
+		<div class="col-md-10 col-sm-10" style="margin-top: 10px; width:75%;">			
 			<div class="row">
 				<h2 class="pull-left">Q&A 글 작성</h2>
 				<form action="/lar/lecture/QnA/insertQ">

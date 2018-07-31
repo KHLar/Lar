@@ -2272,7 +2272,7 @@ select.form-control:focus::-ms-value {
 		-ms-flex-align: center;
 		align-items: center;
 		-ms-flex-pack: center;
-		justify-content: center
+		justify-: center
 	}
 	.form-inline .custom-control-label {
 		margin-bottom: 0
@@ -2995,7 +2995,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	height: 0;
 	margin-left: .255em;
 	vertical-align: .255em;
-	content: "";
 	border-top: .3em solid;
 	border-right: .3em solid transparent;
 	border-bottom: 0;
@@ -3044,7 +3043,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	height: 0;
 	margin-left: .255em;
 	vertical-align: .255em;
-	content: "";
 	border-top: 0;
 	border-right: .3em solid transparent;
 	border-bottom: .3em solid;
@@ -3069,7 +3067,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	height: 0;
 	margin-left: .255em;
 	vertical-align: .255em;
-	content: "";
 	border-top: .3em solid transparent;
 	border-right: 0;
 	border-bottom: .3em solid transparent;
@@ -3097,8 +3094,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	width: 0;
 	height: 0;
 	margin-left: .255em;
-	vertical-align: .255em;
-	content: ""
+	vertical-align: .255em;s
 }
 
 .dropleft .dropdown-toggle::after {
@@ -3111,7 +3107,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	height: 0;
 	margin-right: .255em;
 	vertical-align: .255em;
-	content: "";
 	border-top: .3em solid transparent;
 	border-right: .3em solid;
 	border-bottom: .3em solid transparent
@@ -3503,7 +3498,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	width: 1rem;
 	height: 1rem;
 	pointer-events: none;
-	content: "";
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -3518,7 +3512,6 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	display: block;
 	width: 1rem;
 	height: 1rem;
-	content: "";
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 50% 50%
@@ -4843,7 +4836,6 @@ button.close {
 
 .tooltip .arrow::before {
 	position: absolute;
-	content: "";
 	border-color: transparent;
 	border-style: solid
 }
@@ -4964,7 +4956,6 @@ button.close {
 .popover .arrow::after, .popover .arrow::before {
 	position: absolute;
 	display: block;
-	content: "";
 	border-color: transparent;
 	border-style: solid
 }
@@ -5056,7 +5047,6 @@ button.close {
 	display: block;
 	width: 1rem;
 	margin-left: -.5rem;
-	content: "";
 	border-bottom: 1px solid #f7f7f7
 }
 
@@ -5311,7 +5301,6 @@ supports ((-webkit-transform-style:preserve-3d ) or (transform-style:preserve-3d
 	display: inline-block;
 	width: 100%;
 	height: 10px;
-	content: ""
 }
 
 .carousel-indicators li::after {
@@ -5321,7 +5310,6 @@ supports ((-webkit-transform-style:preserve-3d ) or (transform-style:preserve-3d
 	display: inline-block;
 	width: 100%;
 	height: 10px;
-	content: ""
 }
 
 .carousel-indicators .active {
@@ -5555,7 +5543,6 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover
 .clearfix::after {
 	display: block;
 	clear: both;
-	content: ""
 }
 
 .d-none {
@@ -5766,7 +5753,6 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover
 
 .embed-responsive::before {
 	display: block;
-	content: ""
 }
 
 .embed-responsive .embed-responsive-item, .embed-responsive embed,

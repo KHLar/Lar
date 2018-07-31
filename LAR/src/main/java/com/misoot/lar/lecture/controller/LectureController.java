@@ -2,6 +2,9 @@ package com.misoot.lar.lecture.controller;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.sql.Clob;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
+import com.misoot.lar.lecture.model.vo.BoardLecture;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureA;
@@ -82,23 +87,63 @@ public class LectureController {
 		
 		return "redirect:/lectureList";
 	}
+	
 	//게시글 삭제
 	@RequestMapping(value="/lectureDelete")
 	public String DeleteLecture(@RequestParam int index){
 	
 		int result = ((LectureServiceImpl)LectureServiceImpl).delete(index);
-
-			
+		return "redirect:/lectureList";
+	}
+	
+	//게시글 수정폼으로가기
+	@RequestMapping(value="/lectureUpdate")
+	public String updateForm(Model model, @RequestParam("index") int lecture_index){
+		model.addAttribute("lecture",((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index));
+		return "lecture/lectureUpdate";
+	}
+	
+	//게시글 수정
+	@RequestMapping(value="/lecture/lectureUpdateEnd",method=RequestMethod.POST)
+	public String updateLecture(Lecture t){
+		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
+		return "redirect:/lectureList";
+	}
+	
+	// 동영상 삭제
+	@RequestMapping(value="/lectureBoardDelete")
+	public String deleteBoard(@RequestParam int bindex , @RequestParam int index ){
+		int result = ((LectureServiceImpl)LectureServiceImpl).deleteBoardLecture(bindex);
+		return "redirect:/lectureBoardView?index="+index+"&bindex="+bindex;
+	}
+	
+	//동영상 수정폼으로 가기
+	@RequestMapping(value="/lectureBoardUpdate")
+	public String updateBoardForm(Model model , @RequestParam("bindex") int bindex, @RequestParam("index") int index){
+		
+		Map< String, Object> map = new HashMap<String, Object>();
+		map.put( "bindex", bindex );
+		map.put("index", index);
+		
+		map = ((LectureServiceImpl)LectureServiceImpl).selectBoardUpdate(map);
+		
+		Utils utils = new Utils();
+		
+		map.put("LECTURE_BOARD_CONTENT", utils.convertClobToString((Clob) map.get("LECTURE_BOARD_CONTENT")));
+		
+		model.addAttribute("b", map);
+		
+		return "lecture/lectureBoardUpdate";
+	}
+	
+	//동영상 수정하기 
+	@RequestMapping(value="/lecture/lectureBoardUpdateEnd",method=RequestMethod.POST)
+	public String updateBoardLecture(BoardLecture bo){
+		/*int result = ((LectureServiceImpl)LectureServiceImpl).update(bo);*/
 		
 		return "redirect:/lectureList";
 	}
-	//게시글 수정
-	@RequestMapping(value="/lectureUpdate")
-	public String updateLecture(Lecture t){
-		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
-		
-		return "lecture/lectureList";
-	}
+	
 	// 강의 리스트 불러오기
 	@RequestMapping(value = "/lectureList")
 	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
@@ -220,24 +265,6 @@ public class LectureController {
 		return "lecture/lectureView";
 	}
 	
-	//강의 삭제하기 
-	@RequestMapping(value="/lecture/lecturedelete")
-	public String deleteLecture(@RequestParam int index){
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).delete(index);
-		
-	return "redirect:/lecture/lectureList";	
-	}
-	// 동영상 삭제하기
-	@RequestMapping(value="/lecture/lectureBoardDelete")
-	public String deleteLectureBoard(@RequestParam int index){
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).deleteLecture(index);
-		
-	return "redirect:/lecture/lectureDetail";	
-	}
-	
-	
 	/*     lectureBoard */
 
 	
@@ -297,8 +324,6 @@ public class LectureController {
 		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
 	}
 
-	
-	
 	//댓글과 평점쓰기
 	@RequestMapping(value="/lecture/lectureReview", method=RequestMethod.GET)
 	public String insertReview(@RequestParam("lecture_review_lecture_index") int lecture_index ,
@@ -368,5 +393,37 @@ public class LectureController {
 		int result = ((LectureServiceImpl)LectureServiceImpl).insertA(amap);
 		
 		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
+	}
+	
+	// 추천강의
+	@RequestMapping("/recommanded")
+	public String recomandedList(Model model) {
+		
+		Map<String, String> keyword = new HashMap<String, String>();
+		
+		keyword.put("keyword", "latest");
+		List<Lecture> latest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "reviews");
+		List<Lecture> reviews = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "score");
+		List<Lecture> score = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		keyword.put("keyword", "hotest");
+		List<Lecture> hotest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
+		
+		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
+		
+		recomandedList.put("latest", latest);
+		recomandedList.put("reviews", reviews);
+		recomandedList.put("score", score);
+		recomandedList.put("hotest", hotest);
+		
+		System.out.println(recomandedList);
+		
+		model.addAttribute("recomandedList", recomandedList);
+		
+		return "lecture/recommanded";
 	}
 }

@@ -16,7 +16,7 @@
   * {box-sizing: border-box;}
     
     body {
-        font-family: Arial;
+        font-family: Arial
        
     }
     
@@ -107,6 +107,10 @@ function lecValidate() {
 	}
 	return true;
 }
+
+$(document).on('click','#Detail',function(){
+	localStorage.clear();
+});
 </script>
 
 <div class="container">
@@ -150,23 +154,23 @@ function lecValidate() {
 				<div class="row">
 					<div class="col-md-3">
 						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
-						<img class="img-fluid rounded mb-3 mb-md-0" src="${lList.lecture_thumbnail}" alt="">
+						<img class="img-fluid rounded mb-3 mb-md-1" src="${lList.lecture_thumbnail}" alt="">
 						</a>
 					</div>
 					<div class="col-md-6">
 						
 						
 						<input class="index" type="hidden" value="${lList.lecture_index}">
-						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><p>${lList.lecture_title} </p></a>
+						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><h3>${lList.lecture_title} </h3></a>
 						<c:if test="${lList.lecture_total_score == 0}">
           				  <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
-				          <span>(등록된 수강평이 없습니다.)</span>
+				          <h5>(등록된 수강평이 없습니다.)</h5>
 				          </c:if>
-				          <c:if test="${lectureTotalScore.lecture_total_score == 1}">
+				          <c:if test="${lList.lecture_total_score == 1}">
 				          <span class="fa fa-star checked"></span>
 				          <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
@@ -201,10 +205,9 @@ function lecValidate() {
 				          <span class="fa fa-star checked"></span>
 				          <span class="fa fa-star checked"></span>
 				          </c:if>
-         					 <h1> ${lectureTotalScore.lecture_review_count } 개의 수강평</h1>
-							<p>
-							
-						</p>
+				          <c:if test="${ lList.lecture_review_count ne 0 }">
+         					 <h4> ${lList.lecture_review_count } 개의 수강평</h4>
+							</c:if>
 							<c:choose>
 							 <c:when test="${fn:length(lList.lecture_intro ) > 50}">
 								<p><c:out value="${fn:substring(lList.lecture_intro ,0,49)}"/>....</p>
@@ -214,8 +217,7 @@ function lecValidate() {
 							</c:otherwise> 
 							</c:choose>	
 						
-						<button type="button" class="btn btn-warning pull-right" id="lectureUpdate">수정하기</button>
-						<button type="button" class="btn btn-warning pull-right lecturedelete">삭제하기</button>
+						<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
 						<h4 class="pull-right">${lList.lecture_price }원</h4>
 					</div>
 				</div>

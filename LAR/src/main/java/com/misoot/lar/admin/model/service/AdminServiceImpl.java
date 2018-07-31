@@ -11,6 +11,8 @@ import com.misoot.lar.admin.model.dao.AdminDaoImpl;
 import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
+import com.misoot.lar.commu.model.vo.Commu;
+import com.misoot.lar.commu.model.vo.CommuReply;
 import com.misoot.lar.user.model.vo.User;
 
 @Service
@@ -56,5 +58,21 @@ public class AdminServiceImpl implements LarService<Admin> {
 
 	public int selectUserCount(int user_level) {
 		return ((AdminDaoImpl)adminDaoImpl).selectUserCount(user_level);
+	}
+	
+	public int modifyUserByAdmin(User user) {
+		return ((AdminDaoImpl)adminDaoImpl).modifyUserByAdmin(user);
+	}
+	
+	/*
+	 * community area
+	 */
+	
+	public Commu selectCommuByIndex(int index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuByIndex(index);
+	}
+
+	public List<CommuReply> selectCommuReplyListByIndex(int index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByIndex(index);
 	}
 }

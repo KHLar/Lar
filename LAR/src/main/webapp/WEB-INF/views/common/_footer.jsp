@@ -6,7 +6,8 @@
 
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-top: 5%;">
 				<div>
-					<img src="${pageContext.request.contextPath}/resources/images/ad.JPG"></img>
+					<img src="${pageContext.request.contextPath}/resources/images/ad.JPG" style="width: 150px; margin-bottom: 10px;"></img>
+					<img src="${pageContext.request.contextPath}/resources/images/ad2.JPG" style="width: 150px;"></img>
 				</div>
 			</div>
 		</div> <!-- div[class=row] end -->

@@ -1,6 +1,7 @@
 package com.misoot.lar.common.sockJS.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import com.misoot.lar.common.sockJS.model.vo.Inquire;
 public class InquireDaoImpl implements LarDao<Inquire>{
 	
 	@Autowired
-	SqlSessionTemplate sqlSession;
+	SqlSessionTemplate sqlSes;
 
 	@Override
 	public Inquire selectOne(int index) {
@@ -21,26 +22,41 @@ public class InquireDaoImpl implements LarDao<Inquire>{
 
 	@Override
 	public List<Inquire> selectList() {
-		return sqlSession.selectList("inquire.selectUserInquireList");
+		return sqlSes.selectList("");
 	}
 
 	@Override
 	public int insert(Inquire t) {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println(t);
+		return sqlSes.insert("inquire.insert", t);
 	}
 
 	@Override
 	public int update(Inquire t) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSes.update("", t);
 	}
 
 	@Override
 	public int delete(int index) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSes.delete("inquire.delete", index);
 	}
 
+	/**
+	 *	user's inquire List 
+	 */
+	public List<Map<String, Object>> selectAllList() {
+		return sqlSes.selectList("inquire.selectAll");
+	}
+	
+	public List<Map<String, Object>> selectList(int user) {
+		return sqlSes.selectList("inquire.selectUserInquireList", user);
+	}
+
+	/**
+	 *	user's can't see delete own Inquire 
+	 */
+	public int deleteContent(int no) {
+		return sqlSes.update("inquire.deleteContent", no);
+	}
 
 }
