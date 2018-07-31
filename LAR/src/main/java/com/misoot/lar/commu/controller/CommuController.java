@@ -200,18 +200,21 @@ public class CommuController {
 	public String commuUpdateForm(@PathVariable("commu_Category_Index") String commu_Category_Index,
 			@PathVariable("commu_Index") int commu_Index,Model model) {
 			model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(commu_Index));
-			model.addAttribute("commu_Category_Index", commu_Category_Index);
-			model.addAttribute("commu_Index", commu_Index);
 			return "commu/commuForm";
 		}
-
+	/*@RequestMapping(value = "/commu/commuFormUpdate", method = RequestMethod.POST)
+	public String commuFormUpdate(){
+		
+		
+	}*/
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
-	public String insertBoard(@RequestParam("commu_Category_Index") String commu_Category_Index,
+	public String commuFormEnd(@RequestParam("commu_Category_Index") String commu_Category_Index,
 			@RequestParam("commu_Title") String commu_Title, @RequestParam("commu_Content") String commu_Content,
 			@RequestParam("result") String commu_tag, @RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
+			@RequestParam(value = "commu_Index", required = false, defaultValue = "-1") int commu_Index,
 			Model model) {
-
+ 		System.out.println("index : "+commu_Index);
 		// ---------------------------------------//
 
 		// ---------------------------------------//
@@ -248,13 +251,15 @@ public class CommuController {
 				String originFileName = f.getOriginalFilename();
 				String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
 				if (commu_Category_Index.equals("B03")) {
-					if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG")) {
+					if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG") || ext.equals("gif") || ext.equals("GIF")) {
 
 					} else {
-						loc = "/commu/commuForm/B03";
+						if(commu_Index==-1)
+							loc="/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
+						else
+							loc = "/commu/commuForm/B03";
 						msg = "이미지파일만 첨부 가능합니다..";
 						model.addAttribute("loc", loc).addAttribute("msg", msg);
-
 						return "common/msg";
 					}
 				}
@@ -274,7 +279,7 @@ public class CommuController {
 				Attachment at = new Attachment();
 				at.setCommu_Attach_Originfilename(originFileName);
 				at.setCommu_Attach_Renamedfilename(renameFileName);
-
+				at.setCommu_Attach_Commu_Index(commu_Index);
 				list.add(at);
 			}
 		}
@@ -282,16 +287,27 @@ public class CommuController {
 
 		int result;
 		try {
-			result = ((CommuServiceImpl) commuServiceImpl).insertCommu(commu, list);
+			if(commu_Index==-1)
+				result = ((CommuServiceImpl) commuServiceImpl).insertCommu(commu, list);
+			else
+				result=((CommuServiceImpl) commuServiceImpl).updateCommu(commu, list);
 		} catch (Exception e) {
 			throw new CommuException("게시글 등록 실패!");
 		}
-
-		if (result > 0)
-			msg = "게시글 등록 성공!";
-		else {
-			msg = "게시글 등록 실패!";
-			loc = "/commu/commuView";
+		if(commu_Index==-1){
+			if (result > 0)
+				msg = "게시글 등록 성공!";
+			else {
+				msg = "게시글 등록 실패!";
+				loc ="/commu/commuForm/"+commu_Category_Index;
+			}
+		}else{
+			if (result > 0)
+				msg = "게시글 업데이트 성공!";
+			else {
+				msg = "게시글 업데이트 실패!";
+				loc = "/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
+			}
 		}
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
