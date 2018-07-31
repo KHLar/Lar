@@ -32,6 +32,19 @@
 		<result property="commu_Is_Deleted" column="COMMU_IS_DELETED" />
 		<result property="commu_Writer" column="COMMU_WRITER" />
 	</resultMap>
+	<resultMap id="getselectCommuReplyList" type="commuReply"> 
+		<result property="commu_Reply_Index" column="COMMU_REPLY_INDEX" /> 
+		<result property="commu_Reply_Commu_Index" column="COMMU_REPLY_COMMU_INDEX" /> 
+		<result property="commu_Reply_Parent_Index" column="COMMU_REPLY_PARENT_INDEX" /> 
+		<result property="commu_Reply_Writer_Index" column="COMMU_REPLY_WRITER_INDEX" /> 
+		<result property="commu_Reply_Content" column="COMMU_REPLY_CONTENT" jdbcType="CLOB" javaType="java.lang.String" /> 
+		<result property="commu_Reply_Upload_Date" column="COMMU_REPLY_UPLOAD_DATE" /> 
+		<result property="commu_Reply_Update_Date" column="COMMU_REPLY_UPDATE_DATE" /> 
+		<result property="commu_Reply_Depth_Index" column="COMMU_REPLY_DEPTH_INEDX" />
+		<result property="commu_Reply_Is_Deleted" column="COMMU_REPLY_IS_DELETED" /> 
+		<result property="commu_Reply_Is_Readed" column="COMMU_REPLY_IS_READED" />  
+		<result property="commu_Reply_Order_Index" column="COMMU_REPLY_ORDER_INDEX" />  
+	</resultMap>
 	 
 	<select id="selectList">
 		select * from EXAMPLE order by INDEX desc
