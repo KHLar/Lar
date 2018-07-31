@@ -162,7 +162,7 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {
-		RowBounds rows = new RowBounds(1, 6);
+		RowBounds rows = new RowBounds(0, 5);
 		return sqlSession.selectList("lecture.recomandedList", keyword, rows);
 	}
 }

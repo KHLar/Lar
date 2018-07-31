@@ -38,16 +38,16 @@
     		<div class="orderby_date" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
     			<h4>최신 순</h4>
     			<div class="row">
-   				<c:forEach items="recomandedList" var="l">
+   				<c:forEach items="${recomandedList.latest}" var="l">
    					<c:set value="1" var="i"/>
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
 						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
-							<img src="${l}">
+							<img src="${l.lecture_thumbnail}">
 							<div class="caption">
-								<small>${latest.lecture_title}</small>
+								<small>${l.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -62,15 +62,16 @@
     		<div class="orderby_review" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
     			<h4>후기 순</h4>
    				<div class="row">
-   				<c:forEach var="i" begin="1" end="6" step="1">
+   				<c:forEach items="${recomandedList.reviews}" var="r">
+   					<c:set value="1" var="i"/>
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
 						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
-							<img src="http://placehold.it/250x250/EEE">
+							<img src="${r.lecture_thumbnail}">
 							<div class="caption">
-								<small>Thumbnail label</small>
+								<small>${r.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -78,21 +79,23 @@
 							</div>
 						</div>
 					</div>
+					<c:set value="${i}+1" var="i"/>
 				</c:forEach>
 				</div>	
     		</div>
     		<div class="orderby_score" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
     			<h4>별점 순</h4>	
     			<div class="row">
-   				<c:forEach var="i" begin="1" end="6" step="1">
+   				<c:forEach items="${recomandedList.score}" var="s">
+   					<c:set value="1" var="i"/>
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
 						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
-							<img src="http://placehold.it/250x250/EEE">
+							<img src="${s.lecture_thumbnail}">
 							<div class="caption">
-								<small>Thumbnail label</small>
+								<small>${s.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -100,21 +103,23 @@
 							</div>
 						</div>
 					</div>
+					<c:set value="${i}+1" var="i"/>
 				</c:forEach>
 				</div>
     		</div>
     		<div class="orderby_students" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
     			<h4>인기 순</h4>
     			<div class="row">
-   				<c:forEach var="i" begin="1" end="6" step="1">
+   				<c:forEach items="${recomandedList.hotest}" var="h">
+   					<c:set value="1" var="i"/>
 					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
 						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
-							<img src="http://placehold.it/250x250/EEE">
+							<img src="${h.lecture_thumbnail}">
 							<div class="caption">
-								<small>Thumbnail label</small>
+								<small>${h.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
 									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
@@ -122,6 +127,7 @@
 							</div>
 						</div>
 					</div>
+					<c:set value="${i}+1" var="i"/>
 				</c:forEach>
 				</div>
     		</div>    				
