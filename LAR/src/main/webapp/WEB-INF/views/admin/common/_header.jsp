@@ -90,22 +90,25 @@
 							<a href="/lar/admin/users/list/1"><i class="fa fa-fw fa-address-book"></i> Users</a>
 						</li>
 						<li>
-							<a href="/lar/admin/lectures"><i class="fa fa-fw fa-book"></i> Lectures</a>
+							<a href="/lar/admin/lectures/list/1"><i class="fa fa-fw fa-book"></i> Lectures</a>
 						</li>
 						<li>
 							<a data-toggle="collapse" data-target="#commuDropdown"><i class="fa fa-fw fa-globe"></i> Community <i class="fa fa-fw fa-caret-down"></i></a>
 							<ul id="commuDropdown" class="collapse">
 								<li>
-									<a href="/lar/admin/commu/notice">Notice</a>
+									<a href="/lar/admin/commu/notice/list/1">Notice</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/board">Board</a>
+									<a href="/lar/admin/commu/board/list/1">Board</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/qa">Q & A</a>
+									<a href="/lar/admin/commu/qa/list/1">Q & A</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/info">Info</a>
+									<a href="/lar/admin/commu/news/list/1">News</a>
+								</li>
+								<li>
+									<a href="/lar/admin/commu/trash/list/1">Trash</a>
 								</li>
 							</ul>
 						</li>

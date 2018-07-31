@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarDao;
+import com.misoot.lar.commu.model.vo.Commu;
+import com.misoot.lar.commu.model.vo.CommuReply;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -53,5 +55,21 @@ public class AdminDaoImpl implements LarDao<Admin> {
 
 	public User selectUser(int user_index) {
 		return sqlSession.selectOne("admin.selectUser", user_index);
+	}
+	
+	public int modifyUserByAdmin(User user) {
+		return sqlSession.update("admin.modifyUserByAdmin", user);
+	}
+
+	/*
+	 * community area
+	 */
+	
+	public Commu selectCommuByIndex(int index) {
+		return sqlSession.selectOne("admin.selectCommuByIndex", index);
+	}
+
+	public List<CommuReply> selectCommuReplyListByIndex(int index) {
+		return sqlSession.selectOne("admin.selectCommuReplyListByIndex", index);
 	}
 }
