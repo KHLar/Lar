@@ -183,5 +183,10 @@
 		UPDATE TABLE_LECTURE_Q SET LECTURE_Q_HITS = ((SELECT LECTURE_Q_HITS FROM TABLE_LECTURE_Q WHERE LECTURE_Q_INDEX = #{qindex}) + 1) WHERE LECTURE_Q_INDEX = #{qindex} 
 	</update>
 	
+	<update id="updateBoard" parameterType="LectureBoard">
+		 UPDATE TABLE_LECTURE_BOARD 
+   		 SET  LECTURE_BOARD_TITLE = #{lecture_board_title}, LECTURE_BOARD_CONTENT = #{lecture_board_content}, LECTURE_BOARD_CHAPTER = #{lecture_board_chapter}
+   		 WHERE  LECTURE_BOARD_INDEX =#{lecture_board_index} 	
+	</update>
 
 </mapper>

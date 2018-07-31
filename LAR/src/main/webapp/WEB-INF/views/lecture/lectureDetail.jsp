@@ -246,6 +246,63 @@ body {
 						<span class="fa fa-star checked"></span>
 					</c:if>
 					 <h5>${lectureTotalScore.lecture_review_count } 개의 수강평</h5> 
+	    <div class="row">
+         <div class="side">
+           <div>5 star</div>
+         </div>
+         <div class="middle">
+           <div class="bar-container">
+            <div class="bar-5"></div>
+           </div>
+         </div>
+         <div class="side right">
+           <div>150</div>
+         </div>
+         <div class="side">
+           <div>4 star</div>
+         </div>
+         <div class="middle">
+           <div class="bar-container">
+            <div class="bar-4"></div>
+           </div>
+         </div>
+         <div class="side right">
+           <div>63</div>
+         </div>
+         <div class="side">
+           <div>3 star</div>
+         </div>
+         <div class="middle">
+           <div class="bar-container">
+            <div class="bar-3"></div>
+           </div>
+         </div>
+         <div class="side right">
+           <div>15</div>
+         </div>
+         <div class="side">
+           <div>2 star</div>
+         </div>
+         <div class="middle">
+           <div class="bar-container">
+            <div class="bar-2"></div>
+           </div>
+         </div>
+         <div class="side right">
+           <div>6</div>
+         </div>
+         <div class="side">
+           <div>1 star</div>
+         </div>
+         <div class="middle">
+           <div class="bar-container">
+            <div class="bar-1"></div>
+           </div>
+         </div>
+         <div class="side right">
+           <div>20</div>
+         </div>
+        </div> 
 					<hr style="border: 3px solid #f1f1f1">
 
 					<div class="card my-4">
@@ -281,7 +338,10 @@ body {
 										<textarea class="form-control" rows="3"
 											name="lecture_review_content" placeholder="수강후기" id="lecture_review_content"></textarea>
 									</div>
+									<c:if test="">
 									<button type="submit" class="btn btn-primary" >등록</button>
+
+									</c:if >
 								</div>
 							</form>
 						</c:if>

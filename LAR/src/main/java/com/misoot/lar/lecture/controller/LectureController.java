@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
-import com.misoot.lar.lecture.model.vo.BoardLecture;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureA;
@@ -105,7 +104,7 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureUpdateEnd",method=RequestMethod.POST)
 	public String updateLecture(Lecture t){
 		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
-		return "redirect:/lectureList";
+		return "lecture/lectureView";
 	}
 	
 	// 동영상 삭제
@@ -136,10 +135,12 @@ public class LectureController {
 	
 	//동영상 수정하기 
 	@RequestMapping(value="/lecture/lectureBoardUpdateEnd",method=RequestMethod.POST)
-	public String updateBoardLecture(BoardLecture bo){
-		/*int result = ((LectureServiceImpl)LectureServiceImpl).update(bo);*/
+	public String updateBoardLecture(LectureBoard bo){
+		int bindex = bo.getLecture_board_index();
+		int index = bo.getLecture_board_lecture_index();
 		
-		return "redirect:/lectureList";
+		int result =   ((LectureServiceImpl)LectureServiceImpl).updateBoard(bo);
+		return "redirect:/lectureBoardView?index="+index+"&bindex="+bindex;
 	}
 	
 	// 강의 리스트 불러오기

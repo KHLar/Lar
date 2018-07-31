@@ -181,4 +181,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).deleteBoardLecture(bindex);
 	}
 
+	public int updateBoard(LectureBoard bo) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateBoard(bo);
+	}
+
 }

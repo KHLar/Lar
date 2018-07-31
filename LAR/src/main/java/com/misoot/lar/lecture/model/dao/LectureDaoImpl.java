@@ -161,4 +161,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.deleteBoardLecture",bindex);
 	}
 
+	public int updateBoard(LectureBoard bo) {
+		return sqlSession.update("lecture.updateBoard",bo);
+	}
+
 }

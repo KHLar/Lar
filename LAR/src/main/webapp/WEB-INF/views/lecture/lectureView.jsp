@@ -26,7 +26,10 @@
 }
     body{
     background-color:skyblue;
-    background-image:url('${pageContext.request.contextPath}/resources/images/abc.jpg');
+    background-image: url("${pageContext.request.contextPath}/resources/images/sky.jpg");
+     
+    
+
 			   
     }
     

@@ -43,9 +43,9 @@
 							<br /><br />
 							
 							<input type="hidden"  id="lecture_board_content" name="lecture_board_content" required />
-							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">제출하기 </button>
 							<input type="hidden"  value="${param.index}" class="my_lecture_index"/>
-							<input type="hidden"  class="lectre_board_index" name="lectre_board_index" value="${b.LECTURE_BOARD_INDEX }"/>
+							<input type="hidden"  class="lecture_board_index" name="lecture_board_index" value="${b.LECTURE_BOARD_INDEX }" required/>
+							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">수정하기 </button>
 							<button type="button" class="btn btn-warning pull-right lectureBoardDelete">삭제하기</button>
 						</div>
 					</div>
@@ -75,11 +75,11 @@
 				return false;
 			}
 			
-			if ($('#lecture_instructor_index').val() == ""
+		/* 	if ($('#lecture_instructor_index').val() == ""
 					|| $('#lecture_instructor_index').val() == null) {
 				alert('로그인 먼저해주세요^^');
 				return false;
-			}
+			} */
 			return true;
 		}
 	 
