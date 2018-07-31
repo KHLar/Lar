@@ -188,4 +188,12 @@ public class UserServiceImpl implements LarService<User> {
 	public int getout(Map<Object, Object> map) {
 		return ((UserDaoImpl)userDaoImpl).getout(map);
 	}
+
+	public int imgUpdate(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).imgUpdate(map);
+	}
+
+	public int history(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).history(map);
+	}
 }
