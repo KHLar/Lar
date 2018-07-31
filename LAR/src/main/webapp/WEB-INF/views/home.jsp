@@ -60,15 +60,15 @@
 				<div class="main-newlecture" style="margin-bottom: 10px;">
 					<h3>신규 강좌</h3>
 					<div class="row">
-						<c:forEach var="i" begin="1" end="8" step="1">
+						<c:forEach items="${recent_lecture_list}" var="rec">
 							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 								<div class="thumbnail container-fluid">
-									<img src="http://placehold.it/500x500/EEE">
+									<img src="${rec.lecture_thumbnail}">
 									<div class="caption">
-										<h4>Thumbnail label</h4>
+										<h4>${rec.lecture_title}</h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+											<a id="thumb-hart" class="pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
 										</p>
 									</div>
 								</div>
@@ -87,7 +87,7 @@
 										<h4>Thumbnail label</h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
 										</p>
 									</div>
 								</div>

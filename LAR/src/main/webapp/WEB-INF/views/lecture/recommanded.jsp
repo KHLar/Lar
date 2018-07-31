@@ -16,18 +16,18 @@
     		<div class="orderby_recomand" style="padding-bottom: 50px">
     			<h4>추천 순</h4>
     			<div class="row">
-   				<c:forEach var="i" begin="1" end="6" step="1">
-					<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 3px; width:170px;">
+   				<c:forEach var="i" begin="1" end="4" step="1">
+					<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 						<div style="float: left; margin-right:3px">
 							<small>${ i }</small>
 						</div>
-						<div class="thumbnail container-fluid" style="height:190px; width:140px; float:left">
+						<div class="thumbnail container-fluid">
 							<img src="https://img.youtube.com/vi/_yj_D-pIO40/sddefault.jpg">
 							<div class="caption">
 								<small>Thumbnail label</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
 								</p>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 								<small>${r.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
 								</p>
 							</div>
 						</div>
@@ -98,7 +98,7 @@
 								<small>${s.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
 								</p>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 								<small>${h.lecture_title}</small>
 								<p>
 									<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart"></span></a>
+									<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
 								</p>
 							</div>
 						</div>
