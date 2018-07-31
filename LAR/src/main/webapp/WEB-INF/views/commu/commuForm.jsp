@@ -59,38 +59,66 @@
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
 			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border-right: none; padding-right: 0%;">
-				<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+			<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
+			
 					<div class="form-group">
 						<label for="commu_title">제목</label>
+						<c:if test="${commu ne null }">
+						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="title" value="${commu.commu_Title }">
+						</c:if>
+						<c:if test="${commu eq null}">
 						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="title">
+						</c:if>
 					</div>
+					
 					<div class="form-group">
 						<label for="commu_file">파일</label>
 						<div class="custom-file">
+						<c:if test="${commu eq null }">
 							<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req}>
+						</c:if>
+						<c:if test="${commu ne null}">
+							<label>파일은 수정불가하옵니다.</label>
+						</c:if>
 						</div>
 					</div>
 					<div class="bootstrap-tagsinput form-group">
 						<div class="form-control tags" id="tags">
-							<input type="text" class="labelinput" />
-							<input type="hidden" value="" name="result">
+						<c:if test="${commu ne null }">
+						<input type="text" class="labelinput" value="${commu.commu_tags }"/>
+						</c:if>
+						<c:if test="${commu eq null }">
+						<input type="text" class="labelinput" />
+						</c:if>
+							
+							<input type="hidden" value="" name="result" />
 						</div>
 					</div>
 					<div class="form-group">
-						<div id="summernote"></div>
+						<div id="summernote">
+						<c:if test="${commu ne null }">
+						${commu.commu_Content }
+						</c:if>
+						
+						</div>
+						
+						
 					</div>
 					<button type="submit" class="btn btn-primary pull-right" onclick="funcNote();">작성완료</button>
 					<input type="hidden" id="commu_Category_Index" name="commu_Category_Index" value="${commu_Category_Index}" />
 					<input type="hidden" id="commu_Content" name="commu_Content" />
 					<input type="hidden" id="commu_Writer_Index" name="commu_Writer_Index" value="${session_user.user_index}" />
+					<input type="hidden" id="commu_Index" name="commu_Index" value="${commu_Index}"/>
+					
 				</form>
 			</div>
 		</div>
+		
 		<script>
 			$('#summernote').summernote({
-				placeholder : 'Hello bootstrap 4',
+				placeholder : '내용을 자유롭게 작성해주세요(너무 자유로우면 제재함)',
 				tabsize : 2,
-				height : 300
+				height : 300,
 			});
 			function funcNote() {
 				document.getElementById("commu_Content").value = $(

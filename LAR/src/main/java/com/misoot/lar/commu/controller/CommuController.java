@@ -43,6 +43,18 @@ public class CommuController {
 	@Autowired
 	LarService<CommuReply> commuReplyServiceImpl;
 
+	/*@RequestMapping("/commu/{category}/search/{filter}/{searchValue}/list/{page}")
+	public String selectCommuMain(@PathVariable("category") String category,
+			@PathVariable("filter") String filter, @PathVariable("searchValue") String searchValue,
+			@PathVariable("page") String page,
+			Model model) {
+		System.out.println(category);
+		System.out.println(filter);
+		System.out.println(searchValue);
+		System.out.println(page);
+		
+		return "common/msg";
+	}*/
 	// 게시글 목록 보기
 	@RequestMapping("/commu/commuMain")
 	public String selectCommuMain(
@@ -183,14 +195,26 @@ public class CommuController {
 		model.addAttribute("commu_Category_Index", commu_Category_Index);
 		return "commu/commuForm";
 	}
-
+	// 게시글 한 개 등록 페이지
+	@RequestMapping("/commu/commuForm/{commu_Category_Index}/{commu_Index}")
+	public String commuUpdateForm(@PathVariable("commu_Category_Index") String commu_Category_Index,
+			@PathVariable("commu_Index") int commu_Index,Model model) {
+			model.addAttribute("commu", ((CommuServiceImpl) commuServiceImpl).selectCommuOne(commu_Index));
+			return "commu/commuForm";
+		}
+	/*@RequestMapping(value = "/commu/commuFormUpdate", method = RequestMethod.POST)
+	public String commuFormUpdate(){
+		
+		
+	}*/
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
-	public String insertBoard(@RequestParam("commu_Category_Index") String commu_Category_Index,
+	public String commuFormEnd(@RequestParam("commu_Category_Index") String commu_Category_Index,
 			@RequestParam("commu_Title") String commu_Title, @RequestParam("commu_Content") String commu_Content,
 			@RequestParam("result") String commu_tag, @RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
+			@RequestParam(value = "commu_Index", required = false, defaultValue = "-1") int commu_Index,
 			Model model) {
-
+ 		System.out.println("index : "+commu_Index);
 		// ---------------------------------------//
 
 		// ---------------------------------------//
@@ -206,6 +230,7 @@ public class CommuController {
 		commu.setCommu_Writer_Index(commu_Writer_Index);
 		commu.setCommu_Category_Index(commu_Category_Index);
 		commu.setCommu_tags(commu_tag);
+		commu.setCommu_Index(commu_Index);
 		// System.out.println(commu);
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 시작 --------------- //
 		// 파일 저장 경로 생성하기
@@ -220,57 +245,71 @@ public class CommuController {
 			System.out.println("dir.mkdirs() = " + dir.mkdirs());
 
 		List<Attachment> list = new ArrayList<>();
-
-		for (MultipartFile f : upfiles) {
-			if (!f.isEmpty()) {
-				// 파일명 재생성하여 원본 파일과 매칭 시키기
-				String originFileName = f.getOriginalFilename();
-				String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
-				if (commu_Category_Index.equals("B03")) {
-					if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG")) {
-
-					} else {
-						loc = "/commu/commuForm/B03";
-						msg = "이미지파일만 첨부 가능합니다..";
-						model.addAttribute("loc", loc).addAttribute("msg", msg);
-
-						return "common/msg";
+		if(commu_Index==-1){
+			for (MultipartFile f : upfiles) {
+				if (!f.isEmpty()) {
+					// 파일명 재생성하여 원본 파일과 매칭 시키기
+					String originFileName = f.getOriginalFilename();
+					String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
+					if (commu_Category_Index.equals("B03")) {
+						if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG") || ext.equals("gif") || ext.equals("GIF")) {
+	
+						} else {
+							if(commu_Index==-1)
+								loc="/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
+							else
+								loc = "/commu/commuForm/B03";
+							msg = "이미지파일만 첨부 가능합니다..";
+							model.addAttribute("loc", loc).addAttribute("msg", msg);
+							return "common/msg";
+						}
 					}
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	
+					int randomNum = (int) (Math.random() * 1000);
+	
+					String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
+	
+					try {
+						f.transferTo(new File(saveDir + "/" + renameFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+	
+					// Attachment list에 등록하기
+					Attachment at = new Attachment();
+					at.setCommu_Attach_Originfilename(originFileName);
+					at.setCommu_Attach_Renamedfilename(renameFileName);
+					at.setCommu_Attach_Commu_Index(commu_Index);
+					list.add(at);
 				}
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-				int randomNum = (int) (Math.random() * 1000);
-
-				String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
-
-				try {
-					f.transferTo(new File(saveDir + "/" + renameFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-
-				// Attachment list에 등록하기
-				Attachment at = new Attachment();
-				at.setCommu_Attach_Originfilename(originFileName);
-				at.setCommu_Attach_Renamedfilename(renameFileName);
-
-				list.add(at);
 			}
 		}
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 끝 --------------- //
 
 		int result;
 		try {
-			result = ((CommuServiceImpl) commuServiceImpl).insertCommu(commu, list);
+			if(commu_Index==-1)
+				result = ((CommuServiceImpl) commuServiceImpl).insertCommu(commu, list);
+			else
+				result=((CommuServiceImpl) commuServiceImpl).updateCommu(commu, list);
 		} catch (Exception e) {
 			throw new CommuException("게시글 등록 실패!");
 		}
-
-		if (result > 0)
-			msg = "게시글 등록 성공!";
-		else {
-			msg = "게시글 등록 실패!";
-			loc = "/commu/commuView";
+		if(commu_Index==-1){
+			if (result > 0)
+				msg = "게시글 등록 성공!";
+			else {
+				msg = "게시글 등록 실패!";
+				loc ="/commu/commuForm/"+commu_Category_Index;
+			}
+		}else{
+			if (result > 0)
+				msg = "게시글 업데이트 성공!";
+			else {
+				msg = "게시글 업데이트 실패!";
+				loc = "/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
+			}
 		}
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);

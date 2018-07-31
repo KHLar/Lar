@@ -1,8 +1,12 @@
 package com.misoot.lar.user.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Clob;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
@@ -498,12 +503,20 @@ public class UserController {
 		return data;
 	}
 
-	@RequestMapping(value = "/mypage/infoPage")
-	public String info(Model model) {
+	@RequestMapping(value = "/mypage/infoPage/{userindex}")
+	   public String info(Model model,@PathVariable("userindex") String userindex){
+	         
+	      System.out.println(userindex);
+	      
+	      Map<Object, Object> map = new HashMap<Object, Object>();
+	      
+	      map.put("userindex", userindex);
 
-		return "user/C_information";
-	}
-
+	      int history= ((UserServiceImpl) userServiceImpl).history(map);
+	      model.addAttribute("history",history);
+	      return "user/C_information";
+	   }
+	
 	@RequestMapping("/mypage/infoTrans")
 	@ResponseBody
 	public Map<Object, Object> idcheck(@RequestParam("userid") String transName) {
@@ -561,45 +574,93 @@ public class UserController {
 		return count;
 //	새로운 비밀번호를 입력 받아 암호화 처리후 값을 넘김
 	}
+	
 	@RequestMapping("/mypage/C_Info")
-	public String infoChange(@RequestParam(value = "myPhone", required = false, defaultValue = "") String myPhone,
-			@RequestParam(value = "transName", required = false, defaultValue = "") String transName,
-			 @RequestParam("userindex") String userindex,Model model, HttpSession session, HttpServletRequest req){
-		
-		System.out.println("myPhone : "+myPhone);
-		System.out.println("transName : "+transName);
-		System.out.println("userindex : "+userindex);
-		
-		
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put("nickname", transName);
-		map.put("phone", myPhone);
-		map.put("userindex", userindex);
-		int count = ((UserServiceImpl) userServiceImpl).infoChange(map);
-		if(count==1)
-			System.out.println("업데성공");
-		else
-			System.out.println("실패");
+	   public String infoChange(@RequestParam(value = "myPhone", required = false, defaultValue = "") String myPhone,
+	         @RequestParam(value = "transName", required = false, defaultValue = "") String transName,
+	          @RequestParam("userindex") String userindex, Model model){
+	   
+	      System.out.println("myPhone : "+myPhone);
+	      System.out.println("transName : "+transName);
+	      System.out.println("userindex : "+userindex);
+	      
+	      
+	      Map<Object, Object> map = new HashMap<Object, Object>();
+	      map.put("nickname", transName);
+	      map.put("phone", myPhone);
+	      map.put("userindex", userindex);
+	      int count = ((UserServiceImpl) userServiceImpl).infoChange(map);
+	      if(count==1)
+	         System.out.println("업데성공");
+	      else
+	         System.out.println("실패");
 
-		User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
-		model.addAttribute("session_user", user);
-		
-		return "redirect:/mypage/infoPage";
-	}
-	@RequestMapping("/mypage/getout")
-	public String getout(@RequestParam("userindex") String userindex, SessionStatus status ){
-		
-		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put("userindex", userindex);
-		int getout= ((UserServiceImpl) userServiceImpl).getout(map);
-		if(getout==1){
-			if (!status.isComplete())
-				status.setComplete();
-			return "redirect:/";
-		}else{
-			System.out.println("삭제 실패");
-			return "redirect:/mypage/infoPage";
-		}
 
-	}
+	      User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
+	      model.addAttribute("session_user", user);
+	      
+	      return "redirect:/mypage/infoPage";
+	   }
+	   @RequestMapping("/mypage/getout")
+	   public String getout(@RequestParam("userindex") String userindex, SessionStatus status){
+	      
+	      Map<Object, Object> map = new HashMap<Object, Object>();
+	      map.put("userindex", userindex);
+	      int getout= ((UserServiceImpl) userServiceImpl).getout(map);
+	      if(getout==1){
+	         if (!status.isComplete())
+	            status.setComplete();
+	         return "redirect:/";
+	      }else{
+	         System.out.println("삭제 실패");
+	         return "redirect:/mypage/infoPage";
+	      }
+	   }
+	   
+	   
+	   @RequestMapping("/mypage/imgUpdate")
+	   @ResponseBody
+	   public String updateImg(@RequestParam("updateImg") MultipartFile updateImg, @ModelAttribute("session_user") User user, HttpServletRequest request,Model model){
+	      
+	      System.out.println("이미지 파일 명 : "+updateImg.getOriginalFilename());
+	      System.out.println("Image Size check : "+updateImg.getSize());
+	      
+	      String saveDir = request.getSession().getServletContext().getRealPath("/resources/userthumbnail");
+	      
+	      File dir = new File(saveDir);
+	      
+	      String renameFileName = "";
+	      
+	      if(!updateImg.isEmpty()) {
+	            // 파일명 재생성하여
+	            // 원본 파일과 매칭 시키기   
+	            String originFileName = updateImg.getOriginalFilename();
+	            String ext = originFileName.substring(originFileName.lastIndexOf(".")+1);
+	            
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	            
+	            int randomNum = (int)(Math.random() * 1000);
+	            
+	            renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
+	            
+	            try {
+	               updateImg.transferTo(new File(saveDir+"/"+renameFileName));
+	            } catch (IllegalStateException | IOException e) {
+	               e.printStackTrace();
+	            }
+	         }
+	      
+	      Map<Object, Object> map = new HashMap<Object, Object>();
+	      map.put("updateImg", renameFileName);
+	      map.put("userindex", user.getUser_index());
+	      
+	      int imgUpdate= ((UserServiceImpl) userServiceImpl).imgUpdate(map);
+	      
+	      User user1 = ((UserServiceImpl) userServiceImpl).selectOneIndex(Integer.toString(user.getUser_index()));
+	      model.addAttribute("session_user", user1);
+	      return "test";
+	      
+	   }
+	   
+
 }

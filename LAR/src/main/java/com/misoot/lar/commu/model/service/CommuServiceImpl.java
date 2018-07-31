@@ -167,4 +167,31 @@ public class CommuServiceImpl implements LarService<Commu> {
 	public List<Map<String, String>> selectQASearchTags(int qacPage, int numPerPage, String qaSearchText) {
 		return ((CommuDaoImpl) commuDaoImpl).selectQAListSearchTags(qacPage, numPerPage, qaSearchText);
 	}
+
+	public int updateCommu(Commu commu, List<Attachment> list) {
+		int result = 0;
+		int commuNo = 0;
+		try {
+			result = ((CommuDaoImpl) commuDaoImpl).updateCommu(commu);
+			if (result == 0)
+				throw new CommuException();
+			// 매퍼를 다녀온 Board 객체가 boardNo를 가져온다.
+			/*commuNo = commu.getCommu_Index();
+			System.out.println("commuNo UPDATE 확인 : " + commuNo);
+			if (list.size() > 0) {
+				for (Attachment a : list) {
+					a.setCommu_Attach_Commu_Index(commuNo);
+					result = ((CommuDaoImpl) commuDaoImpl).updateAttachment(a);
+					System.out.println("result" + result);
+					if (result == 0)
+						throw new CommuException();
+				}
+			}*/
+
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return result;
+	}
 }
