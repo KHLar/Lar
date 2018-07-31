@@ -1,6 +1,7 @@
 package com.misoot.lar.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -65,11 +66,19 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	 * community area
 	 */
 	
-	public Commu selectCommuByIndex(int index) {
-		return sqlSession.selectOne("admin.selectCommuByIndex", index);
+	public Commu selectCommuByCommuIndex(int commu_index) {
+		return sqlSession.selectOne("admin.selectCommuByCommuIndex", commu_index);
 	}
 
-	public List<CommuReply> selectCommuReplyListByIndex(int index) {
-		return sqlSession.selectOne("admin.selectCommuReplyListByIndex", index);
+	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
+		return sqlSession.selectOne("admin.selectCommuReplyListByCommuIndex", commu_index);
+	}
+
+	public List<Map<String, Object>> paymentList(int user_index) {
+		return sqlSession.selectList("admin.paymentList", user_index);
+	}
+
+	public List<Commu> selectCommuListByUserIndex(int user_index) {
+		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index);
 	}
 }

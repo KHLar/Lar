@@ -12,9 +12,11 @@ $(document).ready(function() {
 	 * this).fadeOut("slow");} );
 	 */
 	if (window.matchMedia("(min-width: 768px)").matches) {
+		  $('#lecture-dropdown').attr('class', '');
 		  $('#lecture-dropdown').attr('data-toggle', '');
 		  $('.mega-dropdown .caret').css('display', 'none');
 	} else {
+		$('#lecture-dropdown').attr('class', 'dropdown-toggle');
 		$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 		$('.mega-dropdown .caret').css('display', '');
 	}

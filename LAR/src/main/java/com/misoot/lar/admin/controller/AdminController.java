@@ -1,6 +1,7 @@
 package com.misoot.lar.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,15 +66,18 @@ public class AdminController {
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_View(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
-		List<Commu> writeList;
-		List<CommuReply> replyList;
+		List<Commu> writeList = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index);
+//		List<CommuReply> replyList = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByCommuIndex(commu_index);
 		
+		List<Map<String, Object>> paymentList = ((AdminServiceImpl) adminServiceImpl).paymentList(user_index);
 		
-		model.addAttribute("view_user", view_user);
+		model.addAttribute("view_user", view_user)
+			.addAttribute("paymentList", paymentList)
+			.addAttribute("writeList", writeList);
 		/*
-		 * .addAttribute("writeList", writeList );
+		 * .addAttribute("writeList", writeList);
 		 * .addAttribute("replyList", replyList);
-		 * .addAttribute("paymentList", paymentList);
+		 * 
 		 * .addAttribute("lectureLaunchedList", lectureLaunchedList);
 		 */
 		return "admin/users/userView";
@@ -145,10 +149,10 @@ public class AdminController {
 		return "admin/commu/news";
 	}
 	
-	@RequestMapping(value= "/commu/view/{index}")
-	public String commu_View(Model model, @PathVariable("index") int index) {
-		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByIndex(index);
-		List<CommuReply> reply_list = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyListByIndex(index);
+	@RequestMapping(value= "/commu/view/{commu_index}")
+	public String commu_View(Model model, @PathVariable("commu_index") int commu_index) {
+		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByCommuIndex(commu_index);
+		List<CommuReply> reply_list = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyListByCommuIndex(commu_index);
 		model.addAttribute("view_commu", commu)
 			.addAttribute("view_commu_reply", reply_list);
 		

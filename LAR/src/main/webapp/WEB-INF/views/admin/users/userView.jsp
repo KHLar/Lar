@@ -24,11 +24,11 @@
 		</ol>
 	</div>
 	<div class="row">
-		<div style="width:80%;">
+		<div class="container">
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-target="#user_view" data-toggle="tab">유저 정보</a></li>
-				<li><a data-target="#writeList" data-toggle="tab">작성한 글</a></li>
-				<li><a data-target="#replyList" data-toggle="tab">댓글</a></li>
+				<li><a data-target="#commuWriteList" data-toggle="tab">작성한 글</a></li>
+				<li><a data-target="#commuReplyList" data-toggle="tab">댓글</a></li>
 				<li><a data-target="#paymentList" data-toggle="tab">결제 내역</a></li>
 				<% if (view_user.getUser_type().equals("inst")) { %>
 					<li><a data-target="#lectureLaunchedList" data-toggle="tab">강의 제공 내역</a></li>
@@ -139,8 +139,9 @@
 							</td>
 						</tr>
 					</table>
+					<button class="btn btn-warning pull-right">수정</button>
 				</form>
-				<div id="writeList" class="tab-pane">
+				<div id="commuWriteList" class="tab-pane">
 					<table class="table">
 						<tr>
 							<th>Category</th>
@@ -150,28 +151,53 @@
 						</tr>
 						<c:forEach items="${writeList}" var="w">
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>${w}</td>
 						</tr>
 						</c:forEach>
 					</table>
 				</div>
-				<div id="replyList" class="tab-pane">
-					
+				<div id="commuReplyList" class="tab-pane">
+				
 				</div>
 				<div id="paymentList" class="tab-pane">
-					
+					<table class="table" frame=void>
+						<tr>
+							<th style="width: 17%; text-align: center;">결제일</th>
+							<th style="width: 48%; text-align: center;">강의정보</th>
+							<th style="width: 25%; text-align: center;">사용쿠폰</th>
+							<th style="width: 10%; text-align: center;">결제금액</th>
+						</tr>
+						<c:forEach items="${paymentList}" var="p">
+							<fmt:formatDate value="${p.PURCHASE_DATE}" pattern="yyyy-MM-dd HH:mm:ss" var="date"/>
+							<tr>
+								<td class="paymentDate" style="text-align: center;">${date}</td>
+								<td style="text-align: center;">
+									<div class="media">
+										<div class="media-body">
+											<p class="puchaseList">${p.PURCHASE_LECTURE_LIST}</p>											
+										</div>
+									</div>
+								</td>
+								<td style="text-align: center;">
+								<c:choose>
+									<c:when test="${p.COUPON_NAME ne null}"> 
+										${p.COUPON_NAME } 
+									</c:when>
+									<c:otherwise>
+										X
+									</c:otherwise>
+								</c:choose>
+								</td>
+								<td style="text-align: center;">${p.PAID_AMOUNT}</td>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 				<% if (view_user.getUser_type().equals("inst")) { %>
 				<div id="lectureLaunchedList" class="tab-pane">
 					
 				</div>
 				<% } %>
-			</div>
-			<div class="panel-footer" style="text-align:right;">
-				<button type="submit" id="btn-modify" class="btn btn-warning">수정</button>
 			</div>
 		</div>
 	</div>

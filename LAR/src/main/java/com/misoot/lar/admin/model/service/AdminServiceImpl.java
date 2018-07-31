@@ -1,6 +1,7 @@
 package com.misoot.lar.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +69,19 @@ public class AdminServiceImpl implements LarService<Admin> {
 	 * community area
 	 */
 	
-	public Commu selectCommuByIndex(int index) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuByIndex(index);
+	public List<Commu> selectCommuListByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuListByUserIndex(user_index);
+	}
+	
+	public Commu selectCommuByCommuIndex(int commu_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuByCommuIndex(commu_index);
 	}
 
-	public List<CommuReply> selectCommuReplyListByIndex(int index) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByIndex(index);
+	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByCommuIndex(commu_index);
+	}
+
+	public List<Map<String, Object>> paymentList(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
 	}
 }

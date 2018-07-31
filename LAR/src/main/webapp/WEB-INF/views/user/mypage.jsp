@@ -137,7 +137,7 @@
 						<input type="hidden" id="lIndex" value="${mylecture.lecture_index}"/>
 						<div class="well">
 							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object" src="http://placekitten.com/150/150"></a>
+								<a class="pull-left" href="#"> <img class="media-object" src="${mylecture.lecture_thumbnail}" style="width:180px;"></a>
 								<div class="media-body">
 									<h4 class="media-heading">${mylecture.lecture_title}</h4>
 									<p class="text-right">${mylecture.user_nickname}</p>
@@ -145,7 +145,7 @@
 									<ul class="list-inline list-unstyled">
 										<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
 										<li>|</li>
-										<span><i class="glyphicon glyphicon-comment"></i> ${mylecture.lecture_review_cnt} reviews</span>
+										<span><i class="glyphicon glyphicon-comment"></i> ${mylecture.lecture_review_count} reviews</span>
 										<li>|</li>
 										<li>
 											<span class="glyphicon glyphicon-star"></span> 
@@ -228,7 +228,7 @@
 											<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 										</a>
 										<div class="media-body">
-											<span class="media-meta pull-right">${wishList.lecture_review_cnt} reviews</span>
+											<span class="media-meta pull-right">${wishList.lecture_review_count} reviews</span>
 											<h4 class="title">${wishList.lecture_title}</h4>
 											<p class="summary">${wishList.lecture_intro}</p>
 											<span> 
