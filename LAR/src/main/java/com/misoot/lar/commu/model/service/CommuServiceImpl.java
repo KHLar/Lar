@@ -176,17 +176,17 @@ public class CommuServiceImpl implements LarService<Commu> {
 			if (result == 0)
 				throw new CommuException();
 			// 매퍼를 다녀온 Board 객체가 boardNo를 가져온다.
-			//commuNo = commu.getCommu_Index();
-			//System.out.println("commuNo 확인 : " + commuNo);
+			/*commuNo = commu.getCommu_Index();
+			System.out.println("commuNo UPDATE 확인 : " + commuNo);
 			if (list.size() > 0) {
 				for (Attachment a : list) {
-					//a.setCommu_Attach_Commu_Index(commuNo);
+					a.setCommu_Attach_Commu_Index(commuNo);
 					result = ((CommuDaoImpl) commuDaoImpl).updateAttachment(a);
 					System.out.println("result" + result);
 					if (result == 0)
 						throw new CommuException();
 				}
-			}
+			}*/
 
 		} catch (Exception e) {
 			throw e;

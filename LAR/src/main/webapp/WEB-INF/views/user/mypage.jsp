@@ -15,7 +15,7 @@
 	})
 	
 	function infoBtn(){
-		location.href = "${pageContext.request.contextPath}/mypage/infoPage";
+		location.href = "${pageContext.request.contextPath}/mypage/infoPage/"+${session_user.user_index};
 	}
 	
 	function checkboxArr() {
@@ -75,7 +75,10 @@
 					style="margin-left: 10px; border-bottom:0; box-shadow:0;">
 					<div class="panel-body">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-							<img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
+							<img
+                        src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
+                        id="profile-image1" class="img-circle img-responsive"
+                        alt="User Pic" style="width:613px; height:233px">
 						</div>
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
 							<div class="wrapprofile">

@@ -230,6 +230,7 @@ public class CommuController {
 		commu.setCommu_Writer_Index(commu_Writer_Index);
 		commu.setCommu_Category_Index(commu_Category_Index);
 		commu.setCommu_tags(commu_tag);
+		commu.setCommu_Index(commu_Index);
 		// System.out.println(commu);
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 시작 --------------- //
 		// 파일 저장 경로 생성하기
@@ -244,43 +245,44 @@ public class CommuController {
 			System.out.println("dir.mkdirs() = " + dir.mkdirs());
 
 		List<Attachment> list = new ArrayList<>();
-
-		for (MultipartFile f : upfiles) {
-			if (!f.isEmpty()) {
-				// 파일명 재생성하여 원본 파일과 매칭 시키기
-				String originFileName = f.getOriginalFilename();
-				String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
-				if (commu_Category_Index.equals("B03")) {
-					if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG") || ext.equals("gif") || ext.equals("GIF")) {
-
-					} else {
-						if(commu_Index==-1)
-							loc="/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
-						else
-							loc = "/commu/commuForm/B03";
-						msg = "이미지파일만 첨부 가능합니다..";
-						model.addAttribute("loc", loc).addAttribute("msg", msg);
-						return "common/msg";
+		if(commu_Index==-1){
+			for (MultipartFile f : upfiles) {
+				if (!f.isEmpty()) {
+					// 파일명 재생성하여 원본 파일과 매칭 시키기
+					String originFileName = f.getOriginalFilename();
+					String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
+					if (commu_Category_Index.equals("B03")) {
+						if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG") || ext.equals("gif") || ext.equals("GIF")) {
+	
+						} else {
+							if(commu_Index==-1)
+								loc="/commu/commuForm/"+commu_Category_Index+"/"+commu_Index;
+							else
+								loc = "/commu/commuForm/B03";
+							msg = "이미지파일만 첨부 가능합니다..";
+							model.addAttribute("loc", loc).addAttribute("msg", msg);
+							return "common/msg";
+						}
 					}
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	
+					int randomNum = (int) (Math.random() * 1000);
+	
+					String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
+	
+					try {
+						f.transferTo(new File(saveDir + "/" + renameFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+	
+					// Attachment list에 등록하기
+					Attachment at = new Attachment();
+					at.setCommu_Attach_Originfilename(originFileName);
+					at.setCommu_Attach_Renamedfilename(renameFileName);
+					at.setCommu_Attach_Commu_Index(commu_Index);
+					list.add(at);
 				}
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-				int randomNum = (int) (Math.random() * 1000);
-
-				String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
-
-				try {
-					f.transferTo(new File(saveDir + "/" + renameFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-
-				// Attachment list에 등록하기
-				Attachment at = new Attachment();
-				at.setCommu_Attach_Originfilename(originFileName);
-				at.setCommu_Attach_Renamedfilename(renameFileName);
-				at.setCommu_Attach_Commu_Index(commu_Index);
-				list.add(at);
 			}
 		}
 		// --------------- 멀티파트파일 방식을 이용한 파일 업로드 끝 --------------- //

@@ -176,4 +176,12 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		return sqlSession.selectList("commu.selectQAListSearchTags",qaSearchText,rows);
 	}
 
+	public int updateCommu(Commu commu) {
+		return sqlSession.update("commu.updateCommu",commu);
+	}
+
+	public int updateAttachment(Attachment a) {
+		return sqlSession.update("commu.updateAttachment",a);
+	}
+
 }
