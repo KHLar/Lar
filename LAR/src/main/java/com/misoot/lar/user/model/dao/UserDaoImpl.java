@@ -193,4 +193,12 @@ public class UserDaoImpl implements LarDao<User> {
 
 		return sqlSession.update("user.getout", map);
 	}
+
+	public int imgUpdate(Map<Object, Object> map) {
+		return sqlSession.update("user.imgUpdate",map);
+	}
+
+	public int history(Map<Object, Object> map) {
+		return sqlSession.update("user.history",map);
+	}
 }
