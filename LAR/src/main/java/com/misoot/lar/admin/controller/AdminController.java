@@ -65,17 +65,23 @@ public class AdminController {
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_View(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
+		List<Commu> writeList;
+		List<CommuReply> replyList;
+		
 		
 		model.addAttribute("view_user", view_user);
-		
+		/*
+		 * .addAttribute("writeList", writeList );
+		 * .addAttribute("replyList", replyList);
+		 * .addAttribute("paymentList", paymentList);
+		 * .addAttribute("lectureLaunchedList", lectureLaunchedList);
+		 */
 		return "admin/users/userView";
 	}
 	
 	@RequestMapping(value="/users/modify", method=RequestMethod.POST)
 	public String user_modify(Model model, User user) {
-		System.out.println(user);
 		int result = ((AdminServiceImpl)adminServiceImpl).modifyUserByAdmin(user);
-		System.out.println(user);
 		return "redirect:/admin/users/view/"+user.getUser_index();
 	}
 	

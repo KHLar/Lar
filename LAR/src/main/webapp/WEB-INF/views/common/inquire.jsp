@@ -149,9 +149,9 @@
                   var $div = $('<div class="inquire_option">');
                   
                   if(v.INQUIRE_SENDER_INDEX!='2'){
-                  if('${session_user.user_thumnail}'==null){
+                  if('${session_user.user_thumbnail}' == null || '${session_user.user_thumbnail}' == ''){
                      $img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
-                  }   else{
+                  } else{
                      $img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
                   }
                   $base_sent.append(
