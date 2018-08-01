@@ -14,12 +14,19 @@
 		select * from TABLE_INQUIRE ORDER BY INQUIRE_SENDDATE
 	</select>
 	
-	<insert id="insert" parameterType="inquire">
+	<insert id="insert" parameterType="hashmap">
 		<selectKey keyProperty="inquire_no" resultType="_int" order="AFTER">
 			SELECT SEQ_INQUIRE_INDEX.CURRVAL FROM DUAL
 		</selectKey>
 		insert into TABLE_INQUIRE
-		values(SEQ_INQUIRE_INDEX.NEXTVAL, #{inquire_sender_index}, #{inquire_receiver_index}, #{inquire_content}, #{inquire_attachment_file}, DEFAULT, DEFAULT)
+		values(SEQ_INQUIRE_INDEX.NEXTVAL, #{msg.inquire_sender_index}, 
+		<if test="level eq 'user'">
+		(SELECT USER_INDEX FROM TABLE_USER WHERE USER_LEVEL=1001), 
+		</if>
+		<if test="level eq 'admin'">
+		#{msg.inquire_receiver_index}, 
+		</if>
+		#{msg.inquire_content}, #{msg.inquire_attachment_file}, DEFAULT, DEFAULT)
 	</insert>
 	
 	<update id="updateContent">

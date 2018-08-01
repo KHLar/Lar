@@ -2,6 +2,8 @@ package com.misoot.lar.common.sockJS.model.vo;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Inquire implements java.io.Serializable{
 	
 	private static final long serialVersionUID = 9968L;
@@ -9,6 +11,7 @@ public class Inquire implements java.io.Serializable{
 	private int inquire_no;
 	private String inquire_sender_index, inquire_receiver_index, inquire_content, inquire_attachment_file;
 	private Date inquire_sendDate; // 작성일
+	//private MultipartFile sendFile;
 
 	public Inquire() {}
 
@@ -71,12 +74,20 @@ public class Inquire implements java.io.Serializable{
 		this.inquire_sendDate = inquire_sendDate;
 	}
 
+	/*public MultipartFile getSendFile() {
+		return sendFile;
+	}
+
+	public void setSendFile(MultipartFile sendFile) {
+		this.sendFile = sendFile;
+	}*/
+
 	@Override
 	public String toString() {
 		return "Inquire [inquire_no=" + inquire_no + ", inquire_sender_index=" + inquire_sender_index
 				+ ", inquire_receiver_index=" + inquire_receiver_index + ", inquire_content=" + inquire_content
 				+ ", inquire_attachment_file=" + inquire_attachment_file + ", inquire_sendDate=" + inquire_sendDate
-				+ "]";
+				/*+ ", sendFile=" + sendFile + "]"*/;
 	}
 
 }

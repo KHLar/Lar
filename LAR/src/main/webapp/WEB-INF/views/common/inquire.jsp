@@ -1,9 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="${pageContext.request.contextPath}/resources/css/chat.css" rel="stylesheet">
 <script	src="${pageContext.request.contextPath}/resources/js/sockjs.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -36,7 +34,7 @@
 						<div class="col-xs-10 col-md-10">
 							<div class="messages msg_receive">
 								<p>Ask if you don't know in LAR.</p>
-								<time datetime="2009-11-13T20:00">문의 담당자</time>
+								<time datetime="2009-11-13T20:00">LAR</time>
 							</div>
 						</div>
 					</div>
@@ -52,7 +50,7 @@
 					<div class="filebox bs3-primary preview-image" style="text-align: right;">
 						<input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 						<label for="input_file">업로드</label>
-						<input type="file" id="input_file" class="upload-hidden">
+						<input type="file" id="input_file" name="input_file" class="upload-hidden">
 					</div>
 				</div>
 			</div>
@@ -73,7 +71,6 @@
 		}
 
 	$('.quest').on('click', function() {
-		
 		if ('${session_user}' == '' || '${session_user}' == null) {
 			c = confirm("로그인 후에 이용 가능한 메뉴입니다. 로그인 하시겠습니까?");
 			if (c == true) {
@@ -85,8 +82,7 @@
 				$(this).css('display', 'none');
 				$('.chat_container').css({
 					'display' : 'block',
-					'bottom' : '30px'
-				});
+					'bottom' : '30px'});
 			}
 			if(s==null) connect();
 		}
@@ -101,9 +97,6 @@
 
 	$("#btn-chat").on("click", function() {
 		sendMsg();
-		$('#chat-area').val(null);
-		$('.upload-name').val('파일 선택');
-		$('.upload-thumb-wrap').remove();
 		/* var check = confirm('Are you Server?');		 */
 	});
 
@@ -115,9 +108,6 @@
 			else if (e.shiftKey) return $(this).val();
 			else {
 				sendMsg();
-				$('#chat-area').val(null);
-				$('.upload-name').val('파일 선택');
-				$('.upload-thumb-wrap').empty();
 				return false;
 			}
 		}
@@ -134,7 +124,7 @@
 				showGreeting(JSON.parse(msg.body));
 				});
 			
-		if('${session_user.user_id}'=='inquire@co.kr'){
+		if('${session_user.user_level}'=='1001'){
 			$.ajax({
 				type : "POST",
 				dataType : "json",
@@ -150,25 +140,32 @@
 						var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
 						var $timeData = $('<time>');
 						var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
-						var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
+						var $img = $('<img class="img-responsive">');
 						var $div = $('<div class="inquire_option">');
 						
-						if(v.INQUIRE_SENDER_INDEX!='2'){
+						if('${session_user.user_index}'!= v.INQUIRE_SENDER_INDEX){
+						if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+							$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+						}	else{
+							$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+						}
 						$base_sent.append(
 								$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
 										.append($timeData.text(v.INQUIRE_SENDER_INDEX + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
 												))).append($avatar.append($img));
 						if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
-						$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="reply('+v.inquire_sender_index+')">답신</span></div>');
+						$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="reply('+v.INQUIRE_SENDER_INDEX+')">답신</span></div>');
 						
 						$msg_container_base.append($inquire_container.append($base_sent).append($div));
 						}	else{
+							$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+							
 							$base_receive.append(
 									$avatar.append($img)).append(
 											$col.append(
 													$message.append(
 															$pre.text(v.INQUIRE_CONTENT)).append(
-																	$timeData.text('${session_user.user_nickname}'+" : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
+																	$timeData.text("LAR : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
 													));
 							$msg_container_base.append($inquire_container.append($base_receive));
 						}
@@ -179,8 +176,7 @@
 					console.log("Load list error");
 				}
 			});
-		}
-		else{
+		}		else{
 			$.ajax({
 			type : "POST",
 			dataType : "json",
@@ -197,10 +193,15 @@
 					var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
 					var $timeData = $('<time>');
 					var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
-					var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
+					var $img = $('<img class="img-responsive">');
 					var $div = $('<div class="inquire_option">');
 					
-					if(v.INQUIRE_SENDER_INDEX!='2'){
+						if('${session_user.user_level}'!='1001' && v.INQUIRE_SENDER_INDEX =='${session_user.user_index}'){
+							if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+								$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+							}	else{
+								$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+							}
 					$base_sent.append(
 							$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
 									.append($timeData.text("${session_user.user_id}" + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
@@ -208,16 +209,17 @@
 
 					if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
 					
-					$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="deleteContent('+v.inquire_no+')">삭제</span></div>');
+					$div.html('<div style="display: block;  color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="deleteContent('+v.INQUIRE_NO+')">삭제</span></div>');
 					
 					$msg_container_base.append($inquire_container.append($base_sent).append($div));
-					}	else{
+					}	else {
+						$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 						$base_receive.append(
 								$avatar.append($img)).append(
 										$col.append(
 												$message.append(
 														$pre.text(v.INQUIRE_CONTENT)).append(
-																$timeData.text("문의 담당자 : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
+																$timeData.text("LAR : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString()))
 												));
 						$msg_container_base.append($inquire_container.append($base_receive));
 					}
@@ -235,37 +237,32 @@
 
 	// 메시지 전송
 	function sendMsg() {
-		if ('${session_user}' == '' || '${session_user}' == null) {
-			c = confirm("로그인 후에 이용 가능한 메뉴입니다. 로그인 하시겠습니까?");
-			if (c == true) {
-				$('.dynamicModal').modal('show');
-				getModal('signin');
-			} else
-				return;
-		} else {
 			if ($('#chat-area').val() != null && $('#chat-area').val().trim() != ''){
-				if('${session_user.user_index}'!='2'){
+				if('${session_user.user_level}'!='1001'){ // 유저
 				stompClient.send("/app/question", {}, JSON.stringify({
 					'inquire_sender_index' : '${session_user.user_index}',
-					'inquire_receiver_index' : '2',
+					/* 'inquire_receiver_index' : '2', */
 					'inquire_content' : $('#chat-area').val(),
-					'inquire_attachment_file' : $('.upload-name').val()
-				}));}	else{
+				}));}	else{  // 관리자
 					stompClient.send("/app/question", {}, JSON.stringify({
 						'inquire_sender_index' : '${session_user.user_index}',
 						'inquire_receiver_index' : r,
-						'inquire_content' : $('#chat-area').val()
+						'inquire_content' : $('#chat-area').val(),
+						'user_level' : '${session_user.user_level}'
 					}));
+
 					$('.panel-footer').css('display', 'none');
 				}
 			}	else	alert("내용을 입력해주세요.");
+			
+			$('#chat-area').val(null);
+			$('.upload-name').val('파일 선택');
+			$('.upload-thumb-wrap').remove();
 		}
 
-	}
 
 	// 보낸 메시지 화면 output
 	function showGreeting(data) {
-		
 		var $msg_container_base = $('.msg_container_base');
 		var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
 		var $base_sent = $('<div class="row msg_container base_sent">');
@@ -275,12 +272,17 @@
 		var $pre = $('<span style="word-wrap: break-word; white-space:pre-line;">');
 		var $timeData = $('<time>');
 		var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
-		var $img = $('<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">');
+		var $img = $('<img class="img-responsive">');
 		var date = new Date(data.inquire_sendDate).toLocaleString();
 		var $div = $('<div class="inquire_option">');
 		
-		if('${session_user.user_id}'!='inquire@co.kr'){
-
+		
+		if(data.inquire_sender_index=='${session_user.user_index}' && '${session_user.user_level}'!='1001'){
+			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+			}	else{
+				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+			}
 		$base_sent.append(
 				$col.append($message.append($pre.text(data.inquire_content))
 						.append($timeData.text("${session_user.user_id}" + " : "+ date)
@@ -290,19 +292,40 @@
 		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;">'+data.inquire_attachment_file+'</span><span style="float: right;" onclick="deleteContent('+data.inquire_no+')">삭제</span></div>');
 		/* $inquire_container.append($base_sent).append($div); */
 		$msg_container_base.append($inquire_container.append($base_sent).append($div));
-		}	else{
+		}	else if (data.inquire_receiver_index=='${session_user.user_index}'){
+			$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			$base_receive.append(
 					$avatar.append($img)).append(
 							$col.append(
 									$message.append(
 											$pre.text(data.inquire_content)).append(
-													$timeData.text('${session_user.user_nickname}'+" : "+date))
-									));
-			
+													$timeData.text("LAR : "+date))));
 			$msg_container_base.append($inquire_container.append($base_receive));
+		}	else if('${session_user.user_level}'=='1001' && data.inquire_sender_index!='${session_user.user_index}'){
+			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+			}	else{
+				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+			}
+			$base_sent.append(
+					$col.append($message.append($pre.text(data.inquire_content))
+							.append($timeData.text(data.inquire_sender_index + " : "+ new Date(data.inquire_sendDate).toLocaleString())
+									))).append($avatar.append($img));
+			if(data.inquire_attachment_file==null) data.inquire_attachment_file="";
+			$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+data.inquire_attachment_file+'</span><span style="float: right;" onclick="reply('+data.inquire_sender_index+')">답신</span></div>');
 			
+			$msg_container_base.append($inquire_container.append($base_sent).append($div));
+			
+		}	else if('${session_user.user_level}'=='1001' && data.inquire_sender_index=='${session_user.user_index}'){
+			$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+			$base_receive.append(
+					$avatar.append($img)).append(
+							$col.append(
+									$message.append(
+											$pre.text(data.inquire_content)).append(
+													$timeData.text("LAR : "+date))));
+			$msg_container_base.append($inquire_container.append($base_receive));
 		}
-		
 		scrollDown();
 		
 		// $("#greetings").append("<tr><td>" + data.sender+" : "+ data.content + " | " + new Date(data.sendDate).toLocaleString() + "</td></tr>");
@@ -312,7 +335,6 @@
 	$(document).on("mouseenter", '.inquire_option span', function(){	$(this).css('cursor', 'pointer');});
 	
 	function deleteContent(num){
-		
 		c = confirm("정말 삭제하시겠습니까?");
 		if(c==true){
 			$(document).on("click",".inquire_option span:last-child",function() {
@@ -336,9 +358,9 @@
 	
 	function reply(num){
 		$('.panel-footer').css('display', 'block');
+		console.log("What receiver_index : "+num);
 		r=num;
 	}
-	
 	
 	$(document).on('click', '.panel-heading span.icon_minim', function(e) {
 		var $this = $(this);
@@ -354,63 +376,79 @@
 	});
 
 	$(document).on('focus','.panel-footer input.chat_input',function(e) {
-
 		var $this = $(this);
 		if ($('#minim_chat_window').hasClass('panel-collapsed')) {
 			$this.parents('.panel').find('.panel-body').slideDown();
 			$('#minim_chat_window').removeClass('panel-collapsed');
-			$('#minim_chat_window').removeClass('glyphicon-plus')
-					.addClass('glyphicon-minus');
+			$('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+		}
+	});
+	
+	function fileUpload(){
+		var file = new FormData();
+		file.append($('.upload-name').val(), $('#input-file')[0].files[0]);
+	$.ajax({
+		type : "POST",
+		dataType : "json",
+		url : "${pageContext.request.contextPath}/inquireAttachment",
+		data : file,
+		processData: false,
+        contentType: false,
+		success : function(data){
+			console.log(data);
+			console.log("file upload success");
+		}, error : function(data){
+			console.log("file upload fail");
 		}
 	});
 
+	}
+	/* file upload  */
 	
-	
-			var fileTarget = $('.filebox .upload-hidden');
-	
-			fileTarget.on('change', function() {
-				if (window.FileReader) {
-				// 파일명 추출
-				var filename = $(this)[0].files[0].name;
-				} else {
-				// Old IE 파일명 추출
-				var filename = $(this).val().split('/').pop().split('\\').pop();
-				};
-				$(this).siblings('.upload-name').val(filename);
-			});
-	
-			//preview image 
-			var imgTarget = $('.preview-image .upload-hidden');
-	
-			imgTarget.on('change', function() {
-			var parent = $(this).parent();
-			
-			parent.children('.upload-display').remove();
-	
+		var fileTarget = $('.filebox .upload-hidden');
+
+		fileTarget.on('change', function() {
 			if (window.FileReader) {
-			//image 파일만
-			if (!$(this)[0].files[0].type.match(/image\//))
-				return;
-	
-			var reader = new FileReader();
-			reader.onload = function(e) {
-			var src = e.target.result;
-
-			parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
-			
-			}
-			reader.readAsDataURL($(this)[0].files[0]);
+			// 파일명 추출
+			var filename = $(this)[0].files[0].name;
 			} else {
+			// Old IE 파일명 추출
+			var filename = $(this).val().split('/').pop().split('\\').pop();
+			};
+			$(this).siblings('.upload-name').val(filename);
+		});
+	
+		//preview image 
+		var imgTarget = $('.preview-image .upload-hidden');
 
-				$(this)[0].select();
-				$(this)[0].blur();
-				var imgSrc = document.selection.createRange().text;
-				parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+		imgTarget.on('change', function() {
+		var parent = $(this).parent();
+		
+		parent.children('.upload-display').remove();
 
-				var img = $(this).siblings('.upload-display').find('img');
-				img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+ imgSrc + "\")";
-			}
-				});
+		if (window.FileReader) {
+		//image 파일만
+		if (!$(this)[0].files[0].type.match(/image\//))
+			return;
+
+		var reader = new FileReader();
+		reader.onload = function(e) {
+		var src = e.target.result;
+
+		parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+		}
+		reader.readAsDataURL($(this)[0].files[0]);
+		} else {
+
+			$(this)[0].select();
+			$(this)[0].blur();
+			var imgSrc = document.selection.createRange().text;
+			parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+			var img = $(this).siblings('.upload-display').find('img');
+			img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+ imgSrc + "\")";
+		}
+	});
 			
 </script>
 
