@@ -1,5 +1,6 @@
 package com.misoot.lar.home.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -48,6 +49,8 @@ public class HomeDaoImpl implements LarDao<Home> {
 	}
 	
 	public List<Lecture> selectLectureList(String method, int user_index) {
-		return sqlSession.selectList("home.selectLectureList"+method, user_index, new RowBounds(0,7));
+		HashMap<String, Integer> hmap = new HashMap<String, Integer>();
+		hmap.put("user_index", user_index);
+		return sqlSession.selectList("home.selectLectureList"+method, hmap, new RowBounds(0,7));
 	}
 }

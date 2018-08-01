@@ -1,5 +1,6 @@
 package com.misoot.lar.home.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,8 +25,17 @@ public class HomeController {
 	LarService<Home> homeServiceImpl;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @SessionAttribute("session_user") User user) {
-		List<Lecture> recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user.getUser_index());
+	public String home(Locale locale, Model model, @SessionAttribute(value="session_user", required=false) User user) {
+		
+		List<Lecture> recent_lecture_list = new ArrayList<Lecture>();
+		
+		int user_index = 0;	
+		
+		if(user != null) {
+			user_index = user.getUser_index();
+		}
+		
+		recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user_index);
 		
 		model.addAttribute("recent_lecture_list", recent_lecture_list);
 		
