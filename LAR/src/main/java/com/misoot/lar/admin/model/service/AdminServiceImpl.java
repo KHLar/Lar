@@ -84,4 +84,12 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public List<Map<String, Object>> paymentList(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
 	}
+
+	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardList(rowBounds);
+	}
+
+	public int selectCommuBoardListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardListCount();
+	}
 }

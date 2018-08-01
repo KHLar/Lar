@@ -96,11 +96,6 @@
 		where USER_INDEX = #{user_index} and USER_ID = #{user_id}
 	</update>
 	
-	<!-- community area -->
-	<select id="selectCommuList" parameterType="string" resultMap="getselectCommuList">
-		
-	</select>
-	
 	<select id="selectCommuListByUserIndex" parameterType="_int" resultMap="getselectCommuList">
 		SELECT
 		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
@@ -110,6 +105,23 @@
 		ORDER BY C.COMMU_UPLOAD_DATE DESC
 	</select>
 	
+	
+	<!-- community area -->
+	<select id="selectCommuBoardList" parameterType="string" resultMap="getselectCommuList">
+		SELECT
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		FROM TABLE_USER U JOIN TABLE_COMMU C ON(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		WHERE C.COMMU_IS_DELETED = 0
+	</select>
+	
+	<select id="selectCommuBoardListCount" resultType="_int">
+		SELECT COUNT(*) FROM TABLE_COMMU
+		WHERE COMMU_IS_DELETED = 0
+	</select>
+	
+	
+	
 	<select id="selectCommuByCommuIndex" parameterType="_int" resultMap="getselectCommuOne">
 		SELECT
 		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
@@ -118,9 +130,9 @@
 		WHERE C.COMMU_INDEX=#{commuNo}
 	</select>
 	
-	<select id="selectCommuReplyList" resultMap="getselectCommuReplyList">
+	<select id="selectCommuReplyListByCommuIndex" resultMap="getselectCommuReplyList">
 		SELECT R.*,U.USER_NICKNAME COMMU_REPLY_WRITER FROM TABLE_COMMU_REPLY R JOIN TABLE_USER U 
-		ON(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX) WHERE COMMU_REPLY_COMMU_INDEX=#{commuNo}
+		ON(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX) WHERE COMMU_REPLY_COMMU_INDEX=#{commu_index}
 		ORDER BY COMMU_REPLY_PARENT_INDEX DESC, commu_Reply_Order_Index ASC
 	</select>
 	

@@ -71,7 +71,7 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	}
 
 	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
-		return sqlSession.selectOne("admin.selectCommuReplyListByCommuIndex", commu_index);
+		return sqlSession.selectList("admin.selectCommuReplyListByCommuIndex", commu_index);
 	}
 
 	public List<Map<String, Object>> paymentList(int user_index) {
@@ -80,5 +80,13 @@ public class AdminDaoImpl implements LarDao<Admin> {
 
 	public List<Commu> selectCommuListByUserIndex(int user_index) {
 		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index);
+	}
+
+	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuBoardList", null, rowBounds);
+	}
+
+	public int selectCommuBoardListCount() {
+		return sqlSession.selectOne("admin.selectCommuBoardListCount");
 	}
 }

@@ -52,7 +52,7 @@
 					<li><a href="/lar/admin/users/list/${pi.current_page -1}">&lt;</a></li>				
 				<% } %>
 								
-				<% for (int i=(pi.getQuotient()-1)*10+1; i<=pi.getQuotient()*pi.getPaging_count(); i++) { %>
+				<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 					<% if (i == pi.getCurrent_page()) { %>
 						<li class="active" disabled><a href="/lar/admin/users/list/<%=i%>"><%=i%></a></li>
 					<% } else if (i <= pi.getMax_page_count()) { %>

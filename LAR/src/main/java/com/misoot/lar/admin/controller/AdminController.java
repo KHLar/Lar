@@ -115,12 +115,17 @@ public class AdminController {
 		
 	@RequestMapping(value= "/commu/board/list/{page}")
 	public String commu_board(Model model, @PathVariable("page") int page) {
-		int content_per_page = 20;
+		int content_per_page = 5;
 		int paging_count = 10;
 
 		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
 		
-		List<Commu> commu_list;
+		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuBoardList(rowBounds);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuBoardListCount(); 
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("commu_board_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/board";
 	}

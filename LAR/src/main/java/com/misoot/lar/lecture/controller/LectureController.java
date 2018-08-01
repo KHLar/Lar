@@ -236,6 +236,7 @@ public class LectureController {
 		
 		return "lecture/lectureDetail";
 	}
+	
 	//동영상 하나보기
 	@RequestMapping(value="/lectureBoardView")
 	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index, Model model){
@@ -401,9 +402,6 @@ public class LectureController {
 		
 		Map<String, String> keyword = new HashMap<String, String>();
 		
-		keyword.put("keyword", "latest");
-		List<Lecture> latest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
 		keyword.put("keyword", "reviews");
 		List<Lecture> reviews = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
 		
@@ -415,7 +413,6 @@ public class LectureController {
 		
 		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
 		
-		recomandedList.put("latest", latest);
 		recomandedList.put("reviews", reviews);
 		recomandedList.put("score", score);
 		recomandedList.put("hotest", hotest);

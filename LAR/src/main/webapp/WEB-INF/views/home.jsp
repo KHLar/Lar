@@ -63,12 +63,12 @@
 						<c:forEach items="${recent_lecture_list}" var="rec">
 							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 								<div class="thumbnail container-fluid">
-									<img src="${rec.lecture_thumbnail}">
+									<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}"><img src="${rec.lecture_thumbnail}"></a>
 									<div class="caption">
-										<h4>${rec.lecture_title}</h4>
+										<h4><a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a></h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class="glyphicon glyphicon-heart-empty"></span></a>
+											<a id="thumb-hart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color:tomato"></span></a>
 										</p>
 									</div>
 								</div>
@@ -78,22 +78,7 @@
 				</div>
 				<div class="main-recommandlecture">
 					<h3>추천 강좌</h3>
-					<div class="row">
-						<c:forEach var="i" begin="1" end="8" step="1">
-							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
-								<div class="thumbnail container-fluid">
-									<img src="http://placehold.it/500x500/EEE">
-									<div class="caption">
-										<h4>Thumbnail label</h4>
-										<p>
-											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class=" glyphicon glyphicon-heart-empty"></span></a>
-										</p>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
+					추후 추가예정
 				</div>
 			</div>
 		</div>
