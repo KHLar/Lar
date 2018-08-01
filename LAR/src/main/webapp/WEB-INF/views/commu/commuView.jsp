@@ -86,7 +86,7 @@ textarea {
 				<h3 class="text-capitalize">
 					&nbsp;&nbsp;게시판 글보기
 					<c:if test="${session_user.user_index eq commu.commu_Writer_Index}">
-						<button type="button" class="btn btn-danger pull-right"
+						<button type="button" class="btn btn-success pull-right"
 							id="commuModify">글수정</button>
 						<button type="button" class="btn btn-danger pull-right"
 							id="commuDelete">글삭제</button>
@@ -99,13 +99,18 @@ textarea {
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div style="text-align: left;">
-							<p class="commuTitle">${commu.commu_Title}</p>
+							<p class="commuTitle">${commu.commu_Title}
+							<div class="pull-right">
+							<span style=>글쓴이${commu.commu_Writer}</span>
+									<span>업데이트날짜${commu.commu_Update_Date}</span>
+									<span>조회수${commu.commu_Hits}</span></div><br></p>
 							<c:forEach items="${attachmentList}" var="a" varStatus="vs">
 								<button type="button" style="width: auto; height: auto;"
 									class="btn btn-outline-success btn-warning pull-right"
 									onclick="fileDownload('${a.commu_Attach_Originfilename}','${a.commu_Attach_Renamedfilename }');">
 									첨부파일 - ${a.commu_Attach_Originfilename }</button>
 							</c:forEach>
+							
 							<!--  <div style="text-align: right;">
                  <br /><br />
                      <span class="bg-warning">${commu.commu_Writer}</span>&nbsp;&nbsp;
@@ -119,14 +124,12 @@ textarea {
 									<div class="bootstrap-tagsinput form-group">
 										<div class="tags" id="tags">
 											<c:forTokens items="${commu.commu_tags}" var="tag" delims=",">
-												<a class="bg-warning labelinput" style="color: yellow;">#${tag}</a>
+												<a class="labelinput" style="color: green;">#${tag}</a>
 											</c:forTokens>
 										</div>
 									</div> <!-- Tag입니다. 건들지 마요 -_- -->
 								</li>
-								<li style="text-align: right;"><span class="bg-warning">${commu.commu_Writer}</span>&nbsp;&nbsp;
-									<span class="bg-warning">${commu.commu_Update_Date}</span>&nbsp;&nbsp;
-									<span class="bg-warning">${commu.commu_Hits}</span></li>
+							
 							</ul>
 						</div>
 					</div>
@@ -171,15 +174,19 @@ textarea {
 								value="${cr.commu_Reply_Order_Index}" /> <input type="hidden"
 								name="commu_Reply_Depth_Index"
 								value="${cr.commu_Reply_Depth_Index}" />
+							<div class="row" style="margin-bottom: 1%;">
 							<div class="col-md-8">
-
+								<c:set var="ReplyMargin" value="${cr.commu_Reply_Depth_Index*5}"/>
+								<c:if test="${ReplyMargin >20}">
+								<c:set var = "ReplyMargin" value="20"/>
+								</c:if>
 								<div class="panel panel-default"
-									style="margin-left:${cr.commu_Reply_Depth_Index*20}px;">
+									style="margin-left:${ReplyMargin}%;">
 									<c:if test="${cr.commu_Reply_Depth_Index!=1}">
 										<img
 											src="${pageContext.request.contextPath}/resources/images/ARROW.PNG"
 											style="width: 20px; height: 20px; display: inline-block;" />
-									</c:if>
+									</c:if> 
 									<span style="font-size: 16px">${cr.commu_Reply_Content}</span>
 									<p class="commentHelp">&nbsp;&nbsp;&nbsp;${cr.commu_Reply_Writer}
 										| ${cr.commu_Reply_Update_Date } | 신고</p>
@@ -189,9 +196,11 @@ textarea {
 							<div class="col-lg-4 col-md-4 col-sm-4">
 								<c:if
 									test="${cr.commu_Reply_Writer_Index eq session_user.user_index}">
+									<c:if test="${cr.commu_Reply_Is_Deleted eq 0}">
 									<%-- <button class="btn btn-danger" data-toggle="collapse" data-target="#modify${cr.commu_Reply_Index}">수정</button> --%>
 									<button class="btn btn-danger" class="replyDelete"
 										onclick="location.href='${pageContext.request.contextPath}/commu/commuReplyDelete?commu_Reply_Index=${cr.commu_Reply_Index}'">삭제</button>
+									</c:if>
 								</c:if>
 								<c:if test="${cr.commu_Reply_Is_Deleted eq 0 }">
 									<button class="btn btn-primary" data-toggle="collapse"
@@ -199,13 +208,18 @@ textarea {
 								</c:if>
 							</div>
 						</div>
+						</div>
 						<div class="row">
 							<div id="reply${cr.commu_Reply_Index}" class="collapse">
 								<div class="col-md-8">
+								<c:set var="textWidth" value="${100-cr.commu_Reply_Depth_Index*5}"/>
+								<c:if test="${textWidth <80}">
+								<c:set var = "textWidth" value="80"/>
+								</c:if> 
 									<textarea name="commu_Reply_Content"
 										id="Commentreply${cr.commu_Reply_Index}" class="form-control"
 										rows="3" required="required" placeholder="Type here message"
-										style="margin-left:${cr.commu_Reply_Depth_Index*20}px;"></textarea>
+										style="margin-left:${ReplyMargin}%; width:${textWidth}%"></textarea>
 								</div>
 								<div class="col-lg-4 col-md-4 col-sm-4">
 									<button type="submit" class="btn btn-primary commuReply_Reply">댓글등록</button>

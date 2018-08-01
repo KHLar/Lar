@@ -14,9 +14,32 @@
 	    $(this).tab('show');
 	})
 	
-	function infoBtn(){
-		location.href = "${pageContext.request.contextPath}/mypage/infoPage/"+${session_user.user_index};
-	}
+	function InfoBtn(){
+   
+      var userIndex = '${session_user.user_index}';
+      var pass_word = $('#pass_word').val();
+      console.log(pass_word);
+         $.ajax({
+            async : false,
+            type : 'POST',
+            data : {
+               "userpassword" : pass_word,
+               "userindex" : userIndex },
+            url : "${pageContext.request.contextPath}/mypage/PasswordCheck",
+            success : function(data) {
+               if (data == 0) { // 비밀번호가 틀렸을 경우
+                  alert("비밀번호가 틀립니다. 확인하고 다시 이용해주세요.");
+                  pwCheck = false;
+               } else { // 비밀번호가 맞았을 경우
+                  pwCheck = true;
+                  location.href = "${pageContext.request.contextPath}/mypage/infoPage/${session_user.user_index}";
+                  }
+               },
+            error : function(error) {
+               alert("error : " + error);}
+      }); 
+      
+   }
 	
 	function checkboxArr() {
 		var checkArr = [];
@@ -83,8 +106,27 @@
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
 							<div class="wrapprofile">
 								<h2 style="display: inline-block;">${session_user.user_nickname}</h2>&nbsp;&nbsp;
-								<button type="button" onclick="infoBtn();" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
-								
+								<div class="modal fade" id="passwordCheck" role="dialog">
+					        <div class="modal-dialog">
+					        
+					          <!-- Modal content-->
+					          <div class="modal-content">
+					            <div class="modal-header">
+					              <button type="button" class="close" data-dismiss="modal">×</button>
+					              <h4 class="modal-title">비밀번호 입력</h4>
+					            </div>
+					            <div class="modal-body" >
+					                <input type="password" placeholder="비밀번호를 입력해주세요" id="pass_word">
+					            <span  style="float: right;">
+					            <button type="button" class="btn btn-primary btn pull-right"  data-dismiss="modal">취소</button>
+					            <button type="button" onclick="InfoBtn();" class="btn btn-primary btn pull-right">확인</button>
+					            </span>
+					            </div>
+					          </div>
+					          
+					        </div>
+					      </div>
+					     <button type="button" data-toggle="modal" data-target="#passwordCheck" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
 							</div>
 							<hr style="border: 0.03em solid #cbbde2">
 							<ul class="container details" style="list-style: none;">
