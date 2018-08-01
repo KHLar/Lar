@@ -56,5 +56,9 @@ public class InquireServiceImpl implements LarService<Inquire>{
 	public int deleteContent(int no){
 		return ((InquireDaoImpl)larDao).deleteContent(no);
 	}
+	
+	public int insert(Map<String, Object> msgMap) {
+		return ((InquireDaoImpl)larDao).insert(msgMap);
+	}
 
 }
