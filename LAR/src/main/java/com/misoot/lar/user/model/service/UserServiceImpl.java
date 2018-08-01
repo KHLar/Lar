@@ -11,6 +11,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.dao.UserDaoImpl;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Service
@@ -70,6 +71,18 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).trySigninCountReset(user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return ((UserDaoImpl)userDaoImpl).trySigninCountResetForUnlock(id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return ((UserDaoImpl)userDaoImpl).passwordModify(temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return ((UserDaoImpl)userDaoImpl).isUserExist(user_id);
+	}
+	
 	/*
 	 * User account end
 	*/
@@ -93,7 +106,7 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).myqnaList(user_index, cPage, numPerPage);
 	}
 	
-	public List<Map<String, String>> myPaymentList(int user_index) {
+	public List<Purchase> myPaymentList(int user_index) {
 		return ((UserDaoImpl)userDaoImpl).myPaymentList(user_index);
 	}
 
@@ -101,8 +114,87 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).myCoupontList(user_index);
 	}
 
+	public int deleteWishList(Map<String, Object> checkList) {
+		return ((UserDaoImpl)userDaoImpl).deleteWishList(checkList);
+	}
+
 	/*
 	 * My page end
 	 */
+
+	/*
+	 * cart start
+	 */
+	public List<Map<String, Object>> cartList(int user_index) {
+		return ((UserDaoImpl)userDaoImpl).cartList(user_index);
+	}
 	
+	public int deleteCart(Map<String, Object> delcartList) {
+		return ((UserDaoImpl)userDaoImpl).deleteCart(delcartList);
+	}
+	/*
+	 * cart end
+	 */
+	
+	/*
+	 * purchase start
+	 */
+	public List<Map<String, Object>> purchaseList(String[] check) {
+		return ((UserDaoImpl)userDaoImpl).purchaseList(check);
+	}
+	
+	public int insertPurchase(Map<Object, Object> rsp) {
+		return ((UserDaoImpl)userDaoImpl).insertPurchase(rsp);
+	}
+	
+	public Map<String, Object> selectPurchase(String msg) {
+		return ((UserDaoImpl)userDaoImpl).selectPurchase(msg);
+	}
+	
+	public int deleteUserCoupon(Object user_coupon_inx) {
+		return ((UserDaoImpl)userDaoImpl).deleteUserCoupon(user_coupon_inx);
+	}
+	
+	public int deletefromCart(Map<String, Object> delcartList) {
+		return ((UserDaoImpl)userDaoImpl).deletefromCart(delcartList);
+	}
+	/*
+	 * purchase end
+	 */
+
+	public int idcheck(String transName) {
+		return ((UserDaoImpl)userDaoImpl).nickNameCheck(transName);
+	}
+
+
+	public String pwSearch(String userindex) {
+		
+		return ((UserDaoImpl)userDaoImpl).pwSearch(userindex);
+	}
+
+	public int change_pw(Map<Object, Object> map) {
+		
+		return ((UserDaoImpl)userDaoImpl).change_pw(map);
+	}
+
+	public int infoChange(Map<Object, Object> map) {
+
+		return ((UserDaoImpl)userDaoImpl).infoChange(map);
+	}
+
+	public User selectOneIndex(String userindex) {
+		return ((UserDaoImpl)userDaoImpl).selectOneIndex(userindex);
+	}
+
+	public int getout(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).getout(map);
+	}
+
+	public int imgUpdate(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).imgUpdate(map);
+	}
+
+	public int history(Map<Object, Object> map) {
+		return ((UserDaoImpl)userDaoImpl).history(map);
+	}
 }

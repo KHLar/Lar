@@ -43,9 +43,15 @@ function form_validate(target) {
 			} else {
 				result = true;
 			}
-		break;
-		case 'signin':
-			
+		break;		
+		case 'passwordModify':
+			if ((input_validate('newPassword') == 0)) {
+
+			} else if ((input_validate('newPassword2') == 0)) {
+
+			} else {
+				result = true;
+			} 
 		break;
 	}
 
@@ -88,9 +94,11 @@ function input_help_block_change(kinds, reason, flag) {
 				result = '올바른 이메일 양식이 아닙니다.';
 				break;
 			case 'password':
+			case 'newPassword':
 				result = '영어 대문자, 소문자, 숫자, 특수문자가 한개 이상 들어간 8~20 글자를 입력하세요.';
 				break;
 			case 'password2':
+			case 'newPassword2':
 				result = '입력한 비밀번호와 값이 다릅니다.';
 				break;
 			case 'nickname':
@@ -122,15 +130,18 @@ function input_validate(kinds) {
 
 	switch (kinds) {
 		case 'id':
+		case 'id_for_unlock':
 			reg_Exp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,4}$/i;
 			result = reg_Exp.test(target_html_value);
 		break;
 		case 'password':
+		case 'newPassword':
 			reg_Exp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/g;
 			result = reg_Exp.test(target_html_value);
 		break;
 		case 'password2':
-			result = target_html_value == $('#user_password').val() ? true : false;
+		case 'newPassword2':
+			result = target_html_value == $('#'+target_html_id.slice(0,-1)).val() ? true : false;
 		break;
 		case 'nickname':
 			reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
@@ -181,6 +192,36 @@ function input_duplicate_check(kinds) {
 		},
 		error : function() {
 			alert('서버에 오류가 발생하였음.');
+		}
+	});
+}
+
+/* get unlock pages */
+
+function getUnlockForm(target) {
+	$.ajax({
+		type : 'post',
+		url : '/lar/user/unlock/' + target,
+		data : $('.modal-body>form').serialize(),
+		success : function(result) {
+			var temp_id = $('.modal-body>form #user_id').val();
+			$('.modal-body').html(result);
+			$('.modal-footer').html(null);
+			$('.modal-body>form #user_id').val(temp_id);
+		}
+	});
+}
+
+function getForgotPasswordForm(target) {
+	$.ajax({
+		type : 'post',
+		url : '/lar/user/forgotPassword/' + target,
+		data : $('.modal-body>form').serialize(),
+		success : function(result) {
+			var temp_id = $('.modal-body>form #user_id').val();
+			$('.modal-body').html(result);
+			$('.modal-footer').html(null);
+			$('.modal-body>form #user_id').val(temp_id);
 		}
 	});
 }

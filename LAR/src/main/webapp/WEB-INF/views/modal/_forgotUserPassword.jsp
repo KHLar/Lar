@@ -9,19 +9,22 @@
 	</h4>
 </div>
 <div class="modal-body" style="padding: 40px 50px;">
-	<form role="form" action="" method="post">
+	<form role="form" action="/lar/user/forgotPassword/sendmail" method="post">
 		<div class="form-group">
 			<label for="user_id"><span class="glyphicon glyphicon-envelope"></span> ID</label>
-			<input type="text" class="form-control" id="user_id" name="user_id" placeholder="Enter email" required>
+			<input type="text" class="form-control" id="user_id" name="user_id" placeholder="Enter your email" required>
 		</div>
-		<button type="submit" class="btn btn-info btn-block">
-			<span class="glyphicon glyphicon-off"></span> Find
+		<button type="button" class="btn btn-info btn-block" onclick="getForgotPasswordForm('sendmail')">
+			<span class="glyphicon glyphicon-send"></span> Send Auth
 		</button>
 	</form>
 </div>
 <div class="modal-footer">
 	<p>
 		<a onclick="getModal('forgotUserId')">Forgot Your ID?</a>
+	</p>
+	<p>
+		<a onclick="getModal('unlock')">Is your account locked?</a>
 	</p>
 	<p>
 		Not a member? <a onclick="getModal('signup')">Sign Up</a>

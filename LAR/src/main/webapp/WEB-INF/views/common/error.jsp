@@ -13,6 +13,6 @@
 	Error Page  
 </h1>
 
-<P> ${exception.message} </P>
+<P> ${exception.message}</P>
 </body>
 </html>

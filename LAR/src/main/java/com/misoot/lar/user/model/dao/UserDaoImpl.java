@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -71,6 +72,18 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.update("user.trySigninCountReset", user);
 	}
 	
+	public int trySigninCountResetForUnlock(String id_for_unlock_input) {
+		return sqlSession.update("user.trySigninCountResetForUnlock", id_for_unlock_input);
+	}
+	
+	public int passwordModify(User temp) {
+		return sqlSession.update("user.passwordModify", temp);
+	}
+	
+	public boolean isUserExist(String user_id) {
+		return (Integer)sqlSession.selectOne("user.isUserExist", user_id) != 0 ? true : false;
+	}
+	
 	/*
 	 * User account end
 	*/
@@ -100,15 +113,93 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.selectList("user.myqnaList", user_index, rows);
 	}
 
-	public List<Map<String, String>> myPaymentList(int user_index) {
+	public List<Purchase> myPaymentList(int user_index) {
 		return sqlSession.selectList("user.myPaymentList", user_index);
 	}
 
 	public List<Map<String, String>> myCoupontList(int user_index) {
 		return sqlSession.selectList("user.myCouponList", user_index);
 	}
-	
+
+	public int deleteWishList(Map<String, Object> checkList) {
+		return sqlSession.delete("user.deleteWishList",checkList);
+	}
 	/*
 	 * My page end
 	 */
+
+	/*
+	 * cart start
+	 */
+	public List<Map<String, Object>> cartList(int user_index) {
+		return sqlSession.selectList("user.cartList", user_index);
+	}
+	
+	public int deleteCart(Map<String, Object> delcartList) {
+		return sqlSession.delete("user.deleteCart", delcartList);
+	}
+	/*
+	 * cart end
+	 */
+
+	/*
+	 * purchase start
+	 */
+	public List<Map<String, Object>> purchaseList(String[] check) {
+		return sqlSession.selectList("user.purchaseList", check);
+	}
+	
+	public int insertPurchase(Map<Object, Object> rsp) {
+		return sqlSession.insert("user.insertPurchase", rsp);
+	}
+	
+	public int deleteUserCoupon(Object user_coupon_inx) {
+		return sqlSession.update("user.deleteUserCoupon", user_coupon_inx);
+	}
+	
+	public Map<String, Object> selectPurchase(String msg) {
+		return sqlSession.selectOne("user.selectPurchase", msg);
+	}
+	
+	public int deletefromCart(Map<String, Object> delcartList) {
+		return sqlSession.delete("user.deletefromCart", delcartList);
+	}
+	/*
+	 * purchase end
+	 */
+
+	public int nickNameCheck(String transName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user.nicknameDuplicateCheck", transName);
+	}
+
+	public String pwSearch(String userindex) {
+		return sqlSession.selectOne("user.pwSearch", userindex);
+	}
+
+	public int change_pw(Map<Object, Object> map) {
+		return sqlSession.update("user.change_pw", map);
+	}
+
+	public int infoChange(Map<Object, Object> map) {
+		
+		return sqlSession.update("user.infoChange", map);
+	}
+
+	public User selectOneIndex(String userindex) {
+		return sqlSession.selectOne("user.selectOneIndex", userindex);
+	}
+
+	public int getout(Map<Object, Object> map) {
+
+		return sqlSession.update("user.getout", map);
+	}
+
+	public int imgUpdate(Map<Object, Object> map) {
+		return sqlSession.update("user.imgUpdate",map);
+	}
+
+	public int history(Map<Object, Object> map) {
+		return sqlSession.update("user.history",map);
+	}
 }

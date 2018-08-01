@@ -7,6 +7,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122666585-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122666585-1');
+</script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,7 +26,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-	<link href="${pageContext.request.contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -34,16 +43,15 @@
 		.navbar-default .navbar-nav>.open>a,
 		.navbar-default .navbar-nav>.open>a:hover {
 			color: tomato;
-			background-color: #222;
+			background-color: #4C0B5;
 		}
 	</style>
 </head>
 <body>
+
 	<script>
 		console.log("${session_user}");
 	</script>
-
-	
 
 	<!-- Navigation -->
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -60,11 +68,11 @@
 			<div class="collapse navbar-collapse" id="nav-collapse-menu" style="overflow:hiddne; max-height:380px;">
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a href="/lar/lecture/recommanded">추천 강좌</a>
+						<a href="/lar/recommanded">추천 강좌</a>
 					</li>
 					<li class="dropdown mega-dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">분류별</a>
-						<ul class="mobile-dropdown">
+						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button" href = "/lar/lectureList">분류별 <span class="caret" style="display:none;"></span></a>
+						<ul class="dropdown-menu mobile-dropdown" aria-labelledby="lecture-dropdown"">
 							<li><a>Web</a></li>
 							<li><a>Android</a></li>
 							<li><a>Database</a></li>
@@ -107,7 +115,7 @@
 						<a class="lectureRegist" href="/lar/lecture/regist">강의등록 신청</a>
 					</li>
 					<li>
-						<a class="" href="">커뮤니티</a>
+						<a href="/lar/commu/commuMain">커뮤니티</a>
 					</li>
 					<c:if test="${empty session_user}">
 					<li>
@@ -116,7 +124,7 @@
 					</c:if>
 					<c:if test="${!empty session_user}">
 					<li class="dropdown">
-						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:lightgreen;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
+						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:#ffe484;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="user-btn">
 							<li><a href="/lar/mypage" style="color:black;"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
 							<li><a href="/lar/user/cart" style="color:black;"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
@@ -130,3 +138,6 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
+	
+	<div class="wrapper">
+		<header>
