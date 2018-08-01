@@ -55,11 +55,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 			 
 			 result = ((LectureDaoImpl)lectureDaoImpl).insertToTal(lecture_index);
 		 }
-		
-		
-		
-		
-		
+			
 		}catch( Exception e){
 			throw e ;
 		}
@@ -184,6 +180,11 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {
 		return ((LectureDaoImpl)lectureDaoImpl).recomandedList(keyword);
+	}
+
+
+	public int updateBoard(LectureBoard bo) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateBoard(bo);
 	}
 
 }

@@ -206,4 +206,10 @@
 		</if>
 	</select>
 	
+	<update id="updateBoard" parameterType="LectureBoard">
+		 UPDATE TABLE_LECTURE_BOARD 
+   		 SET  LECTURE_BOARD_TITLE = #{lecture_board_title}, LECTURE_BOARD_CONTENT = #{lecture_board_content}, LECTURE_BOARD_CHAPTER = #{lecture_board_chapter}
+   		 WHERE  LECTURE_BOARD_INDEX =#{lecture_board_index} 	
+	</update>
+
 </mapper>

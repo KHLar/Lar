@@ -81,10 +81,21 @@ $(document).ready(function() {
 		 location.href = "/lar/lectureDelete?index="+index;
 	 });
 	 
-	 $("#lectureUpdate").on("click", function(){
-		 var index = $('#index').val();
+	 $(".lectureUpdate").on("click", function(){
+		 var index = $(this).siblings('.index').val();
 		 location.href = "/lar/lectureUpdate?index="+index;
 	 });
+	 $(".lectureBoardUpdate").on("click",function(){
+		 var bindex = $(this).siblings('.my_boardLecture_index').val();
+		 var index = $(this).siblings('.my_lecture_index').val(); 
+		 location.href = "/lar/lectureBoardUpdate?index="+index+"&bindex="+bindex;
+		 
+	 });
+	 $(".lectureBoardDelete").on("click",function(){
+		 var bindex = $(this).siblings('.lectre_board_index').val();
+		 var index = $(this).siblings('.my_lecture_index').val();
+		 location.href = "/lar/lectureBoardDelete?index="+index+"&bindex="+bindex;
+	 })
 	 
 	/* $("#lecture-dropdown").on("click", function(){
 		 location.href = "/lar/lectureList";
