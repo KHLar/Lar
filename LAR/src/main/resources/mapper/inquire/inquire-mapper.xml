@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inquire">
+
+	<!-- <resultMap type="exam" id="Inquire">
+		<result column="INQUIRE_CONTENT" property="content" typeHandler="strArrTypeHandler"/>
+	</resultMap> -->
+
+	<select id="selectUserInquireList" parameterType="_int" resultType="hashmap">
+		select * from TABLE_INQUIRE WHERE INQUIRE_SENDER_INDEX = #{inquire_sender_index} AND INQUIRE_IS_DELETED = 0 OR INQUIRE_RECEIVER_INDEX = #{inquire_sender_index} order by INQUIRE_SENDDATE ASC
+	</select>
+	
+	<select id="selectAll" resultType="hashmap">
+		select * from TABLE_INQUIRE ORDER BY INQUIRE_SENDDATE
+	</select>
+	
+	<insert id="insert" parameterType="inquire">
+		<selectKey keyProperty="inquire_no" resultType="_int" order="AFTER">
+			SELECT SEQ_INQUIRE_INDEX.CURRVAL FROM DUAL
+		</selectKey>
+		insert into TABLE_INQUIRE
+		values(SEQ_INQUIRE_INDEX.NEXTVAL, #{inquire_sender_index}, #{inquire_receiver_index}, #{inquire_content}, #{inquire_attachment_file}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<update id="updateContent">
+		update TABLE_INQUIRE
+		set INQUIRE_CONTENT = #{inquire_content}, INQUIRE_ATTACHMENT_FILE = #{inquire_attachment_file}
+		where INQUIRE_NO = #{inquire_no}
+	</update>
+	
+	<update id="deleteContent">
+		update TABLE_INQUIRE
+		set INQUIRE_IS_DELETED = 1
+		where INQUIRE_NO = #{inquire_no}
+	</update>
+	
+	<delete id="delete" parameterType="_int">
+		delete from TABLE_INQUIRE where INQUIRE_NO = #{inquire_no}
+	</delete>
+	
+</mapper>
