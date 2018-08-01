@@ -12,9 +12,9 @@
 <div class="col-lg-12">
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><i class="fa fa-dashboard"></i> Community</li>
-			<li class="active"><i class="fa fa-dashboard"></i> view</li>
-			<li class="active"><i class="fa fa-dashboard"></i> ${view_commu.commu_Index}</li>
+			<li><i class="fa fa-globe"></i> Community</li>
+			<li class="active"><i class="fa fa-eye"></i> View</li>
+			<li class="active"><i class="fa fa-hashtag"></i> ${view_commu.commu_Index}</li>
 		</ol>
 	</div>
 	

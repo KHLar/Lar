@@ -20,8 +20,8 @@
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="/lar/admin/commu/notice/list/1"><i class="fa fa-globe"></i> Community</a></li>
-			<li class="active"><i class="fa fa-question"></i> Q & A</li>
-			<li class="active"><a href="/lar/admin/commu/qa/list/1"><i class="fa fa-list"></i> List</a></li>
+			<li class="active"><i class="fa fa-newspaper-o"></i> News</li>
+			<li class="active"><a href="/lar/admin/commu/news/list/1"><i class="fa fa-list"></i> List</a></li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${pi.current_page}</li>
 		</ol>
 	</div>
@@ -34,12 +34,12 @@
 				<td>Nick</td>
 				<td>Date</td>
 			</tr>
-			<c:forEach items="${commu_qa_list}" var="cq">
+			<c:forEach items="${commu_news_list}" var="cn">
 				<tr>
-					<td>${cq.commu_Index}</td>
-					<td><a href="/lar/admin/commu/view/${cq.commu_Index}">${cq.commu_Title}</a></td>
-					<td>${cq.commu_Writer}</td>
-					<td>${cq.commu_Upload_Date}</td>
+					<td>${cn.commu_Index}</td>
+					<td><a href="/lar/admin/commu/view/${cn.commu_Index}">${cn.commu_Title}</a></td>
+					<td>${cn.commu_Writer}</td>
+					<td>${cn.commu_Upload_Date}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -49,21 +49,21 @@
 		<nav class="text-center">
 			<ul class="pagination">
 				<% if (pi.getCurrent_page() != 1) { %>
-					<li><a href="/lar/admin/commu/qa/list/1">&lt;&lt;</a></li>
-					<li><a href="/lar/admin/commu/qa/list/${pi.current_page -1}">&lt;</a></li>				
+					<li><a href="/lar/admin/commu/news/list/1">&lt;&lt;</a></li>
+					<li><a href="/lar/admin/commu/news/list/${pi.current_page -1}">&lt;</a></li>				
 				<% } %>
 					
 				<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 					<% if (i == pi.getCurrent_page()) { %>
-						<li class="active" disabled><a href="/lar/admin/commu/qa/list/<%=i%>"><%=i%></a></li>
+						<li class="active" disabled><a href="/lar/admin/commu/news/list/<%=i%>"><%=i%></a></li>
 					<% } else if (i <= pi.getMax_page_count()) { %>
-						<li><a href="/lar/admin/commu/qa/list/<%=i%>"><%=i%></a></li>
+						<li><a href="/lar/admin/commu/news/list/<%=i%>"><%=i%></a></li>
 					<% } %>
 				<% } %>
 				
 				<% if (pi.getMax_page_count() > pi.getCurrent_page()) { %>
-					<li><a href="/lar/admin/commu/qa/list/${pi.current_page + 1}">&gt;</a></li>
-					<li><a href="/lar/admin/commu/qa/list/${pi.max_page_count}">&gt;&gt;</a></li>
+					<li><a href="/lar/admin/commu/news/list/${pi.current_page + 1}">&gt;</a></li>
+					<li><a href="/lar/admin/commu/news/list/${pi.max_page_count}">&gt;&gt;</a></li>
 				<% } %>
 			</ul>
 		</nav>

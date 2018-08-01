@@ -18,9 +18,9 @@
 	<div class="row">
 		<h1 class="page-header">Users</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-dashboard"></i> Users</li>
-			<li class="active"><i class="fa fa-dashboard"></i> View</li>
-			<li class="active"><i class="fa fa-dashboard"></i> ${user_index}</li>
+			<li class="active"><a href="/lar/admin/users/list/1"><i class="fa fa-address-book"></i> Users</a></li>
+			<li class="active"><i class="fa fa-eye"></i> View</li>
+			<li class="active"><i class="fa fa-hashtag"></i> ${user_index}</li>
 		</ol>
 	</div>
 	<div class="row">

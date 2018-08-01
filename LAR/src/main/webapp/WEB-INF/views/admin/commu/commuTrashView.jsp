@@ -1,3 +1,4 @@
+<%@page import="com.misoot.lar.common.util.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -10,19 +11,23 @@
 
 <div class="col-lg-12">
 	<div class="row">
-		<h1 class="page-header">
-			Community
-		</h1>
 		<ol class="breadcrumb">
 			<li><i class="fa fa-dashboard"></i> Community</li>
-			<li class="active"><i class="fa fa-dashboard"></i> Info</li>
+			<li class="active"><i class="fa fa-trash"></i> Trash</li>
+			<li class="active"><i class="fa fa-eye"></i> View</li>
+			<li class="active"><i class="fa fa-hashtag"></i> ${view_commu.commu_Index}</li>
 		</ol>
 	</div>
-
+	
 	<div class="row">
-		유저 리스트좀 일단 좀 보여줘버리기
+		
+	</div>
+	
+	<div class="row">
+		<c:forEach items="${view_commu_reply}" var="cr">
+			${cr}
+		</c:forEach>
 	</div>
 </div>
-
 <c:import url="/WEB-INF/views/admin/common/_footer.jsp">
 </c:import>

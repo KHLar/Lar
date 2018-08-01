@@ -16,6 +16,9 @@
 
 		<link href="${pageContext.request.contextPath}/resources/css/lar-admin.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		
+		<script src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -93,22 +96,22 @@
 							<a href="/lar/admin/lectures/list/1"><i class="fa fa-fw fa-book"></i> Lectures</a>
 						</li>
 						<li>
-							<a data-toggle="collapse" data-target="#commuDropdown"><i class="fa fa-fw fa-globe"></i> Community <i class="fa fa-fw fa-caret-down"></i></a>
+							<a href="javascript:;" data-toggle="collapse" data-target="#commuDropdown"><i class="fa fa-fw fa-globe"></i> Community <i class="fa fa-fw fa-caret-down"></i></a>
 							<ul id="commuDropdown" class="collapse">
 								<li>
-									<a href="/lar/admin/commu/notice/list/1">Notice</a>
+									<a href="/lar/admin/commu/notice/list/1"><i class="fa fa-fw fa-exclamation-circle"></i> Notice</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/board/list/1">Board</a>
+									<a href="/lar/admin/commu/board/list/1"><i class="fa fa-fw fa-sticky-note"></i> Board</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/qa/list/1">Q & A</a>
+									<a href="/lar/admin/commu/qa/list/1"><i class="fa fa-fw fa-question"></i> Q & A</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/news/list/1">News</a>
+									<a href="/lar/admin/commu/news/list/1"><i class="fa fa-fw fa-newspaper-o"></i> News</a>
 								</li>
 								<li>
-									<a href="/lar/admin/commu/trash/list/1">Trash</a>
+									<a href="/lar/admin/commu/trash/list/1"><i class="fa fa-fw fa-trash"></i> Trash</a>
 								</li>
 							</ul>
 						</li>

@@ -19,10 +19,10 @@
 			Community
 		</h1>
 		<ol class="breadcrumb">
-			<li><i class="fa fa-dashboard"></i> Community</li>
-			<li class="active"><i class="fa fa-dashboard"></i> Board</li>
-			<li class="active"><i class="fa fa-dashboard"></i> List</li>
-			<li class="active"><i class="fa fa-dashboard"></i> ${pi.current_page}</li>
+			<li><a href="/lar/admin/commu/notice/list/1"><i class="fa fa-globe"></i> Community</a></li>
+			<li class="active"><i class="fa fa-sticky-note"></i> Board</li>
+			<li class="active"><a href="/lar/admin/commu/board/list/1"><i class="fa fa-list"></i> List</a></li>
+			<li class="active"><i class="fa fa-hashtag"></i> ${pi.current_page}</li>
 		</ol>
 	</div>
 
@@ -44,8 +44,6 @@
 			</c:forEach>
 		</table>
 	</div>
-
-	
 
 	<div class="row">
 		<nav class="text-center">
