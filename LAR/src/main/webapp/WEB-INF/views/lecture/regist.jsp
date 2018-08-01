@@ -8,10 +8,11 @@
 	<c:param value="강의등록 신청" name="pageTitle" />
 </c:import>
 <link href="${pageContext.request.contextPath}/resources/css/one-page-wonder.min.css" rel="stylesheet">
-<link	href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"	rel="stylesheet">
-<link	href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"	rel="stylesheet">
+</header>
 
-<header>
+<header style="margin-top:-55px; margin-bottom:0px; border:0;">
 	<div class="jumbotron" style="width: 100%; padding-top: 200px; padding-bottom: 75px; background-image: url('/lar/resources/images/giphy.gif');">
 		<div class="container">
 			<h1>Hello, world!</h1>
@@ -22,9 +23,9 @@
 	</div>
 </header>
 
-<div class="wrapper" style="margin-top: 50px; margin-bottom: 50px;">
-	<div class="container" >
-		<div class="row align-items-center col-md-10 col-sm-10">
+<div class="container">
+	<div class="row">
+		<div class="align-items-center col-lg-10 col-md-10 col-sm-10">
 			<div class="row">
 				<div class="col-md-5 col-sm-5">
 					<div class="p-5">
@@ -74,12 +75,6 @@
 				</div>
 			</div>
 		</div>
-
-<br>
-<br>
-<br>
-
-<c:import url="/WEB-INF/views/common/inquire.jsp"/>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />
 
 

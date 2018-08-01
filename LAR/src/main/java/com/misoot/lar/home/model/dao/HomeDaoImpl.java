@@ -2,12 +2,14 @@ package com.misoot.lar.home.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.home.model.vo.Home;
+import com.misoot.lar.lecture.model.vo.Lecture;
 
 @Repository
 public class HomeDaoImpl implements LarDao<Home> {
@@ -45,7 +47,7 @@ public class HomeDaoImpl implements LarDao<Home> {
 		return 0;
 	}
 	
-	public List<Object> selectList(String method) {
-		return sqlSession.selectList("home.selectList"+method);
+	public List<Lecture> selectLectureList(String method) {
+		return sqlSession.selectList("home.selectLectureList"+method, null, new RowBounds(0,7));
 	}
 }

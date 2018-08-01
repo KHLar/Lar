@@ -1,9 +1,15 @@
 /* _header.jsp */
 
 /* slave-1 custom css start */
+
+header {
+	border-bottom: 1px solid lightgray;
+}
+
 @media ( min-width : 768px) {
 	header {
 		margin-top: 100px;
+		margin-bottom: 50px;
 	}
 	.navbar-left {
 		padding-left: 15%;
@@ -46,11 +52,11 @@
 }
 
 #nav-signin {
-	color: #fec503;
+	color: #fff;
 }
 
 #nav-signin:hover {
-	color: #5cb85c;
+	color: #cbbde2;
 }
 
 .FindUser {
@@ -87,6 +93,13 @@
 	font-size: 30px;
 }
 
+.modal-header.unlockuserid, .unlockuserid h4, .close {
+	background-color: #f0ad4e;
+	color: white !important;
+	text-align: center;
+	font-size: 30px;
+}
+
 .modal-footer {
 	background-color: #f9f9f9;
 }
@@ -101,18 +114,19 @@ a {
 
 /* --------- home.jsp ---------- */
 .thumbnail img {
-	height: 53%;
+	height: 65% !important;
+	width: 100%;
 }
 
 .thumbnail {
-	height: 320px;
-	width: 230px;
-	paddig: 5px;
+	height: 310px;
+	max-width: 95%;
+	margin: 1% 1%;
 }
 
 .thumbnail .glyphicon {
-	font-size: 20px;
-	margin: 5px;
+	font-size: 90%;
+	margin: 3px;
 }
 
 .thumbnail .glyphicon-heart {
@@ -123,11 +137,20 @@ a {
 	color: gray;
 }
 /* --------- mypage.jsp --------- */
+
 /* mypageBody */
 .mypageBody {
 	margin-top: 30px;
 	margin-right: 50px;
 	margin-left: 40px;
+}
+
+.tabs {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	margin: 1em 0 2em;
+	font-weight: 300;
 }
 
 /* myLecture */
@@ -154,7 +177,7 @@ a {
 	margin-top: 20px;
 	background: white;
 	border: 1px solid white;
-	border-bottom: 1px solid #fed136;
+	border-bottom: 1px solid #cbbde2;
 }
 
 /* wishList */
@@ -267,11 +290,6 @@ a {
 	border-collapse: collapse;
 }
 
-.wrapPaymentList th, td {
-	border: 1px solid #eee;
-	padding: 10px;
-}
-
 /* QnAList */
 #wrapQnA table tr th {
 	text-align: center;
@@ -353,17 +371,12 @@ a {
 	border-bottom: 1px solid #eee;
 }
 
-.cartList .table tbody tr:not(:first-child):hover td:not(:last-child) {
-	cursor: pointer;
-	background-color: #eee;
-}
-
 .cartList .table tbody tr th {
 	text-align: center;
 	white-space: nowrap;
 }
 
-.cartList .table tbody tr td {
+.cartList .table tbody tr td{
 	padding: 10px;
 	vertical-align: middle;
 	border-top-color: #eee;
@@ -445,4 +458,22 @@ a {
 
 .cartList .glyphicon-star {
 	color: #fed136;
+}
+
+.cartList a {
+	color: black;
+}
+
+div.col-md-10.col-sm-10 {
+	border-right: solid 1px lightgray;
+	padding-right: 5%;
+}
+ 
+div.wrapper {
+	margin-bottom: 50px;
+}
+
+div.wrapper > div.container-fluid {
+	margin-left: 8.33333333%;
+	margin-right: 8.33333333%;
 }

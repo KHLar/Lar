@@ -9,27 +9,43 @@
 </c:import>
 
 <script>
-	$(document).ready(function() {
-	    if (location.hash) {
-	        $("a[href='" + location.hash + "']").tab("show");
-	    }
-	    $(document.body).on("click", "a[data-toggle]", function(event) {
-	        location.hash = this.getAttribute("href");
-	    });
-	});
-	$(window).on("popstate", function() {
-	    var anchor = location.hash || $("a[data-toggle='tab']").first().attr("href");
-	    $("a[href='" + anchor + "']").tab("show");
-	});
+	$('.mypageTab a').click(function (e) {
+	    e.preventDefault();
+	    $(this).tab('show');
+	})
+	
+	function infoBtn(){
+		location.href = "${pageContext.request.contextPath}/mypage/infoPage/"+${session_user.user_index};
+	}
+	
+	function checkboxArr() {
+		var checkArr = [];
+		
+		$("input[name='wishIndex']:checked").each(function(i) {
+			checkArr.push($(this).val());
+		});
+		
+		$.ajax({
+			url:'${pageContext.request.contextPath}/mypage/deleteWishList',
+			type:'post',
+			dataType:'json',
+			data: {
+				'checkArr': checkArr
+			}, success : function(data){
+				if (data.result) {
+					location.href = '${pageContext.request.contextPath}'+data.href;
+				} else {
+					alert('에러발생 ! 관리자에게 문의하세요.');
+				}
+			}
+		});
+		
+		
+	}
 </script>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+</header>
+</div>
 
 <% 
 	HashMap<String, Object> pagingInf = (HashMap<String, Object>)(request.getAttribute("pagingInf"));					
@@ -50,21 +66,27 @@
 	}
 	String url = "/lar/mypage";
 %>
-<div class="container">
+
+<div class="container" style="margin-left:5%;">
 	<div class="row">
-		<div class="col-lg-10 col-md-10 col-sm-10">
+		<div class="col-lg-10 col-md-10 col-sm-10" style="margin-bottom: 100px;">
 			<div class="row" style="width: 100%">
 				<div class="panel panel-default"
-					style="margin-bottom: 5px; margin-left: 10px;">
+					style="margin-left: 10px; border-bottom:0; box-shadow:0;">
 					<div class="panel-body">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-							<img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive">
+							<img
+                        src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
+                        id="profile-image1" class="img-circle img-responsive"
+                        alt="User Pic" style="width:613px; height:233px">
 						</div>
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
-							<div class="container">
-								<h2>${session_user.user_nickname}</h2>
+							<div class="wrapprofile">
+								<h2 style="display: inline-block;">${session_user.user_nickname}</h2>&nbsp;&nbsp;
+								<button type="button" onclick="infoBtn();" class="btn btn-primary btn pull-right" style="margin-top: 18px;">정보수정</button>
+								
 							</div>
-							<hr style="border: 0.03em solid #fed136">
+							<hr style="border: 0.03em solid #cbbde2">
 							<ul class="container details" style="list-style: none;">
 								<li>
 									<label>
@@ -77,67 +99,53 @@
 									</label>
 								</li>
 							</ul>
-							<hr style="border: 0.03em solid #fed136">
-							<div class="col-sm-5 col-xs-6 tital">
-								<h5>소개</h5>
+							<hr style="border: 0.03em solid #cbbde2">
+							<div class="col-sm-5 col-xs-6 tital">								
+								<h4>소개</h4>
 							</div>
-						</div>
-					</div>
-					<div class="row" style="width: 100%; text-align: center;">
-						<div class="" id="bs-example-navbar-collapse-1" style="margin-left: 50px;">
-							<ul class="nav navbar-nav myTab mypageTab" role="tablist" style="border-top: 0.03em solid #fed136; width: 100%;">
-								<li role="presentation" class="active">
-									<a class="myLecture" href="#wrapMyLecture" id="myLecture" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="QnAList" href="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="wishList" href="#wrapWishList" id="wishList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;위시리스트&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="paymentList" href="#wrapPaymentList" id="paymentList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="couponList" href="#wrapCoupon" id="couponList" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-								<li role="presentation">
-									<a class="alarm" href="#wrapAlarm" id="alarm" data-toggle="tab">
-										&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp;
-									</a>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<div class="tabs" style="width: 100%;">
+				<ul class="nav mypageTab nav-tabs" role="tablist" style="width: 98%;">
+					<li role="presentation" class="active"><a class="myLecture" 
+						data-target="#wrapMyLecture" id="myLecture" data-toggle="tab"> 
+							&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="QnAList"
+						data-target="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="wishList"
+						data-target="#wrapWishList" id="wishList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;위시리스트&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="paymentList"
+						data-target="#wrapPaymentList" id="paymentList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp; </a></li>
+					<li role="presentation"><a class="couponList" data-target="#wrapCoupon" id="couponList" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;</a></li>
+					<li role="presentation"><a class="alarm"
+						data-target="#wrapAlarm" id="alarm" data-toggle="tab">
+							&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp; </a></li>
+				</ul>
+			</div>
+			
 			<div class="mypageBody tab-content">
 				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
 					<h3>나의 강의</h3>
-					<c:forEach  items="${llist}" var="mylecture">
+					<c:forEach  items="${mypageList.llist}" var="mylecture">
 						<input type="hidden" id="lIndex" value="${mylecture.lecture_index}"/>
 						<div class="well">
 							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object" src="http://placekitten.com/150/150"></a>
+								<a class="pull-left" href="#"> <img class="media-object" src="${mylecture.lecture_thumbnail}" style="width:180px;"></a>
 								<div class="media-body">
 									<h4 class="media-heading">${mylecture.lecture_title}</h4>
-									<p class="text-right">${mylecture.lecture_instructor_nickname}</p>
+									<p class="text-right">${mylecture.user_nickname}</p>
 									<p>${mylecture.lecture_intro}</p>
 									<ul class="list-inline list-unstyled">
-										<li><span><i class="glyphicon glyphicon-calendar"></i></span></li>
+										<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
 										<li>|</li>
-										<span><i class="glyphicon glyphicon-comment"></i> ${mylecture.lecture_review_cnt} reviews</span>
+										<span><i class="glyphicon glyphicon-comment"></i> ${mylecture.lecture_review_count} reviews</span>
 										<li>|</li>
 										<li>
 											<span class="glyphicon glyphicon-star"></span> 
@@ -172,7 +180,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${qnalist}" var="qnalist">
+							<c:forEach items="${mypageList.qnalist}" var="qnalist">
 								<tr>
 									<td>${qnalist.LECTURE_TITLE}</td>
 									<td>${qnalist.LECTURE_Q_TITLE}</td>
@@ -200,18 +208,17 @@
 						<button type="button" class="btn btn-danger deleteWishList" style="border: none">
 							<span class="glyphicon glyphicon-trash"></span>삭제하기
 						</button>
-						<button type="submit" class="btn btn-success cancelDeleteWishList" style="border: none; display: none">
+						<button type="button" class="btn btn-success cancelDeleteWishList" onclick="checkboxArr();" style="border: none; display: none">
 							<span class="glyphicon glyphicon-ok"></span>선택완료
 						</button>
 					</div>
 					<br><br>
 					<table class="table">
-						<c:forEach items="${wlist}" var="wishList">
-						<input type="hidden" id="wIndex" value="${wishList.lecture_index}"/>
+						<c:forEach items="${mypageList.wlist}" var="wishList">
 							<tr>
 								<td class="deleteCkbox" style="display: none">
 									<div class="ckbox">
-										<input type="checkbox" name="lectureIndex" id="checkbox${wishList.lecture_index}" value="${wishList.lecture_index}"> 
+										<input type="checkbox" name="wishIndex" id="checkbox${wishList.lecture_index}" value="${wishList.lecture_index}"> 
 										<label for="checkbox${wishList.lecture_index}"></label>
 									</div>
 								</td>
@@ -221,7 +228,7 @@
 											<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 										</a>
 										<div class="media-body">
-											<span class="media-meta pull-right">${wishList.lecture_review_cnt} reviews</span>
+											<span class="media-meta pull-right">${wishList.lecture_review_count} reviews</span>
 											<h4 class="title">${wishList.lecture_title}</h4>
 											<p class="summary">${wishList.lecture_intro}</p>
 											<span> 
@@ -247,32 +254,32 @@
 					<h3>구매내역</h3>
 					<table class="table" frame=void>
 						<tr>
-							<th style="width: 15%; text-align: center;">결제일</th>
-							<th style="width: 50%; text-align: center;">강의정보</th>
+							<th style="width: 17%; text-align: center;">결제일</th>
+							<th style="width: 48%; text-align: center;">강의정보</th>
 							<th style="width: 25%; text-align: center;">사용쿠폰</th>
 							<th style="width: 10%; text-align: center;">결제금액</th>
 						</tr>
-						<c:forEach items="${plist}" var="plist">
+						<c:forEach items="${mypageList.plist}" var="plist">
 							<tr>
-								<td class="paymentDate" style="text-align: center;">${plist.PURCHASE_DATE}</td>
+								<td class="paymentDate" style="text-align: center;">${plist.purchase_date}</td>
 								<td style="text-align: center;">
 									<div class="media">
 										<div class="media-body">
-											<p class="puchaseList">${plist.PURCHASE_LECTURE_LIST}</p>											
+											<p class="puchaseList">${plist.purchase_lecture_list}</p>											
 										</div>
 									</div>
 								</td>
 								<td style="text-align: center;">
 								<c:choose>
-									<c:when test="${plist.COUPON_NAME ne null}"> 
-										${ plist.COUPON_NAME } 
+									<c:when test="${plist.coupon_name ne null}"> 
+										${ plist.coupon_name } 
 									</c:when>
 									<c:otherwise>
 										X
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: center;">${ plist.PURCHASE_PRICE }</td>
+								<td style="text-align: center;">${ plist.paid_amount }</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -289,7 +296,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${clist}" var="clist">
+							<c:forEach items="${mypageList.clist}" var="clist">
 								<c:if test="${clist.USER_COUPON_USED_DATE eq null}">
 								<tr class="">
 									<td>${clist.USER_COUPON_GIVEN_DATE}</td>
@@ -311,7 +318,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${clist}" var="clist">
+							<c:forEach items="${mypageList.clist}" var="clist">
 								<c:if test="${clist.USER_COUPON_USED_DATE ne null}">
 								<tr class="">
 									<td>${clist.USER_COUPON_USED_DATE}</td>
@@ -361,18 +368,4 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="col-lg-2 col-md-2 col-sm-2">
-			<div>
-				<img src="${pageContext.request.contextPath}/resources/images/ad.JPG"></img>
-			</div>
-		</div>
-
-	</div>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

@@ -9,6 +9,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.home.model.dao.HomeDaoImpl;
 import com.misoot.lar.home.model.vo.Home;
+import com.misoot.lar.lecture.model.vo.Lecture;
 
 @Service
 public class HomeServiceImpl implements LarService<Home> {
@@ -46,7 +47,7 @@ public class HomeServiceImpl implements LarService<Home> {
 		return 0;
 	}
 	
-	public List<Object> selectList(String method) {
-		return ((HomeDaoImpl)homeDaoImpl).selectList(method);
+	public List<Lecture> selectLectureList(String method) {
+		return ((HomeDaoImpl)homeDaoImpl).selectLectureList(method);
 	}
 }
