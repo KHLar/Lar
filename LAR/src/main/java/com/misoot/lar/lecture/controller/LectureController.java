@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -353,7 +354,7 @@ public class LectureController {
 	
 	@RequestMapping("/lecture/QnA/writeForm")
 	public String writeFormView() {
-		return "lecture/wirteFormQnA";
+		return "lecture/writeFormQnA";
 	}
 	
 	@RequestMapping("/lecture/QnA/insertQ")
@@ -363,18 +364,18 @@ public class LectureController {
 		
 		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(lectureq);
 		
-		return "redirect:/lecture/QnA/detail?content="+result;
+		return "redirect:/lecture/QnA/detail/"+result;
 	}
 	
-	@RequestMapping("/lecture/QnA/detail")
-	public String lectureQnAdetail(@RequestParam(value="content") int qindex, Model model) {
+	@RequestMapping("/lecture/QnA/detail/{content}")
+	public String lectureQnAdetail(@PathVariable int content, Model model) {
 		
-		int result = ((LectureServiceImpl)LectureServiceImpl).updateQhits(qindex);
+		int result = ((LectureServiceImpl)LectureServiceImpl).updateQhits(content);
 		
 		if(result > 0) {
-			LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(qindex);
+			LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(content);
 			
-			List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(qindex);
+			List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(content);
 			
 			model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
 		}
@@ -395,6 +396,21 @@ public class LectureController {
 		int result = ((LectureServiceImpl)LectureServiceImpl).insertA(amap);
 		
 		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
+	}
+	
+	@RequestMapping("/lecture/QnA/updateQ/{qindex}")
+	public String updateQview(@PathVariable int qindex, Model model) {
+		LectureQ lectureq = ((LectureServiceImpl)LectureServiceImpl).updateQview(qindex);
+		
+		model.addAttribute("lectureq", lectureq);
+		
+		return "lecture/updateFormQnA";
+	}
+	
+	@RequestMapping("/lecture/QnA/updateQ")
+	public String updateQ(LectureQ lectureq) {
+		int result = ((LectureServiceImpl)LectureServiceImpl).updateQ(lectureq); 
+		return "redirect:/lecture/QnA/detail/"+lectureq.getLecture_q_index();
 	}
 	
 	// 추천강의

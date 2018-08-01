@@ -36,6 +36,7 @@ import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.user.model.service.UserServiceImpl;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Controller
@@ -445,7 +446,7 @@ public class UserController {
 			@RequestParam(value = "lcPage", required = false, defaultValue = "1") int lcPage,
 			@RequestParam(value = "wcPage", required = false, defaultValue = "1") int wcPage,
 			@RequestParam(value = "qnaPage", required = false, defaultValue = "1") int qnaPage) {
-
+		
 		int numPerPage = 5;
 
 		List<Map<String, String>> llist = ((UserServiceImpl) userServiceImpl).myLectureList(user.getUser_index(),
@@ -454,7 +455,7 @@ public class UserController {
 				numPerPage);
 		List<Map<String, String>> wlist = ((UserServiceImpl) userServiceImpl).myWishList(user.getUser_index(), qnaPage,
 				numPerPage);
-		List<Map<String, String>> plist = ((UserServiceImpl) userServiceImpl).myPaymentList(user.getUser_index());
+		List<Purchase> plist = ((UserServiceImpl) userServiceImpl).myPaymentList(user.getUser_index());
 		List<Map<String, String>> couponlist = ((UserServiceImpl) userServiceImpl).myCoupontList(user.getUser_index());
 
 		HashMap<String, Object> pagingInf = new HashMap<String, Object>();
@@ -554,6 +555,7 @@ public class UserController {
 		}
 		return check;
 	}
+	
 	@RequestMapping("/mypage/PasswordChange")
 	@ResponseBody
 	public int userchpw(@RequestParam("change_pw") String change_pw, @RequestParam("userindex") String userindex) {
@@ -601,6 +603,7 @@ public class UserController {
 	      
 	      return "redirect:/mypage/infoPage";
 	   }
+	
 	   @RequestMapping("/mypage/getout")
 	   public String getout(@RequestParam("userindex") String userindex, SessionStatus status){
 	      
@@ -658,9 +661,6 @@ public class UserController {
 	      
 	      User user1 = ((UserServiceImpl) userServiceImpl).selectOneIndex(Integer.toString(user.getUser_index()));
 	      model.addAttribute("session_user", user1);
-	      return "test";
-	      
+	      return "test";      
 	   }
-	   
-
 }

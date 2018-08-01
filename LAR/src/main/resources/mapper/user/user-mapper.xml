@@ -118,7 +118,7 @@
 		WHERE WISH_USER_INDEX = #{user_index}
 	</select>
 	
-	<select id="myPaymentList" resultType="hashmap">
+	<select id="myPaymentList" resultType="purchase">
 		SELECT * 
 		FROM TABLE_PURCHASE 
 		JOIN TABLE_USER ON(PURCHASE_USER_INDEX = USER_INDEX) 

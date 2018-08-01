@@ -177,6 +177,14 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).deleteBoardLecture(bindex);
 	}
 	
+	public LectureQ updateQview(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQview(qindex);
+	}
+	
+	public int updateQ(LectureQ lectureq) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQ(lectureq);
+	}
+	
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {
 		return ((LectureDaoImpl)lectureDaoImpl).recomandedList(keyword);

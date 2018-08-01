@@ -261,25 +261,25 @@
 						</tr>
 						<c:forEach items="${mypageList.plist}" var="plist">
 							<tr>
-								<td class="paymentDate" style="text-align: center;">${plist.PURCHASE_DATE}</td>
+								<td class="paymentDate" style="text-align: center;">${plist.purchase_date}</td>
 								<td style="text-align: center;">
 									<div class="media">
 										<div class="media-body">
-											<p class="puchaseList">${plist.PURCHASE_LECTURE_LIST}</p>											
+											<p class="puchaseList">${plist.purchase_lecture_list}</p>											
 										</div>
 									</div>
 								</td>
 								<td style="text-align: center;">
 								<c:choose>
-									<c:when test="${plist.COUPON_NAME ne null}"> 
-										${ plist.COUPON_NAME } 
+									<c:when test="${plist.coupon_name ne null}"> 
+										${ plist.coupon_name } 
 									</c:when>
 									<c:otherwise>
 										X
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: center;">${ plist.PAID_AMOUNT }</td>
+								<td style="text-align: center;">${ plist.paid_amount }</td>
 							</tr>
 						</c:forEach>
 					</table>

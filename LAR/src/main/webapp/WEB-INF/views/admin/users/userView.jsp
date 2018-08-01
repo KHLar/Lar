@@ -167,28 +167,27 @@
 							<th style="width: 25%; text-align: center;">사용쿠폰</th>
 							<th style="width: 10%; text-align: center;">결제금액</th>
 						</tr>
-						<c:forEach items="${paymentList}" var="p">
-							<fmt:formatDate value="${p.PURCHASE_DATE}" pattern="yyyy-MM-dd HH:mm:ss" var="date"/>
+						<c:forEach items="${paymentList}" var="p">							
 							<tr>
-								<td class="paymentDate" style="text-align: center;">${date}</td>
+								<td class="paymentDate" style="text-align: center;">${p.purchase_date}</td>
 								<td style="text-align: center;">
 									<div class="media">
 										<div class="media-body">
-											<p class="puchaseList">${p.PURCHASE_LECTURE_LIST}</p>											
+											<p class="puchaseList">${p.purchase_lecture_list}</p>											
 										</div>
 									</div>
 								</td>
 								<td style="text-align: center;">
 								<c:choose>
-									<c:when test="${p.COUPON_NAME ne null}"> 
-										${p.COUPON_NAME } 
+									<c:when test="${p.coupon_name ne null}"> 
+										${p.coupon_name } 
 									</c:when>
 									<c:otherwise>
 										X
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: center;">${p.PAID_AMOUNT}</td>
+								<td style="text-align: center;">${p.paid_amount}</td>
 							</tr>
 						</c:forEach>
 					</table>

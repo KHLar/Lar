@@ -11,6 +11,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.dao.UserDaoImpl;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Service
@@ -105,7 +106,7 @@ public class UserServiceImpl implements LarService<User> {
 		return ((UserDaoImpl)userDaoImpl).myqnaList(user_index, cPage, numPerPage);
 	}
 	
-	public List<Map<String, String>> myPaymentList(int user_index) {
+	public List<Purchase> myPaymentList(int user_index) {
 		return ((UserDaoImpl)userDaoImpl).myPaymentList(user_index);
 	}
 

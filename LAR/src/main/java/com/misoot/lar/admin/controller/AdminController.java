@@ -18,6 +18,7 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Controller
@@ -69,7 +70,7 @@ public class AdminController {
 		List<Commu> writeList = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index);
 //		List<CommuReply> replyList = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByCommuIndex(commu_index);
 		
-		List<Map<String, Object>> paymentList = ((AdminServiceImpl) adminServiceImpl).paymentList(user_index);
+		List<Purchase> paymentList = ((AdminServiceImpl) adminServiceImpl).paymentList(user_index);
 		
 		model.addAttribute("view_user", view_user)
 			.addAttribute("paymentList", paymentList)

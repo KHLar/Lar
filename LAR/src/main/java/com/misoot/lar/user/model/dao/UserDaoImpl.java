@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -112,7 +113,7 @@ public class UserDaoImpl implements LarDao<User> {
 		return sqlSession.selectList("user.myqnaList", user_index, rows);
 	}
 
-	public List<Map<String, String>> myPaymentList(int user_index) {
+	public List<Purchase> myPaymentList(int user_index) {
 		return sqlSession.selectList("user.myPaymentList", user_index);
 	}
 

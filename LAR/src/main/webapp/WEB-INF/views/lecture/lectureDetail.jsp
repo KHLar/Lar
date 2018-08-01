@@ -499,7 +499,7 @@ body {
 							<tbody>
 								<tr>
 									<td>${ q.LECTURE_Q_INDEX }</td>
-									<td><a href="/lar/lecture/QnA/detail?content=${q.LECTURE_Q_INDEX}">${ q.LECTURE_Q_TITLE }</a></td>
+									<td><a href="/lar/lecture/QnA/detail/${q.LECTURE_Q_INDEX}">${ q.LECTURE_Q_TITLE }</a></td>
 									<td>${ q.USER_NICKNAME }</td>
 									<td>${ q.LECTURE_Q_UPLOAD_DATE }</td>
 									<td>${ q.LECTURE_Q_HITS }</td>

@@ -183,6 +183,16 @@
 		UPDATE TABLE_LECTURE_Q SET LECTURE_Q_HITS = ((SELECT LECTURE_Q_HITS FROM TABLE_LECTURE_Q WHERE LECTURE_Q_INDEX = #{qindex}) + 1) WHERE LECTURE_Q_INDEX = #{qindex} 
 	</update>
 	
+	<select id="updateQview" parameterType="_int" resultType="lectureQ">
+		SELECT * FROM TABLE_LECTURE_Q WHERE LECTURE_Q_INDEX = #{qindex}
+	</select>
+	
+	<update id="updateQ" parameterType="lectureQ">
+		UPDATE TABLE_LECTURE_Q SET 
+		LECTURE_Q_CONTENT = #{lecture_q_content}, LECTURE_Q_TITLE = #{lecture_q_title}
+		WHERE LECTURE_Q_INDEX = #{lecture_q_index}
+	</update>
+	
 	<select id="recomandedList" parameterType="hashmap" resultType="lecture">
 		<if test="keyword eq 'reviews'">
 		SELECT * FROM TABLE_LECTURE JOIN TABLE_USER ON(USER_INDEX = LECTURE_INSTRUCTOR_INDEX) 

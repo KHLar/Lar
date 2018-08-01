@@ -1,7 +1,6 @@
 package com.misoot.lar.admin.model.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,6 +11,7 @@ import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Repository
@@ -74,7 +74,7 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectList("admin.selectCommuReplyListByCommuIndex", commu_index);
 	}
 
-	public List<Map<String, Object>> paymentList(int user_index) {
+	public List<Purchase> paymentList(int user_index) {
 		return sqlSession.selectList("admin.paymentList", user_index);
 	}
 

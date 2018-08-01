@@ -1,12 +1,10 @@
 package com.misoot.lar.admin.model.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.misoot.lar.admin.model.dao.AdminDaoImpl;
 import com.misoot.lar.admin.model.vo.Admin;
@@ -14,6 +12,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Service
@@ -81,7 +80,7 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByCommuIndex(commu_index);
 	}
 
-	public List<Map<String, Object>> paymentList(int user_index) {
+	public List<Purchase> paymentList(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
 	}
 
