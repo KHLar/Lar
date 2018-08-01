@@ -15,11 +15,11 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.common.interfaces.LarService;
+import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
@@ -175,14 +175,22 @@ public class LectureController {
 	//게시글 하나보기 // 강의 리스트 가져오기 //댓글 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
 	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, 
-			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model){
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model, HttpSession session){
 		
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
 		
 		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);
 		
 		List<LectureReview> rlist = ((LectureServiceImpl)LectureServiceImpl).reviewList(lecture_index);
-		
+		boolean chk = true;
+		if(session.getAttribute("session_user") != null){
+			for(LectureReview r : rlist){
+				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index()){
+					chk = false;
+					break;
+				}
+			}
+		}
 		// QnA		
 		int numPerPage = 10;
 		
@@ -234,7 +242,8 @@ public class LectureController {
 		model.addAttribute("blist",blist).addAttribute("lecture",lecture).
 		addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist).
 		addAttribute("qlist", qlist).addAttribute("numPerPage", numPerPage).
-		addAttribute("totalContents", totalContents);
+		addAttribute("totalContents", totalContents)
+		.addAttribute("chk",chk);
 		
 		return "lecture/lectureDetail";
 	}

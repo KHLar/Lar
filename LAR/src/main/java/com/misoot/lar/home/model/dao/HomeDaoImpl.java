@@ -47,7 +47,7 @@ public class HomeDaoImpl implements LarDao<Home> {
 		return 0;
 	}
 	
-	public List<Lecture> selectLectureList(String method) {
-		return sqlSession.selectList("home.selectLectureList"+method, null, new RowBounds(0,7));
+	public List<Lecture> selectLectureList(String method, int user_index) {
+		return sqlSession.selectList("home.selectLectureList"+method, user_index, new RowBounds(0,7));
 	}
 }

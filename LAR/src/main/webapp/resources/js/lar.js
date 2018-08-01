@@ -31,6 +31,34 @@ $(document).ready(function() {
 		}
 	});
 	
+	//home.jsp
+	function wish_check() { 
+		var txt;
+	    var r = confirm("Press a button!");
+	    if (r == true) {
+	        console.log("ok");
+	    } else {
+	    	console.log("cancel");
+	    }
+	}
+	
+	$(document).on('click','#thumb_empty_heart', function(){
+		alert("위시리스트에 추가되었습니다 !");
+	});
+	
+	$(document).on('click','#thumb_heart', function(){
+		alert("위시리스트에서 삭제되었습니다 !");
+	});
+	
+	$(document).on('click','#thumb-cart', function(){
+		var txt;
+	    var r = confirm("장바구니에 담으시겠습니까 ?");
+	    if (r == true) {
+	        console.log("ok");
+	    } else {
+	    	console.log("cancel");
+	    }
+	});
 	// mypage.jsp
 	
 	$('.star').on('click', function() {

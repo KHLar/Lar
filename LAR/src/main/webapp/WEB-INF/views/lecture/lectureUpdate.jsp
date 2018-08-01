@@ -66,7 +66,6 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 							${lecture.lecture_content}
 							</div>
 							<input type="hidden"  id="lecture_content" name="lecture_content"  required />
-							<br><br>
 							<input type="text" class="index"  name="lecture_index" value="${lecture.lecture_index}" required />
 							<button type="submit" class="btn btn-wanrming pull-right" onclick="funcNote();">수정하기 </button>
 							<button type="button" class="btn btn-warning pull-right lecturedelete">삭제하기</button>

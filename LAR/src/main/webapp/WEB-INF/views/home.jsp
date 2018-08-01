@@ -68,7 +68,12 @@
 										<h4><a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a></h4>
 										<p>
 											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color:tomato"></span></a>
+											<c:if test="${rec.wish_user_index eq null}">
+												<a id="thumb_empty_heart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color:tomato"></span></a>
+											</c:if>
+											<c:if test="${rec.wish_user_index ne null}">
+												<a id="thumb_heart" class="pull-right"><span class="glyphicon glyphicon-heart" style="color:tomato"></span></a>
+											</c:if>											
 										</p>
 									</div>
 								</div>

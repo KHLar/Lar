@@ -6,7 +6,7 @@
 <c:import url="/WEB-INF/views/common/_header.jsp">
 </c:import>
 <link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap2.min.css"
+	href="${pageContext.request.contextPath}/resources/css/lar-board.css"
 	rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/resources/css/blog-post.css"
@@ -14,10 +14,15 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 
 <style>
+    .youtubeWrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
 .youtubeWrap iframe {
-	position: absolute;
-	width: 100%;
-	height: 60%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 * {
@@ -239,7 +244,7 @@ body {
 					<p>업로드 날짜:${lecture.lecture_upload_date }</p>
 					<hr>
 					<!-- Preview Image -->
-					<div class="col-sm-12 "> ${lecture.lecture_content }<br><br></div>
+					<div class="col-sm-12 youtubeWrap "> ${lecture.lecture_content }<br><br></div>
 		
 		<!-- User Rating -->
 					<c:if test="${lectureTotalScore.lecture_total_score == 0}">
@@ -378,9 +383,11 @@ body {
 										<textarea class="form-control" rows="3"
 											name="lecture_review_content" placeholder="수강후기" id="lecture_review_content"></textarea>
 									</div>
-									<c:if test="">
-									<button type="submit" class="btn btn-primary" >등록</button>
-
+									<c:if test="${chk}">
+									<button type="submit" class="btn btn-primary " >등록</button>
+									</c:if >
+									<c:if test="${!chk}">
+									<button type="submit" class="btn btn-primary " >수정</button>
 									</c:if >
 								</div>
 							</form>
@@ -431,6 +438,7 @@ body {
 							</c:if>
 							<h4>제목 :${r.lecture_review_title }</h4>
 							${r.lecture_review_content }
+							<button type="button" class="btn btn-primary pull-right" >수정</button>
 						</div>
 					</div>
 					<hr />

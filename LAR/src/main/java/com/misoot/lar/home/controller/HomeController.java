@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.home.model.service.HomeServiceImpl;
 import com.misoot.lar.home.model.vo.Home;
 import com.misoot.lar.lecture.model.vo.Lecture;
+import com.misoot.lar.user.model.vo.User;
 
 @Controller
 public class HomeController {
@@ -22,8 +24,8 @@ public class HomeController {
 	LarService<Home> homeServiceImpl;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		List<Lecture> recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent");
+	public String home(Locale locale, Model model, @SessionAttribute("session_user") User user) {
+		List<Lecture> recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user.getUser_index());
 		
 		model.addAttribute("recent_lecture_list", recent_lecture_list);
 		
