@@ -27,10 +27,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public Lecture selectOne(int index) {
 		return null;
 	}
-
+	
 	public List<Map<String, String>> selectList(Map<String, String> parameters, int cPage, int numPerPage) {
-		RowBounds rows = new RowBounds((cPage - 1) * numPerPage, numPerPage);
-
+		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		
 		return sqlSession.selectList("lecture.selectLectureList", parameters, rows);
 	}
 
@@ -83,11 +83,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	public List<Map<String, Object>> selectAttachment(int lecture_index) {
-		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList", lecture_index);
+		return sqlSession.selectList("lecture.selectLectureBoardAttachmentList",lecture_index);
 	}
 
 	public int insertReview(LectureReview lectureReview) {
-		return sqlSession.insert("lecture.insertLectureReview", lectureReview);
+		return sqlSession.insert("lecture.insertLectureReview",lectureReview);
 	}
 
 	public List<LectureReview> reviewList(int lecture_index) {
@@ -111,9 +111,9 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	public int IncreaseLecture(int lecture_index) {
-		return sqlSession.update("lecture.IncreaseLecture", lecture_index);
+		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
 	}
-
+	
 	public int insertQ(LectureQ lectureq) {
 		return sqlSession.insert("lecture.insertQ", lectureq);
 	}
@@ -125,11 +125,11 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
-		return sqlSession.selectOne("lecture.selectBoardUpdate", map);
+		return sqlSession.selectOne("lecture.selectBoardUpdate",map);
 	}
 
 	public int deleteBoardLecture(int bindex) {
-		return sqlSession.update("lecture.deleteBoardLecture", bindex);
+		return sqlSession.update("lecture.deleteBoardLecture",bindex);
 	}
 
 	public int lectureQTotalContents(int lecidx) {
@@ -155,7 +155,7 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int updateQhits(int qindex) {
 		return sqlSession.update("lecture.updateQhits", qindex);
 	}
-
+	
 	public LectureQ updateQview(int qindex) {
 		return sqlSession.selectOne("lecture.updateQview", qindex);
 	}
@@ -176,5 +176,21 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public int updateBoard(LectureBoard bo) {
 		return sqlSession.update("lecture.updateBoard", bo);
+	}
+
+	public Object selectReviewOne(int rindex) {
+		return  sqlSession.selectOne("lecture.selectReviewOne",rindex);
+	}
+
+	public int updateReview(Map<String, Object> rmap) {
+		return sqlSession.update("lecture.updateReview",rmap);
+	}
+
+	public int deleteReview(int rindex) {
+		return sqlSession.update("lecture.deleteReview",rindex);
+	}
+
+	public int reupdaetStar(int lecture_index) {
+		return sqlSession.update("lecture.reupdaetStar",lecture_index);
 	}
 }

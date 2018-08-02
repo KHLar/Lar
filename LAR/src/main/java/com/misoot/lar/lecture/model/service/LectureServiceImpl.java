@@ -144,13 +144,13 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public int insertQ(LectureQ lectureq) {
 		int lecture_q_index = 0;
-		
+
 		int result = ((LectureDaoImpl) lectureDaoImpl).insertQ(lectureq);
-		
-		if(result > 0) {
+
+		if (result > 0) {
 			lecture_q_index = lectureq.getLecture_q_index();
 		}
-		
+
 		return lecture_q_index;
 	}
 
@@ -169,7 +169,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public List<LectureA> lectureAdetail(int qindex) {
 		return ((LectureDaoImpl) lectureDaoImpl).lectureAdetail(qindex);
 	}
-	
+
 	public int readCheckQ(int lecture_q_index) {
 		return ((LectureDaoImpl) lectureDaoImpl).readCheckQ(lecture_q_index);
 	}
@@ -197,7 +197,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public int updateQ(LectureQ lectureq) {
 		return ((LectureDaoImpl) lectureDaoImpl).updateQ(lectureq);
 	}
-	
+
 	public int updateA(LectureA lecturea) {
 		return ((LectureDaoImpl) lectureDaoImpl).updateA(lecturea);
 	}
@@ -209,6 +209,22 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public int updateBoard(LectureBoard bo) {
 		return ((LectureDaoImpl) lectureDaoImpl).updateBoard(bo);
+	}
+
+	public Object selectReviewOne(int rindex) {
+		return ((LectureDaoImpl) lectureDaoImpl).selectReviewOne(rindex);
+	}
+
+	public int updateReview(Map<String, Object> rmap) {
+		return ((LectureDaoImpl) lectureDaoImpl).updateReview(rmap);
+	}
+
+	public int deleteReview(int rindex) {
+		return ((LectureDaoImpl) lectureDaoImpl).deleteReview(rindex);
+	}
+
+	public int reupdaetStar(int lecture_index) {
+		return ((LectureDaoImpl) lectureDaoImpl).reupdaetStar(lecture_index);
 	}
 
 }
