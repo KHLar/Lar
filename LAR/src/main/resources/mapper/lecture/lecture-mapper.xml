@@ -124,7 +124,7 @@
 	<select id="reviewList" parameterType="_int" resultType="LectureReview">
 	SELECT*FROM TABLE_LECTURE_REVIEW 
 	JOIN TABLE_USER ON(LECTURE_REVIEW_WRITER_INDEX = USER_INDEX)
-	WHERE LECTURE_REVIEW_LECTURE_INDEX = #{lecture_index}
+	WHERE LECTURE_REVIEW_LECTURE_INDEX = #{lecture_index} AND LECTURE_IS_DELETED = 0
 	</select>
 	
 	<select id="selectTotalScore"  parameterType="_int"  resultType="LectureTotalScore">
@@ -142,12 +142,18 @@
 	</insert>
 	
 	<update id="updateStar">
-	
-	UPDATE TABLE_LECTURE_TOTAL_SCORE 
-    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index})),
-    LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT+1
-    WHERE TOTAL_LECTURE_INDEX = #{lecture_index}
+		UPDATE TABLE_LECTURE_TOTAL_SCORE 
+  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index})),
+        LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT+1
+        WHERE TOTAL_LECTURE_INDEX = #{lecture_index}
 		
+	</update>
+	
+	<update id="reupdaetStar">
+		UPDATE TABLE_LECTURE_TOTAL_SCORE 
+  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index}))
+        WHERE TOTAL_LECTURE_INDEX = #{lecture_index}
+	
 	</update>
 
 	<insert id="insertQ" parameterType="lectureQ">
@@ -226,5 +232,11 @@
 		UPDATE TABLE_LECTURE_REVIEW
 		SET  LECTURE_REVIEW_TITLE = #{lectureReview.lecture_review_title} ,LECTURE_REVIEW_CONTENT= #{lectureReview.lecture_review_content},LECTURE_REVIEW_SCORE =#{lectureReview.lecture_review_score} ,LECTURE_REVIEW_UPDATE_DATE = SYSDATE
 		WHERE  LECTURE_REVIEW_WRITER_INDEX =#{lecture_review_writer_index} AND LECTURE_REVIEW_LECTURE_INDEX = #{lecture_review_lecture_index}
+	</update>
+	
+	<update id="deleteReview" parameterType="_int">	   			
+		UPDATE TABLE_LECTURE_REVIEW
+		SET LECTURE_IS_DELETED = 1
+		WHERE LECTURE_REVIEW_INDEX=#{rindex}
 	</update>
 </mapper>

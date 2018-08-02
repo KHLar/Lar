@@ -203,4 +203,12 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).updateReview(rmap);
 	}
 
+	public int deleteReview(int rindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).deleteReview(rindex) ;
+	}
+
+	public int reupdaetStar(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).reupdaetStar(lecture_index);
+	}
+
 }

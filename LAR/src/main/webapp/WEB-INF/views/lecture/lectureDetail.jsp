@@ -16,17 +16,18 @@
 	crossorigin="anonymous"></script>
 
 <style>
-.youtubeWrap {
+ .youtubeWrap {
 	position: relative;
 	width: 100%;
-	padding-bottom: 56.25%;
-}
+	height: auto;
+	padding-bottom: 10%;
+} 
 
-.youtubeWrap iframe {
-	position: absolute;
+ .youtubeWrap iframe {
+	/* position: absolute; */
 	width: 100%;
-	height: 100%;
-}
+		
+}  
 
 * {
 	box-sizing: border-box;
@@ -132,6 +133,10 @@ body {
 
 .list-unstyled li:last-child {
 	border-bottom: 0px;
+}
+
+.hiddenTag {
+	display : none;
 }
 </style>
 <script>
@@ -262,7 +267,7 @@ body {
 						<div class="col-sm-12 youtubeWrap ">
 							${lecture.lecture_content }<br> <br>
 						</div>
-
+						<div class="tab-pane col-sm-12" id="lectureList">
 						<!-- User Rating -->
 						<c:if test="${lectureTotalScore.lecture_total_score == 0}">
 							<span class="fa fa-star "></span>
@@ -307,6 +312,7 @@ body {
 							<span class="fa fa-star checked"></span>
 							<span class="fa fa-star checked"></span>
 						</c:if>
+						</div>
 						<h5>${lectureTotalScore.lecture_review_count }개의수강평</h5>
 						<div class="row">
 							<div class="side">
@@ -391,9 +397,9 @@ body {
 							<c:if test="${session_user.user_index != null}">
 								<form method="get" name="cmtform"
 									action="${pageContext.request.contextPath}/lecture/lectureReview"
-									onsubmit="return validate();" style="display:" id="orgin">
+									onsubmit="return validate();" id="orgin">
 									<input type="hidden" value="${lecture.lecture_index}"
-										name="lecture_review_lecture_index" /> <input type="hidden"
+										name="lecture_review_lecture_index" id="lecture_review_lecture_index"/> <input type="hidden"
 										value="${session_user.user_index}"
 										name="lecture_review_writer_index" />
 									<h5 class="card-header">수강 후기</h5>
@@ -405,7 +411,7 @@ body {
 											<label class="col-form-label">제목 : &nbsp;&nbsp;&nbsp;</label>
 											<input type="text" class="form-control mb-2 mr-sm-1"
 												id="reviewTitle" name="lecture_review_title" />
-											<input type="hidden"  name="lecture_review_index" id="lecture_review_index" value=""/>	
+											<input type="hidden" class="lecture_review_index" name="lecture_review_index" id="lecture_review_index" value=""/>	
 										</div>
 										<span id="image1" class="fa fa-star " onmouseover="show(1);"
 											onclick="mark(1);" onmouseout="noshow(1);"></span> <span
@@ -427,11 +433,13 @@ body {
 												id="lecture_review_content"></textarea>
 										
 										</div>
+										
 										<c:if test="${chk}">
 											<button type="submit" class="btn btn-primary ">등록</button>
 										</c:if>
 										<c:if test="${!chk}">
-											<button type="submit" class="btn btn-primary ">완료</button>
+											<button type="submit" class="btn btn-primary hiddenTag">완료</button>
+											<button type="button" class="btn btn-danger deleteReview hiddenTag">삭제</button>
 										</c:if>
 									</div>
 								</form>
@@ -481,7 +489,7 @@ body {
 										<span class="fa fa-star checked"></span>
 										<span class="fa fa-star checked"></span>
 									</c:if>
-									제목 :
+								
 									<h4 class="title">${r.lecture_review_title }</h4>
 									<h5 class="content">${r.lecture_review_content }</h5>
 									<input type="hidden" name="lecture_review_index"
@@ -630,7 +638,7 @@ body {
 
 		<br> <br> <br>
 		<script>
-			function validate() {
+			function validate() {			
 				if ($("#reviewTitle").val() == ''
 						|| $("#reviewTitle").val() == 'null') {
 					alert("제목을 작성하세요");
@@ -644,6 +652,7 @@ body {
 					alert("내용을 작성하세요");
 					return false;
 				}
+				
 			}
 			$(".modiy").on("click",function() {
 						var index = $(this).siblings(".lecture_index").val();
@@ -651,15 +660,24 @@ body {
 						var content = $(this).siblings('.content').text();
 						var rindex = $(this).siblings('.lecture_review_index').val();
 						var score = $(this).siblings('.score').val();
-
+						$(".hiddenTag").each(function(index, item){
+							$(item).css('display','inline');
+						});
 						$("#orgin").children().find('#reviewTitle').val(title);
 						$("#orgin").children().find('#lecture_review_content').val(content);
 						$("#orgin").children().find('#lecture_review_index').val(rindex);
+						$("#orgin").children().find('.card-header').text("수강후기 수정");
 						/* $("#mody").children().find('#').val(score) */
 		
 
 						/*   location.href = "/lar/lectureReivewUpdate?index="+index+"&rindex="+rindex;  */
-					});		
+					});
+/* 	 		var e = function validate();  */
+			
+		/* 	$(".deleteReview").on("click",function(validate()){
+				return true;
+				
+			}) */
 					
 		</script>
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />

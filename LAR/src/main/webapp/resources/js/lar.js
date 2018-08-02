@@ -120,10 +120,16 @@ $(document).ready(function() {
 		 
 	 });
 	 $(".lectureBoardDelete").on("click",function(){
-		 var bindex = $(this).siblings('.lectre_board_index').val();
+		 var bindex = $(this).siblings('.lecture_board_index').val();
 		 var index = $(this).siblings('.my_lecture_index').val();
 		 location.href = "/lar/lectureBoardDelete?index="+index+"&bindex="+bindex;
 	 });
+	 $(".deleteReview").on("click",function(){
+		 var rindex =$("#orgin").children().find('#lecture_review_index').val();
+		 var index =$("#orgin").children('#lecture_review_lecture_index').val();
+		/* alert("rindex="+rindex+"index="+index)*/
+		 location.href = "/lar/deleteReview?index="+index+"&rindex="+rindex;
+	 })
 	 
 	/* $("#lecture-dropdown").on("click", function(){
 		 location.href = "/lar/lectureList";

@@ -108,14 +108,22 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureUpdateEnd",method=RequestMethod.POST)
 	public String updateLecture(Lecture t){
 		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
-		return "lecture/lectureView";
+		return "redirect:/lectureList";
 	}
 	
 	// 동영상 삭제
 	@RequestMapping(value="/lectureBoardDelete")
-	public String deleteBoard(@RequestParam int bindex , @RequestParam int index ){
+	public String deleteBoard(@RequestParam("bindex") int bindex , @RequestParam("index") int index ){
 		int result = ((LectureServiceImpl)LectureServiceImpl).deleteBoardLecture(bindex);
 		return "redirect:/lectureBoardView?index="+index+"&bindex="+bindex;
+	}
+	
+	// 리뷰 삭제
+	@RequestMapping(value="/deleteReview")
+	public String deleteReview(@RequestParam("rindex") int rindex, @RequestParam("index") int index){
+		int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+		
+		return "redirect:/lecture/lectureDetail?lecture_index="+index;	
 	}
 	
 	//동영상 수정폼으로 가기
@@ -136,13 +144,6 @@ public class LectureController {
 		
 		return "lecture/lectureBoardUpdate";
 	}
-/*	//댓글 수정폼으로 가기
-		@RequestMapping(value="/lectureReivewUpdate")
-		public String lectureReivewUpdate(Model model ,@RequestParam("rindex") int rindex , @RequestParam("index") int lecture_index){
-			
-			model.addAttribute("r",((LectureServiceImpl)LectureServiceImpl).selectReviewOne(rindex));
-			return "redirect:/lectureDetail?lecture_index="+lecture_index;
-		}*/
 	
 	//동영상 수정하기 
 	@RequestMapping(value="/lecture/lectureBoardUpdateEnd",method=RequestMethod.POST)
@@ -372,7 +373,7 @@ public class LectureController {
 			rmap.put("lectureReview", lectureReview);
 			int result3 =  ((LectureServiceImpl)LectureServiceImpl).updateReview(rmap);
 			
-			int result2 =  ((LectureServiceImpl)LectureServiceImpl).updaetStar(lecture_index);
+			int result2 =  ((LectureServiceImpl)LectureServiceImpl).reupdaetStar(lecture_index);
 		}	
 		
 		System.out.println("lectureReview="+lectureReview);

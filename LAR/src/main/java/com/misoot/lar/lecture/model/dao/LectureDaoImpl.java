@@ -186,4 +186,12 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.updateReview",rmap);
 	}
 
+	public int deleteReview(int rindex) {
+		return sqlSession.update("lecture.deleteReview",rindex);
+	}
+
+	public int reupdaetStar(int lecture_index) {
+		return sqlSession.update("lecture.reupdaetStar",lecture_index);
+	}
+
 }
