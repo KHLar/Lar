@@ -144,6 +144,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.selectList("lecture.lectureAdetail", qindex);
 	}
 
+	public int readCheckQ(int lecture_q_index) {
+		return sqlSession.update("lecture.readCheckQ", lecture_q_index);
+	}
+	
 	public int insertA(Map<String, Object> amap) {
 		return sqlSession.insert("lecture.insertA", amap);
 	}
@@ -159,6 +163,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int updateQ(LectureQ lectureq) {
 		return sqlSession.update("lecture.updateQ", lectureq);
 	}
+	
+	public int updateA(LectureA lecturea) {
+		return sqlSession.update("lecture.updateA", lecturea);
+	}
 
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {
@@ -169,5 +177,4 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int updateBoard(LectureBoard bo) {
 		return sqlSession.update("lecture.updateBoard", bo);
 	}
-
 }

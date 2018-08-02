@@ -388,7 +388,7 @@ public class LectureController {
 	}
 
 	@RequestMapping("/lecture/QnA/detail/{content}")
-	public String lectureQnAdetail(@PathVariable int content, Model model) {
+	public String lectureQnAdetail(@PathVariable int content, Model model, @SessionAttribute(value="session_user", required=false) User user) {
 
 		int result = ((LectureServiceImpl) LectureServiceImpl).updateQhits(content);
 
@@ -396,7 +396,11 @@ public class LectureController {
 			LectureQ lectureQ = ((LectureServiceImpl) LectureServiceImpl).lectureQdetail(content);
 
 			List<LectureA> lectureA = ((LectureServiceImpl) LectureServiceImpl).lectureAdetail(content);
-
+			
+			if(lectureQ.getLecture_q_writer_index() == user.getUser_index()) {
+				int readCheck = ((LectureServiceImpl) LectureServiceImpl).readCheckQ(lectureQ.getLecture_q_index());
+			}
+			
 			model.addAttribute("lectureQ", lectureQ).addAttribute("lectureA", lectureA);
 		}
 
@@ -408,12 +412,15 @@ public class LectureController {
 
 		Map<String, Object> amap = new HashMap<String, Object>();
 
-		System.out.println(user.getUser_index());
-
 		amap.put("useridx", user.getUser_index());
 		amap.put("lecturea", lecturea);
-
-		int result = ((LectureServiceImpl) LectureServiceImpl).insertA(amap);
+		
+		int result = 0;
+		if(lecturea.getLecture_a_index() == 0) {
+			result = ((LectureServiceImpl) LectureServiceImpl).insertA(amap);
+		} else {
+			result = ((LectureServiceImpl) LectureServiceImpl).updateA(lecturea);
+		}
 
 		return "redirect:/lecture/QnA/detail/"+ lecturea.getLecture_a_lecture_q_index();
 	}

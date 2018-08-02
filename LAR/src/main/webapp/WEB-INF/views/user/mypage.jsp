@@ -222,7 +222,9 @@
 							<c:forEach items="${mypageList.qnalist}" var="qnalist">
 								<tr>
 									<td>${qnalist.LECTURE_TITLE}</td>
-									<td>${qnalist.LECTURE_Q_TITLE}</td>
+									<td>${qnalist.LECTURE_Q_TITLE}
+										<span class="badge badge-pill badge-danger" style="background-color:tomato; margin-left: 10px;">New</span>
+									</td>
 									<td>
 										<c:if test="${ qnalist.LECTURE_A_INDEX eq null }">
 											X

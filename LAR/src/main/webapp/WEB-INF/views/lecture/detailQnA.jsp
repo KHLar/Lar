@@ -59,19 +59,22 @@
 							</div>
 						</div>
 
-						<div class="panel-body">
+						<div class="panel-body lecture_a_content">
 							${ a.lecture_a_content }
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">
-							<small>작성일 : ${ a.lecture_a_upload_date }</small>
+							<small>작성일 : ${ a.lecture_a_upload_date }
 							<c:if test="${a.lecture_a_update_date ne a.lecture_a_upload_date}">
 							/ 수정일 : ${ a.lecture_a_update_date }
 							</c:if>
+							</small>
 						</div>
 						
 						<input type="hidden" id="lecture_a_index" value="${a.lecture_a_index}"/>
-						<button type="button" class="modify_a">수정하기</button>
+						<c:if test="${session_user.user_index eq a.lecture_a_writer_index}">
+							<button type="button" class="btn btn-default pull-right modify_a" style="margin-top: 5px;">수정하기</button>
+						</c:if>
 					</div>
 					</c:forEach>
 				</div>
@@ -82,7 +85,9 @@
 					<div id="summernote"></div>
 					<input type="hidden" id="lecture_a_lecture_q_index" name="lecture_a_lecture_q_index" value="${ lectureQ.lecture_q_index }"/>
 					<input type="hidden" id="lecture_a_content" name="lecture_a_content"/>
+					<input type="hidden" id="lecture_a_check" name="lecture_a_index" value="0"/>
 					<button type="submit" class="btn btn-default pull-right" style="margin-top: 10px" onclick="inputcontent();">작성완료</button>
+					<button type="button" class="btn btn-default pull-right cancel_modify" style="display:none; margin-top: 10px; margin-right:5px;">취소하기</button>
 				</form>
 			</div>
 		</div>
@@ -113,10 +118,21 @@
 			
 			$(document).on('click', '.modify_a', function(){
 				var lecture_a_index = $(this).siblings('#lecture_a_index').val();
-				console.log(lecture_a_index);
+				$('.lecture_a_'+lecture_a_index).siblings().css('display', '');
 				$('.lecture_a_'+lecture_a_index).css('display', 'none');
-				
+				$('.write_reply').css('display','');
+				$('.cancel_modify').css('display','');
+				$('#lecture_a_check').val(lecture_a_index);
+				$('#summernote').summernote('code', $(this).siblings('.lecture_a_content').text());
 			});
+			
+			$('.cancel_modify').on('click', function(){
+				var lecture_a_index = $('#lecture_a_check').val();
+				$('.lecture_a_'+lecture_a_index).css('display', '');
+				$('.write_reply').css('display','none');
+				$('#lecture_a_check').val(0);
+				$(this).css('display','none');
+			})
 			 
 			function inputcontent(){
 				document.getElementById("lecture_a_content").value=$('#summernote').summernote('code');

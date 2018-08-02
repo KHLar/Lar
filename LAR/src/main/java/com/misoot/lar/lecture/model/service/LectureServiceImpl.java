@@ -169,6 +169,10 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public List<LectureA> lectureAdetail(int qindex) {
 		return ((LectureDaoImpl) lectureDaoImpl).lectureAdetail(qindex);
 	}
+	
+	public int readCheckQ(int lecture_q_index) {
+		return ((LectureDaoImpl) lectureDaoImpl).readCheckQ(lecture_q_index);
+	}
 
 	public int insertA(Map<String, Object> amap) {
 		return ((LectureDaoImpl) lectureDaoImpl).insertA(amap);
@@ -192,6 +196,10 @@ public class LectureServiceImpl implements LarService<Lecture> {
 
 	public int updateQ(LectureQ lectureq) {
 		return ((LectureDaoImpl) lectureDaoImpl).updateQ(lectureq);
+	}
+	
+	public int updateA(LectureA lecturea) {
+		return ((LectureDaoImpl) lectureDaoImpl).updateA(lecturea);
 	}
 
 	// 추천강의
