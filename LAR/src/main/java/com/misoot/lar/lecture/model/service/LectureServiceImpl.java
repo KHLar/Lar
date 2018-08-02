@@ -55,11 +55,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 			 
 			 result = ((LectureDaoImpl)lectureDaoImpl).insertToTal(lecture_index);
 		 }
-		
-		
-		
-		
-		
+			
 		}catch( Exception e){
 			throw e ;
 		}
@@ -172,7 +168,7 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public int updateQhits(int qindex) {
 		return ((LectureDaoImpl)lectureDaoImpl).updateQhits(qindex);
 	}
-
+	
 	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
 		return ((LectureDaoImpl)lectureDaoImpl).selectBoardUpdate(map);
 	}
@@ -180,9 +176,31 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public int deleteBoardLecture(int bindex) {
 		return ((LectureDaoImpl)lectureDaoImpl).deleteBoardLecture(bindex);
 	}
+	
+	public LectureQ updateQview(int qindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQview(qindex);
+	}
+	
+	public int updateQ(LectureQ lectureq) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateQ(lectureq);
+	}
+	
+	// 추천강의
+	public List<Lecture> recomandedList(Map<String, String> keyword) {
+		return ((LectureDaoImpl)lectureDaoImpl).recomandedList(keyword);
+	}
+
 
 	public int updateBoard(LectureBoard bo) {
 		return ((LectureDaoImpl)lectureDaoImpl).updateBoard(bo);
+	}
+
+	public Object selectReviewOne(int rindex) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectReviewOne(rindex);
+	}
+
+	public int updateReview(Map<String, Object> rmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateReview(rmap);
 	}
 
 }

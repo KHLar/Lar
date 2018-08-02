@@ -12,9 +12,11 @@ $(document).ready(function() {
 	 * this).fadeOut("slow");} );
 	 */
 	if (window.matchMedia("(min-width: 768px)").matches) {
+		  $('#lecture-dropdown').attr('class', '');
 		  $('#lecture-dropdown').attr('data-toggle', '');
 		  $('.mega-dropdown .caret').css('display', 'none');
 	} else {
+		$('#lecture-dropdown').attr('class', 'dropdown-toggle');
 		$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 		$('.mega-dropdown .caret').css('display', '');
 	}
@@ -29,6 +31,34 @@ $(document).ready(function() {
 		}
 	});
 	
+	//home.jsp
+	function wish_check() { 
+		var txt;
+	    var r = confirm("Press a button!");
+	    if (r == true) {
+	        console.log("ok");
+	    } else {
+	    	console.log("cancel");
+	    }
+	}
+	
+	$(document).on('click','#thumb_empty_heart', function(){
+		alert("위시리스트에 추가되었습니다 !");
+	});
+	
+	$(document).on('click','#thumb_heart', function(){
+		alert("위시리스트에서 삭제되었습니다 !");
+	});
+	
+	$(document).on('click','#thumb-cart', function(){
+		var txt;
+	    var r = confirm("장바구니에 담으시겠습니까 ?");
+	    if (r == true) {
+	        console.log("ok");
+	    } else {
+	    	console.log("cancel");
+	    }
+	});
 	// mypage.jsp
 	
 	$('.star').on('click', function() {
@@ -93,9 +123,10 @@ $(document).ready(function() {
 		 var bindex = $(this).siblings('.lectre_board_index').val();
 		 var index = $(this).siblings('.my_lecture_index').val();
 		 location.href = "/lar/lectureBoardDelete?index="+index+"&bindex="+bindex;
-	 })
+	 });
 	 
 	/* $("#lecture-dropdown").on("click", function(){
 		 location.href = "/lar/lectureList";
 	 });*/
+	 
 });

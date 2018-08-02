@@ -118,6 +118,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.updateStar",lecture_index);
 	}
 
+	public int IncreaseLecture(int lecture_index) {
+		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
+	}
+	
 	public int insertQ(LectureQ lectureq) {
 		return sqlSession.insert("lecture.insertQ", lectureq);
 	}
@@ -126,6 +130,14 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		RowBounds rows = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		
 		return sqlSession.selectList("lecture.lectureQlist", lecidx, rows);
+	}
+
+	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
+		return sqlSession.selectOne("lecture.selectBoardUpdate",map);
+	}
+
+	public int deleteBoardLecture(int bindex) {
+		return sqlSession.update("lecture.deleteBoardLecture",bindex);
 	}
 
 	public int lectureQTotalContents(int lecidx) {
@@ -147,22 +159,31 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int updateQhits(int qindex) {
 		return sqlSession.update("lecture.updateQhits", qindex);
 	}
-
-
-	public int IncreaseLecture(int lecture_index) {
-		return sqlSession.update("lecture.IncreaseLecture",lecture_index);
+	
+	public LectureQ updateQview(int qindex) {
+		return sqlSession.selectOne("lecture.updateQview", qindex);
 	}
-
-	public Map<String, Object> selectBoardUpdate(Map<String, Object> map) {
-		return sqlSession.selectOne("lecture.selectBoardUpdate",map);
+	
+	public int updateQ(LectureQ lectureq) {
+		return sqlSession.update("lecture.updateQ", lectureq);
 	}
-
-	public int deleteBoardLecture(int bindex) {
-		return sqlSession.update("lecture.deleteBoardLecture",bindex);
+	
+	// 추천강의
+	public List<Lecture> recomandedList(Map<String, String> keyword) {
+		RowBounds rows = new RowBounds(0, 5);
+		return sqlSession.selectList("lecture.recomandedList", keyword, rows);
 	}
 
 	public int updateBoard(LectureBoard bo) {
 		return sqlSession.update("lecture.updateBoard",bo);
+	}
+
+	public Object selectReviewOne(int rindex) {
+		return  sqlSession.selectOne("lecture.selectReviewOne",rindex);
+	}
+
+	public int updateReview(Map<String, Object> rmap) {
+		return sqlSession.update("lecture.updateReview",rmap);
 	}
 
 }

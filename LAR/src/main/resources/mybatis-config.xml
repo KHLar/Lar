@@ -15,6 +15,8 @@
 		<typeAlias type="com.misoot.lar.commu.model.vo.Commu" alias="commu"/>
 		<typeAlias type="com.misoot.lar.commu.model.vo.Attachment" alias="attachment"/>
 		<typeAlias type="com.misoot.lar.commu.model.vo.CommuReply" alias="commuReply"/>
+		<typeAlias type="com.misoot.lar.common.sockJS.model.vo.Inquire" alias="inquire"/>
+		<typeAlias type="com.misoot.lar.user.model.vo.Purchase" alias="purchase"/>
 		
 		<!-- Lecture Vo -->
 		<typeAlias alias="lecture" type="com.misoot.lar.lecture.model.vo.Lecture"/>		
