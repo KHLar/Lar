@@ -115,7 +115,7 @@
 					              <button type="button" class="close" data-dismiss="modal">×</button>
 					              <h4 class="modal-title">비밀번호 입력</h4>
 					            </div>
-					            <div class="modal-body" >
+					            <div class="modal-body" > 
 					                <input type="password" placeholder="비밀번호를 입력해주세요" id="pass_word">
 					            <span  style="float: right;">
 					            <button type="button" class="btn btn-primary btn pull-right"  data-dismiss="modal">취소</button>

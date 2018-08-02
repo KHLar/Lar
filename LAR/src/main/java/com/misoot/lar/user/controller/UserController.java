@@ -514,6 +514,7 @@ public class UserController {
 	      map.put("userindex", userindex);
 
 	      int history= ((UserServiceImpl) userServiceImpl).history(map);
+	      System.out.println("history : "+history);
 	      model.addAttribute("history",history);
 	      return "user/C_information";
 	   }

@@ -252,7 +252,7 @@ public class CommuController {
 					String originFileName = f.getOriginalFilename();
 					String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
 					if (commu_Category_Index.equals("B03")) {
-						if (ext.equals("jpg") || ext.equals("JPG") || ext.equals("png") || ext.equals("PNG") || ext.equals("gif") || ext.equals("GIF")) {
+						if (ext.toUpperCase().equals("JPG") || ext.toUpperCase().equals("PNG") || ext.toUpperCase().equals("GIF")) {
 	
 						} else {
 							if(commu_Index==-1)
@@ -260,6 +260,17 @@ public class CommuController {
 							else
 								loc = "/commu/commuForm/B03";
 							msg = "이미지파일만 첨부 가능합니다..";
+							model.addAttribute("loc", loc).addAttribute("msg", msg);
+							return "common/msg";
+						}
+					}else{
+						if (ext.toUpperCase().equals("JPG") || ext.toUpperCase().equals("PNG") || ext.toUpperCase().equals("GIF")
+								|| ext.toUpperCase().equals("PDF") || ext.toUpperCase().equals("HWP") || ext.toUpperCase().equals("DOC")
+								|| ext.toUpperCase().equals("PPT")) {
+							
+						} else {
+							loc = "/commu/commuForm/B03";
+							msg = "해당 파일은 첨부가 불가능합니다..";
 							model.addAttribute("loc", loc).addAttribute("msg", msg);
 							return "common/msg";
 						}

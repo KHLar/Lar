@@ -64,10 +64,10 @@
 					<div class="form-group">
 						<label for="commu_title">제목</label>
 						<c:if test="${commu ne null }">
-						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="title" value="${commu.commu_Title }">
+						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="제목" value="${commu.commu_Title }" required>
 						</c:if>
 						<c:if test="${commu eq null}">
-						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="title">
+						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="제목" required>
 						</c:if>
 					</div>
 					
@@ -88,9 +88,8 @@
 						<input type="text" class="labelinput" value="${commu.commu_tags }"/>
 						</c:if>
 						<c:if test="${commu eq null }">
-						<input type="text" class="labelinput" />
+						<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
 						</c:if>
-							
 							<input type="hidden" value="" name="result" />
 						</div>
 					</div>

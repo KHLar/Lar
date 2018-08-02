@@ -46,6 +46,9 @@ td {
 .panel-body {
 	background-color: #FAF5F5;
 }
+.imgCal{
+	width : 100 %;
+}
 </style>
 
 <%
@@ -291,21 +294,29 @@ td {
 				<div id="News" class="tab-pane fade">
 					<div class="container_fluid">
 						<div class="row no-gutters">
-							<c:forEach items="${newslist}" var="n">
-								<div class="col-lg-4">
+							<c:set var="cnt" value="0"/>
+							<c:forEach items="${newslist}" var="n" varStatus="status">
+							<c:set var="cnt" value="${cnt+1}"/>
+							<c:if test="${cnt%3==1}">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							</c:if>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="display: flex;">
 									<a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView/${n.commu_Index}">
 										<span class="caption">
 											<span class="caption-content">
-												<h2>${n.commu_Writer }</h2>
-												<p>${n.commu_Title }</p>
+												<h2>${n.commu_Title }</h2>
+												<p>${n.commu_Writer }</p>
 											</span>
 										</span>
 										<c:if test="${n.commu_Attach_Renamedfilename ne ''}">
 										
 										</c:if>
-										<img class="img-fluid" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width: 100%;" />
+										<img class="img-fluid imgCal" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width: 100%;" />
 									</a>
 								</div>
+							<c:if test="${cnt%3==0||status.last}">
+							</div>
+							</c:if>
 							</c:forEach>
 						</div>
 						<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('B03');">글쓰기</button>

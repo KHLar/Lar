@@ -16,6 +16,19 @@ tr {
 th, td {
    padding: 15px;
 }
+
+li {
+   margin: 0 0 0 0;
+   padding: 0 0 0 0;
+   border: 0;
+   float: left;
+}
+
+ul {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+}
 </style>
 <script>
    function infoValidate() {
@@ -24,7 +37,8 @@ th, td {
 
       reg_Exp = /(01[016789])[-](\d{4}|\d{3})[-]\d{4}$/g;
       phoneResult = reg_Exp.test($('#myPhone').val());
-      if (($('#Phone').css('display') == 'none') && ($('#nickname').css('display') != 'none')) {//닉네임만 보내주기
+      if (($('#Phone').css('display') == 'none')
+            && ($('#nickname').css('display') != 'none')) {//닉네임만 보내주기
          console.log('s닉');
          if (($('#transName').val().trim() == null || $('#transName').val()
                .trim() == "")) {
@@ -37,9 +51,11 @@ th, td {
             alert('중복체크를 해주세요');
             return false;
          }
-      } else if (($('#Phone').css('display') != 'none') && ($('#nickname').css('display') == 'none')) {//핸드폰만 보내주기
+      } else if (($('#Phone').css('display') != 'none')
+            && ($('#nickname').css('display') == 'none')) {//핸드폰만 보내주기
          console.log('폰');
-         if (($('#myPhone').val().trim() == null || $('#myPhone').val().trim() == "")) {
+         if (($('#myPhone').val().trim() == null || $('#myPhone').val()
+               .trim() == "")) {
             alert('바꿀 비밀번호를 입력해주세요')
             return false;
          } else if (!phoneResult) {
@@ -48,13 +64,15 @@ th, td {
          }
       } else if (($('#Phone').css('display') != 'none') && ($('#nickname').css('display') != 'none')) {//둘다보내주기
          console.log('둘다');
-         if (($('#transName').val().trim() == null || $('#transName').val().trim() == "")) {
+         if (($('#transName').val().trim() == null || $('#transName').val()
+               .trim() == "")) {
             alert('바꿀 닉네임을 입력해주세요')
             return false;
          } else if (idck == 0) {
             alert('중복체크를 해주세요');
             return false;
-         } else if (($('#myPhone').val().trim() == null || $('#myPhone').val().trim() == "")) {
+         } else if (($('#myPhone').val().trim() == null || $('#myPhone')
+               .val().trim() == "")) {
             alert('바꿀 비밀번호를 입력해주세요')
             return false;
          } else if (!phoneResult) {
@@ -66,6 +84,41 @@ th, td {
          }
       }
       return true;
+   }
+
+   $(function() {
+      $("#imgFile").hide();
+      $("#Photo").click(function() {
+         $("#imgFile").click();
+      });
+   });
+
+   function LoadImg(value, num) {
+      if (value.files && value.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function(e) {
+            switch (num) {
+            case 1:
+               $(".img-responsive").attr("src", e.target.result);
+            }
+            var formData = new FormData();
+
+            formData.append("updateImg", $("#imgFile")[0].files[0]);
+
+            $
+                  .ajax({
+                     url : "${pageContext.request.contextPath}/mypage/imgUpdate",
+                     data : formData,
+                     processData : false,
+                     contentType : false,
+                     type : 'POST',
+                     success : function(result) {
+                        alert("업로드 성공!!");
+                     }
+                  });
+         };
+      }
+      reader.readAsDataURL(value.files[0]);
    }
 </script>
 </header>
@@ -94,209 +147,146 @@ th, td {
          <div class="mypageBody tab-content">
             <div class="tab-pane active col-lg-12 col-md-12 col-sm-12" id="Info"
                style="width: 100%;">
-               <div class="full screen col-lg-4 col-md-4 col-sm-4">
-                  <p class="inner-photo" id="imageChoose" name="imageChoose">
-                     <c:if test = "${empty session_user.user_thumbnail}">
+               <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                  <c:if test="${empty session_user.user_thumbnail}">
                      <img
                         src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"
                         id="profile-image1" class="img-circle img-responsive"
-                        alt="User Pic">
-                     </c:if>
-                     <c:if test = "${!empty session_user.user_thumbnail}">
+                        alt="User Pic" style="width: 613px; height: 233px">
+                  </c:if>
+                  <c:if test="${!empty session_user.user_thumbnail}">
                      <img
                         src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
                         id="profile-image1" class="img-circle img-responsive"
-                        alt="User Pic">
-                     </c:if>
-                  </p>
+                        alt="User Pic" style="width: 613px; height: 233px">
+                  </c:if>
                </div>
 
-               <div class="my-photo-message m_t10 col-lg-8 col-md-8 col-sm-8">
+               <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                  <ul class="container details"
+                     style="list-style: none; font-size: 25px;">
+                     <li><label> <span class="glyphicon glyphicon-user"></span>
+                           닉네임
+                     </label></li>
+                     <li style="padding-left: 200px;">${session_user.user_nickname}</li>
+                  </ul>
 
-                  <table cellspacing="0" class="request">
-                     <tbody>
-                        <tr>
-                           <th>닉네임</th>
-                           <td class="tleft" colspan="2"><span>${session_user.user_nickname}</span></td>
-                        </tr>
-
-                        <tr>
-                           <th>이메일</th>
-                           <!-- class="ch_pop_txt" 레이어팝업 생성시 -->
-                           <td colspan="2">
-                              <div class="riot-vf--success">
-                                 <span class="riot-vf__icon"></span> ${session_user.user_id}
-                              </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <th>휴대전화</th>
-                           <td class="tleft riot-vf riot-vf--mobile" colspan="2"
-                              data-text="휴대전화" data-type="sms"
-                              data-target="${session_user.user_phone}" data-vf="1">${session_user.user_phone}</td>
-                        </tr>
-                     </tbody>
-                  </table>
+                  <hr style="border: 0.03em solid #cbbde2">
+                  <ul class="container details"
+                     style="list-style: none; font-size: 25px;">
+                     <li><label> <span
+                           class="glyphicon glyphicon-envelope"></span> 이메일
+                     </label></li>
+                     <li style="padding-left: 200px;">${session_user.user_id}</li>
+                  </ul>
+                  <hr style="border: 0.03em solid #cbbde2">
+                  <ul class="container details"
+                     style="list-style: none; font-size: 25px;">
+                     <li><label> <span class="glyphicon glyphicon-phone"></span>
+                           핸드폰
+                     </label></li>
+                     <li style="padding-left: 200px;">${session_user.user_phone}</li>
+                  </ul>
                </div>
             </div>
 
 
             <div class="tab-pane col-lg-12 col-md-12 col-sm-12" id="Profile_C"
                style="width: 100%;">
-               <div class="full screen col-lg-4 col-md-4 col-sm-4">
-                  <p class="inner-photo" id="imageChoose" name="imageChoose">
-                     <c:if test = "${empty session_user.user_thumbnail}">
+
+               <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                  <c:if test="${empty session_user.user_thumbnail}">
                      <img
                         src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"
                         id="profile-image1" class="img-circle img-responsive"
-                        alt="User Pic">
-                     </c:if>
-                     <c:if test = "${!empty session_user.user_thumbnail}">
+                        alt="User Pic" style="width: 613px; height: 233px">
+                  </c:if>
+                  <c:if test="${!empty session_user.user_thumbnail}">
                      <img
                         src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
                         id="profile-image1" class="img-circle img-responsive"
-                        alt="User Pic">
-                     </c:if>
-                  </p>
-                  <div style="text-align: center;">
-                     <button type="button" class="riot-btn btn-lg" id="Photo">이미지 변경</button>
-                     <input type="file" id="imgFile" name="imgFile" onchange="LoadImg(this,1)">
+                        alt="User Pic" style="width: 613px; height: 233px">
+                  </c:if>
+                  <div style="text-align: center; padding-top: 20px;">
+                     <button type="button" class="btn-primary btn-lg" id="Photo">이미지
+                        변경</button>
+                     <input type="file" id="imgFile" name="imgFile"
+                        onchange="LoadImg(this,1)">
                   </div>
                </div>
-               <form action="${pageContext.request.contextPath}/mypage/C_Info"
-                     onsubmit="return infoValidate();" >
-               <div class="col-lg-8 col-md-8 col-sm-8">
-                     <input type="hidden" value="${session_user.user_index}"
-                        name="userindex" />
-                     <table class="request">
-                        <tbody>
+               <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                  <form action="${pageContext.request.contextPath}/mypage/C_Info" onsubmit="return infoValidate();">
+                     <input type="hidden" value="${session_user.user_index}" name="userindex" />
+                     <table style="width:100%;"cellspacing='0' cellpadding="0" >
+                        <tr>
+                           <th><h5>닉네임</h5></th>
+                           <td>${session_user.user_nickname}</td>
+                           <td><button type="button" class="btn btn-primary mb-2"
+                                 id="nicknameBtn">닉네임 수정</button></td>
+                        </tr>
 
-                           <tr>
-                              <th>닉네임</th>
-                              <td class="tleft"><span>${session_user.user_nickname}</span></td>
-                              <td style="text-align: center;">
-                                 <button type="button" class="btn btn-primary mb-2"
-                                    id="nicknameBtn">닉네임 수정</button>
-                              </td>
-                           </tr>
-                           <tr>
-                              <th>이메일</th>
-                              <!-- class="ch_pop_txt" 레이어팝업 생성시 -->
-                              <td class="tleft riot-vf riot-vf--email" data-type="email"
-                                 data-text="이메일" data-target="${session_user.user_id}"
-                                 data-vf="1">${session_user.user_id}<!--
-                                            <p class="riot-vf__message">
-                                                <div class="riot-vf__message--success">인증받은 이메일입니다.</div>
-                                            </p>
--->
-                              </td>
-                           </tr>
-                           <tr>
-                              <th>
-                                 <p class="innerTxt">
-                                    <span>휴대전화</span>
-                                 </p>
-                              </th>
-                              <td class="tleft riot-vf riot-vf--mobile" data-text="휴대전화"
-                                 data-type="sms" data-target="${session_user.user_phone}"
-                                 data-vf="1">${session_user.user_phone}<!--
-                                            <p class="riot-vf__message">
-                                                <div class="riot-vf__message--success">인증받은 휴대전화입니다.</div>
-                                            </p>-->
-                              </td>
-                              <td><button type="button" class="btn btn-primary mb-2"
-                                    id="phoneBtn">휴대전화 수정</button></td>
+                        <tr>
+                           <td><h5>이메일</h5></td>
+                           <td colspan="2">${session_user.user_id}</td>
+                        </tr>
 
-                           </tr>
-                           <script>
-                           $(function(){
-                              $("#imgFile").hide();
-                              $("#Photo").click(function(){
-                                 $("#imgFile").click();
-                              });
-                           });
-                           
-                           function LoadImg(value, num) {
-                           if (value.files && value.files[0]) {
-                              var reader = new FileReader();
-                              reader.onload = function(e) {
-                                 switch(num){
-                                 case 1:
-                                    $(".img-responsive").attr("src", e.target.result);
-                                 }
-                                 var formData = new FormData();
+                        <tr>
+                           <td><h5>핸드폰</h5></td>
+                           <td>${session_user.user_phone}</td>
+                           <td><button type="button" class="btn btn-primary mb-2"
+                                 id="phoneBtn">휴대전화 수정</button></td>
+                        </tr>
+
+                        <tr style="display: none" id="nickname">
+                           <td><h5>Nickname</h5></td>
+                           <td><input type="text" id="transName" name="transName"
+                              class="form-control" placeholder="한,영,숫자로 2~8 글자를 입력"></td>
+                           <td><button type="button" class="btn btn-primary mb-2"
+                                 style="text-align: right;" id="transNameBtn">중복체크</button></td>
+                        </tr>
+
+                        <tr style="display: none" id="Phone">
+                           <td><h5>Phone</h5></td>
+                           <td><input type="text" class="form-control" name="myPhone"
+                              id="myPhone" placeholder="\-\-\ 문자를 포함해서 입력"></td>
+                        </tr>
+
+                        <tr style="display: none" id="submitline">
                         
-                                 formData.append("updateImg",$("#imgFile")[0].files[0]);
-                                 
-                                 $.ajax({
-                                    url: "${pageContext.request.contextPath}/mypage/imgUpdate",
-                                    data : formData,
-                                    processData: false,
-                                    contentType: false,
-                                    type: 'POST',
-                                    success: function(result){
-                                       alert("업로드 성공!!");
-                                    }
-                                       });
-                                 };
-                              }
-                              reader.readAsDataURL(value.files[0]);
-                           }
+                           <td colspan="3" style="text-align:center;"><button type="submit" class="btn btn-primary btn-lg">저장</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              <button type="cancel" class="btn btn-primary btn-lg">취소</button></td>
                            
-                              $('#phoneBtn').on('click', function() {
-                                 $('#Phone').toggle();
-                                 hideSubmitBtn();
-                              });
-                              $('#nicknameBtn').on('click',
-                                    function() {
-                                       $('#nickname').toggle();
-                                       hideSubmitBtn();
-
-                                    });
-
-                              function hideSubmitBtn() {
-                                 if ($('#Phone').css('display') != 'none'
-                                       || $('#nickname').css(
-                                             'display') != 'none') {
-                                    $('#submitline').show();
-                                 } else {
-                                    $('#submitline').hide();
-                                 }
-                              }
-                           </script>
-
-                           <tr style="display: none" id="nickname">
-                              <th>Nickname</th>
-                              <td class="tleft"><input type="text" id="transName"
-                                 name="transName" class="form-control"
-                                 placeholder="한,영,숫자로 2~8 글자를 입력"></td>
-                              <td style="text-align: center;">
-                                 <button type="button" class="btn btn-primary mb-2"
-                                    id="transNameBtn">중복체크</button>
-                              </td>
-                           </tr>
-                           <tr style="display: none" id="Phone">
-                              <th>Phone</th>
-                              <td colspan="2"><input type="text" class="form-control"
-                                 name="myPhone" id="myPhone" placeholder="\-\-\ 문자를 포함해서 입력">
-                              </td>
-                              <td style="text-align: center;"></td>
-                           </tr>
-                           <tr id="submitline" style="display: none">
-                              <td></td>
-                              <td><button type="submit" class="btn btn-primary mb-2">저장</button></td>
-                              <td><button type="cancel" class="btn btn-primary mb-2">취소</button></td>
-                           </tr>
-                        </tbody>
+                        </tr>
                      </table>
+                  </form>
+                  <script>
+                     $('#phoneBtn').on('click', function() {
+                        $('#Phone').toggle();
+                        hideSubmitBtn();
+                     });
+                     $('#nicknameBtn').on('click', function() {
+                        $('#nickname').toggle();
+                        hideSubmitBtn();
+
+                     });
+
+                     function hideSubmitBtn() {
+                        if ($('#Phone').css('display') != 'none'
+                              || $('#nickname').css('display') != 'none') {
+                           $('#submitline').show();
+                        } else {
+                           $('#submitline').hide();
+                        }
+                     }
+                  </script>
+
                </div>
-            </form>
             </div>
             <div class="tab-pane" id="Password_C"
                style="text-align: -webkit-center; width =: 340px; margin: auto; width: 100%;">
                <form action="resetpasswrod" method="post">
-               <!-- onsubmit="return input_check_func()" -->
-               <table>
+                  <!-- onsubmit="return input_check_func()" -->
+                  <table>
                      <tr>
                         <th>현재 비밀번호</th>
                         <td class="tleft"><input type="password" class="medium"
@@ -343,7 +333,7 @@ th, td {
                   <button type="cancel" class="btn btn-primary"
                      style="height: 50px; width: 100px;">취소</button>
                </div>
-               
+
             </div>
             <div class="tab-pane" id="secession">
 
@@ -360,7 +350,7 @@ th, td {
                      </ul>
                      <!-- 회원탈퇴 버튼 클릭시 보여주기 -->
 
-                     <div id="out" style="display: none; margin-top:100px;">
+                     <div id="out" style="display: none; margin-top: 100px;">
                         <!-- UserBox01 Start -->
                         <form>
                            <fieldset>
@@ -392,11 +382,41 @@ th, td {
                                           <td class="tcenter">${session_user.user_nickname}</td>
                                           <td class="tcenter">${session_user.user_enrolled_date}</td>
                                           <td class="tcenter last" style="text-align: center;">${history}</td>
-                                          <th scope="col"><button type="button" class="btn btn-primary"
-                                                id="getout">즉시 탈퇴</button></th>
+                                          <th scope="col"><button type="button"
+                                                data-toggle="modal" data-target="#userSecession"
+                                                class="btn btn-primary">즉시 탈퇴</button></th>
                                        </tr>
                                     </tbody>
+                                    
                                  </table>
+                                 <div class="modal fade" id="userSecession" role="dialog">
+                                    <div class="modal-dialog">
+
+                                       <!-- Modal content-->
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <button type="button" class="close" data-dismiss="modal">×</button>
+                                             <h4 class="modal-title" style="text-align: left;">회원탈퇴</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                          <p>회원 탈퇴시 복구 불가능 입니다.</p>
+                                          <p>마지막으로 비밀번호를 입력해주세요.</p>
+                                  <input type="password" placeholder="비밀번호를 입력해주세요"
+                                                id="pass_word">
+                                          </div>
+                                          <div class="modal-footer">
+                                             <span style="float: right;">
+                                                <button type="button"
+                                                   class="btn btn-primary btn pull-right"
+                                                   data-dismiss="modal">취소</button>
+                                                <button type="button" id="getout" onclick="getout();"
+                                                   class="btn btn-primary btn pull-right"
+                                                   style="margin-right: 15px;">확인</button>
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    </div>
                               </div>
                            </fieldset>
                         </form>
@@ -414,9 +434,9 @@ th, td {
                         $('#out').toggle();
                         $('#nSend').toggle();
                      });
+                     
                      $('#getout').on('click',function() {
-                        location.href = "${pageContext.request.contextPath}/mypage/getout?userindex="+ ${session_user.user_index};
-                     })
+                         location.href = "${pageContext.request.contextPath}/mypage/getout?userindex="+ ${session_user.user_index};})
                   </script>
                </div>
             </div>
@@ -427,69 +447,89 @@ th, td {
             //PasswordSubmit 버튼을 클릭 했을 때 
             var userIndex = ${session_user.user_index};
             $("#PasswordSubmit").click(function() {
-               if (grecaptcha.getResponse() == ""){
-                   alert("자동입력 방지를 체크해야 합니다.");
-                   return false;
-               } else {
-                  
-                  var userpassword = $('#now_pw').val();
-                  var change_pw = $('#change_pw').val();
-                  var change_pw_check = $('#change_pw_check').val();
-                  var pwCheck = false;
-                  console.log(change_pw);
-                  console.log(change_pw_check);
-                  console.log(userpassword);
-                  /* 새로운 비밀번호1 가 같은지2 확인 하고 같다면 값을 넘겨주고 같지 않다면 같은 비밀번호를 입력 하라고 보여주기 */
-                  
-                  if (userpassword == "") {
-                     alert("비밀번호를 입력해주세요");
-                  } else {
-                     $.ajax({
-                        async : false,
-                        type : 'POST',
-                        data : {
-                           "userpassword" : userpassword,
-                           "userindex" : userIndex },
-                        url : "${pageContext.request.contextPath}/mypage/PasswordCheck",
-                        dataType : "json",
-                        success : function(data) {
-                           if (data == 0) {
-                              alert("비밀번호가 같지 않습니다. 확인하시고 이용해주세요");
-                              pwCheck = false;
+                           if (grecaptcha.getResponse() == "") {
+                              alert("자동입력 방지를 체크해야 합니다.");
+                              return false;
                            } else {
-                              pwCheck = true;}
-                           },
-                        error : function(error) {
-                           alert("error : " + error);}
-                           });
-                        }
-                        console.log(pwCheck);
-                           if (pwCheck) {
-                              if (change_pw == change_pw_check) {
-                                 $.ajax({
-                                    async : false,
-                                    type : 'POST',
-                                    data : {
-                                       "change_pw" : change_pw,
-                                       "userindex" : userIndex },
-                                    url : "${pageContext.request.contextPath}/mypage/PasswordChange",
-                                    dataType : "json",
-                                    success : function(data) {
-                                          if (data == 0) {
-                                             alert("비밀번호 변경 실패!");
-                                          } else {
-                                             alert("비밀번호 변경 성공!");
+
+                              var userpassword = $('#now_pw').val();
+                              var change_pw = $('#change_pw').val();
+                              var change_pw_check = $('#change_pw_check').val();
+                              var pwCheck = false;
+                              reg_Exp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/g;
+                              pjCheck = reg_Exp.test($('#change_pw').val());
+                        
+                              console.log("1"+pjCheck);
+                              console.log("2"+change_pw);
+                              console.log("3"+change_pw_check);
+                              console.log("4"+userpassword);
+                              /* 새로운 비밀번호1 가 같은지2 확인 하고 같다면 값을 넘겨주고 같지 않다면 같은 비밀번호를 입력 하라고 보여주기 */
+
+                              if (userpassword == "") {
+                                 alert("비밀번호를 입력해주세요");
+                              }else if(!pjCheck){
+                                 alert("영어 대문자, 소문자, 숫자, 특수문자가 한개 이상 들어간 8~20 글자를 입력하세요.");
+                              }else if(change_pw != change_pw_check){
+                                 alert("새 비밀번호가 서로다릅니다.");
+                              }else {
+                                    $.ajax({
+                                          async : false,
+                                          type : 'POST',
+                                          data : {
+                                             "userpassword" : userpassword,
+                                             "userindex" : userIndex
+                                          },
+                                          url : "${pageContext.request.contextPath}/mypage/PasswordCheck",
+                                          dataType : "json",
+                                          success : function(data) {
+                                             if (data == 0) {
+                                                alert("비밀번호가 같지 않습니다. 확인하시고 이용해주세요");
+                                                pwCheck = false;
+                                             } else{
+                                                pwCheck = true;
+                                             }
+                                          },
+                                          error : function(error) {
+                                             alert("error : "
+                                                   + error);
                                           }
-                                       },
-                                    error : function(error) {
-                                       alert("error : " + error); }
-                                    });
-                              } else {
-                                 alert("비밀번호가 같지 않습니다.");
+                                       });
+                              }
+                              console.log(pwCheck);
+                              if (pwCheck) {
+                                 if (change_pw == change_pw_check) {
+                                          $.ajax({
+                                             async : false,
+                                             type : 'POST',
+                                             data : {
+                                                "change_pw" : change_pw,
+                                                "userindex" : userIndex
+                                             },
+                                             url : "${pageContext.request.contextPath}/mypage/PasswordChange",
+                                             dataType : "json",
+                                             success : function(
+                                                   data) {
+                                                if (data == 0) {
+                                                   alert("비밀번호 변경 실패!");
+                                                   
+                                                } else {
+                                                   alert("비밀번호 변경 성공!");
+                                                   location.href='${pageContext.request.contextPath}/mypage/infoPage/${session_user.user_index}';
+                                                }
+                                             },
+                                             error : function(
+                                                   error) {
+                                                alert("error : "
+                                                      + error);
+                                             }
+                                          });
+                                 } else {
+                                    alert("비밀번호가 같지 않습니다.");
+                                 }
                               }
                            }
-                        };
-               });
+                           ;
+                        });
          });
       </script>
       <script type="text/javascript">
@@ -509,34 +549,40 @@ th, td {
          var idck = 0;
          $(function() {
             //idck 버튼을 클릭했을 때 
-            $("#transNameBtn").click(function() {
+            $("#transNameBtn")
+                  .click(
+                        function() {
+                           
+                           //userid 를 param.
+                           var userid = $("#transName").val();
+                           reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
+                           NicknameResult = reg_Exp.test($(
+                                 '#transName').val());
 
-               //userid 를 param.
-               var userid = $("#transName").val();
-               reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
-               NicknameResult = reg_Exp.test($('#transName').val());
-
-                  $.ajax({
-                     async : false,
-                     type : 'POST',
-                     data : {
-                        "userid" : userid },
-                     url : "${pageContext.request.contextPath}/mypage/infoTrans",
-                     dataType : "json",
-                     success : function(data) {
-                        if (data.cnt > 0) {
-                           alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
-                        } else if (!NicknameResult) {
-                           alert('닉네임 형식이 올바르지 않습니다.');
-                        return false;
-                        } else {
-                           alert("사용가능한 아이디입니다.");
-                           idck = 1; }
-                        },
-                        error : function(error) {
-                           alert("error : " + error); }
+                              $.ajax({
+                                    async : false,
+                                    type : 'POST',
+                                    data : {
+                                       "userid" : userid
+                                    },
+                                    url : "${pageContext.request.contextPath}/mypage/infoTrans",
+                                    dataType : "json",
+                                    success : function(data) {
+                                       if (data.cnt > 0) {
+                                          alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+                                       } else if (!NicknameResult) {
+                                          alert('닉네임 형식이 올바르지 않습니다.');
+                                          return false;
+                                       } else {
+                                          alert("사용가능한 아이디입니다.");
+                                          idck = 1;
+                                       }
+                                    },
+                                    error : function(error) {
+                                       alert("error : " + error);
+                                    }
+                                 });
                         });
-                  });
          });
       </script>
 

@@ -200,6 +200,6 @@ public class UserDaoImpl implements LarDao<User> {
 	}
 
 	public int history(Map<Object, Object> map) {
-		return sqlSession.update("user.history",map);
+		return sqlSession.selectOne("user.history",map);
 	}
 }
