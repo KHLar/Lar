@@ -11,7 +11,7 @@ public class LectureQ {
 	private String lecture_q_content;
 	private int lecture_q_hits;
 	private String lecture_q_upload_date;
-	private Date lecture_q_update_date;
+	private String lecture_q_update_date;
 	private int lecture_q_is_deleted;
 	private String user_nickname;
 	private int user_index;
@@ -22,7 +22,7 @@ public class LectureQ {
 
 	public LectureQ(int lecture_q_index, int lecture_q_writer_index, int lecture_q_lecture_index,
 			String lecture_q_title, String lecture_q_content, int lecture_q_hits, String lecture_q_upload_date,
-			Date lecture_q_update_date, int lecture_q_is_deleted, String user_nickname, int user_index) {
+			String lecture_q_update_date, int lecture_q_is_deleted, String user_nickname, int user_index) {
 		super();
 		this.lecture_q_index = lecture_q_index;
 		this.lecture_q_writer_index = lecture_q_writer_index;
@@ -93,11 +93,11 @@ public class LectureQ {
 		this.lecture_q_upload_date = lecture_q_upload_date;
 	}
 
-	public Date getLecture_q_update_date() {
+	public String getLecture_q_update_date() {
 		return lecture_q_update_date;
 	}
 
-	public void setLecture_q_update_date(Date lecture_q_update_date) {
+	public void setLecture_q_update_date(String lecture_q_update_date) {
 		this.lecture_q_update_date = lecture_q_update_date;
 	}
 

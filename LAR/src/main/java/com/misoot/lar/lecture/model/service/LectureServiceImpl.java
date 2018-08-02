@@ -143,7 +143,15 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	}
 
 	public int insertQ(LectureQ lectureq) {
-		return ((LectureDaoImpl) lectureDaoImpl).insertQ(lectureq);
+		int lecture_q_index = 0;
+		
+		int result = ((LectureDaoImpl) lectureDaoImpl).insertQ(lectureq);
+		
+		if(result > 0) {
+			lecture_q_index = lectureq.getLecture_q_index();
+		}
+		
+		return lecture_q_index;
 	}
 
 	public List<Map<String, String>> lectureQlist(int cPage, int numPerPage, int lecidx) {

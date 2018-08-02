@@ -415,7 +415,7 @@ public class LectureController {
 
 		int result = ((LectureServiceImpl) LectureServiceImpl).insertA(amap);
 
-		return "redirect:/lecture/QnA/detail?content=" + lecturea.getLecture_a_lecture_q_index();
+		return "redirect:/lecture/QnA/detail/"+ lecturea.getLecture_a_lecture_q_index();
 	}
 
 	@RequestMapping("/lecture/QnA/updateQ/{qindex}")

@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:import url="/WEB-INF/views/common/_header.jsp">
-	<c:param value="QnA작성" name="pageTitle" />
+	<c:param value="QnA" name="pageTitle" />
 </c:import>
 
 <link rel="stylesheet"
@@ -35,11 +35,24 @@
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">
-							<small>${ lectureQ.lecture_q_upload_date }</small>
+							<small>작성일 : ${ lectureQ.lecture_q_upload_date } 
+							<c:if test="${lectureQ.lecture_q_update_date ne lectureQ.lecture_q_upload_date}">
+							/ 수정일 : ${ lectureQ.lecture_q_update_date }
+							</c:if> 
+							</small>
 						</div>
 					</div>
+					
+					<div style="text-align: right;">
+						<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/lectureDetail?lecture_index=${ lectureQ.lecture_q_lecture_index }">목록으로</a>
+						<c:if test="${session_user.user_index eq lectureQ.lecture_q_writer_index}">
+						<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/QnA/updateQ/${ lectureQ.lecture_q_index }">수정하기</a>
+						</c:if>
+						<button type="button" class="btn btn-default reply_btn" style="margin-top:10px; margin-bottom:10px;">답글작성</button>
+						<button type="button" class="btn btn-default reply_cancel_btn" style="margin-top:10px; margin-bottom:10px; display:none;">작성취소</button>
+					</div>
 					<c:forEach items="${ lectureA }" var="a">
-					<div class="panel">
+					<div class="panel lecture_a_${a.lecture_a_index}">
 						<div class="panel-heading" style="border-bottom: 1px solid gray;">
 							<div class="text-left">							
 								<h2 style="display: inline-block;">↳</h2>&nbsp;<small>${ a.user_nickname }</small>
@@ -51,20 +64,17 @@
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">
-							<small>${ a.lecture_a_upload_date }</small>
+							<small>작성일 : ${ a.lecture_a_upload_date }</small>
+							<c:if test="${a.lecture_a_update_date ne a.lecture_a_upload_date}">
+							/ 수정일 : ${ a.lecture_a_update_date }
+							</c:if>
 						</div>
+						
+						<input type="hidden" id="lecture_a_index" value="${a.lecture_a_index}"/>
+						<button type="button" class="modify_a">수정하기</button>
 					</div>
 					</c:forEach>
 				</div>
-			</div>
-			
-			<div style="text-align: right;">
-				<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/lectureDetail?lecture_index=${ lectureQ.lecture_q_lecture_index }">목록으로</a>
-				<c:if test="${session_user.user_index eq lectureQ.lecture_q_writer_index}">
-				<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/QnA/updateQ/${ lectureQ.lecture_q_lecture_index }">수정하기</a>
-				</c:if>
-				<button type="button" class="btn btn-default reply_btn" style="margin-top:10px; margin-bottom:10px;">답글작성</button>
-				<button type="button" class="btn btn-default reply_cancel_btn" style="margin-top:10px; margin-bottom:10px; display:none;">작성취소</button>
 			</div>
 			
 			<div class="row write_reply" style="display: none; margin-top: 50px">
@@ -99,6 +109,13 @@
 				$('.reply_cancel_btn').css('display','none');
 				$('.reply_btn').css('display', '');
 				$('#summernote').summernote('reset');
+			});
+			
+			$(document).on('click', '.modify_a', function(){
+				var lecture_a_index = $(this).siblings('#lecture_a_index').val();
+				console.log(lecture_a_index);
+				$('.lecture_a_'+lecture_a_index).css('display', 'none');
+				
 			});
 			 
 			function inputcontent(){
