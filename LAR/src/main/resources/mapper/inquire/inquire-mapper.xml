@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="inquire">
-
-	<!-- <resultMap type="exam" id="Inquire">
-		<result column="INQUIRE_CONTENT" property="content" typeHandler="strArrTypeHandler"/>
-	</resultMap> -->
-
 	<select id="selectUserInquireList" parameterType="_int" resultType="hashmap">
 		select * from TABLE_INQUIRE WHERE INQUIRE_SENDER_INDEX = #{inquire_sender_index} AND INQUIRE_IS_DELETED = 0 OR INQUIRE_RECEIVER_INDEX = #{inquire_sender_index} order by INQUIRE_SENDDATE ASC
 	</select>
@@ -26,13 +21,13 @@
 		<if test="level eq 'admin'">
 		#{msg.inquire_receiver_index}, 
 		</if>
-		#{msg.inquire_content}, #{msg.inquire_attachment_file}, DEFAULT, DEFAULT)
+		#{msg.inquire_content}, #{msg.inquire_attach_originfilename}, #{msg.inquire_attach_renamedfilename}, DEFAULT, DEFAULT)
 	</insert>
 	
-	<update id="updateContent">
+	<update id="fileUpload" parameterType="hashmap">
 		update TABLE_INQUIRE
-		set INQUIRE_CONTENT = #{inquire_content}, INQUIRE_ATTACHMENT_FILE = #{inquire_attachment_file}
-		where INQUIRE_NO = #{inquire_no}
+		set INQUIRE_ATTACH_ORIGINFILENAME = #{orginFileName}, INQUIRE_ATTACH_RENAMEDFILENAME = #{renamedFileName}
+		where INQUIRE_NO = (SELECT MAX(INQUIRE_NO) FROM TABLE_INQUIRE)
 	</update>
 	
 	<update id="deleteContent">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -12,16 +12,16 @@
 
 <div class="container-fluid">
 	<div class="row">
-    	<div class="col-lg-10 col-md-10 col-sm-10" style="padding-right: 8px">
-    		<div class="orderby_recomand" style="padding-bottom: 50px">
-    			<h4>추천 순</h4>
-    			<div class="row">
+		<div class="col-lg-10 col-md-10 col-sm-10" style="padding-right: 8px">
+			<div class="orderby_recomand" style="padding-bottom: 50px">
+				<h4>추천 순</h4>
+				<div class="row">
    					구현예정
 				</div>	
-    		</div>
-    		<div class="orderby_review" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
-    			<h4>후기 순</h4>
-    			<div class="row">
+			</div>
+			<div class="orderby_review" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+				<h4>후기 순</h4>
+				<div class="row">
 					<c:forEach items="${recomandedList.reviews}" var="r">
 						<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 							<div class="thumbnail container-fluid">
@@ -49,10 +49,10 @@
 						</div>
 					</c:forEach>
 				</div>
-    		</div>
-    		<div class="orderby_score" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
-    			<h4>별점 순</h4>
-    			<div class="row">
+			</div>
+			<div class="orderby_score" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+				<h4>별점 순</h4>
+				<div class="row">
 					<c:forEach items="${recomandedList.score}" var="s">
 						<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 							<div class="thumbnail container-fluid">
@@ -80,10 +80,10 @@
 						</div>
 					</c:forEach>
 				</div>	
-    		</div>
-    		<div class="orderby_students" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
-    			<h4>인기 순</h4>
-    			<div class="row">
+			</div>
+			<div class="orderby_students" style="border-top:1px solid lightgray; padding-top: 40px; margin-bottom: 50px">
+				<h4>인기 순</h4>
+				<div class="row">
 					<c:forEach items="${recomandedList.hotest}" var="h">
 						<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 							<div class="thumbnail container-fluid">
@@ -111,6 +111,6 @@
 						</div>
 					</c:forEach>
 				</div>
-    		</div>    				
+			</div>				
 		</div>
 <c:import url="/WEB-INF/views/common/_footer.jsp"/>

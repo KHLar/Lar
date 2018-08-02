@@ -48,7 +48,7 @@
 						</span>
 					</div>
 					<div class="filebox bs3-primary preview-image" style="text-align: right;">
-						<input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+						<input type="text" id="upload-name" class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 						<label for="input_file">업로드</label>
 						<input type="file" id="input_file" name="input_file" class="upload-hidden">
 					</div>
@@ -59,10 +59,12 @@
 
 </div>
 <script>
-	var s; // Socket
+	var s; 		// Socket
 	var stompClient = null;
-	var c;	// confirm
-	var r;	// receiver
+	var c;		// confirm
+	var r;		// receiver
+	var ext;	// extension
+	var f;		// renamedfileName
 	
 	if('${session_user.user_id}'=='inquire@co.kr'){	
 		$('.quest p').text("문의확인");
@@ -96,7 +98,13 @@
 	});
 
 	$("#btn-chat").on("click", function() {
-		sendMsg();
+		if($('.upload-name').val()=='파일선택' || ext=="jpg"||ext=="JPG"||ext=="png"||ext=="PNG"||ext=="gif"||ext=="GIF") {
+			sendMsg();
+		}	else{
+			alert("이미지 파일(jpg, png, gif)만 업로드 가능합니다.");
+			$('.upload-name').val('파일선택');
+			$('.upload-thumb-wrap').remove();
+		}
 		/* var check = confirm('Are you Server?');		 */
 	});
 
@@ -107,8 +115,15 @@
 			if (e.ctrlKey)  $(this).val(function(i, val) {return val + "\n";});
 			else if (e.shiftKey) return $(this).val();
 			else {
-				sendMsg();
-				return false;
+				if($('.upload-name').val()=='파일선택' || (ext=="jpg"||ext=="JPG"||ext=="png"||ext=="PNG"||ext=="gif"||ext=="GIF")){
+					sendMsg();
+					return false;
+				}	else{
+					alert("이미지 파일(jpg, png, gif)만 업로드 가능합니다.");
+					$('.upload-name').val('파일선택');
+					$('.upload-thumb-wrap').remove();
+				}
+				
 			}
 		}
 	});
@@ -129,7 +144,8 @@
 				type : "POST",
 				dataType : "json",
 				url : "${pageContext.request.contextPath}/inquireAllView",
-				success : function(data){
+				success : function(data){		 // for Admin
+					console.log(data);
 					$.each(data, function(i, v) {
 						var $msg_container_base = $('.msg_container_base');
 						var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
@@ -153,8 +169,8 @@
 								$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
 										.append($timeData.text(v.INQUIRE_SENDER_INDEX + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
 												))).append($avatar.append($img));
-						if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
-						$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="reply('+v.INQUIRE_SENDER_INDEX+')">답신</span></div>');
+						if(v.INQUIRE_ATTACH_ORIGINFILENAME==null) v.INQUIRE_ATTACH_ORIGINFILENAME="";
+						$div.html('<div style="display: block; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+v.INQUIRE_ATTACH_RENAMEDFILENAME+'\');" data-toggle="modal" data-target="#imgConfirm">'+v.INQUIRE_ATTACH_ORIGINFILENAME+'</span><span style="float: right;" onclick="reply('+v.INQUIRE_SENDER_INDEX+')">답신</span></div>');
 						
 						$msg_container_base.append($inquire_container.append($base_sent).append($div));
 						}	else{
@@ -176,7 +192,7 @@
 					console.log("Load list error");
 				}
 			});
-		}		else{
+		}		else{		// for user
 			$.ajax({
 			type : "POST",
 			dataType : "json",
@@ -207,9 +223,9 @@
 									.append($timeData.text("${session_user.user_id}" + " : "+ new Date(v.INQUIRE_SENDDATE).toLocaleString())
 											))).append($avatar.append($img));
 
-					if(v.INQUIRE_ATTACHMENT_FILE==null) v.INQUIRE_ATTACHMENT_FILE="";
+					if(v.INQUIRE_ATTACH_ORIGINFILENAME==null) v.INQUIRE_ATTACH_ORIGINFILENAME="";
 					
-					$div.html('<div style="display: block;  color: skyblue;"><span style="float: left;">'+v.INQUIRE_ATTACHMENT_FILE+'</span><span style="float: right;" onclick="deleteContent('+v.INQUIRE_NO+')">삭제</span></div>');
+					$div.html('<div style="display: block;  color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+v.INQUIRE_ATTACH_RENAMEDFILENAME+'\');" data-toggle="modal" data-target="#imgConfirm">'+v.INQUIRE_ATTACH_ORIGINFILENAME+'</span><span style="float: right;" onclick="deleteContent('+v.INQUIRE_NO+')">삭제</span></div>');
 					
 					$msg_container_base.append($inquire_container.append($base_sent).append($div));
 					}	else {
@@ -238,12 +254,17 @@
 	// 메시지 전송
 	function sendMsg() {
 			if ($('#chat-area').val() != null && $('#chat-area').val().trim() != ''){
-				if('${session_user.user_level}'!='1001'){ // 유저
+				if('${session_user.user_level}'!='1001'){ 		// user send
+					if(ext!="jpg" && ext!="JPG" && ext!="png" && ext!="PNG" && ext!="gif" && ext!="GIF")	$('.upload-name').val('');
 				stompClient.send("/app/question", {}, JSON.stringify({
 					'inquire_sender_index' : '${session_user.user_index}',
 					/* 'inquire_receiver_index' : '2', */
 					'inquire_content' : $('#chat-area').val(),
-				}));}	else{  // 관리자
+					'inquire_attach_originfilename' : $('.upload-name').val(),
+					'user_level' : '${session_user.user_level}',
+					'user_thumbnail' : '${session_user.user_thumbnail}'
+				}));
+				}	else{  									// admin send
 					stompClient.send("/app/question", {}, JSON.stringify({
 						'inquire_sender_index' : '${session_user.user_index}',
 						'inquire_receiver_index' : r,
@@ -256,8 +277,13 @@
 			}	else	alert("내용을 입력해주세요.");
 			
 			$('#chat-area').val(null);
-			$('.upload-name').val('파일 선택');
-			$('.upload-thumb-wrap').remove();
+			if($('.upload-name').val()!='파일선택'){
+				
+				if(ext=="jpg"||ext=="JPG"||ext=="png"||ext=="PNG"||ext=="gif"||ext=="GIF"){
+					fileUpload();	
+				}	else	return false;
+				
+			}
 		}
 
 
@@ -281,15 +307,15 @@
 			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			}	else{
-				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
-			}
+				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");}
+			
 		$base_sent.append(
 				$col.append($message.append($pre.text(data.inquire_content))
 						.append($timeData.text("${session_user.user_id}" + " : "+ date)
 								))).append($avatar.append($img));
 		
-		if(data.inquire_attachment_file==null) data.inquire_attachment_file="";
-		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;">'+data.inquire_attachment_file+'</span><span style="float: right;" onclick="deleteContent('+data.inquire_no+')">삭제</span></div>');
+		if(data.inquire_attach_originfilename==null || data.inquire_attach_originfilename=='파일선택') data.inquire_attach_originfilename="";
+		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.inquire_attach_originfilename+'</span><span style="float: right;" onclick="deleteContent('+data.inquire_no+')">삭제</span></div>');
 		/* $inquire_container.append($base_sent).append($div); */
 		$msg_container_base.append($inquire_container.append($base_sent).append($div));
 		}	else if (data.inquire_receiver_index=='${session_user.user_index}'){
@@ -311,8 +337,8 @@
 					$col.append($message.append($pre.text(data.inquire_content))
 							.append($timeData.text(data.inquire_sender_index + " : "+ new Date(data.inquire_sendDate).toLocaleString())
 									))).append($avatar.append($img));
-			if(data.inquire_attachment_file==null) data.inquire_attachment_file="";
-			$div.html('<div style="display: block; color: skyblue;"><span style="float: left;">'+data.inquire_attachment_file+'</span><span style="float: right;" onclick="reply('+data.inquire_sender_index+')">답신</span></div>');
+			if(data.inquire_attach_originfilename==null || data.inquire_attach_originfilename=='파일선택') data.inquire_attach_originfilename="";
+			$div.html('<div style="display: block; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.inquire_attach_originfilename+'</span><span style="float: right;" onclick="reply('+data.inquire_sender_index+')">답신</span></div>');
 			
 			$msg_container_base.append($inquire_container.append($base_sent).append($div));
 			
@@ -384,25 +410,42 @@
 		}
 	});
 	
-	function fileUpload(){
+	function fileUpload(){		/* fileUpload Function */
 		var file = new FormData();
-		file.append($('.upload-name').val(), $('#input-file')[0].files[0]);
+		console.log($('#input_file')[0].files[0]);
+		
+		/* file.append("inputfile", $('#input_file').prop('files')[0]); */
+		file.append('input_file', $('#input_file')[0].files[0]);
 	$.ajax({
 		type : "POST",
-		dataType : "json",
 		url : "${pageContext.request.contextPath}/inquireAttachment",
 		data : file,
 		processData: false,
         contentType: false,
+        async : false,
 		success : function(data){
-			console.log(data);
-			console.log("file upload success");
+			console.log(data.renamedFileName);
+			f=data.renamedFileName;
+			if(data.result == 1){
+				console.log("file upload success");
+				$('.upload-name').val('파일선택');
+				$('.upload-thumb-wrap').remove();
+			} else {
+				console.log("Send the file is success, but return value is 0");
+			}
 		}, error : function(data){
+			console.log(data);
 			console.log("file upload fail");
 		}
 	});
 
 	}
+	
+	function imgConfirm(fileName){
+		$('#inquireAttachment').attr('src', '${pageContext.request.contextPath}/resources/uploadFiles/inquire/'+fileName);
+	}
+	
+	
 	/* file upload  */
 	
 		var fileTarget = $('.filebox .upload-hidden');
@@ -416,6 +459,8 @@
 			var filename = $(this).val().split('/').pop().split('\\').pop();
 			};
 			$(this).siblings('.upload-name').val(filename);
+			ext = $('.upload-name').val().split(".")[1];
+			console.log(ext);
 		});
 	
 		//preview image 
@@ -449,5 +494,12 @@
 			img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+ imgSrc + "\")";
 		}
 	});
-			
 </script>
+
+<div class="modal fade" id="imgConfirm" role="dialog">
+	<div class="modal-dialog" style="margin: 0 0 0 0;">
+			<div class="modal-body">
+				<img src="" id="inquireAttachment" style="width: 180%; height: 120%">
+			</div>
+	</div>
+</div>

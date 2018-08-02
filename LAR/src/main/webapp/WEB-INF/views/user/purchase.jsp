@@ -111,7 +111,6 @@
 		$('#couponidx').val('');
 		$('#usercouponidx').val('');
 	});
-
 	var IMP = window.IMP;
 	IMP.init("imp42497878");
 		
@@ -144,7 +143,6 @@
 			}
 		});
 	}
-
 	function requestPay(data) {
 		var title = $('.media-body .title');
 		var name = "";
