@@ -61,4 +61,8 @@ public class InquireServiceImpl implements LarService<Inquire>{
 		return ((InquireDaoImpl)larDao).insert(msgMap);
 	}
 
+	public int fileUpdate(Map<String, String> fileName) {
+		return ((InquireDaoImpl)larDao).fileUpdate(fileName);
+	}
+
 }

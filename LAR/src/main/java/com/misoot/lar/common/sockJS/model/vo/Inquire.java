@@ -9,20 +9,20 @@ public class Inquire implements java.io.Serializable{
 	private static final long serialVersionUID = 9968L;
 
 	private int inquire_no;
-	private String inquire_sender_index, inquire_receiver_index, inquire_content, inquire_attachment_file;
+	private String inquire_sender_index, inquire_receiver_index, inquire_content, inquire_attach_originfilename, inquire_attach_renamedfilename;
 	private Date inquire_sendDate; // 작성일
-	//private MultipartFile sendFile;
 
 	public Inquire() {}
 
 	public Inquire(int inquire_no, String inquire_sender_index, String inquire_receiver_index, String inquire_content,
-			String inquire_attachment_file, Date inquire_sendDate) {
+			String inquire_attach_originfilename, String inquire_attach_renamedfilename, Date inquire_sendDate) {
 		super();
 		this.inquire_no = inquire_no;
 		this.inquire_sender_index = inquire_sender_index;
 		this.inquire_receiver_index = inquire_receiver_index;
 		this.inquire_content = inquire_content;
-		this.inquire_attachment_file = inquire_attachment_file;
+		this.inquire_attach_originfilename = inquire_attach_originfilename;
+		this.inquire_attach_renamedfilename = inquire_attach_renamedfilename;
 		this.inquire_sendDate = inquire_sendDate;
 	}
 
@@ -58,12 +58,20 @@ public class Inquire implements java.io.Serializable{
 		this.inquire_content = inquire_content;
 	}
 
-	public String getInquire_attachment_file() {
-		return inquire_attachment_file;
+	public String getInquire_attach_originfilename() {
+		return inquire_attach_originfilename;
 	}
 
-	public void setInquire_attachment_file(String inquire_attachment_file) {
-		this.inquire_attachment_file = inquire_attachment_file;
+	public void setInquire_attach_originfilename(String inquire_attach_originfilename) {
+		this.inquire_attach_originfilename = inquire_attach_originfilename;
+	}
+
+	public String getInquire_attach_renamedfilename() {
+		return inquire_attach_renamedfilename;
+	}
+
+	public void setInquire_attach_renamedfilename(String inquire_attach_renamedfilename) {
+		this.inquire_attach_renamedfilename = inquire_attach_renamedfilename;
 	}
 
 	public Date getInquire_sendDate() {
@@ -74,21 +82,15 @@ public class Inquire implements java.io.Serializable{
 		this.inquire_sendDate = inquire_sendDate;
 	}
 
-	/*public MultipartFile getSendFile() {
-		return sendFile;
-	}
-
-	public void setSendFile(MultipartFile sendFile) {
-		this.sendFile = sendFile;
-	}*/
-
 	@Override
 	public String toString() {
 		return "Inquire [inquire_no=" + inquire_no + ", inquire_sender_index=" + inquire_sender_index
 				+ ", inquire_receiver_index=" + inquire_receiver_index + ", inquire_content=" + inquire_content
-				+ ", inquire_attachment_file=" + inquire_attachment_file + ", inquire_sendDate=" + inquire_sendDate
-				/*+ ", sendFile=" + sendFile + "]"*/;
+				+ ", inquire_attach_originfilename=" + inquire_attach_originfilename
+				+ ", inquire_attach_renamedfilename=" + inquire_attach_renamedfilename + ", inquire_sendDate="
+				+ inquire_sendDate + "]";
 	}
+
 
 }
 
