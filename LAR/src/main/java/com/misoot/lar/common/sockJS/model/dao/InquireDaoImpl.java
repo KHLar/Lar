@@ -62,5 +62,4 @@ public class InquireDaoImpl implements LarDao<Inquire>{
 	public int insert(Map<String, Object> msgMap) {
 		return sqlSes.insert("inquire.insert", msgMap);
 	}
-
 }

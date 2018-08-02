@@ -1,13 +1,10 @@
 package com.misoot.lar.common.sockJS.controller;
 
-import java.io.File;
 import java.sql.Clob;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.sockJS.model.service.InquireServiceImpl;
@@ -109,6 +105,5 @@ public class InquireController {
 		int result = ((InquireServiceImpl) larService).deleteContent(no);
 		
 		return result;
-	}
-	
+	}	
 }

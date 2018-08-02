@@ -3,20 +3,18 @@ package com.misoot.lar.lecture.model.vo;
 import java.sql.Date;
 
 public class BoardLecture {
-	
-	  private int lecture_board_index;
-	  private int lecture_board_lecture_index;
-	  private String lecture_board_title;
-	  private String  lecture_board_content;
-	  private int lecture_board_hits;
-	  private Date lecture_board_upload_date;
-	  private int lecture_board_is_deleted;
-	  
-	 
-	
-	  public BoardLecture() {
+
+	private int lecture_board_index;
+	private int lecture_board_lecture_index;
+	private String lecture_board_title;
+	private String lecture_board_content;
+	private int lecture_board_hits;
+	private Date lecture_board_upload_date;
+	private int lecture_board_is_deleted;
+
+	public BoardLecture() {
 		super();
-		
+
 	}
 
 	public BoardLecture(int lecture_board_index, int lecture_board_lecture_index, String lecture_board_title,
@@ -31,7 +29,6 @@ public class BoardLecture {
 		this.lecture_board_upload_date = lecture_board_upload_date;
 		this.lecture_board_is_deleted = lecture_board_is_deleted;
 	}
-	
 
 	public int getLecture_board_index() {
 		return lecture_board_index;
@@ -97,8 +94,5 @@ public class BoardLecture {
 				+ ", lecture_board_upload_date=" + lecture_board_upload_date + ", lecture_board_is_deleted="
 				+ lecture_board_is_deleted + "]";
 	}
-	  
-	  
-	  
 
 }

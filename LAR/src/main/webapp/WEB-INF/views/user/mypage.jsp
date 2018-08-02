@@ -25,14 +25,14 @@
             data : {
                "userpassword" : pass_word,
                "userindex" : userIndex },
-            url : "${pageContext.request.contextPath}/mypage/PasswordCheck",
+            url : "${pageContext.request.contextPath}/user/mypage/PasswordCheck",
             success : function(data) {
                if (data == 0) { // 비밀번호가 틀렸을 경우
                   alert("비밀번호가 틀립니다. 확인하고 다시 이용해주세요.");
                   pwCheck = false;
                } else { // 비밀번호가 맞았을 경우
                   pwCheck = true;
-                  location.href = "${pageContext.request.contextPath}/mypage/infoPage/${session_user.user_index}";
+                  location.href = "${pageContext.request.contextPath}/user/mypage/infoPage/${session_user.user_index}";
                   }
                },
             error : function(error) {
@@ -49,7 +49,7 @@
 		});
 		
 		$.ajax({
-			url:'${pageContext.request.contextPath}/mypage/deleteWishList',
+			url:'${pageContext.request.contextPath}/user/mypage/deleteWishList',
 			type:'post',
 			dataType:'json',
 			data: {
@@ -141,10 +141,6 @@
 									</label>
 								</li>
 							</ul>
-							<hr style="border: 0.03em solid #cbbde2">
-							<div class="col-sm-5 col-xs-6 tital">								
-								<h4>소개</h4>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -166,9 +162,9 @@
 							&nbsp;&nbsp;&nbsp;구매내역&nbsp;&nbsp;&nbsp; </a></li>
 					<li role="presentation"><a class="couponList" data-target="#wrapCoupon" id="couponList" data-toggle="tab">
 							&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;</a></li>
-					<li role="presentation"><a class="alarm"
+					<!-- <li role="presentation"><a class="alarm"
 						data-target="#wrapAlarm" id="alarm" data-toggle="tab">
-							&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp; </a></li>
+							&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp; </a></li> -->
 				</ul>
 			</div>
 			
@@ -176,12 +172,11 @@
 				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
 					<h3>나의 강의</h3>
 					<c:forEach  items="${mypageList.llist}" var="mylecture">
-						<input type="hidden" id="lIndex" value="${mylecture.lecture_index}"/>
 						<div class="well">
 							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object" src="${mylecture.lecture_thumbnail}" style="width:180px;"></a>
+								<a class="pull-left" href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}"> <img class="media-object" src="${mylecture.lecture_thumbnail}" style="width:180px;"></a>
 								<div class="media-body">
-									<h4 class="media-heading">${mylecture.lecture_title}</h4>
+									<h4 class="media-heading"><a href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">${mylecture.lecture_title}</a></h4>
 									<p class="text-right">${mylecture.user_nickname}</p>
 									<p>${mylecture.lecture_intro}</p>
 									<ul class="list-inline list-unstyled">
@@ -198,8 +193,10 @@
 										</li>
 										<li>|</li>
 										<li>
-											<button type="button" class="btn btn-success btn-sm" style="border: none">계속하기</button>
-											<button type="button" class="btn btn-danger btn-sm" style="border: none">수강취소</button>
+											<button type="button" class="btn btn-success btn-sm" style="border: none" 
+												onclick="location.href='/lar/lectureBoardView?bindex=${mylecture.history_lecture_board_index}&index=${mylecture.lecture_index}'">계속하기</button>
+											<button type="button" class="btn btn-danger btn-sm cancel_lecture" style="border: none">수강취소</button>
+											<input type="hidden" id="lecture_index" value="${mylecture.lecture_index}"/>
 										</li>
 									</ul>
 								</div>
@@ -225,7 +222,9 @@
 							<c:forEach items="${mypageList.qnalist}" var="qnalist">
 								<tr>
 									<td>${qnalist.LECTURE_TITLE}</td>
-									<td>${qnalist.LECTURE_Q_TITLE}</td>
+									<td>${qnalist.LECTURE_Q_TITLE}
+										<span class="badge badge-pill badge-danger" style="background-color:tomato; margin-left: 10px;">New</span>
+									</td>
 									<td>
 										<c:if test="${ qnalist.LECTURE_A_INDEX eq null }">
 											X
@@ -245,7 +244,7 @@
 				
 				<div class="wrapWishList tab-pane" id="wrapWishList">
 					<h3 style="display: inline;">위시리스트</h3>
-					<form action="/lar/mypage/deleteWishList">
+					<form action="/lar/user/mypage/deleteWishList">
 					<div class="pull-right">
 						<button type="button" class="btn btn-danger deleteWishList" style="border: none">
 							<span class="glyphicon glyphicon-trash"></span>삭제하기
@@ -266,12 +265,12 @@
 								</td>
 								<td>
 									<div class="media">
-										<a href="#" class="pull-left"> 
-											<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+										<a href="/lar/lecture/lectureDetail?lecture_index=${wishList.lecture_index}" class="pull-left"> 
+											<img src="${wishList.lecture_thumbnail}" class="media-photo">
 										</a>
 										<div class="media-body">
 											<span class="media-meta pull-right">${wishList.lecture_review_count} reviews</span>
-											<h4 class="title">${wishList.lecture_title}</h4>
+											<h4 class="title"><a href="/lar/lecture/lectureDetail?lecture_index=${wishList.lecture_index}" >${wishList.lecture_title}</a></h4>
 											<p class="summary">${wishList.lecture_intro}</p>
 											<span> 
 												<i class="glyphicon glyphicon-star"></i> 
@@ -373,7 +372,7 @@
 					</table>
 				</div>
 
-				<div class="wrapAlarm tab-pane" id="wrapAlarm">
+				<!-- <div class="wrapAlarm tab-pane" id="wrapAlarm">
 					<h3>알림</h3>
 					<div class="row">
 						<div class="col-md-12">
@@ -407,7 +406,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

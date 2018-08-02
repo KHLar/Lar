@@ -1,7 +1,7 @@
 package com.misoot.lar.user.model.vo;
 
 public class Purchase {
-	
+
 	private String merchant_uid;
 	private int purchase_user_index;
 	private int purchase_used_coupon_index;
@@ -15,15 +15,13 @@ public class Purchase {
 	private String pay_method;
 	private String paid_at;
 	private String coupon_name;
-	
+
 	public Purchase() {
-		super();
 	}
 
 	public Purchase(String merchant_uid, int purchase_user_index, int purchase_used_coupon_index, String purchase_date,
 			String purchase_lecture_list, String paid_amount, String buyer_email, String buyer_name, String buyer_tel,
 			String status, String pay_method, String paid_at, String coupon_name) {
-		super();
 		this.merchant_uid = merchant_uid;
 		this.purchase_user_index = purchase_user_index;
 		this.purchase_used_coupon_index = purchase_used_coupon_index;

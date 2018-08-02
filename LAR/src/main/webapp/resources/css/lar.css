@@ -125,12 +125,8 @@ a {
 }
 
 .thumbnail .glyphicon {
-	font-size: 90%;
+	font-size: 120%;
 	margin: 3px;
-}
-
-.thumbnail .glyphicon-heart {
-	color: tomato;
 }
 
 .thumbnail .glyphicon-shopping-cart {
@@ -197,11 +193,6 @@ a {
 .wrapWishList .table {
 	background-color: #fff;
 	border-bottom: 1px solid #eee;
-}
-
-.wrapWishList .table tbody tr:hover {
-	cursor: pointer;
-	background-color: #eee;
 }
 
 .wrapWishList .table tbody tr td {

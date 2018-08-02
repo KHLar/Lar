@@ -56,11 +56,11 @@
 								</td>
 								<td>
 									<div class="media">
-										<a href="#" class="pull-left"> 
-											<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+										<a href="/lar/lecture/lectureDetail?lecture_index=${l.LECTURE_INDEX}" class="pull-left"> 
+											<img src="${l.LECTURE_THUMBNAIL}" class="media-photo" style="width:150px;">
 										</a>
 										<div class="media-body">
-											<h4 class="title"><a href="">${l.LECTURE_TITLE}</a></h4>
+											<h4 class="title"><a href="/lar/lecture/lectureDetail?lecture_index=${l.LECTURE_INDEX}">${l.LECTURE_TITLE}</a></h4>
 											<c:choose>
 												<c:when test="${fn:length(l.LECTURE_INTRO) > 50}">
 													<p><c:out value="${fn:substring(l.LECTURE_INTRO,0,49)}"/>....</p>

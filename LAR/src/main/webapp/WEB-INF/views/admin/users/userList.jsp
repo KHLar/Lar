@@ -13,12 +13,38 @@
 	<div class="row">
 		<h1 class="page-header">Users</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-dashboard"></i> Users</li>
-			<li class="active"><i class="fa fa-dashboard"></i> List</li>
-			<li class="active"><i class="fa fa-dashboard"></i> ${page}</li>
+			<li class="active"><i class="fa fa-address-book"></i> Users</li>
+			<li class="active"><a href="/lar/admin/users/list/1"><i class="fa fa-list"></i> List</a></li>
+			<li class="active"><i class="fa fa-hashtag"></i> ${page}</li>
 		</ol>
 	</div>
-
+	
+	<div class="row">
+		<nav class="navbar">
+			<div class="container-fluid">
+				<form class="navbar-form navbar-right" action="/lar/admin/users/search" method="post">
+					<div class="form-group">
+						<ul class="nav">
+							<li class="active">
+								<select class="form-control" name="filter">
+										<option value="id">ID</option>
+										<option value="nickname">닉네임</option>
+										<option value="phone">연락처</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search" name="text" required>
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</div>
+	
 	<div class="row table-responsive">
 		<table class="table table-striped table-condensed">
 			<tr>

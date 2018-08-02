@@ -92,6 +92,7 @@ textarea {
 			<div class="blog-heading">
 				<h3 class="text-capitalize">
 					&nbsp;&nbsp;게시판 글보기
+
 					<c:if test="${session_user.user_index eq commu.commu_Writer_Index}">
 						<div style="text-align:right;">
 						<button type="button" class="btn btn-success"

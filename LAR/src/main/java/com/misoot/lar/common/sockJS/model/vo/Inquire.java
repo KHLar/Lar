@@ -89,7 +89,6 @@ public class Inquire implements java.io.Serializable{
 				+ ", inquire_attachment_file=" + inquire_attachment_file + ", inquire_sendDate=" + inquire_sendDate
 				/*+ ", sendFile=" + sendFile + "]"*/;
 	}
-
 }
 
 

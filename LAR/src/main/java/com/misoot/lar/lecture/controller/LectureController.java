@@ -2,9 +2,7 @@ package com.misoot.lar.lecture.controller;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.sql.Clob;
-
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,11 +13,11 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.common.interfaces.LarService;
+import com.misoot.lar.common.util.Utils;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
@@ -38,8 +36,6 @@ import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
 import com.misoot.lar.user.model.vo.User;
-
-
 
 @Controller
 public class LectureController {
@@ -96,6 +92,7 @@ public class LectureController {
 		return "redirect:/lectureList";
 	}
 	
+	
 	//게시글 수정폼으로가기
 	@RequestMapping(value="/lectureUpdate")
 	public String updateForm(Model model, @RequestParam("index") int lecture_index){
@@ -107,14 +104,22 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureUpdateEnd",method=RequestMethod.POST)
 	public String updateLecture(Lecture t){
 		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
-		return "lecture/lectureView";
+		return "redirect:/lectureList";
 	}
 	
 	// 동영상 삭제
 	@RequestMapping(value="/lectureBoardDelete")
-	public String deleteBoard(@RequestParam int bindex , @RequestParam int index ){
+	public String deleteBoard(@RequestParam("bindex") int bindex , @RequestParam("index") int index ){
 		int result = ((LectureServiceImpl)LectureServiceImpl).deleteBoardLecture(bindex);
 		return "redirect:/lectureBoardView?index="+index+"&bindex="+bindex;
+	}
+	
+	// 리뷰 삭제
+	@RequestMapping(value="/deleteReview")
+	public String deleteReview(@RequestParam("rindex") int rindex, @RequestParam("index") int index){
+		int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+		
+		return "redirect:/lecture/lectureDetail?lecture_index="+index;	
 	}
 	
 	//동영상 수정폼으로 가기
@@ -175,14 +180,22 @@ public class LectureController {
 	//게시글 하나보기 // 강의 리스트 가져오기 //댓글 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
 	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, 
-			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model){
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model, HttpSession session){
 		
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
 		
 		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);
 		
 		List<LectureReview> rlist = ((LectureServiceImpl)LectureServiceImpl).reviewList(lecture_index);
-		
+		boolean chk = true;
+		if(session.getAttribute("session_user") != null){
+			for(LectureReview r : rlist){
+				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index()){
+					chk = false;
+					break;
+				}
+			}
+		}
 		// QnA		
 		int numPerPage = 10;
 		
@@ -234,7 +247,8 @@ public class LectureController {
 		model.addAttribute("blist",blist).addAttribute("lecture",lecture).
 		addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist).
 		addAttribute("qlist", qlist).addAttribute("numPerPage", numPerPage).
-		addAttribute("totalContents", totalContents);
+		addAttribute("totalContents", totalContents)
+		.addAttribute("chk",chk);
 		
 		return "lecture/lectureDetail";
 	}
@@ -331,8 +345,8 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureReview", method=RequestMethod.GET)
 	public String insertReview(@RequestParam("lecture_review_lecture_index") int lecture_index ,
 	@RequestParam("lecture_review_writer_index") int lecture_review_writer_index ,@RequestParam("lecture_review_score") int lecture_review_score,
-	@RequestParam("lecture_review_title") String lecture_review_title , @RequestParam("lecture_review_content") String lecture_review_content, Model model){
-		
+	@RequestParam("lecture_review_title") String lecture_review_title , @RequestParam("lecture_review_content") String lecture_review_content,@RequestParam("lecture_review_index") String lecture_review_index, Model model){
+
 		LectureReview lectureReview = new  LectureReview();
 		
 		lectureReview.setLecture_review_lecture_index(lecture_index);
@@ -343,101 +357,120 @@ public class LectureController {
 		
 		System.out.println("lectureReview="+lectureReview);
 		
+		if(lecture_review_index==null || lecture_review_index == ""){
+		
 		int result = ((LectureServiceImpl)LectureServiceImpl).insertReview(lectureReview);
 		
 		int result2 =  ((LectureServiceImpl)LectureServiceImpl).updaetStar(lecture_index);
+		}else{
+			Map<String, Object> rmap = new HashMap<String, Object>();
+			rmap.put("lecture_review_writer_index", lecture_review_writer_index);
+			rmap.put("lecture_review_lecture_index", lecture_index);
+			rmap.put("lectureReview", lectureReview);
+			int result3 =  ((LectureServiceImpl)LectureServiceImpl).updateReview(rmap);
+			
+			int result2 =  ((LectureServiceImpl)LectureServiceImpl).reupdaetStar(lecture_index);
+		}	
 		
 		System.out.println("lectureReview="+lectureReview);
 		
 		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
 	}
-	
+
+
 	@RequestMapping("/lecture/QnA/writeForm")
 	public String writeFormView() {
 		return "lecture/writeFormQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/insertQ")
-	public String insertQ(LectureQ lectureq, @SessionAttribute("session_user") User user,Model model) {
-		
+	public String insertQ(LectureQ lectureq, @SessionAttribute("session_user") User user, Model model) {
+
 		lectureq.setUser_index(user.getUser_index());
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(lectureq);
-		
-		return "redirect:/lecture/QnA/detail/"+result;
+
+		int result = ((LectureServiceImpl) LectureServiceImpl).insertQ(lectureq);
+
+		return "redirect:/lecture/QnA/detail/" + result;
 	}
-	
+
 	@RequestMapping("/lecture/QnA/detail/{content}")
-	public String lectureQnAdetail(@PathVariable int content, Model model) {
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).updateQhits(content);
-		
-		if(result > 0) {
-			LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(content);
+	public String lectureQnAdetail(@PathVariable int content, Model model, @SessionAttribute(value="session_user", required=false) User user) {
+
+		int result = ((LectureServiceImpl) LectureServiceImpl).updateQhits(content);
+
+		if (result > 0) {
+			LectureQ lectureQ = ((LectureServiceImpl) LectureServiceImpl).lectureQdetail(content);
+
+			List<LectureA> lectureA = ((LectureServiceImpl) LectureServiceImpl).lectureAdetail(content);
 			
-			List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(content);
+			if(lectureQ.getLecture_q_writer_index() == user.getUser_index()) {
+				int readCheck = ((LectureServiceImpl) LectureServiceImpl).readCheckQ(lectureQ.getLecture_q_index());
+			}
 			
-			model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
+			model.addAttribute("lectureQ", lectureQ).addAttribute("lectureA", lectureA);
 		}
-		
+
 		return "lecture/detailQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/insertA")
 	public String insertA(LectureA lecturea, @SessionAttribute("session_user") User user) {
-		
+
 		Map<String, Object> amap = new HashMap<String, Object>();
-		
-		System.out.println(user.getUser_index());
-		
+
 		amap.put("useridx", user.getUser_index());
 		amap.put("lecturea", lecturea);
 		
-		int result = ((LectureServiceImpl)LectureServiceImpl).insertA(amap);
-		
-		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
+		int result = 0;
+		if(lecturea.getLecture_a_index() == 0) {
+			result = ((LectureServiceImpl) LectureServiceImpl).insertA(amap);
+		} else {
+			result = ((LectureServiceImpl) LectureServiceImpl).updateA(lecturea);
+		}
+
+		return "redirect:/lecture/QnA/detail/"+ lecturea.getLecture_a_lecture_q_index();
 	}
-	
+
 	@RequestMapping("/lecture/QnA/updateQ/{qindex}")
 	public String updateQview(@PathVariable int qindex, Model model) {
-		LectureQ lectureq = ((LectureServiceImpl)LectureServiceImpl).updateQview(qindex);
-		
+		LectureQ lectureq = ((LectureServiceImpl) LectureServiceImpl).updateQview(qindex);
+
 		model.addAttribute("lectureq", lectureq);
-		
+
 		return "lecture/updateFormQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/updateQ")
 	public String updateQ(LectureQ lectureq) {
-		int result = ((LectureServiceImpl)LectureServiceImpl).updateQ(lectureq); 
-		return "redirect:/lecture/QnA/detail/"+lectureq.getLecture_q_index();
+		int result = ((LectureServiceImpl) LectureServiceImpl).updateQ(lectureq);
+		return "redirect:/lecture/QnA/detail/" + lectureq.getLecture_q_index();
 	}
-	
+
 	// 추천강의
 	@RequestMapping("/recommanded")
 	public String recomandedList(Model model) {
-		
+
 		Map<String, String> keyword = new HashMap<String, String>();
-		
+
 		keyword.put("keyword", "reviews");
-		List<Lecture> reviews = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> reviews = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		keyword.put("keyword", "score");
-		List<Lecture> score = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> score = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		keyword.put("keyword", "hotest");
-		List<Lecture> hotest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> hotest = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
-		
+
 		recomandedList.put("reviews", reviews);
 		recomandedList.put("score", score);
 		recomandedList.put("hotest", hotest);
-		
+
 		System.out.println(recomandedList);
-		
+
 		model.addAttribute("recomandedList", recomandedList);
-		
+
 		return "lecture/recommanded";
 	}
 }

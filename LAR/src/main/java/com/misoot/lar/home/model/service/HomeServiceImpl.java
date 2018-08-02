@@ -47,7 +47,7 @@ public class HomeServiceImpl implements LarService<Home> {
 		return 0;
 	}
 	
-	public List<Lecture> selectLectureList(String method) {
-		return ((HomeDaoImpl)homeDaoImpl).selectLectureList(method);
+	public List<Lecture> selectLectureList(String method, int user_index) {
+		return ((HomeDaoImpl)homeDaoImpl).selectLectureList(method, user_index);
 	}
 }
