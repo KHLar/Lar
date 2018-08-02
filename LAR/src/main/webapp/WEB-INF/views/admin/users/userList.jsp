@@ -18,7 +18,33 @@
 			<li class="active"><i class="fa fa-hashtag"></i> ${page}</li>
 		</ol>
 	</div>
-
+	
+	<div class="row">
+		<nav class="navbar">
+			<div class="container-fluid">
+				<form class="navbar-form navbar-right" action="/lar/admin/users/search" method="post">
+					<div class="form-group">
+						<ul class="nav">
+							<li class="active">
+								<select class="form-control" name="filter">
+										<option value="id">ID</option>
+										<option value="nickname">닉네임</option>
+										<option value="phone">연락처</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search" name="text" required>
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</div>
+	
 	<div class="row table-responsive">
 		<table class="table table-striped table-condensed">
 			<tr>

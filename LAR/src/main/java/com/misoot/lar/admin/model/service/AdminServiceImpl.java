@@ -50,6 +50,10 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return adminDaoImpl.delete(index);
 	}
 
+	/*
+	 * user area start
+	 */
+	
 	public List<User> selectUserList(int user_level, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).selectUserList(user_level, rowBounds);
 	}
@@ -66,13 +70,34 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).modifyUserByAdmin(user);
 	}
 	
-	/*
-	 * community area
-	 */
-	
 	public List<Commu> selectCommuListByUserIndex(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuListByUserIndex(user_index);
 	}
+	
+	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByUserIndex(user_index);
+	}
+	
+	public List<Purchase> paymentList(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
+	}
+	
+	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchUserList(searchMap, rowBounds);
+	}
+
+	public int searchUserListCount(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchUserListCount(searchMap);
+	}
+	
+	/*
+	 * user area end
+	 */
+	
+	
+	/*
+	 * community area
+	 */
 	
 	public Commu selectCommuByCommuIndex(int commu_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuByCommuIndex(commu_index);
@@ -81,56 +106,24 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByCommuIndex(commu_index);
 	}
-
-	public List<Purchase> paymentList(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
+	
+	public List<Commu> selectCommuList(String category, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuList(category, rowBounds);
 	}
 	
-	public List<Commu> selectCommuNoticeList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuNoticeList(rowBounds);
+	public int selectCommuListCount(String category) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuListCount(category);
 	}
-
-	public int selectCommuNoticeListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuNoticeListCount();
-	}
-
-	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardList(rowBounds);
-	}
-
-	public int selectCommuBoardListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardListCount();
-	}
-
-	public List<Commu> selectCommuQaList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuQaList(rowBounds);
-	}
-
-	public int selectCommuQaListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuQaListCount();
-	}
-
-	public List<Commu> selectCommuNewsList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuNewsList(rowBounds);
-	}
-
-	public int selectCommuNewsListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuNewsListCount();
-	}
-
-	public List<Commu> selectCommuTrashList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuTrashList(rowBounds);
-	}
-
-	public int selectCommuTrashListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuTrashListCount();
-	}
-
-	public boolean commuTrashRestore(int commu_index) {
-		return ((AdminDaoImpl)adminDaoImpl).commuTrashRestore(commu_index);
-	}
-
+	
 	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuList(searchMap, rowBounds);
+	}
+	
+	public int searchCommuListCount(Map<String, String> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCount(searchMap);
+	}
+	
+	public boolean commuTrashRestore(int commu_index) {
+		return ((AdminDaoImpl)adminDaoImpl).commuTrashRestore(commu_index);
 	}
 }

@@ -49,7 +49,7 @@ public class AdminController {
 	 */
 	
 	@RequestMapping(value = "/users/list/{page}")
-	public String users(Model model, @SessionAttribute("session_user") User session_user,
+	public String user_list(Model model, @SessionAttribute("session_user") User session_user,
 			@PathVariable("page") int page) {
 		int content_per_page = 20;
 		int paging_count = 10;
@@ -70,22 +70,17 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/users/view/{user_index}")
-	public String user_View(Model model, @PathVariable("user_index") int user_index) {
+	public String user_view(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
 		List<Commu> writeList = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index);
-//		List<CommuReply> replyList = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByCommuIndex(commu_index);
-		
+		List<CommuReply> replyList = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByUserIndex(user_index);
 		List<Purchase> paymentList = ((AdminServiceImpl) adminServiceImpl).paymentList(user_index);
 		
 		model.addAttribute("view_user", view_user)
-			.addAttribute("paymentList", paymentList)
-			.addAttribute("writeList", writeList);
-		/*
-		 * .addAttribute("writeList", writeList);
-		 * .addAttribute("replyList", replyList);
-		 * 
-		 * .addAttribute("lectureLaunchedList", lectureLaunchedList);
-		 */
+			.addAttribute("writeList", writeList)
+			.addAttribute("replyList", replyList)
+			.addAttribute("paymentList", paymentList);
+
 		return "admin/users/userView";
 	}
 	
@@ -94,6 +89,39 @@ public class AdminController {
 		int result = ((AdminServiceImpl)adminServiceImpl).modifyUserByAdmin(user);
 		return "redirect:/admin/users/view/"+user.getUser_index();
 	}
+	
+	@RequestMapping(value="/users/search", method={RequestMethod.POST, RequestMethod.GET})
+	public String user_search(@RequestParam("filter") String filter, @RequestParam("text") String text) {
+		return "redirect:/admin/users/search/"+filter+"/"+text+"/list/1";
+	}
+	
+	// search paging
+	@RequestMapping(value="/users/search/{filter}/{text}/list/{page}")
+	public String commu_search_paging(Model model, @SessionAttribute("session_user") User session_user, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("user_level", session_user.getUser_level());
+		searchMap.put("filter", filter);
+		searchMap.put("text", text);
+		
+		List<User> user_list = ((AdminServiceImpl) adminServiceImpl).searchUserList(searchMap, rowBounds);
+		
+		if (user_list.size() < 1 && page != 1) return "redirect:/admin/users/search/"+filter+"/"+text+"/list/1";
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchUserListCount(searchMap); 
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("user_list", user_list).addAttribute("pi", pi);
+		
+		return "admin/users/userList";
+	}
+	
 	
 	/*
 	 * Admin Users area End
@@ -118,86 +146,25 @@ public class AdminController {
 	 * community area start
 	 */
 	
-	@RequestMapping(value="/commu/notice/list/{page}")
-	public String commu_notice(Model model, @PathVariable("page") int page) {
+	@RequestMapping(value="/commu/{category}/list/{page}")
+	public String commu_list(Model model, @PathVariable("category") String category, @PathVariable("page") int page) {
 		int content_per_page = 20;
 		int paging_count = 10;
 		
 		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuList(category, rowBounds);
 		
-		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuNoticeList(rowBounds);
+		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/list/1";
 		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/notice/list/1";
-		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuNoticeListCount();
-		
-		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
-				
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
-		
-		return "admin/commu/notice";
-	}
-		
-	@RequestMapping(value="/commu/board/list/{page}")
-	public String commu_board(Model model, @PathVariable("page") int page) {
-		int content_per_page = 20;
-		int paging_count = 10;
-
-		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
-		
-		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuBoardList(rowBounds);
-		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/board/list/1";
-		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuBoardListCount(); 
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCount(category);
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
 		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
-		return "admin/commu/board";
-	}
-	
-	@RequestMapping(value="/commu/qa/list/{page}")
-	public String commu_qa(Model model, @PathVariable("page") int page) {
-		int content_per_page = 20;
-		int paging_count = 10;
-
-		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
-		
-		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuQaList(rowBounds);
-		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/qa/list/1";
-		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuQaListCount(); 
-		
-		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
-		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
-		
-		return "admin/commu/qa";
+		return "admin/commu/"+category;
 	}
 		
-	@RequestMapping(value="/commu/news/list/{page}")
-	public String commu_news(Model model, @PathVariable("page") int page) {
-		int content_per_page = 20;
-		int paging_count = 10;
-
-		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
-		
-		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuNewsList(rowBounds);
-		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/news/list/1";
-		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuNewsListCount(); 
-		
-		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
-		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
-		
-		return "admin/commu/news";
-	}
-	
 	@RequestMapping(value="/commu/view/{commu_index}")
 	public String commu_View(Model model, @PathVariable("commu_index") int commu_index) {
 		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByCommuIndex(commu_index);
@@ -209,26 +176,6 @@ public class AdminController {
 			.addAttribute("view_commu_reply", reply_list);
 		
 		return "admin/commu/commuView";
-	}
-	
-	@RequestMapping(value="/commu/trash/list/{page}")
-	public String commu_trash(Model model, @PathVariable("page") int page) {
-		int content_per_page = 20;
-		int paging_count = 10;
-
-		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
-		
-		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuTrashList(rowBounds);
-		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/trash/list/1";
-		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuTrashListCount(); 
-		
-		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
-		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
-		
-		return "admin/commu/trash";
 	}
 	
 	@RequestMapping(value="/commu/trash/view/{commu_index}")
@@ -295,7 +242,7 @@ public class AdminController {
 		
 		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+text+"/list/1";
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuTrashListCount(); 
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuListCount(searchMap); 
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
@@ -307,5 +254,4 @@ public class AdminController {
 	/*
 	 * community area end
 	 */
-	
 }

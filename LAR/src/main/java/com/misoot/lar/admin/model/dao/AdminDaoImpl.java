@@ -63,6 +63,26 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.update("admin.modifyUserByAdmin", user);
 	}
 	
+	public List<Commu> selectCommuListByUserIndex(int user_index) {
+		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index);
+	}
+	
+	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index) {
+		return sqlSession.selectList("admin.selectCommuReplyListByUserIndex", user_index);
+	}
+	
+	public List<Purchase> paymentList(int user_index) {
+		return sqlSession.selectList("admin.paymentList", user_index);
+	}
+	
+	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.searchUserList", searchMap, rowBounds);
+	}
+
+	public int searchUserListCount(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.searchUserListCount", searchMap);
+	}
+	
 	/*
 	 * community area
 	 */
@@ -74,60 +94,24 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
 		return sqlSession.selectList("admin.selectCommuReplyListByCommuIndex", commu_index);
 	}
-
-	public List<Purchase> paymentList(int user_index) {
-		return sqlSession.selectList("admin.paymentList", user_index);
-	}
-
-	public List<Commu> selectCommuListByUserIndex(int user_index) {
-		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index);
+	
+	public List<Commu> selectCommuList(String category, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuList", category, rowBounds);
 	}
 	
-	public List<Commu> selectCommuNoticeList(RowBounds rowBounds) {
-		return sqlSession.selectList("admin.selectCommuNoticeList", null, rowBounds);
+	public int selectCommuListCount(String category) {
+		return sqlSession.selectOne("admin.selectCommuListCount", category);
 	}
-
-	public int selectCommuNoticeListCount() {
-		return sqlSession.selectOne("admin.selectCommuNoticeListCount");
-	}
-
-	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
-		return sqlSession.selectList("admin.selectCommuBoardList", null, rowBounds);
-	}
-
-	public int selectCommuBoardListCount() {
-		return sqlSession.selectOne("admin.selectCommuBoardListCount");
-	}
-
-	public List<Commu> selectCommuQaList(RowBounds rowBounds) {
-		return sqlSession.selectList("admin.selectCommuQaList", null, rowBounds);
-	}
-
-	public int selectCommuQaListCount() {
-		return sqlSession.selectOne("admin.selectCommuQaListCount");
-	}
-
-	public List<Commu> selectCommuNewsList(RowBounds rowBounds) {
-		return sqlSession.selectList("admin.selectCommuNewsList", null, rowBounds);
-	}
-
-	public int selectCommuNewsListCount() {
-		return sqlSession.selectOne("admin.selectCommuNewsListCount");
-	}
-
-	public List<Commu> selectCommuTrashList(RowBounds rowBounds) {
-		return sqlSession.selectList("admin.selectCommuTrashList", null, rowBounds);
-	}
-
-	public int selectCommuTrashListCount() {
-		return sqlSession.selectOne("admin.selectCommuTrashListCount");
-	}
-
-	public boolean commuTrashRestore(int commu_index) {
-		return sqlSession.update("admin.commuTrashRestore", commu_index) > 0 ? true : false;
-	}
-
+	
 	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.searchCommuList", searchMap, rowBounds);
+	}
+	
+	public int searchCommuListCount(Map<String, String> searchMap) {
+		return sqlSession.selectOne("admin.searchCommuListCount", searchMap);
+	}
+	
+	public boolean commuTrashRestore(int commu_index) {
+		return sqlSession.update("admin.commuTrashRestore", commu_index) > 0 ? true : false;
 	}
 }

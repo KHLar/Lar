@@ -126,7 +126,7 @@
 					<li class="dropdown">
 						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:#ffe484;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="user-btn">
-							<li><a href="/lar/mypage" style="color:black;"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
+							<li><a href="/lar/user/mypage" style="color:black;"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
 							<li><a href="/lar/user/cart" style="color:black;"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
 							<li><a href="/lar/user/signout" style="color:black;"><span class="glyphicon glyphicon-log-out"></span> 접속해제</a></li>
 						</ul>
