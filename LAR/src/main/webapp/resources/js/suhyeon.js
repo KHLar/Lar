@@ -29,29 +29,25 @@ function form_validate(target) {
 	var result = false;
 
 	switch (target) {
-		case 'signup':
-			if ((input_duplicate_check('id') == 0)) {
-	
-			} else if ((input_validate('password') == 0)) {
-	
-			} else if ((input_validate('password2') == 0)) {
-	
-			} else if ((input_duplicate_check('nickname') == 0)) {
-	
-			} else if ((input_duplicate_check('phone') == 0)) {
-	
-			} else {
-				result = true;
-			}
-		break;		
-		case 'passwordModify':
-			if ((input_validate('newPassword') == 0)) {
+	case 'signup':
+		if ((input_duplicate_check('id') == 1)
+				&& (input_validate('password') == 1)
+				&& (input_validate('password2') == 1)
+				&& (input_duplicate_check('nickname') == 1)
+				&& (input_duplicate_check('phone') == 1)) {
+			result = true;
+		} else {
+			result = false;
+		}
+		break;
+	case 'passwordModify':
+		if ((input_validate('newPassword') == 0)) {
 
-			} else if ((input_validate('newPassword2') == 0)) {
+		} else if ((input_validate('newPassword2') == 0)) {
 
-			} else {
-				result = true;
-			} 
+		} else {
+			result = true;
+		}
 		break;
 	}
 
@@ -77,7 +73,7 @@ function input_state_change(kinds, flag) {
 
 function input_help_block_change(kinds, reason, flag) {
 	var result = '';
-	
+
 	if (flag == 1) { // 성공
 		if (reason == 'validate') {
 			// 문법 검사 통과
@@ -110,7 +106,7 @@ function input_help_block_change(kinds, reason, flag) {
 			default:
 				break;
 			}
-			
+
 		} else if (reason == 'duplicate') {
 			// 중복 검사 실패
 			result = '이미 사용중인 값 입니다.';
@@ -118,7 +114,6 @@ function input_help_block_change(kinds, reason, flag) {
 	}
 
 	$('.' + kinds + '.help-block').text(result);
-
 }
 
 function input_validate(kinds) {
@@ -129,29 +124,30 @@ function input_validate(kinds) {
 	var result_value = 0;
 
 	switch (kinds) {
-		case 'id':
-		case 'id_for_unlock':
-			reg_Exp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,4}$/i;
-			result = reg_Exp.test(target_html_value);
+	case 'id':
+	case 'id_for_unlock':
+		reg_Exp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,4}$/i;
+		result = reg_Exp.test(target_html_value);
 		break;
-		case 'password':
-		case 'newPassword':
-			reg_Exp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/g;
-			result = reg_Exp.test(target_html_value);
+	case 'password':
+	case 'newPassword':
+		reg_Exp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/g;
+		result = reg_Exp.test(target_html_value);
 		break;
-		case 'password2':
-		case 'newPassword2':
-			result = target_html_value == $('#'+target_html_id.slice(0,-1)).val() ? true : false;
+	case 'password2':
+	case 'newPassword2':
+		result = target_html_value == $('#' + target_html_id.slice(0, -1))
+				.val() ? true : false;
 		break;
-		case 'nickname':
-			reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
-			result = reg_Exp.test(target_html_value);
+	case 'nickname':
+		reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
+		result = reg_Exp.test(target_html_value);
 		break;
-		case 'phone':
-			reg_Exp = /(01[016789])[-](\d{4}|\d{3})[-]\d{4}$/g;
-			result = reg_Exp.test(target_html_value);
+	case 'phone':
+		reg_Exp = /(01[016789])[-](\d{4}|\d{3})[-]\d{4}$/g;
+		result = reg_Exp.test(target_html_value);
 		break;
-		default:
+	default:
 		break;
 	}
 	//	

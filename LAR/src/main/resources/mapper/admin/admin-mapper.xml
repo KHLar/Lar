@@ -117,19 +117,19 @@
 		where USER_LEVEL <![CDATA[<]]> #{user_level} and
 			(USER_TYPE like '%'||'user'||'%' OR 
 			USER_TYPE like '%'||'inst'||'%')
-			<choose>
-				<when test="filter eq 'id'">
-					and USER_ID like '%'|| #{text} ||'%' 
-				</when>
-				<when test="filter eq 'nickname'">
-					and USER_NICKNAME like '%'|| #{text} ||'%'
-				</when>
-				<when test="filter eq 'phone'">
-					and USER_PHONE like '%'|| #{text} ||'%'
-				</when>
-				<otherwise>
-				</otherwise>
-			</choose>
+		<choose>
+			<when test="filter eq 'id'">
+				and USER_ID like '%'|| #{text} ||'%' 
+			</when>
+			<when test="filter eq 'nickname'">
+				and USER_NICKNAME like '%'|| #{text} ||'%'
+			</when>
+			<when test="filter eq 'phone'">
+				and USER_PHONE like '%'|| #{text} ||'%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 		
 	<!-- community area -->
@@ -139,56 +139,58 @@
 		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
 		COMMU_WRITER, COMMU_TAGS
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where C.COMMU_IS_DELETED = 
-		<choose>
-			<when test="_parameter eq 'trash'">
-				1
-			</when>
-			<otherwise>
-				0
-			</otherwise>
-		</choose>
-		
-		<if test="_parameter eq 'notice'">
-			and C.COMMU_CATEGORY_INDEX = 'N01'
-		</if>
-		<if test="_parameter eq 'board'">
-			and C.COMMU_CATEGORY_INDEX = 'B04'
-		</if>
-		<if test="_parameter eq 'qa'">
-			and C.COMMU_CATEGORY_INDEX = 'B02'
-		</if>
-		<if test="_parameter eq 'news'">
-			and C.COMMU_CATEGORY_INDEX = 'B03'
-		</if>
+		<where> 
+			<choose>
+				<when test="_parameter eq 'trash'">
+					C.COMMU_IS_DELETED = 1
+				</when>
+				<otherwise>
+					C.COMMU_IS_DELETED = 0
+				</otherwise>
+			</choose>
+			
+			<if test="_parameter eq 'notice'">
+				and C.COMMU_CATEGORY_INDEX = 'N01'
+			</if>
+			<if test="_parameter eq 'board'">
+				and C.COMMU_CATEGORY_INDEX = 'B04'
+			</if>
+			<if test="_parameter eq 'qa'">
+				and C.COMMU_CATEGORY_INDEX = 'B02'
+			</if>
+			<if test="_parameter eq 'news'">
+				and C.COMMU_CATEGORY_INDEX = 'B03'
+			</if>
+		</where>
 		order by C.COMMU_INDEX DESC
 	</select>
 	
 	<select id="selectCommuListCount" parameterType="string" resultType="_int">
 		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where C.COMMU_IS_DELETED = 
-		<choose>
-			<when test="_parameter eq 'trash'">
-				1
-			</when>
-			<otherwise>
-				0
-			</otherwise>
-		</choose>
-		
-		<if test="_parameter eq 'notice'">
-			and C.COMMU_CATEGORY_INDEX = 'N01'
-		</if>
-		<if test="_parameter eq 'board'">
-			and C.COMMU_CATEGORY_INDEX = 'B04'
-		</if>
-		<if test="_parameter eq 'qa'">
-			and C.COMMU_CATEGORY_INDEX = 'B02'
-		</if>
-		<if test="_parameter eq 'news'">
-			and C.COMMU_CATEGORY_INDEX = 'B03'
-		</if>
+		<where> 
+			<choose>
+				<when test="_parameter eq 'trash'">
+					C.COMMU_IS_DELETED = 1
+				</when>
+				<otherwise>
+					C.COMMU_IS_DELETED = 0
+				</otherwise>
+			</choose>
+			
+			<if test="_parameter eq 'notice'">
+				and C.COMMU_CATEGORY_INDEX = 'N01'
+			</if>
+			<if test="_parameter eq 'board'">
+				and C.COMMU_CATEGORY_INDEX = 'B04'
+			</if>
+			<if test="_parameter eq 'qa'">
+				and C.COMMU_CATEGORY_INDEX = 'B02'
+			</if>
+			<if test="_parameter eq 'news'">
+				and C.COMMU_CATEGORY_INDEX = 'B03'
+			</if>
+		</where>
 	</select>
 	
 	<select id="searchCommuList" parameterType="map" resultMap="getselectCommuList">
@@ -196,76 +198,84 @@
 		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
 		COMMU_WRITER, COMMU_TAGS
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where C.COMMU_IS_DELETED = 
-		<choose>
-			<when test="category eq 'trash'">
-				1
-			</when>
-			<otherwise>
-				0
-			</otherwise>
-		</choose>
-		and
-		<if test="filter eq 'title'">
-			C.COMMU_TITLE like '%'||#{text}||'%'
-		</if>
-		<if test="filter eq 'content'">
-			C.COMMU_CONTENT like '%'||#{text}||'%' 
-		</if>
-		<if test="filter eq 'tag'">
-			C.COMMU_TAGS like '%'||#{text}||'%' 
-		</if>
+		<where>
+			<choose>
+				<when test="category eq 'trash'">
+					C.COMMU_IS_DELETED = 1
+				</when>
+				<otherwise>
+					C.COMMU_IS_DELETED = 0
+				</otherwise>
+			</choose>
 		
-		<if test="category eq 'notice'">
-			and C.COMMU_CATEGORY_INDEX = 'N01'
-		</if>
-		<if test="category eq 'board'">
-			and C.COMMU_CATEGORY_INDEX = 'B04'
-		</if>
-		<if test="category eq 'qa'">
-			and C.COMMU_CATEGORY_INDEX = 'B02'
-		</if>
-		<if test="category eq 'news'">
-			and C.COMMU_CATEGORY_INDEX = 'B03'
-		</if>
+			<if test="filter eq 'title'">
+				and C.COMMU_TITLE like '%'||#{text}||'%'
+			</if>
+			<if test="filter eq 'writer'">
+				and U.USER_NICKNAME like '%'||#{text}||'%' 
+			</if>
+			<if test="filter eq 'content'">
+				and C.COMMU_CONTENT like '%'||#{text}||'%' 
+			</if>
+			<if test="filter eq 'tag'">
+				and C.COMMU_TAGS like '%'||#{text}||'%' 
+			</if>
+		
+			<if test="category eq 'notice'">
+				and C.COMMU_CATEGORY_INDEX = 'N01'
+			</if>
+			<if test="category eq 'board'">
+				and C.COMMU_CATEGORY_INDEX = 'B04'
+			</if>
+			<if test="category eq 'qa'">
+				and C.COMMU_CATEGORY_INDEX = 'B02'
+			</if>
+			<if test="category eq 'news'">
+				and C.COMMU_CATEGORY_INDEX = 'B03'
+			</if>
+		</where>
 		order by C.COMMU_INDEX DESC
 	</select>
 	
 	<select id="searchCommuListCount" parameterType="map" resultType="_int">
 		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where C.COMMU_IS_DELETED = 
-		<choose>
-			<when test="category eq 'trash'">
-				1
-			</when>
-			<otherwise>
-				0
-			</otherwise>
-		</choose>
-		and
-		<if test="filter eq 'title'">
-			C.COMMU_TITLE like '%'||#{text}||'%'
-		</if>
-		<if test="filter eq 'content'">
-			C.COMMU_CONTENT like '%'||#{text}||'%' 
-		</if>
-		<if test="filter eq 'tag'">
-			C.COMMU_TAGS like '%'||#{text}||'%' 
-		</if>
+		<where>
+			<choose>
+				<when test="category eq 'trash'">
+					C.COMMU_IS_DELETED = 1
+				</when>
+				<otherwise>
+					C.COMMU_IS_DELETED = 0
+				</otherwise>
+			</choose>
 		
-		<if test="category eq 'notice'">
-			and C.COMMU_CATEGORY_INDEX = 'N01'
-		</if>
-		<if test="category eq 'board'">
-			and C.COMMU_CATEGORY_INDEX = 'B04'
-		</if>
-		<if test="category eq 'qa'">
-			and C.COMMU_CATEGORY_INDEX = 'B02'
-		</if>
-		<if test="category eq 'news'">
-			and C.COMMU_CATEGORY_INDEX = 'B03'
-		</if>
+			<if test="filter eq 'title'">
+				and C.COMMU_TITLE like '%'||#{text}||'%'
+			</if>
+			<if test="filter eq 'writer'">
+				and U.USER_NICKNAME like '%'||#{text}||'%' 
+			</if>
+			<if test="filter eq 'content'">
+				and C.COMMU_CONTENT like '%'||#{text}||'%' 
+			</if>
+			<if test="filter eq 'tag'">
+				and C.COMMU_TAGS like '%'||#{text}||'%' 
+			</if>
+		
+			<if test="category eq 'notice'">
+				and C.COMMU_CATEGORY_INDEX = 'N01'
+			</if>
+			<if test="category eq 'board'">
+				and C.COMMU_CATEGORY_INDEX = 'B04'
+			</if>
+			<if test="category eq 'qa'">
+				and C.COMMU_CATEGORY_INDEX = 'B02'
+			</if>
+			<if test="category eq 'news'">
+				and C.COMMU_CATEGORY_INDEX = 'B03'
+			</if>
+		</where>
 	</select>
 		
 	<select id="selectCommuByCommuIndex" parameterType="_int" resultMap="getselectCommuOne">

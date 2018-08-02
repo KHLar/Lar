@@ -9,11 +9,26 @@
 	<c:param value="Users List" name="pageTitle" />
 </c:import>
 
+<script>
+	var current_path = window.location.href;
+	var path_arr = current_path.split('/');
+	
+	$(function() {
+		if (current_path.includes('search')) {
+			$('.breadcrumb .fa-search').parent('li').css('display', '');
+			$('.breadcrumb .fa-list').parent('a').attr('href', current_path);
+			$('input[name=text]').val(decodeURI(path_arr[path_arr.indexOf('search')+2]));
+			$('select[name=filter]').children('option[value='+path_arr[path_arr.indexOf('search')+1]+']').attr('selected','true');
+		}
+	});
+</script>
+
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">Users</h1>
 		<ol class="breadcrumb">
 			<li class="active"><i class="fa fa-address-book"></i> Users</li>
+			<li class="active" style="display: none;"><i class="fa fa-search"></i> Search</li>
 			<li class="active"><a href="/lar/admin/users/list/1"><i class="fa fa-list"></i> List</a></li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${page}</li>
 		</ol>
@@ -27,17 +42,17 @@
 						<ul class="nav">
 							<li class="active">
 								<select class="form-control" name="filter">
-										<option value="id">ID</option>
-										<option value="nickname">닉네임</option>
-										<option value="phone">연락처</option>
+									<option value="id">ID</option>
+									<option value="nickname">닉네임</option>
+									<option value="phone">연락처</option>
 								</select>
 							</li>
 						</ul>
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search" name="text" required>
-						<button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
+						<button class="btn btn-default form-control" type="submit">
+							<i class="fa fa-search"></i>
 						</button>
 					</div>
 				</form>
