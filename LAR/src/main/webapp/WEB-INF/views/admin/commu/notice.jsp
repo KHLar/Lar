@@ -15,11 +15,14 @@
 
 <script>
 	var current_path = window.location.href;
+	var path_arr = current_path.split('/');
 	
 	$(function() {
 		if (current_path.includes('search')) {
 			$('.breadcrumb .fa-search').parent('li').css('display', '');
 			$('.breadcrumb .fa-list').parent('a').attr('href', current_path);
+			$('input[name=text]').val(decodeURI(path_arr[path_arr.indexOf('search')+2]));
+			$('select[name=filter]').children('option[value='+path_arr[path_arr.indexOf('search')+1]+']').attr('selected','true');
 		}
 	});
 </script>
@@ -46,17 +49,18 @@
 						<ul class="nav">
 							<li class="active">
 								<select class="form-control" name="filter">
-										<option value="title">제목</option>
-										<option value="writer">작성자</option>
-										<option value="content">내용</option>
+									<option value="title">제목</option>
+									<option value="writer">작성자</option>
+									<option value="content">내용</option>
+									<option value="tag">태그</option>
 								</select>
 							</li>
 						</ul>
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search" name="text" required>
-						<button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
+						<button class="btn btn-default form-control" type="submit">
+							<i class="fa fa-search"></i>
 						</button>
 					</div>
 				</form>
@@ -75,7 +79,12 @@
 			<c:forEach items="${commu_list}" var="cn">
 				<tr>
 					<td>${cn.commu_Index}</td>
-					<td><a href="/lar/admin/commu/view/${cn.commu_Index}">${cn.commu_Title}</a></td>
+					<td>
+						<p><a href="/lar/admin/commu/view/${cn.commu_Index}">${cn.commu_Title}</a></p>
+						<c:forTokens items="${cn.commu_tags}" var="tag" delims=",">
+							<a href="/lar/admin/commu/notice/search/tag/${tag}/list/1" class="bg-warning labelinput badge badge-warning" style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
+						</c:forTokens>
+					</td>
 					<td>${cn.commu_Writer}</td>
 					<td>${cn.commu_Upload_Date}</td>
 				</tr>

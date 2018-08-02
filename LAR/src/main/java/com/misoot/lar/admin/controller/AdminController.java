@@ -1,5 +1,7 @@
 package com.misoot.lar.admin.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,13 +93,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/users/search", method={RequestMethod.POST, RequestMethod.GET})
-	public String user_search(@RequestParam("filter") String filter, @RequestParam("text") String text) {
-		return "redirect:/admin/users/search/"+filter+"/"+text+"/list/1";
+	public String user_search(@RequestParam("filter") String filter, @RequestParam("text") String text) throws UnsupportedEncodingException {
+		System.out.println(text);
+		return "redirect:/admin/users/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 	}
 	
 	// search paging
 	@RequestMapping(value="/users/search/{filter}/{text}/list/{page}")
-	public String commu_search_paging(Model model, @SessionAttribute("session_user") User session_user, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) {
+	public String commu_search_paging(Model model, @SessionAttribute("session_user") User session_user, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) throws UnsupportedEncodingException {
 		int content_per_page = 20;
 		int paging_count = 10;
 
@@ -111,7 +114,7 @@ public class AdminController {
 		
 		List<User> user_list = ((AdminServiceImpl) adminServiceImpl).searchUserList(searchMap, rowBounds);
 		
-		if (user_list.size() < 1 && page != 1) return "redirect:/admin/users/search/"+filter+"/"+text+"/list/1";
+		if (user_list.size() < 1 && page != 1) return "redirect:/admin/users/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 		
 		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchUserListCount(searchMap); 
 		
@@ -132,8 +135,14 @@ public class AdminController {
 	 * Admin Lectures area
 	 */
 	
-	@RequestMapping(value= "/lectures/list/{page}")
-	public String lectures(Model model, @PathVariable("page") int page) {
+	@RequestMapping(value= "/lectures/{category}/list/{page}")
+	public String lectures(Model model, @PathVariable("category") String category, @PathVariable("page") int page) {
+		return "admin/lectures/lectureList";
+	}
+	
+	@RequestMapping(value= "/lectures/{category}/search/{filter}/{text}/list/{page}")
+	public String lectures(Model model, @PathVariable("category") String category, @PathVariable("filter") String filter,
+							@PathVariable("text") String text, @PathVariable("page") int page) {
 		return "admin/lectures/lectureList";
 	}
 	
@@ -220,13 +229,13 @@ public class AdminController {
 
 	
 	@RequestMapping(value="/commu/{category}/search", method={RequestMethod.POST, RequestMethod.GET})
-	public String commu_search(@PathVariable("category") String category, @RequestParam("filter") String filter, @RequestParam("text") String text) {
-		return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+text+"/list/1";
+	public String commu_search(@PathVariable("category") String category, @RequestParam("filter") String filter, @RequestParam("text") String text) throws UnsupportedEncodingException {
+		return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 	}
 	
 	// search paging
 	@RequestMapping(value="/commu/{category}/search/{filter}/{text}/list/{page}")
-	public String commu_search_paging(Model model, @PathVariable("category") String category, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) {
+	public String commu_search_paging(Model model, @PathVariable("category") String category, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) throws UnsupportedEncodingException {
 		int content_per_page = 20;
 		int paging_count = 10;
 
@@ -240,7 +249,7 @@ public class AdminController {
 		
 		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).searchCommuList(searchMap, rowBounds);
 		
-		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+text+"/list/1";
+		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 		
 		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuListCount(searchMap); 
 		
