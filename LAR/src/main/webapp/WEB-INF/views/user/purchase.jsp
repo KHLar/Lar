@@ -27,12 +27,12 @@
 					<tr>
 						<td>
 							<div class="media">
-								<a href="#" class="pull-left"> 
-									<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+								<a href="/lar/lecture/lectureDetail?lecture_index=${p.LECTURE_INDEX}" class="pull-left"> 
+									<img src="${p.LECTURE_THUMBNAIL}" class="media-photo" style="width:200px;">
 								</a>
 								<div class="media-body">
 									<input type="hidden" name="lecIdx" value="${p.LECTURE_INDEX}"/>
-									<h4 class="title">${p.LECTURE_TITLE}</h4>
+									<h4 class="title"><a href="/lar/lecture/lectureDetail?lecture_index=${p.LECTURE_INDEX}">${p.LECTURE_TITLE}</a></h4>
 									<c:choose>
 										<c:when test="${fn:length(p.LECTURE_INTRO) > 80}">
 											<p><c:out value="${fn:substring(p.LECTURE_INTRO,0,79)}"/>....</p>

@@ -120,7 +120,11 @@ public class UserDaoImpl implements LarDao<User> {
 	public List<Map<String, String>> myCoupontList(int user_index) {
 		return sqlSession.selectList("user.myCouponList", user_index);
 	}
-
+	
+	public int cancelLecture(Map<String, Object> hmap) {
+		return sqlSession.update("user.cancelLecture",hmap);
+	}
+	
 	public int deleteWishList(Map<String, Object> checkList) {
 		return sqlSession.delete("user.deleteWishList",checkList);
 	}
@@ -201,5 +205,21 @@ public class UserDaoImpl implements LarDao<User> {
 
 	public int history(Map<Object, Object> map) {
 		return sqlSession.update("user.history",map);
+	}
+	
+	public int inputWishList(Map<String, Object> hmap) {
+		return sqlSession.insert("user.inputWishList", hmap);
+	}
+
+	public int deleteWishListone(Map<String, Object> hmap) {
+		return sqlSession.delete("user.deleteWishListone", hmap);
+	}
+
+	public int checkcart(Map<String, Object> hmap) {
+		return sqlSession.selectOne("user.checkcart", hmap);
+	}
+
+	public int addTocart(Map<String, Object> hmap) {
+		return sqlSession.insert("user.addTocart", hmap);
 	}
 }

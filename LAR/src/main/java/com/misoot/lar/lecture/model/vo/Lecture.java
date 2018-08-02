@@ -21,6 +21,7 @@ public class Lecture implements java.io.Serializable {
 	private int lecture_review_count;
 	private String cart_user_index;
 	private String wish_user_index;
+	private int history_lecture_board_index;
 
 	public Lecture() {
 		super();
@@ -30,7 +31,7 @@ public class Lecture implements java.io.Serializable {
 			String lecture_thumbnail, String lecture_title, String lecture_intro, String lecture_level,
 			int lecture_price, Date lecture_upload_date, int lecture_is_deleted, int lecture_hits,
 			String lecture_content, int lecture_total_score, String user_nickname, int lecture_review_count,
-			String cart_user_index, String wish_user_index) {
+			String cart_user_index, String wish_user_index, int history_lecture_board_index) {
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;
@@ -49,6 +50,7 @@ public class Lecture implements java.io.Serializable {
 		this.lecture_review_count = lecture_review_count;
 		this.cart_user_index = cart_user_index;
 		this.wish_user_index = wish_user_index;
+		this.history_lecture_board_index = history_lecture_board_index;
 	}
 
 	public int getLecture_index() {
@@ -187,6 +189,14 @@ public class Lecture implements java.io.Serializable {
 		this.wish_user_index = wish_user_index;
 	}
 
+	public int getHistory_lecture_board_index() {
+		return history_lecture_board_index;
+	}
+
+	public void setHistory_lecture_board_index(int history_lecture_board_index) {
+		this.history_lecture_board_index = history_lecture_board_index;
+	}
+
 	@Override
 	public String toString() {
 		return "Lecture [lecture_index=" + lecture_index + ", lecture_category_index=" + lecture_category_index
@@ -196,6 +206,6 @@ public class Lecture implements java.io.Serializable {
 				+ ", lecture_is_deleted=" + lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content="
 				+ lecture_content + ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname
 				+ ", lecture_review_count=" + lecture_review_count + ", cart_user_index=" + cart_user_index
-				+ ", wish_user_index=" + wish_user_index + "]";
+				+ ", wish_user_index=" + wish_user_index + "history_lecture_board_index=" + history_lecture_board_index +"]";
 	}
 }

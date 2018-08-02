@@ -14,5 +14,4 @@
 	<select id="selectLectureListRecommanded" resultType="lecture">
 		select * from TABLE_LECTURE order by LECTURE_UPLOAD_DATE desc
 	</select>
-	
 </mapper>

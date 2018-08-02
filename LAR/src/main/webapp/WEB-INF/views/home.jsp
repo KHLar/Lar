@@ -67,13 +67,20 @@
 									<div class="caption">
 										<h4><a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a></h4>
 										<p>
-											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+											<c:if test="${rec.lecture_price eq 0}">
+												<span style="text-align: right">Free</span>
+											</c:if>											
+											<c:if test="${ rec.lecture_price ne 0}">
+												<span style="text-align: right">￦${rec.lecture_price}</span>
+												<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+											</c:if>
 											<c:if test="${rec.wish_user_index eq null}">
 												<a id="thumb_empty_heart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color:tomato"></span></a>
 											</c:if>
 											<c:if test="${rec.wish_user_index ne null}">
 												<a id="thumb_heart" class="pull-right"><span class="glyphicon glyphicon-heart" style="color:tomato"></span></a>
-											</c:if>											
+											</c:if>								
+											<input type="hidden" class="lecture_index" name="lecture_index" value="${rec.lecture_index}"/>			
 										</p>
 									</div>
 								</div>

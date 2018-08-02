@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.misoot.lar.common.interfaces.LarMailSender;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.Utils;
+import com.misoot.lar.home.model.service.HomeServiceImpl;
 import com.misoot.lar.user.model.service.UserServiceImpl;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
@@ -334,11 +335,6 @@ public class UserController {
 
 		int deleteCart = ((UserServiceImpl) userServiceImpl).deleteCart(delcartList);
 
-		if (deleteCart > 0)
-			System.out.println("삭제완료");
-		else
-			System.out.println("삭제실패");
-
 		return "redirect:/user/cart";
 	}
 
@@ -441,7 +437,7 @@ public class UserController {
 		return "user/_purchaseCompleted";
 	}
 	
-	@RequestMapping(value = "/mypage")
+	@RequestMapping(value = "/user/mypage")
 	public String mypageList(@ModelAttribute("session_user") User user, Model model,
 			@RequestParam(value = "lcPage", required = false, defaultValue = "1") int lcPage,
 			@RequestParam(value = "wcPage", required = false, defaultValue = "1") int wcPage,
@@ -484,9 +480,21 @@ public class UserController {
 
 		return "user/mypage";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/user/mypage/cancel_lecture/{lecture_index}")
+	public int cancelLecture(@PathVariable(value="lecture_index") int lecture_index, @SessionAttribute("session_user") User user) {
+	   Map<String, Object> hmap = new HashMap<String, Object>(); 
+		
+	   hmap.put("lecture_index", lecture_index);
+	   hmap.put("user_index", user.getUser_index());
+		
+	   int result = ((UserServiceImpl) userServiceImpl).cancelLecture(hmap);
+	   return result;
+   }
 
 	@ResponseBody
-	@RequestMapping(value = "/mypage/deleteWishList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/user/mypage/deleteWishList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Map<String, Object> deleteWishList(@ModelAttribute("session_user") User user,
 			@RequestParam(value = "checkArr[]") List<Integer> checkArr) {
 
@@ -504,7 +512,7 @@ public class UserController {
 		return data;
 	}
 
-	@RequestMapping(value = "/mypage/infoPage/{userindex}")
+	@RequestMapping(value = "/user/mypage/infoPage/{userindex}")
 	   public String info(Model model,@PathVariable("userindex") String userindex){
 	         
 	      System.out.println(userindex);
@@ -518,7 +526,7 @@ public class UserController {
 	      return "user/C_information";
 	   }
 	
-	@RequestMapping("/mypage/infoTrans")
+	@RequestMapping("/user/mypage/infoTrans")
 	@ResponseBody
 	public Map<Object, Object> idcheck(@RequestParam("userid") String transName) {
 
@@ -536,7 +544,7 @@ public class UserController {
 	 * 않다고 띄어준다.
 	 */
 
-	@RequestMapping("/mypage/PasswordCheck")
+	@RequestMapping("/user/mypage/PasswordCheck")
 	@ResponseBody
 	public int userpw(@RequestParam("userpassword") String userpassword, @RequestParam("userindex") String userindex) {
 		
@@ -556,7 +564,7 @@ public class UserController {
 		return check;
 	}
 	
-	@RequestMapping("/mypage/PasswordChange")
+	@RequestMapping("/user/mypage/PasswordChange")
 	@ResponseBody
 	public int userchpw(@RequestParam("change_pw") String change_pw, @RequestParam("userindex") String userindex) {
 		change_pw=bcryptPasswordEncoder.encode(change_pw);
@@ -577,90 +585,138 @@ public class UserController {
 //	새로운 비밀번호를 입력 받아 암호화 처리후 값을 넘김
 	}
 	
-	@RequestMapping("/mypage/C_Info")
-	   public String infoChange(@RequestParam(value = "myPhone", required = false, defaultValue = "") String myPhone,
-	         @RequestParam(value = "transName", required = false, defaultValue = "") String transName,
-	          @RequestParam("userindex") String userindex, Model model){
-	   
-	      System.out.println("myPhone : "+myPhone);
-	      System.out.println("transName : "+transName);
-	      System.out.println("userindex : "+userindex);
-	      
-	      
-	      Map<Object, Object> map = new HashMap<Object, Object>();
-	      map.put("nickname", transName);
-	      map.put("phone", myPhone);
-	      map.put("userindex", userindex);
-	      int count = ((UserServiceImpl) userServiceImpl).infoChange(map);
-	      if(count==1)
-	         System.out.println("업데성공");
-	      else
-	         System.out.println("실패");
+	@RequestMapping("/user/mypage/C_Info")
+   public String infoChange(@RequestParam(value = "myPhone", required = false, defaultValue = "") String myPhone,
+         @RequestParam(value = "transName", required = false, defaultValue = "") String transName,
+          @RequestParam("userindex") String userindex, Model model){
+   
+      System.out.println("myPhone : "+myPhone);
+      System.out.println("transName : "+transName);
+      System.out.println("userindex : "+userindex);
+      
+      
+      Map<Object, Object> map = new HashMap<Object, Object>();
+      map.put("nickname", transName);
+      map.put("phone", myPhone);
+      map.put("userindex", userindex);
+      int count = ((UserServiceImpl) userServiceImpl).infoChange(map);
+      if(count==1)
+         System.out.println("업데성공");
+      else
+         System.out.println("실패");
 
 
-	      User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
-	      model.addAttribute("session_user", user);
-	      
-	      return "redirect:/mypage/infoPage";
-	   }
+      User user = ((UserServiceImpl) userServiceImpl).selectOneIndex(userindex);
+      model.addAttribute("session_user", user);
+      
+      return "redirect:/mypage/infoPage";
+   }
 	
-	   @RequestMapping("/mypage/getout")
-	   public String getout(@RequestParam("userindex") String userindex, SessionStatus status){
-	      
-	      Map<Object, Object> map = new HashMap<Object, Object>();
-	      map.put("userindex", userindex);
-	      int getout= ((UserServiceImpl) userServiceImpl).getout(map);
-	      if(getout==1){
-	         if (!status.isComplete())
-	            status.setComplete();
-	         return "redirect:/";
-	      }else{
-	         System.out.println("삭제 실패");
-	         return "redirect:/mypage/infoPage";
-	      }
-	   }
+   @RequestMapping("/user/mypage/getout")
+   public String getout(@RequestParam("userindex") String userindex, SessionStatus status){
+      
+      Map<Object, Object> map = new HashMap<Object, Object>();
+      map.put("userindex", userindex);
+      int getout= ((UserServiceImpl) userServiceImpl).getout(map);
+      if(getout==1){
+         if (!status.isComplete())
+            status.setComplete();
+         return "redirect:/";
+      }else{
+         System.out.println("삭제 실패");
+         return "redirect:/mypage/infoPage";
+      }
+   }
 	   
 	   
-	   @RequestMapping("/mypage/imgUpdate")
-	   @ResponseBody
-	   public String updateImg(@RequestParam("updateImg") MultipartFile updateImg, @ModelAttribute("session_user") User user, HttpServletRequest request,Model model){
+   @RequestMapping("/user/mypage/imgUpdate")
+   @ResponseBody
+   public String updateImg(@RequestParam("updateImg") MultipartFile updateImg, @ModelAttribute("session_user") User user, HttpServletRequest request,Model model){
 	      
-	      System.out.println("이미지 파일 명 : "+updateImg.getOriginalFilename());
-	      System.out.println("Image Size check : "+updateImg.getSize());
-	      
-	      String saveDir = request.getSession().getServletContext().getRealPath("/resources/userthumbnail");
-	      
-	      File dir = new File(saveDir);
-	      
-	      String renameFileName = "";
-	      
-	      if(!updateImg.isEmpty()) {
-	            // 파일명 재생성하여
-	            // 원본 파일과 매칭 시키기   
-	            String originFileName = updateImg.getOriginalFilename();
-	            String ext = originFileName.substring(originFileName.lastIndexOf(".")+1);
-	            
-	            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-	            
-	            int randomNum = (int)(Math.random() * 1000);
-	            
-	            renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
-	            
-	            try {
-	               updateImg.transferTo(new File(saveDir+"/"+renameFileName));
-	            } catch (IllegalStateException | IOException e) {
-	               e.printStackTrace();
-	            }
-	         }
-	      
-	      Map<Object, Object> map = new HashMap<Object, Object>();
-	      map.put("updateImg", renameFileName);
-	      map.put("userindex", user.getUser_index());
-	      
-	      int imgUpdate= ((UserServiceImpl) userServiceImpl).imgUpdate(map);
-	      
-	      User user1 = ((UserServiceImpl) userServiceImpl).selectOneIndex(Integer.toString(user.getUser_index()));
-	      model.addAttribute("session_user", user1);
-	      return "test";      
+	   System.out.println("이미지 파일 명 : "+updateImg.getOriginalFilename());
+	   System.out.println("Image Size check : "+updateImg.getSize());
+      
+	   String saveDir = request.getSession().getServletContext().getRealPath("/resources/userthumbnail");
+      
+	   File dir = new File(saveDir);
+      
+	   String renameFileName = "";
+      
+	   if(!updateImg.isEmpty()) {
+		   // 파일명 재생성하여
+		   // 원본 파일과 매칭 시키기   
+		   String originFileName = updateImg.getOriginalFilename();
+		   String ext = originFileName.substring(originFileName.lastIndexOf(".")+1);
+            
+		   SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            
+		   int randomNum = (int)(Math.random() * 1000);
+            
+		   renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
+            
+		   try {
+			   updateImg.transferTo(new File(saveDir+"/"+renameFileName));
+		   } catch (IllegalStateException | IOException e) {
+			   e.printStackTrace();
+		   }
 	   }
+      
+	   Map<Object, Object> map = new HashMap<Object, Object>();
+	   map.put("updateImg", renameFileName);
+	   map.put("userindex", user.getUser_index());
+      
+	   int imgUpdate= ((UserServiceImpl) userServiceImpl).imgUpdate(map);
+      
+	   User user1 = ((UserServiceImpl) userServiceImpl).selectOneIndex(Integer.toString(user.getUser_index()));
+	   model.addAttribute("session_user", user1);
+	   return "test";      	   
+   }
+	   
+   @ResponseBody
+   @RequestMapping(value="/user/mypage/inputWishList/{lecture_index}")
+   public int inputWishList(@PathVariable(value="lecture_index") int lecture_index, @SessionAttribute("session_user") User user) {
+	   Map<String, Object> hmap = new HashMap<String, Object>(); 
+		
+	   hmap.put("lecture_index", lecture_index);
+	   hmap.put("user_index", user.getUser_index());
+		
+	   int result = ((UserServiceImpl) userServiceImpl).inputWishList(hmap);
+	   return result;
+   }
+   
+   @ResponseBody
+   @RequestMapping(value="/user/mypage/deleteWishList/{lecture_index}")
+   public int deleteWishListone(@PathVariable(value="lecture_index") int lecture_index, @SessionAttribute("session_user") User user) {
+	   Map<String, Object> hmap = new HashMap<String, Object>(); 
+		
+	   hmap.put("lecture_index", lecture_index);
+	   hmap.put("user_index", user.getUser_index());
+		
+	   int result = ((UserServiceImpl) userServiceImpl).deleteWishListone(hmap);
+	   return result;
+   }
+   
+   @ResponseBody
+   @RequestMapping(value="/user/mypage/checkcart/{lecture_index}")
+   public int checkcart(@PathVariable(value="lecture_index") int lecture_index, @SessionAttribute("session_user") User user) {
+	   Map<String, Object> hmap = new HashMap<String, Object>(); 
+		
+	   hmap.put("lecture_index", lecture_index);
+	   hmap.put("user_index", user.getUser_index());
+		
+	   int result = ((UserServiceImpl) userServiceImpl).checkcart(hmap);
+	   return result;
+   }
+   
+   @ResponseBody
+   @RequestMapping(value="/user/mypage/addTocart/{lecture_index}")
+   public int addTocart(@PathVariable(value="lecture_index") int lecture_index, @SessionAttribute("session_user") User user) {
+	   Map<String, Object> hmap = new HashMap<String, Object>(); 
+		
+	   hmap.put("lecture_index", lecture_index);
+	   hmap.put("user_index", user.getUser_index());
+		
+	   int result = ((UserServiceImpl) userServiceImpl).addTocart(hmap);
+	   return result;
+   }
 }

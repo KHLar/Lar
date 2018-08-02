@@ -195,11 +195,6 @@ a {
 	border-bottom: 1px solid #eee;
 }
 
-.wrapWishList .table tbody tr:hover {
-	cursor: pointer;
-	background-color: #eee;
-}
-
 .wrapWishList .table tbody tr td {
 	padding: 10px;
 	vertical-align: middle;

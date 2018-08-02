@@ -32,34 +32,75 @@ $(document).ready(function() {
 	});
 	
 	//home.jsp
-	function wish_check() { 
-		var txt;
-	    var r = confirm("Press a button!");
-	    if (r == true) {
-	        console.log("ok");
-	    } else {
-	    	console.log("cancel");
-	    }
-	}
-	
 	$(document).on('click','#thumb_empty_heart', function(){
-		alert("위시리스트에 추가되었습니다 !");
+		$.ajax({
+			url : "/lar/user/mypage/inputWishList/"+$(this).siblings('input[name=lecture_index]').val(),
+			success : function(result) {
+				alert("위시리스트에 추가되었습니다 !");
+				location.reload();
+			}, error : function(error) {
+				if (error.status == 400)
+					alert("로그인 후에 이용하세요!");
+			}
+		});
 	});
 	
 	$(document).on('click','#thumb_heart', function(){
-		alert("위시리스트에서 삭제되었습니다 !");
+		$.ajax({
+			url : "/lar/user/mypage/deleteWishList/"+$(this).siblings('input[name=lecture_index]').val(),
+			success : function(result) {
+				alert("위시리스트에서 삭제되었습니다 !");
+				location.reload();
+			}, error : function(error) {
+				if (error.status == 400)
+					alert("로그인 후에 이용하세요!");
+			}
+		});
 	});
 	
 	$(document).on('click','#thumb-cart', function(){
+		var lecture_index =  $(this).siblings('input[name=lecture_index]').val();
 		var txt;
 	    var r = confirm("장바구니에 담으시겠습니까 ?");
 	    if (r == true) {
-	        console.log("ok");
-	    } else {
-	    	console.log("cancel");
+	    	$.ajax({
+				url : "/lar/user/mypage/checkcart/" + lecture_index,
+				success : function(result) {
+					if(result > 0) {
+						alert("장바구니에 이미 존재하는 강의입니다 !");
+					} else {
+						$.ajax({
+							url : "/lar/user/mypage/addTocart/" + lecture_index,
+							success : function(result) {
+								alert("장바구에 추가 되었습니다 !");
+								location.reload();
+							}
+						});						
+					}
+				}, error : function(error) {
+					if (error.status == 400)
+						alert("로그인 후에 이용하세요!");
+				}
+			}); 
 	    }
 	});
 	// mypage.jsp
+	$(document).on('click', '.cancel_lecture', function(){
+		var lecture_index =  $(this).siblings('#lecture_index').val();
+		var r = confirm("수강을 취소하시겠습니까 ?");
+	    if (r == true) {
+	    	$.ajax({
+				url : "/lar/user/mypage/cancel_lecture/" + lecture_index,
+				success : function(result) {
+					alert("삭제되었습니다 !");
+					location.reload();
+				}, error : function(error) {
+					if (error.status == 400)
+						alert("로그인 후에 이용하세요!");
+				}
+			}); 
+	    }
+	});
 	
 	$('.star').on('click', function() {
 		$(this).toggleClass('star-checked');

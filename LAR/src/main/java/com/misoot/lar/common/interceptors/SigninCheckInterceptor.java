@@ -22,17 +22,26 @@ public class SigninCheckInterceptor extends HandlerInterceptorAdapter {
 		User session_user = (User)session.getAttribute("session_user");
 		
 		if (session_user == null) {
-			String href = "";
-			String message = "로그인 후에 이용하세요!";
-			
-			request.setAttribute("href", href);
-			request.setAttribute("message", message);
-			
-			request.getRequestDispatcher("/WEB-INF/views/common/_message.jsp").forward(request, response);
-			
-			return false;
+			if (isAjaxRequest(request)) {
+				response.sendError(400);
+				return false;
+			} else {
+				String href = "";
+				String message = "로그인 후에 이용하세요!";
+				
+				request.setAttribute("href", href);
+				request.setAttribute("message", message);
+				
+				request.getRequestDispatcher("/WEB-INF/views/common/_message.jsp").forward(request, response);
+				
+				return false;
+			}
 		}
 	
 		return super.preHandle(request, response, handler);
+	}
+	
+	public boolean isAjaxRequest(HttpServletRequest request) {
+		return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 	}
 }
