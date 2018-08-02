@@ -446,12 +446,9 @@ public class UserController {
 
 		int numPerPage = 5;
 
-		List<Map<String, String>> llist = ((UserServiceImpl) userServiceImpl).myLectureList(user.getUser_index(),
-				lcPage, numPerPage);
-		List<Map<String, String>> qnalist = ((UserServiceImpl) userServiceImpl).myqnaList(user.getUser_index(), lcPage,
-				numPerPage);
-		List<Map<String, String>> wlist = ((UserServiceImpl) userServiceImpl).myWishList(user.getUser_index(), qnaPage,
-				numPerPage);
+		List<Map<String, String>> llist = ((UserServiceImpl) userServiceImpl).myLectureList(user.getUser_index(), lcPage, numPerPage);
+		List<Map<String, String>> qnalist = ((UserServiceImpl) userServiceImpl).myqnaList(user.getUser_index(), lcPage, numPerPage);
+		List<Map<String, String>> wlist = ((UserServiceImpl) userServiceImpl).myWishList(user.getUser_index(), qnaPage, numPerPage);
 		List<Purchase> plist = ((UserServiceImpl) userServiceImpl).myPaymentList(user.getUser_index());
 		List<Map<String, String>> couponlist = ((UserServiceImpl) userServiceImpl).myCoupontList(user.getUser_index());
 

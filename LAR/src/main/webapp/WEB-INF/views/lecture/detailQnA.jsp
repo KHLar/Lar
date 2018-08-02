@@ -26,7 +26,7 @@
 						<div class="panel-heading" style="border-bottom: 1px solid gray;">
 							<div class="text-left">							
 								<h3>${ lectureQ.lecture_q_title }</h3>
-								<small>${ lectureQ.user_nickname }</small>
+								<small>by. ${ lectureQ.user_nickname }</small>
 							</div>
 						</div>
 
@@ -55,7 +55,7 @@
 					<div class="panel lecture_a_${a.lecture_a_index}">
 						<div class="panel-heading" style="border-bottom: 1px solid gray;">
 							<div class="text-left">							
-								<h2 style="display: inline-block;">↳</h2>&nbsp;<small>${ a.user_nickname }</small>
+								<h2 style="display: inline-block;">↳</h2>&nbsp;<small>by. ${ a.user_nickname }</small>
 							</div>
 						</div>
 

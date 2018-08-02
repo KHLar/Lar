@@ -202,7 +202,7 @@ public class LectureController {
 		List<Map<String, String>> qlist = ((LectureServiceImpl)LectureServiceImpl).lectureQlist(cPage, numPerPage, lecture_index);
 		
 		int totalContents = ((LectureServiceImpl)LectureServiceImpl).lectureQTotalContents(lecture_index);
-		// QnA
+		// end QnA
 		
 		Cookie cookies[] = request.getCookies();
 		

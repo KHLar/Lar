@@ -14,6 +14,9 @@ header {
 	.navbar-left {
 		padding-left: 15%;
 	}
+	.mobile-dropdown {
+		display: none !important;
+	}
 }
 
 @media ( max-width : 992px) {
@@ -284,11 +287,6 @@ a {
 /* QnAList */
 #wrapQnA table tr th {
 	text-align: center;
-}
-
-#wrapQnA table tbody tr:hover {
-	cursor: pointer !important;
-	background: #eee;	
 }
 
 /* alarmList */

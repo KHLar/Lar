@@ -15,6 +15,7 @@
 				FROM TABLE_LECTURE
 			</otherwise>
 		</choose>
+		WHERE LECTURE_IS_DELETED = 0
 		ORDER BY LECTURE_UPLOAD_DATE DESC
 	</select>
 	

@@ -51,24 +51,22 @@
 			checkArr.push($(this).val());
 		});
 
-		$
-				.ajax({
-					url : '${pageContext.request.contextPath}/user/mypage/deleteWishList',
-					type : 'post',
-					dataType : 'json',
-					data : {
-						'checkArr' : checkArr
-					},
-					success : function(data) {
-						if (data.result) {
-							location.href = '${pageContext.request.contextPath}'
-									+ data.href;
-						} else {
-							alert('에러발생 ! 관리자에게 문의하세요.');
-						}
-					}
-				});
-
+		$.ajax({
+			url : '${pageContext.request.contextPath}/user/mypage/deleteWishList',
+			type : 'post',
+			dataType : 'json',
+			data : {
+				'checkArr' : checkArr
+			},
+			success : function(data) {
+				if (data.result) {
+					location.href = '${pageContext.request.contextPath}'
+							+ data.href;
+				} else {
+					alert('에러발생 ! 관리자에게 문의하세요.');
+				}
+			}
+		});
 	}
 </script>
 
@@ -164,7 +162,7 @@
 						data-target="#wrapMyLecture" id="myLecture" data-toggle="tab">
 							&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp; </a></li>
 					<li role="presentation"><a class="QnAList"
-						data-target="#wrapQnA" id="QnAList" href="#" data-toggle="tab">
+						data-target="#wrapQnA" id="QnAList" data-toggle="tab">
 							&nbsp;&nbsp;&nbsp;질문 답변&nbsp;&nbsp;&nbsp; </a></li>
 					<li role="presentation"><a class="wishList"
 						data-target="#wrapWishList" id="wishList" data-toggle="tab">
@@ -186,41 +184,43 @@
 					<h3>나의 강의</h3>
 					<c:forEach items="${mypageList.llist}" var="mylecture">
 						<div class="well">
-							<div class="media">
-								<a class="pull-left"
-									href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">
-									<img class="media-object" src="${mylecture.lecture_thumbnail}"
-									style="width: 180px;">
-								</a>
-								<div class="media-body">
-									<h4 class="media-heading">
-										<a
-											href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">${mylecture.lecture_title}</a>
-									</h4>
-									<p class="text-right">${mylecture.user_nickname}</p>
-									<p>${mylecture.lecture_intro}</p>
-									<ul class="list-inline list-unstyled">
-										<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
-										<li>|</li>
-										<span><i class="glyphicon glyphicon-comment"></i>
-											${mylecture.lecture_review_count} reviews</span>
-										<li>|</li>
-										<li><span class="glyphicon glyphicon-star"></span> <span
-											class="glyphicon glyphicon-star"></span> <span
-											class="glyphicon glyphicon-star"></span> <span
-											class="glyphicon glyphicon-star"></span> <span
-											class="glyphicon glyphicon-star-empty"></span></li>
-										<li>|</li>
-										<li>
-											<button type="button" class="btn btn-success btn-sm"
-												style="border: none"
-												onclick="location.href='/lar/lectureBoardView?bindex=${mylecture.history_lecture_board_index}&index=${mylecture.lecture_index}'">계속하기</button>
-											<button type="button"
-												class="btn btn-danger btn-sm cancel_lecture"
-												style="border: none">수강취소</button> <input type="hidden"
-											id="lecture_index" value="${mylecture.lecture_index}" />
-										</li>
-									</ul>
+							<div class="media row">
+								<div class="col-md-3">
+									<a class="pull-left"
+										href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">
+										<img class="media-object" src="${mylecture.lecture_thumbnail}" style="width: 100%;">
+									</a>
+								</div>
+								<div class="col-md-9">
+									<div class="media-body">										
+											<h4 class="media-heading">
+												<a href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">${mylecture.lecture_title}</a>		
+											</h4>					
+											<p class="text-right">${mylecture.user_nickname}</p>
+											<p>${mylecture.lecture_intro}</p>
+										<ul class="list-inline list-unstyled">
+											<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
+											<li>|</li>
+											<span><i class="glyphicon glyphicon-comment"></i>
+												${mylecture.lecture_review_count} reviews</span>
+											<li>|</li>
+											<li><span class="glyphicon glyphicon-star"></span> <span
+												class="glyphicon glyphicon-star"></span> <span
+												class="glyphicon glyphicon-star"></span> <span
+												class="glyphicon glyphicon-star"></span> <span
+												class="glyphicon glyphicon-star-empty"></span></li>
+											<li>|</li>
+											<li>
+												<button type="button" class="btn btn-success btn-sm"
+													style="border: none"
+													onclick="location.href='/lar/lectureBoardView?bindex=${mylecture.history_lecture_board_index}&index=${mylecture.lecture_index}'">계속하기</button>
+												<button type="button"
+													class="btn btn-danger btn-sm cancel_lecture"
+													style="border: none">수강취소</button> <input type="hidden"
+												id="lecture_index" value="${mylecture.lecture_index}" />
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -244,9 +244,10 @@
 							<c:forEach items="${mypageList.qnalist}" var="qnalist">
 								<tr>
 									<td>${qnalist.LECTURE_TITLE}</td>
-									<td>${qnalist.LECTURE_Q_TITLE}<span
-										class="badge badge-pill badge-danger"
-										style="background-color: tomato; margin-left: 10px;">New</span>
+									<td><a href="/lar/lecture/QnA/detail/${qnalist.LECTURE_Q_INDEX}">${qnalist.LECTURE_Q_TITLE}</a>
+										<c:if test="${qnalist.READCNT > 0}">
+											<span class="badge badge-pill badge-danger" style="background-color: tomato; margin-left: 10px;">New</span>
+										</c:if>
 									</td>
 									<td><c:if test="${ qnalist.LECTURE_A_INDEX eq null }">
 											X

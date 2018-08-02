@@ -12,22 +12,24 @@ $(document).ready(function() {
 	 * this).fadeOut("slow");} );
 	 */
 	if (window.matchMedia("(min-width: 768px)").matches) {
-		  $('#lecture-dropdown').attr('class', '');
-		  $('#lecture-dropdown').attr('data-toggle', '');
-		  $('.mega-dropdown .caret').css('display', 'none');
+		$('#lecture-dropdown').attr('data-toggle', '');
+		$('.mega-dropdown .caret').css('display', 'none');
+		$('.mega-dropdown').removeClass('open');
 	} else {
-		$('#lecture-dropdown').attr('class', 'dropdown-toggle');
 		$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 		$('.mega-dropdown .caret').css('display', '');
+		$('.mega-dropdown').addClass('open');
 	}
 	
 	$(window).resize(function() {
 		if (window.matchMedia("(min-width: 768px)").matches) {
-			  $('#lecture-dropdown').attr('data-toggle', '');
-			  $('.mega-dropdown .caret').css('display', 'none');
+			$('#lecture-dropdown').attr('data-toggle', '');
+			$('.mega-dropdown .caret').css('display', 'none');
+			$('.mega-dropdown').removeClass('open');
 		} else {
 			$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 			$('.mega-dropdown .caret').css('display', '');
+			$('.mega-dropdown').addClass('open');
 		}
 	});
 	
