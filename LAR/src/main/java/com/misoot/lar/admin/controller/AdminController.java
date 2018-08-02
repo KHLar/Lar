@@ -133,7 +133,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 				
-		model.addAttribute("commu_notice_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/notice";
 	}
@@ -153,7 +153,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_board_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/board";
 	}
@@ -173,7 +173,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_qa_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/qa";
 	}
@@ -193,7 +193,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_news_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/news";
 	}
@@ -226,7 +226,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_trash_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
 		
 		return "admin/commu/trash";
 	}
@@ -272,11 +272,11 @@ public class AdminController {
 	}
 
 	
-	@RequestMapping(value="/commu/{category}/search", method=RequestMethod.POST)
+	@RequestMapping(value="/commu/{category}/search", method={RequestMethod.POST, RequestMethod.GET})
 	public String commu_search(@PathVariable("category") String category, @RequestParam("filter") String filter, @RequestParam("text") String text) {
 		return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+text+"/list/1";
 	}
-		
+	
 	// search paging
 	@RequestMapping(value="/commu/{category}/search/{filter}/{text}/list/{page}")
 	public String commu_search_paging(Model model, @PathVariable("category") String category, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) {
@@ -299,7 +299,9 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		return "admin/commu/notice";
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
+		
+		return "admin/commu/"+category;
 	}
 	
 	/*

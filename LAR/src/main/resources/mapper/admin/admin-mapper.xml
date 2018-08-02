@@ -205,16 +205,16 @@
 		</if>
 		
 		<if test="category eq 'notice'">
-			AND C.COMMU_CATEGORY = 'N01'
+			AND C.COMMU_CATEGORY_INDEX = 'N01'
 		</if>
 		<if test="category eq 'board'">
-			AND C.COMMU_CATEGORY = 'B01'
+			AND C.COMMU_CATEGORY_INDEX = 'B04'
 		</if>
 		<if test="category eq 'qa'">
-			AND C.COMMU_CATEGORY = 'B02'
+			AND C.COMMU_CATEGORY_INDEX = 'B02'
 		</if>
 		<if test="category eq 'news'">
-			AND C.COMMU_CATEGORY = 'B03'
+			AND C.COMMU_CATEGORY_INDEX = 'B03'
 		</if>
 	</select>
 	

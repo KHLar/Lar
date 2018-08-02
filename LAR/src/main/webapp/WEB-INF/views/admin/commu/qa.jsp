@@ -13,6 +13,17 @@
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 %>
 
+<script>
+	var current_path = window.location.href;
+	
+	$(function() {
+		if (current_path.includes('search')) {
+			$('.breadcrumb .fa-search').parent('li').css('display', '');
+			$('.breadcrumb .fa-list').parent('a').attr('href', current_path);
+		}
+	});
+</script>
+
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
@@ -21,9 +32,36 @@
 		<ol class="breadcrumb">
 			<li><a href="/lar/admin/commu/notice/list/1"><i class="fa fa-globe"></i> Community</a></li>
 			<li class="active"><i class="fa fa-question"></i> Q & A</li>
+			<li class="active" style="display: none;"><i class="fa fa-search"></i> Search</li>
 			<li class="active"><a href="/lar/admin/commu/qa/list/1"><i class="fa fa-list"></i> List</a></li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${pi.current_page}</li>
 		</ol>
+	</div>
+
+	<div class="row">
+		<nav class="navbar">
+			<div class="container-fluid">
+				<form class="navbar-form navbar-right" action="/lar/admin/commu/qa/search" method="post">
+					<div class="form-group">
+						<ul class="nav">
+							<li class="active">
+								<select class="form-control" name="filter">
+										<option value="title">제목</option>
+										<option value="writer">작성자</option>
+										<option value="content">내용</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search" name="text" required>
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</form>
+			</div>
+		</nav>
 	</div>
 
 	<div class="row table-responsive">
@@ -34,7 +72,7 @@
 				<td>Nick</td>
 				<td>Date</td>
 			</tr>
-			<c:forEach items="${commu_qa_list}" var="cq">
+			<c:forEach items="${commu_list}" var="cq">
 				<tr>
 					<td>${cq.commu_Index}</td>
 					<td><a href="/lar/admin/commu/view/${cq.commu_Index}">${cq.commu_Title}</a></td>
