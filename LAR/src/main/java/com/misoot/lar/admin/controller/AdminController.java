@@ -135,6 +135,7 @@ public class AdminController {
 	 * Admin Lectures area
 	 */
 	
+	//
 	@RequestMapping(value= "/lectures/{category}/list/{page}")
 	public String lectures(Model model, @PathVariable("category") String category, @PathVariable("page") int page) {
 		return "admin/lectures/lectureList";
