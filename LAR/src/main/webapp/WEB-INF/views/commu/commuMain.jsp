@@ -15,36 +15,33 @@
 .centers {
 	text-align: center;
 }
-
 tr, th {
 	text-align: center;
 }
-
 th, td {
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 	text-align: center;
 }
-
 th {
 	background-color: #0d47a1;
 	color: white;
 }
-
 td {
 	background-color: white;
 	vertical-align: middle !important;
 }
-
 .NContent {
 	font-family: Impact, Charcoal, sans-serif;
 	text-transform: none;
 	font-size: 14pt;
 	white-space: pre-line;
 }
-
 .panel-body {
 	background-color: #FAF5F5;
+}
+.imgCal{
+	width : 100 %;
 }
 </style>
 
@@ -53,7 +50,6 @@ td {
 	int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
 	int qaTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("qaTotalContents")));
 	int qaNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("qaNumPerPage")));
-
 	//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
 	String commucPageTemp = request.getParameter("commucPage");
 	String commuSearchType = (String) request.getParameter("commuSearchType");
@@ -61,7 +57,6 @@ td {
 	String qacPageTemp = request.getParameter("qacPage");
 	String qaSearchType = (String) request.getParameter("qaSearchType");
 	String qaSearchText = (String) request.getParameter("qaSearchText");
-
 	String liCommu = "";
 	String liqa = "";
 	if (qaSearchType == null || qaSearchType == "") {
@@ -69,13 +64,11 @@ td {
 	} else {
 		liqa = "active";
 	}
-
 	int commucPage = 1;
 	int qacPage = 1;
 	try {
 		commucPage = Integer.parseInt(commucPageTemp);
 		qacPage = Integer.parseInt(qacPageTemp);
-
 	} catch (NumberFormatException e) {
 	}
 %>
@@ -291,21 +284,29 @@ td {
 				<div id="News" class="tab-pane fade">
 					<div class="container_fluid">
 						<div class="row no-gutters">
-							<c:forEach items="${newslist}" var="n">
-								<div class="col-lg-4">
+							<c:set var="cnt" value="0"/>
+							<c:forEach items="${newslist}" var="n" varStatus="status">
+							<c:set var="cnt" value="${cnt+1}"/>
+							<c:if test="${cnt%3==1}">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							</c:if>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="display: flex;">
 									<a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView/${n.commu_Index}">
 										<span class="caption">
 											<span class="caption-content">
-												<h2>${n.commu_Writer }</h2>
-												<p>${n.commu_Title }</p>
+												<h2>${n.commu_Title }</h2>
+												<p>${n.commu_Writer }</p>
 											</span>
 										</span>
 										<c:if test="${n.commu_Attach_Renamedfilename ne ''}">
 										
 										</c:if>
-										<img class="img-fluid" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width: 100%;" />
+										<img class="img-fluid imgCal" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width: 100%;" />
 									</a>
 								</div>
+							<c:if test="${cnt%3==0||status.last}">
+							</div>
+							</c:if>
 							</c:forEach>
 						</div>
 						<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('B03');">글쓰기</button>

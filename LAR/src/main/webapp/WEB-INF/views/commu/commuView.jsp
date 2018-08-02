@@ -18,17 +18,17 @@
 span {
 	font-size: 15pt;
 }
-
 .commuTitle {
 	font-size: 30pt;
 }
-
 .commuContent {
 	font-size: 15pt;
 }
-
 textarea {
 	resize: none;
+}
+.commentHelp{
+	color: gray;
 }
 </style>
 <script>
@@ -36,7 +36,8 @@ textarea {
 		/* $('#accordion').html(${commu.commu_Content}); */
 		
 		$('#commuDelete').click(function() {
-							location.href = "${pageContext.request.contextPath}/commu/commuDelete/${commu.commu_Index}";
+							
+							//location.href = "${pageContext.request.contextPath}/commu/commuDelete/${commu.commu_Index}";
 						});
 		$('#commuModify').click(function() {
 			location.href = "${pageContext.request.contextPath}/commu/commuForm/${commu.commu_Category_Index}/${commu.commu_Index}";
@@ -61,7 +62,6 @@ textarea {
 							+"&replyContent=" + $('#replyComment').val()
 									+ "&commuIndex=" + ${commu.commu_Index}
 							;
-
 						});
 		function replyDelete(s) {
 			location.href = "${pageContext.request.contextPath}/commu/commuReplyDelete?commu_Reply_Index="
@@ -69,6 +69,9 @@ textarea {
 			alert(s);
 		}
 	});
+	function realDeleteCommu(){
+		location.href = "${pageContext.request.contextPath}/commu/commuDelete/${commu.commu_Index}";
+		}
 	function fileDownload(oName, rName) {
 		//한글파일명이 있을 수 있으므로, 명시적으로 encoding
 		oName = encodeURIComponent(oName);
@@ -85,11 +88,14 @@ textarea {
 			<div class="blog-heading">
 				<h3 class="text-capitalize">
 					&nbsp;&nbsp;게시판 글보기
+
 					<c:if test="${session_user.user_index eq commu.commu_Writer_Index}">
-						<button type="button" class="btn btn-success pull-right"
+						<div style="text-align:right;">
+						<button type="button" class="btn btn-success"
 							id="commuModify">글수정</button>
-						<button type="button" class="btn btn-danger pull-right"
-							id="commuDelete">글삭제</button>
+						<button type="button" data-toggle="modal" data-target="#realDeleteCommu" 
+						class="btn btn-danger">글삭제</button>
+						</div>
 					</c:if>
 				</h3>
 
@@ -181,13 +187,21 @@ textarea {
 								<c:set var = "ReplyMargin" value="20"/>
 								</c:if>
 								<div class="panel panel-default"
-									style="margin-left:${ReplyMargin}%;">
+									style="margin-left:${ReplyMargin}%; word-break: break-all; ">
 									<c:if test="${cr.commu_Reply_Depth_Index!=1}">
 										<img
 											src="${pageContext.request.contextPath}/resources/images/ARROW.PNG"
 											style="width: 20px; height: 20px; display: inline-block;" />
 									</c:if> 
-									<span style="font-size: 16px">${cr.commu_Reply_Content}</span>
+									<c:choose>
+												<c:when test="${fn:length(cr.commu_Reply_Content) > 65}">
+													<span><c:out value="${fn:substring(cr.commu_Reply_Content,0,64)}"/>....</span>
+												</c:when>
+												<c:when test="${fn:length(cr.commu_Reply_Content) <= 64}">
+													<span><c:out value="${cr.commu_Reply_Content}"/></span>
+												</c:when>
+									</c:choose>
+									<%-- <p style="font-size: 16px">${cr.commu_Reply_Content}</p> --%>
 									<p class="commentHelp">&nbsp;&nbsp;&nbsp;${cr.commu_Reply_Writer}
 										| ${cr.commu_Reply_Update_Date } | 신고</p>
 								</div>
@@ -233,5 +247,30 @@ textarea {
 
 			</div>
 		</div>
-		
+		<div class="modal fade" id="realDeleteCommu" role="dialog">
+					        <div class="modal-dialog">
+					        
+					          <!-- Modal content-->
+					          <div class="modal-content">
+					            <div class="modal-header">
+					              <button type="button" class="close" data-dismiss="modal">×</button>
+					              <h2 class="modal-title">게시글 삭제</h2>
+					            </div>
+					            
+					            <div class="modal-body" >
+					            <h4>정말 삭제하시겠습니까? 지우면 돌이킬수 없습니다.</h4>
+					            
+					            
+					            </div>
+					            <div class="modal-footer">
+					             <button type="button" onclick="realDeleteCommu();" class="btn btn-primary">확인</button>
+					            
+					            <button type="button" class="btn btn-primary"  data-dismiss="modal">취소</button>
+					            
+					           
+					            </div>
+					          </div>
+					          
+					        </div>
+					      </div>
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />
