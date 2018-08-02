@@ -1,10 +1,12 @@
 package com.misoot.lar.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.misoot.lar.admin.model.dao.AdminDaoImpl;
 import com.misoot.lar.admin.model.vo.Admin;
@@ -83,6 +85,14 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public List<Purchase> paymentList(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
 	}
+	
+	public List<Commu> selectCommuNoticeList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuNoticeList(rowBounds);
+	}
+
+	public int selectCommuNoticeListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuNoticeListCount();
+	}
 
 	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardList(rowBounds);
@@ -90,5 +100,37 @@ public class AdminServiceImpl implements LarService<Admin> {
 
 	public int selectCommuBoardListCount() {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardListCount();
+	}
+
+	public List<Commu> selectCommuQaList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuQaList(rowBounds);
+	}
+
+	public int selectCommuQaListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuQaListCount();
+	}
+
+	public List<Commu> selectCommuNewsList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuNewsList(rowBounds);
+	}
+
+	public int selectCommuNewsListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuNewsListCount();
+	}
+
+	public List<Commu> selectCommuTrashList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuTrashList(rowBounds);
+	}
+
+	public int selectCommuTrashListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuTrashListCount();
+	}
+
+	public boolean commuTrashRestore(int commu_index) {
+		return ((AdminDaoImpl)adminDaoImpl).commuTrashRestore(commu_index);
+	}
+
+	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuList(searchMap, rowBounds);
 	}
 }

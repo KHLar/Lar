@@ -14,10 +14,10 @@ public class User implements java.io.Serializable {
 	private boolean user_is_secession;
 	private boolean user_is_kicked;
 	private int user_try_signin_count;
-	
+
 	public User() {
 	}
-	
+
 	public User(String user_id, String user_password) {
 		this.user_id = user_id;
 		this.user_password = user_password;
@@ -30,9 +30,9 @@ public class User implements java.io.Serializable {
 		this.user_phone = user_phone;
 	}
 
-	// If signining successed, use to this constructor 
-	public User(String user_id, String user_nickname, String user_enrolled_date,
-			String user_phone, int user_level, boolean user_is_secession, boolean user_is_kicked, int user_try_signin_count) {
+	// If signining successed, use to this constructor
+	public User(String user_id, String user_nickname, String user_enrolled_date, String user_phone, int user_level,
+			boolean user_is_secession, boolean user_is_kicked, int user_try_signin_count) {
 		this.user_id = user_id;
 		this.user_nickname = user_nickname;
 		this.user_enrolled_date = user_enrolled_date;
@@ -90,19 +90,19 @@ public class User implements java.io.Serializable {
 	public void setUser_phone(String user_phone) {
 		this.user_phone = user_phone;
 	}
-	
+
 	public String getUser_type() {
 		return user_type;
 	}
-	
+
 	public void setUser_type(String user_type) {
 		this.user_type = user_type;
 	}
-	
+
 	public int getUser_level() {
 		return user_level;
 	}
-	
+
 	public void setUser_level(int user_level) {
 		this.user_level = user_level;
 	}
@@ -122,7 +122,7 @@ public class User implements java.io.Serializable {
 	public void setUser_is_secession(boolean user_is_secession) {
 		this.user_is_secession = user_is_secession;
 	}
-	
+
 	public boolean isUser_is_kicked() {
 		return user_is_kicked;
 	}

@@ -32,10 +32,6 @@
     body{
     background-color:#CEF6D8;
 /*     background-image: url("${pageContext.request.contextPath}/resources/images/sky.jpg"); */
-     
-    
-
-			   
     }
     
     </style>

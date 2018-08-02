@@ -12,14 +12,15 @@
 <div class="col-lg-12">
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><i class="fa fa-globe"></i> Community</li>
+			<li><i class="fa fa-dashboard"></i> Community</li>
+			<li class="active"><i class="fa fa-trash"></i> Trash</li>
 			<li class="active"><i class="fa fa-eye"></i> View</li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${view_commu.commu_Index}</li>
 		</ol>
 	</div>
 	
 	<div class="row">
-		${view_commu}
+		
 	</div>
 	
 	<div class="row">

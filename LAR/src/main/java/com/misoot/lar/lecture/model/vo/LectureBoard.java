@@ -2,8 +2,8 @@ package com.misoot.lar.lecture.model.vo;
 
 import java.sql.Date;
 
-public class LectureBoard implements java.io.Serializable{
-	
+public class LectureBoard implements java.io.Serializable {
+
 	private int lecture_board_index;
 	private int lecture_board_lecture_index;
 	private String lecture_board_title;
@@ -13,7 +13,7 @@ public class LectureBoard implements java.io.Serializable{
 	private int lecture_board_is_deleted;
 	private String lecture_board_chapter;
 	private int lecture_index;
-	
+
 	public LectureBoard() {
 		super();
 

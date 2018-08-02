@@ -3,7 +3,7 @@ package com.misoot.lar.lecture.model.vo;
 import java.sql.Date;
 
 public class LectureA {
-	
+
 	private int lecture_a_index;
 	private int lecture_a_writer_index;
 	private int lecture_a_lecture_q_index;
@@ -13,11 +13,11 @@ public class LectureA {
 	private int lecture_a_is_deleted;
 	private int lecture_a_is_readed;
 	private String user_nickname;
-	
+
 	public LectureA() {
-		
+
 	}
-	
+
 	public LectureA(int lecture_a_index, int lecture_a_writer_index, int lecture_a_lecture_q_index,
 			String lecture_a_content, Date lecture_a_upload_date, Date lecture_a_update_date, int lecture_a_is_deleted,
 			int lecture_a_is_readed, String user_nickname) {

@@ -33,13 +33,11 @@ public class InquireServiceImpl implements LarService<Inquire>{
 
 	@Override
 	public int update(Inquire t) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int delete(int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -60,5 +58,4 @@ public class InquireServiceImpl implements LarService<Inquire>{
 	public int insert(Map<String, Object> msgMap) {
 		return ((InquireDaoImpl)larDao).insert(msgMap);
 	}
-
 }

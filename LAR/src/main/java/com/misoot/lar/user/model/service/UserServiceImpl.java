@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
-import com.misoot.lar.home.model.dao.HomeDaoImpl;
-import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.dao.UserDaoImpl;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;

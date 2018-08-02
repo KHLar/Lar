@@ -1,6 +1,7 @@
 package com.misoot.lar.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -61,7 +62,7 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int modifyUserByAdmin(User user) {
 		return sqlSession.update("admin.modifyUserByAdmin", user);
 	}
-
+	
 	/*
 	 * community area
 	 */
@@ -81,6 +82,14 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public List<Commu> selectCommuListByUserIndex(int user_index) {
 		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index);
 	}
+	
+	public List<Commu> selectCommuNoticeList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuNoticeList", null, rowBounds);
+	}
+
+	public int selectCommuNoticeListCount() {
+		return sqlSession.selectOne("admin.selectCommuNoticeListCount");
+	}
 
 	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectCommuBoardList", null, rowBounds);
@@ -88,5 +97,37 @@ public class AdminDaoImpl implements LarDao<Admin> {
 
 	public int selectCommuBoardListCount() {
 		return sqlSession.selectOne("admin.selectCommuBoardListCount");
+	}
+
+	public List<Commu> selectCommuQaList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuQaList", null, rowBounds);
+	}
+
+	public int selectCommuQaListCount() {
+		return sqlSession.selectOne("admin.selectCommuQaListCount");
+	}
+
+	public List<Commu> selectCommuNewsList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuNewsList", null, rowBounds);
+	}
+
+	public int selectCommuNewsListCount() {
+		return sqlSession.selectOne("admin.selectCommuNewsListCount");
+	}
+
+	public List<Commu> selectCommuTrashList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCommuTrashList", null, rowBounds);
+	}
+
+	public int selectCommuTrashListCount() {
+		return sqlSession.selectOne("admin.selectCommuTrashListCount");
+	}
+
+	public boolean commuTrashRestore(int commu_index) {
+		return sqlSession.update("admin.commuTrashRestore", commu_index) > 0 ? true : false;
+	}
+
+	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.searchCommuList", searchMap, rowBounds);
 	}
 }

@@ -3,7 +3,7 @@ package com.misoot.lar.lecture.model.vo;
 import java.sql.Date;
 
 public class Lecture implements java.io.Serializable {
-	
+
 	private int lecture_index;
 	private String lecture_category_index;
 	private int lecture_instructor_index;
@@ -206,6 +206,7 @@ public class Lecture implements java.io.Serializable {
 				+ ", lecture_is_deleted=" + lecture_is_deleted + ", lecture_hits=" + lecture_hits + ", lecture_content="
 				+ lecture_content + ", lecture_total_score=" + lecture_total_score + ", user_nickname=" + user_nickname
 				+ ", lecture_review_count=" + lecture_review_count + ", cart_user_index=" + cart_user_index
-				+ ", wish_user_index=" + wish_user_index + "history_lecture_board_index=" + history_lecture_board_index +"]";
+				+ ", wish_user_index=" + wish_user_index + "history_lecture_board_index=" + history_lecture_board_index
+				+ "]";
 	}
 }
