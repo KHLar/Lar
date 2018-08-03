@@ -161,7 +161,7 @@
 		SELECT SEQ_LECTURE_Q_INDEX.currval FROM DUAL
 	</selectKey>
 		INSERT INTO TABLE_LECTURE_Q VALUES(
-		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{user_index}, 1, #{lecture_q_title}, #{lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{user_index}, #{lecture_q_lecture_index}, #{lecture_q_title}, #{lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<select id="lectureQlist" parameterType="_int" resultType="hashmap">
@@ -213,6 +213,12 @@
 		UPDATE TABLE_LECTURE_A SET 
 		LECTURE_A_CONTENT = #{lecture_a_content}, LECTURE_A_UPDATE_DATE = SYSDATE
 		WHERE LECTURE_A_INDEX = #{lecture_a_index}
+	</update>
+	
+	<update id="deleteQ">
+		UPDATE TABLE_LECTURE_Q SET
+		LECTURE_Q_IS_DELETED = 1
+		WHERE LECTURE_Q_INDEX = #{qindex}
 	</update>
 	
 	<select id="recomandedList" parameterType="hashmap" resultType="lecture">

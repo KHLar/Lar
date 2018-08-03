@@ -189,7 +189,10 @@ body {
 	function make_button_active(tab, panel) {
 		var siblings = tab.siblings();
 		var panSiblings = panel.siblings();
-
+		
+		console.log(tab);
+		console.log(panel);
+		
 		siblings.each(function() {
 			$(this).removeClass('active');
 		});
@@ -200,37 +203,36 @@ body {
 
 		tab.addClass('active');
 		panel.addClass('active');
+		
+		console.log(tab);
+		console.log(panel);
 	}
 
 	//Attach events to menu
 	$(document).ready(
-			function() {
-				if (localStorage.getItem('tab') !== 'undefined'
-						&& localStorage.getItem('tab') !== null
-						&& localStorage.getItem('panel') !== 'undefined'
-						&& localStorage.getItem('panel') !== null) {
-					var ind = localStorage['tab'];
-					var ind2 = localStorage['panel'];
-					make_button_active($('.nav-tabs li').eq(ind),
-							$('.tab-pane').eq(ind2));
-				} else {
-					localStorage['tab'] = $("#lectureTab").index();
-					localStorage['panel'] = $("#lectureList").index();
-					make_button_active($("#lectureTab"), $("#lectureList"));
-				}
+		function() {
+			if (localStorage.getItem('tab') != 'undefined' && localStorage.getItem('tab') != null
+				&& (localStorage.getItem('panel') != 'undefined' && localStorage.getItem('panel') != null)) {
+				var ind = localStorage['tab'];
+				console.log('tabindex : ' + ind);
+				var ind2 = localStorage['panel'];
+				console.log('panel index : ' + ind2);
+				make_button_active($('.lecturedetail li').eq(ind), $('.tab-pane').eq(ind2));
+			} else {
+				localStorage['tab'] = 0;
+				localStorage['panel'] = 0;
+				make_button_active($("#lectureTab"), $(".lecturepanel"));
+			}
 
-				$(".nav-tabs li").click(
-						function() {
-							if (localStorage) {
-								localStorage['tab'] = $(this).index();
-								var panel = $(this).children().attr(
-										'data-target');
-								localStorage['panel'] = $(
-										"#" + panel.substring(1, panel.length))
-										.index();
-							}
-						});
-			});
+			$(".lecturedetail li").click(
+				function() {
+					if (localStorage) {
+						localStorage['tab'] = $(this).index();
+						var panel = $(this).children().attr('data-target');
+						localStorage['panel'] = $(panel).index();
+					}
+		});
+	});
 </script>
 
 </header>
@@ -239,9 +241,9 @@ body {
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
 			<div class="tabs lectureTab" >
-				<ul class="nav nav-tabs" role="tablist" >
-					<li role="presentation" id="lectureTab Tabs" ><a id="atab" data-toggle="tab" data-target="#lectureList">강좌소개</a></li>
-					<li role="presentation" id="qaTab Tabs"><a id="atab" data-toggle="tab" data-target="#QnA">질의응답</a></li>
+				<ul class="nav nav-tabs lecturedetail" role="tablist" >
+					<li role="presentation" id="lectureTab Tabs" ><a class="atab" data-toggle="tab" data-target="#lectureList">강좌소개</a></li>
+					<li role="presentation" id="qaTab Tabs"><a class="atab" data-toggle="tab" data-target="#QnA">질의응답</a></li>
 				</ul>
 			</div>
 
@@ -249,7 +251,7 @@ body {
 
 			<div class="row">
 				<div class="col-md-9 tab-content">
-					<div class="tab-pane active" id="lectureList">
+					<div class="tab-pane lecturepanel" id="lectureList">
 						<h1 class="mt-4">${lecture.lecture_title}</h1>
 						<p class="lead">
 							by <a href="#">${lecture.user_nickname}</a>
@@ -260,7 +262,7 @@ body {
 						<div class="col-sm-12 youtubeWrap ">
 							${lecture.lecture_content }<br> <br>
 						</div>
-						<div class="tab-pane col-sm-12" id="lectureList">
+						<div class="col-sm-12" id="lectureList">
 						<!-- User Rating -->
 						<c:if test="${lectureTotalScore.lecture_total_score == 0}">
 							<span class="fa fa-star "></span>
@@ -571,7 +573,7 @@ body {
 							</c:forEach>
 						</table>
 						<a class="btn btn-primary pull-right"
-							href="/lar/lecture/QnA/writeForm">글쓰기</a>
+							href="/lar/lecture/QnA/writeForm/${lecture.lecture_index}">글쓰기</a>
 						<div class="pagingArea" style="text-align: center">
 							<%
 								int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));

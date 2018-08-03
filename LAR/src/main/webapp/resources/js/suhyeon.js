@@ -9,19 +9,19 @@
 
 /* Modal closed event */
 $(function() {
-	$('#dynamicModal').on('hidden.bs.modal', function() {
-		$('#modalContent').html(null);
-	});
+   $('#dynamicModal').on('hidden.bs.modal', function() {
+      $('#modalContent').html(null);
+   });
 });
 
 /* Modal Load function */
 function getModal(target) {
-	$.ajax({
-		url : '/lar/modal/' + target,
-		success : function(result) {
-			$('#modalContent').html(result);
-		}
-	});
+   $.ajax({
+      url : '/lar/modal/' + target,
+      success : function(result) {
+         $('#modalContent').html(result);
+      }
+   });
 }
 
 /* submit validate function */
@@ -42,7 +42,6 @@ function form_validate(target) {
 		break;
 	case 'passwordModify':
 		if ((input_validate('newPassword') == 0)) {
-
 		} else if ((input_validate('newPassword2') == 0)) {
 
 		} else {
@@ -55,72 +54,72 @@ function form_validate(target) {
 }
 
 function input_state_change(kinds, flag) {
-	var target_html_id = 'user_' + kinds;
+   var target_html_id = 'user_' + kinds;
 
-	if (flag == 1) {
-		$('.' + kinds + '.form-group.has-feedback').removeClass('has-error');
-		$('.' + kinds + '.form-group.has-feedback').addClass('has-success');
-		$('.' + kinds + '.glyphicon.form-control-feedback').removeClass('glyphicon-remove');
-		$('.' + kinds + '.glyphicon.form-control-feedback').addClass('glyphicon-ok');
-	} else if (flag == 0) {
-		$('#' + target_html_id).focus();
-		$('.' + kinds + '.form-group.has-feedback').removeClass('has-success');
-		$('.' + kinds + '.form-group.has-feedback').addClass('has-error');
-		$('.' + kinds + '.glyphicon.form-control-feedback').removeClass('glyphicon-ok');
-		$('.' + kinds + '.glyphicon.form-control-feedback').addClass('glyphicon-remove');
-	}
+   if (flag == 1) {
+      $('.' + kinds + '.form-group.has-feedback').removeClass('has-error');
+      $('.' + kinds + '.form-group.has-feedback').addClass('has-success');
+      $('.' + kinds + '.glyphicon.form-control-feedback').removeClass('glyphicon-remove');
+      $('.' + kinds + '.glyphicon.form-control-feedback').addClass('glyphicon-ok');
+   } else if (flag == 0) {
+      $('#' + target_html_id).focus();
+      $('.' + kinds + '.form-group.has-feedback').removeClass('has-success');
+      $('.' + kinds + '.form-group.has-feedback').addClass('has-error');
+      $('.' + kinds + '.glyphicon.form-control-feedback').removeClass('glyphicon-ok');
+      $('.' + kinds + '.glyphicon.form-control-feedback').addClass('glyphicon-remove');
+   }
 }
 
 function input_help_block_change(kinds, reason, flag) {
-	var result = '';
+   var result = '';
 
-	if (flag == 1) { // 성공
-		if (reason == 'validate') {
-			// 문법 검사 통과
-			result = '올바른 값 입니다.';
-		} else if (reason == 'duplicate') {
-			// 중복 검사 통과
-			result = '사용할수 있는 값 입니다.';
-		}
-	} else if (flag == 0) { // 실패
-		if (reason == 'validate') {
-			// 문법 검사 실패
-			switch (kinds) {
-			case 'id':
-				result = '올바른 이메일 양식이 아닙니다.';
-				break;
-			case 'password':
-			case 'newPassword':
-				result = '영어 대문자, 소문자, 숫자, 특수문자가 한개 이상 들어간 8~20 글자를 입력하세요.';
-				break;
-			case 'password2':
-			case 'newPassword2':
-				result = '입력한 비밀번호와 값이 다릅니다.';
-				break;
-			case 'nickname':
-				result = '한,영,숫자로 이루어진 2~8 글자를 입력하세요.';
-				break;
-			case 'phone':
-				result = '\'-\' 문자를 포함해서 입력해 주세요.';
-				break;
-			default:
-				break;
-			}
+   if (flag == 1) { // 성공
+      if (reason == 'validate') {
+         // 문법 검사 통과
+         result = '올바른 값 입니다.';
+      } else if (reason == 'duplicate') {
+         // 중복 검사 통과
+         result = '사용할수 있는 값 입니다.';
+      }
+   } else if (flag == 0) { // 실패
+      if (reason == 'validate') {
+         // 문법 검사 실패
+         switch (kinds) {
+         case 'id':
+            result = '올바른 이메일 양식이 아닙니다.';
+            break;
+         case 'password':
+         case 'newPassword':
+            result = '영어 대문자, 소문자, 숫자, 특수문자가 한개 이상 들어간 8~20 글자를 입력하세요.';
+            break;
+         case 'password2':
+         case 'newPassword2':
+            result = '입력한 비밀번호와 값이 다릅니다.';
+            break;
+         case 'nickname':
+            result = '한,영,숫자로 이루어진 2~8 글자를 입력하세요.';
+            break;
+         case 'phone':
+            result = '\'-\' 문자를 포함해서 입력해 주세요.';
+            break;
+         default:
+            break;
+         }
 
 		} else if (reason == 'duplicate') {
 			result = '이미 사용중인 값 입니다.';
 		}
 	}
 
-	$('.' + kinds + '.help-block').text(result);
+   $('.' + kinds + '.help-block').text(result);
 }
 
 function input_validate(kinds) {
-	var target_html_id = 'user_' + kinds;
-	var target_html_value = $('#' + target_html_id).val();
-	var reg_Exp;
-	var result = false;
-	var result_value = 0;
+   var target_html_id = 'user_' + kinds;
+   var target_html_value = $('#' + target_html_id).val();
+   var reg_Exp;
+   var result = false;
+   var result_value = 0;
 
 	switch (kinds) {
 	case 'id':
@@ -201,29 +200,29 @@ function input_duplicate_check(kinds) {
 /* get unlock pages */
 
 function getUnlockForm(target) {
-	$.ajax({
-		type : 'post',
-		url : '/lar/user/unlock/' + target,
-		data : $('.modal-body>form').serialize(),
-		success : function(result) {
-			var temp_id = $('.modal-body>form #user_id').val();
-			$('.modal-body').html(result);
-			$('.modal-footer').html(null);
-			$('.modal-body>form #user_id').val(temp_id);
-		}
-	});
+   $.ajax({
+      type : 'post',
+      url : '/lar/user/unlock/' + target,
+      data : $('.modal-body>form').serialize(),
+      success : function(result) {
+         var temp_id = $('.modal-body>form #user_id').val();
+         $('.modal-body').html(result);
+         $('.modal-footer').html(null);
+         $('.modal-body>form #user_id').val(temp_id);
+      }
+   });
 }
 
 function getForgotPasswordForm(target) {
-	$.ajax({
-		type : 'post',
-		url : '/lar/user/forgotPassword/' + target,
-		data : $('.modal-body>form').serialize(),
-		success : function(result) {
-			var temp_id = $('.modal-body>form #user_id').val();
-			$('.modal-body').html(result);
-			$('.modal-footer').html(null);
-			$('.modal-body>form #user_id').val(temp_id);
-		}
-	});
+   $.ajax({
+      type : 'post',
+      url : '/lar/user/forgotPassword/' + target,
+      data : $('.modal-body>form').serialize(),
+      success : function(result) {
+         var temp_id = $('.modal-body>form #user_id').val();
+         $('.modal-body').html(result);
+         $('.modal-footer').html(null);
+         $('.modal-body>form #user_id').val(temp_id);
+      }
+   });
 }

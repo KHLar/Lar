@@ -167,6 +167,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int updateA(LectureA lecturea) {
 		return sqlSession.update("lecture.updateA", lecturea);
 	}
+	
+	public int deleteQ(int qindex) {
+		return sqlSession.update("lecture.deleteQ", qindex);
+	}
 
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {

@@ -22,6 +22,7 @@
 					<input type="text" class="form-control" name="lecture_q_title" placeholder="Title" style="margin-bottom:10px"/>
 					<div id="summernote"></div>
 					<input type="hidden" id="lecture_q_content" name="lecture_q_content"/>
+					<input type="hidden" name="lecture_q_lecture_index" value="${lecture_index}"/>
 					<button type="submit" class="btn btn-default pull-right" onclick="inputcontent();" style="margin-top: 10px">작성완료</button>
 				</form>
 			</div>

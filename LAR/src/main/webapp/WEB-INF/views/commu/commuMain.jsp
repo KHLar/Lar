@@ -193,8 +193,7 @@ td {
 							<c:forEach items="${noticeList}" var="n">
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<h4 class="panel-title">
-											
+										<h4 class="panel-title">											
 											<a data-toggle="collapse" data-parent="#accordion"
 												href="#collapse${n.commu_Index}"
 												style="text-decoration: none;"> <strong>${n.commu_Title}</strong></a>

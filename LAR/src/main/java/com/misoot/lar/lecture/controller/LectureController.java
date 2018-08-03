@@ -378,8 +378,9 @@ public class LectureController {
 	}
 
 
-	@RequestMapping("/lecture/QnA/writeForm")
-	public String writeFormView() {
+	@RequestMapping("/lecture/QnA/writeForm/{lecture_index}")
+	public String writeFormView(@PathVariable int lecture_index, Model model) {
+		model.addAttribute("lecture_index", lecture_index);
 		return "lecture/writeFormQnA";
 	}
 
@@ -444,6 +445,12 @@ public class LectureController {
 	public String updateQ(LectureQ lectureq) {
 		int result = ((LectureServiceImpl) LectureServiceImpl).updateQ(lectureq);
 		return "redirect:/lecture/QnA/detail/" + lectureq.getLecture_q_index();
+	}
+	
+	@RequestMapping("/lecture/QnA/deleteQ/{lecture_index}/{qindex}")
+	public String deleteQ(@PathVariable("lecture_index") int lecture_index, @PathVariable("qindex") int qindex) {		
+		int result = ((LectureServiceImpl) LectureServiceImpl).deleteQ(qindex);
+		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
 	}
 
 	// 추천강의

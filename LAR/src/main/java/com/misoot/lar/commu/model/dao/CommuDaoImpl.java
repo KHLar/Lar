@@ -102,12 +102,6 @@ public class CommuDaoImpl implements LarDao<Commu> {
 		return sqlSession.selectOne("commu.selectCommuTotalContentsWriter",commuSearchText);
 	}
 	public List<Map<String, String>> selectNoticeList() {
-		/*System.out.println("NoticeOffset : "+(cPage-1)*numPerPage);
-		System.out.println("NoticeLimit : "+numPerPage);
-		
-		RowBounds rows = new RowBounds((cPage-1)*numPerPage,numPerPage);*/
-		
-		//return sqlSession.selectList("commu.selectNoticeList",null,rows);
 		return sqlSession.selectList("commu.selectNoticeList");
 	}
 

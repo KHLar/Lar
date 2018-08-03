@@ -36,6 +36,10 @@
 			alert('로그인 먼저해주세요^^');
 			return false;
 		}
+		if(${session_user.user_type}!="admin"){
+			alert('관리자만 공지사항을 작성할수 있습니다');
+			return false;
+		}
 		return true;
 	}
 	/*부트스트랩 : file 변경시 파일명 보이기 */
