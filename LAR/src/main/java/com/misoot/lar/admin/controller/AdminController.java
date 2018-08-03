@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
@@ -74,14 +75,8 @@ public class AdminController {
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_view(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
-		List<Commu> writeList = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index);
-		List<CommuReply> replyList = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByUserIndex(user_index);
-		List<Purchase> paymentList = ((AdminServiceImpl) adminServiceImpl).paymentList(user_index);
 		
-		model.addAttribute("view_user", view_user)
-			.addAttribute("writeList", writeList)
-			.addAttribute("replyList", replyList)
-			.addAttribute("paymentList", paymentList);
+		model.addAttribute("view_user", view_user);
 
 		return "admin/users/userView";
 	}
@@ -264,4 +259,9 @@ public class AdminController {
 	/*
 	 * community area end
 	 */
+	
+	@RequestMapping(value="/modal", method={RequestMethod.POST, RequestMethod.GET})
+	public String getModal(@RequestParam("num") int num) {
+		return "redirect:/admin/commu/view/"+num;
+	}
 }

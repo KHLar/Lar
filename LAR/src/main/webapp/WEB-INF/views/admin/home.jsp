@@ -8,6 +8,21 @@
 	<c:param value="Home" name="pageTitle" />
 </c:import>
 
+<script>
+	function testModal(num) {
+		$.ajax({
+			type: 'post',
+			url: '/lar/admin/modal',
+			data: {
+				num: num
+			},
+			success: function(result_html) {
+				$('.modal-content').html(result_html);
+			}
+		});
+	}
+</script>
+
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
@@ -19,7 +34,8 @@
 	</div>
 
 	<div class="row">
-		숫자놀음ㅎㅎ
+		<a class="btn btn-default" role="button" data-toggle="modal" data-target=".dynamicModal" onclick="testModal(1);">1</a>
+		<a class="btn btn-default" role="button" data-toggle="modal" data-target=".dynamicModal" onclick="testModal(8);">2</a>
 	</div>
 </div>
 
