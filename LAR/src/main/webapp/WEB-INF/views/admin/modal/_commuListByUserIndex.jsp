@@ -78,8 +78,8 @@
 			<% } %>
 			
 			<% if (pi.getMax_page_count() > pi.getCurrent_page()) { %>
-				<li><a href="/lar/admin/commu/board/list/${pi.current_page + 1}">&gt;</a></li>
-				<li><a href="/lar/admin/commu/board/list/${pi.max_page_count}">&gt;&gt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commuList', ${pi.current_page+1})">&gt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commuList', ${pi.max_page_count})">&gt;&gt;</a></li>
 			<% } %>
 		</ul>
 	</nav>
