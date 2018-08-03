@@ -11,8 +11,8 @@ import com.misoot.lar.common.sockJS.model.dao.InquireDaoImpl;
 import com.misoot.lar.common.sockJS.model.vo.Inquire;
 
 @Service
-public class InquireServiceImpl implements LarService<Inquire>{
-	
+public class InquireServiceImpl implements LarService<Inquire> {
+
 	@Autowired
 	LarDao<Inquire> larDao;
 
@@ -33,32 +33,31 @@ public class InquireServiceImpl implements LarService<Inquire>{
 
 	@Override
 	public int update(Inquire t) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int delete(int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	
-	
 	public List<Map<String, Object>> selectAllList() {
-		return ((InquireDaoImpl)larDao).selectAllList();
-	}
-	
-	public List<Map<String, Object>> selectList(int user) {
-		return ((InquireDaoImpl)larDao).selectList(user);
-	}
-	
-	public int deleteContent(int no){
-		return ((InquireDaoImpl)larDao).deleteContent(no);
-	}
-	
-	public int insert(Map<String, Object> msgMap) {
-		return ((InquireDaoImpl)larDao).insert(msgMap);
+		return ((InquireDaoImpl) larDao).selectAllList();
 	}
 
+	public List<Map<String, Object>> selectList(int user) {
+		return ((InquireDaoImpl) larDao).selectList(user);
+	}
+
+	public int deleteContent(int no) {
+		return ((InquireDaoImpl) larDao).deleteContent(no);
+	}
+
+	public int insert(Map<String, Object> msgMap) {
+		return ((InquireDaoImpl) larDao).insert(msgMap);
+	}
+
+	public int fileUpdate(Map<String, String> fileName) {
+		return ((InquireDaoImpl) larDao).fileUpdate(fileName);
+	}
 }

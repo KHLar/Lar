@@ -1,3 +1,4 @@
+<%@page import="com.misoot.lar.common.util.UtilCommu"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,51 +10,91 @@
 </c:import>
 </header>
 
-<script
-	src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
+<style>
+.centers {
+	text-align: center;
+}
+tr, th {
+	text-align: center;
+}
+th, td {
+	border-bottom: 1px solid #444444;
+	padding: 10px;
+	text-align: center;
+}
+th {
+	background-color: #0d47a1;
+	color: white;
+}
+td {
+	background-color: white;
+	vertical-align: middle !important;
+}
+.NContent {
+	font-family: Impact, Charcoal, sans-serif;
+	text-transform: none;
+	font-size: 14pt;
+	white-space: pre-line;
+}
+.panel-body {
+	background-color: #FAF5F5;
+}
+.imgCal{
+	width : 100 %;
+}
+</style>
 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css"
-	rel="stylesheet">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+<%
+	int commuTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("commuTotalContents")));
+	int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
+	int qaTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("qaTotalContents")));
+	int qaNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("qaNumPerPage")));
+	//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
+	String commucPageTemp = request.getParameter("commucPage");
+	String commuSearchType = (String) request.getParameter("commuSearchType");
+	String commuSearchText = (String) request.getParameter("commuSearchText");
+	String qacPageTemp = request.getParameter("qacPage");
+	String qaSearchType = (String) request.getParameter("qaSearchType");
+	String qaSearchText = (String) request.getParameter("qaSearchText");
+	String liCommu = "";
+	String liqa = "";
+	if (qaSearchType == null || qaSearchType == "") {
+		liCommu = "active";
+	} else {
+		liqa = "active";
+	}
+	int commucPage = 1;
+	int qacPage = 1;
+	try {
+		commucPage = Integer.parseInt(commucPageTemp);
+		qacPage = Integer.parseInt(qacPageTemp);
+	} catch (NumberFormatException e) {
+	}
+%>
+
 <script>
-	$(document).ready(function() {
-		$('#tags').tagInput();
-	});
-
-	function validate() {
-		var content = $("#commu_Content").val();
-		if (content.trim().length == 0) {
-			alert("내용을 입력하세요");
-			return false;
-		}
-		if ($('#commu_Writer_Index').val() == ""
-				|| $('#commu_Writer_Index').val() == null) {
-			alert('로그인 먼저해주세요^^');
-			return false;
+	function commuValidate() {
+		if ($('#commuSearchText').val().trim() == null
+				|| $('#commuSearchText').val().trim() == "") {
+			location.href = "${pageContext.request.contextPath}/commu/commuMain";
 		}
 		return true;
 	}
-
-	/*부트스트랩 : file 변경시 파일명 보이기 */
-	$(function() {
-		$('[name=upFile]').on('change', function() {
-			var fileName = $(this).prop('files')[0].name;//파일명
-			console.log($(this).val());
-			$(this).next('.custom-file-label').html(fileName);
-		});
-
-	});
+	function qaValidate() {
+		if ($('#qaSearchText').val().trim() == null
+				|| $('#qaSearchText').val().trim() == "") {
+			location.href = "${pageContext.request.contextPath}/commu/commuMain";
+		}
+		return true;
+	}
+	function move() {
+		location.href = "${pageContext.request.contextPath}/commu/commuMain";
+	}
+	function testCommuModify(commu_Category_Index) {
+		location.href = "${pageContext.request.contextPath}/commu/commuForm/"
+				+ commu_Category_Index;
+	}
 </script>
-<c:set var="req" value="" />
-<c:if test="${commu_Category_Index eq 'B03'}">
-	<c:set var="req" value="required" />
-</c:if>
 
 <div class="container-fluid">
 	<div class="row">
@@ -70,16 +111,29 @@
 						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="제목" required>
 						</c:if>
 					</div>
-					
-					<div class="form-group">
-						<label for="commu_file">파일</label>
-						<div class="custom-file">
-						<c:if test="${commu eq null }">
-							<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req}>
-						</c:if>
-						<c:if test="${commu ne null}">
-							<label>파일은 수정불가하옵니다.</label>
-						</c:if>
+				</div>
+				<div id="Notice" class="tab-pane fade">
+					<div class="container_fluid">
+						<div class="panel-group" id="accordion" style="margin-top: 5px;">
+							<c:forEach items="${noticeList}" var="n">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											
+											<a data-toggle="collapse" data-parent="#accordion"
+												href="#collapse${n.commu_Index}"
+												style="text-decoration: none;"> <strong>${n.commu_Title}</strong></a>
+										</h4>
+									</div>
+									<div id="collapse${n.commu_Index}"
+										class="panel-collapse collapse out">
+										<div class="panel-body">
+											<p class="NContent">${n.commu_Content }</p>
+										</div>
+									</div>
+								</div>
+
+							</c:forEach>
 						</div>
 					</div>
 					<div class="bootstrap-tagsinput form-group">
@@ -92,38 +146,112 @@
 						</c:if>
 							<input type="hidden" value="" name="result" />
 						</div>
-					</div>
-					<div class="form-group">
-						<div id="summernote">
-						<c:if test="${commu ne null }">
-						${commu.commu_Content }
-						</c:if>
-						
+						<div class="table-responsive">
+							<table class="table tBorder table-bordered table-condensed table-hover" id="listArea">
+								<thead>
+									<tr>
+										<th class="col-md-1 centers">번호</th>
+										<th class="col-md-5 centers">제목</th>
+										<th class="col-md-2 centers">작성자</th>
+										<th class="col-md-2 centers">날짜</th>
+										<th class="col-md-1 centers">파일</th>
+										<th class="col-md-1 centers">조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${qalist}" var="q">
+									<tr id="${q.commu_Index}">
+										<td>${q.commu_Index}</td>
+										<%-- <td class="qaContent"><p>${q.commu_Title}</p></td> --%>
+										<td class="qaContent"><p style="font-size: 18px;">${q.commu_Title}</p>
+												<c:forTokens items="${q.commu_tags}" var="tag" delims=",">
+													<a href="${pageContext.request.contextPath}/commu/commuMain?qaSearchType=tags&qaSearchText=${tag}"
+														class="bg-warning labelinput badge badge-warning"
+														style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
+												</c:forTokens></td>
+										<td>${q.commu_Writer}</td>
+										<td>${q.commu_Update_Date}</td>
+										<td align="center">
+											<c:if test="${q.fileCount>0}">
+												<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file1.jpg" width=70px>
+											</c:if>
+											<c:if test="${q.fileCount==0}">
+												<%-- <img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/noImage.jpg" width=70px> --%>
+												X
+											</c:if>
+										</td>
+										<td>${i.commu_Hits}</td>
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
-						
-						
+						<nav style="text-align: center;">
+							<%=UtilCommu.getqaPageBar(qaTotalContents, qacPage, qaNumPerPage, qaSearchType, qaSearchText, "commuMain")%>
+						</nav>
+						<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('B02');">글쓰기</button>
 					</div>
-					<button type="submit" class="btn btn-primary pull-right" onclick="funcNote();">작성완료</button>
-					<input type="hidden" id="commu_Category_Index" name="commu_Category_Index" value="${commu_Category_Index}" />
-					<input type="hidden" id="commu_Content" name="commu_Content" />
-					<input type="hidden" id="commu_Writer_Index" name="commu_Writer_Index" value="${session_user.user_index}" />
-					<input type="hidden" id="commu_Index" name="commu_Index" value="${commu_Index}"/>
-					
-				</form>
+				</div>
+				<div id="News" class="tab-pane fade">
+					<div class="container_fluid">
+						<div class="row no-gutters">
+							<c:set var="cnt" value="0"/>
+							<c:forEach items="${newslist}" var="n" varStatus="status">
+							<c:set var="cnt" value="${cnt+1}"/>
+							<c:if test="${cnt%3==1}">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							</c:if>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="display: flex;">
+									<a class="portfolio-item" href="${pageContext.request.contextPath}/commu/commuView/${n.commu_Index}">
+										<span class="caption">
+											<span class="caption-content">
+												<h2>${n.commu_Title }</h2>
+												<p>${n.commu_Writer }</p>
+											</span>
+										</span>
+										<c:if test="${n.commu_Attach_Renamedfilename ne ''}">
+										
+										</c:if>
+										<img class="img-fluid imgCal" src="${pageContext.request.contextPath}/resources/uploadFiles/commu/${n.commu_Attach_Renamedfilename}" style="width: 100%;" />
+									</a>
+								</div>
+							<c:if test="${cnt%3==0||status.last}">
+							</div>
+							</c:if>
+							</c:forEach>
+						</div>
+						<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('B03');">글쓰기</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		<script>
-			$('#summernote').summernote({
-				placeholder : '내용을 자유롭게 작성해주세요(너무 자유로우면 제재함)',
-				tabsize : 2,
-				height : 300,
-			});
-			function funcNote() {
-				document.getElementById("commu_Content").value = $(
-						'#summernote').summernote('code');
-				//alert(document.getElementById("commu_Content").value);
-			}
-		</script>
 
+		<script>
+				$(function() {
+					$('.commuContent p')
+							.mouseenter(function() {
+								$(this).css({
+									"cursor" : "pointer"
+								});
+							})
+							.click(
+									function() {
+										var index = $(this).parent().parent().attr('id');
+										location.href = "${pageContext.request.contextPath}/commu/commuView/"
+												+ index;
+									});
+					$('.qaContent p')
+							.mouseenter(function() {
+								$(this).css({
+									"cursor" : "pointer"
+								});
+							})
+							.click(
+									function() {
+										var index = $(this).parent().parent().attr('id');
+										location.href = "${pageContext.request.contextPath}/commu/commuView/"
+												+ index;
+									});
+				});
+			</script>
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />

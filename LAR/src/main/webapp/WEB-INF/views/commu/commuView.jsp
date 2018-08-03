@@ -18,17 +18,17 @@
 span {
 	font-size: 15pt;
 }
-
 .commuTitle {
 	font-size: 30pt;
 }
-
 .commuContent {
 	font-size: 15pt;
 }
-
 textarea {
 	resize: none;
+}
+.commentHelp{
+	color: gray;
 }
 .commentHelp{
 	color: gray;
@@ -65,7 +65,6 @@ textarea {
 							+"&replyContent=" + $('#replyComment').val()
 									+ "&commuIndex=" + ${commu.commu_Index}
 							;
-
 						});
 		function replyDelete(s) {
 			location.href = "${pageContext.request.contextPath}/commu/commuReplyDelete?commu_Reply_Index="
@@ -92,6 +91,7 @@ textarea {
 			<div class="blog-heading">
 				<h3 class="text-capitalize">
 					&nbsp;&nbsp;게시판 글보기
+
 					<c:if test="${session_user.user_index eq commu.commu_Writer_Index}">
 						<div style="text-align:right;">
 						<button type="button" class="btn btn-success"

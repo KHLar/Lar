@@ -93,7 +93,7 @@ public class Utils {
 		//[이전]section
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<a class='page-link' tabindex='-1'>이전</a>";
 			pageBar += "</li>";
 		}
 		else {
@@ -120,7 +120,7 @@ public class Utils {
 		//[다음] section
 		if(pageNo > totalPage){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<a class='page-link'>다음</a>";
 			pageBar += "</li>";
 			
 		} else {
@@ -157,7 +157,7 @@ public class Utils {
 
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<a class='page-link' tabindex='-1'>이전</a>";
 			pageBar += "</li>";
 		}
 		else {
@@ -183,7 +183,7 @@ public class Utils {
 
 		if(pageNo > totalPage){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<a class='page-link'>다음</a>";
 			pageBar += "</li>";
 			
 		} else {
@@ -219,7 +219,7 @@ public class Utils {
 
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<a class='page-link' tabindex='-1'>이전</a>";
 			pageBar += "</li>";
 		}
 		else {
@@ -245,7 +245,7 @@ public class Utils {
 
 		if(pageNo > totalPage){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<a class='page-link'>다음</a>";
 			pageBar += "</li>";
 			
 		} else {
@@ -281,7 +281,7 @@ public class Utils {
 
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<a class='page-link' tabindex='-1'>이전</a>";
 			pageBar += "</li>";
 		}
 		else {
@@ -307,7 +307,7 @@ public class Utils {
 
 		if(pageNo > totalPage){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<a class='page-link' >다음</a>";
 			pageBar += "</li>";
 			
 		} else {
@@ -343,7 +343,7 @@ public class Utils {
 
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<a class='page-link' tabindex='-1'>이전</a>";
 			pageBar += "</li>";
 		}
 		else {
@@ -369,7 +369,7 @@ public class Utils {
 
 		if(pageNo > totalPage){
 			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<a class='page-link'>다음</a>";
 			pageBar += "</li>";
 			
 		} else {
@@ -390,46 +390,26 @@ public class Utils {
 	}
 	
 	public String convertClobToString(Clob clob) {
-
 		Reader reader = null;
-
 		StringBuilder sb = null;
 
 		try {
-
 			reader = clob.getCharacterStream();
-
 			int c = -1;
-
 			sb = new StringBuilder();
 
 			while ((c = reader.read()) != -1) {
-
 				sb.append(((char) c));
-
 			}
-
 		} catch (IOException | SQLException e1) {
-
 			e1.printStackTrace();
-
 		} finally {
-
 			try {
-
-				if (reader != null)
-
-					reader.close();
-
+				if (reader != null) reader.close();
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
 		return sb.toString();
-
 	}
 }

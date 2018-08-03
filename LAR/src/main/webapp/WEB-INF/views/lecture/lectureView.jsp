@@ -10,7 +10,12 @@
 	
 	
     <title>강의 동영상</title>
-    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.mini.css" rel="stylesheet">
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link
+	href="${pageContext.request.contextPath}/resources/css/lar-board.css"
+	rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/portfolio-item.css" rel="stylesheet">
  
     <style>
@@ -25,12 +30,8 @@
   height: 100%;
 }
     body{
-    background-color:skyblue;
-    background-image: url("${pageContext.request.contextPath}/resources/images/sky.jpg");
-     
-    
-
-			   
+    background-color:#CEF6D8;
+/*     background-image: url("${pageContext.request.contextPath}/resources/images/sky.jpg"); */
     }
     
     </style>

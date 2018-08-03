@@ -274,6 +274,17 @@ public class CommuController {
 							model.addAttribute("loc", loc).addAttribute("msg", msg);
 							return "common/msg";
 						}
+					}else{
+						if (ext.toUpperCase().equals("JPG") || ext.toUpperCase().equals("PNG") || ext.toUpperCase().equals("GIF")
+								|| ext.toUpperCase().equals("PDF") || ext.toUpperCase().equals("HWP") || ext.toUpperCase().equals("DOC")
+								|| ext.toUpperCase().equals("PPT")) {
+							
+						} else {
+							loc = "/commu/commuForm/B03";
+							msg = "해당 파일은 첨부가 불가능합니다..";
+							model.addAttribute("loc", loc).addAttribute("msg", msg);
+							return "common/msg";
+						}
 					}
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 	

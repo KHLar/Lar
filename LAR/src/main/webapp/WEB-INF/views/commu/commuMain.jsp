@@ -15,36 +15,33 @@
 .centers {
 	text-align: center;
 }
-
 tr, th {
 	text-align: center;
 }
-
 th, td {
 	border-bottom: 1px solid #444444;
 	padding: 10px;
 	text-align: center;
 }
-
 th {
 	background-color: #0d47a1;
 	color: white;
 }
-
 td {
 	background-color: white;
 	vertical-align: middle !important;
 }
-
 .NContent {
 	font-family: Impact, Charcoal, sans-serif;
 	text-transform: none;
 	font-size: 14pt;
 	white-space: pre-line;
 }
-
 .panel-body {
 	background-color: #FAF5F5;
+}
+.imgCal{
+	width : 100 %;
 }
 .imgCal{
 	width : 100 %;
@@ -56,7 +53,6 @@ td {
 	int commuNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("commuNumPerPage")));
 	int qaTotalContents = Integer.parseInt(String.valueOf(request.getAttribute("qaTotalContents")));
 	int qaNumPerPage = Integer.parseInt(String.valueOf(request.getAttribute("qaNumPerPage")));
-
 	//파라미터 cPage가 null이거나 "" 일 때에는 기본값 1로 세팅함.  
 	String commucPageTemp = request.getParameter("commucPage");
 	String commuSearchType = (String) request.getParameter("commuSearchType");
@@ -64,7 +60,6 @@ td {
 	String qacPageTemp = request.getParameter("qacPage");
 	String qaSearchType = (String) request.getParameter("qaSearchType");
 	String qaSearchText = (String) request.getParameter("qaSearchText");
-
 	String liCommu = "";
 	String liqa = "";
 	if (qaSearchType == null || qaSearchType == "") {
@@ -72,13 +67,11 @@ td {
 	} else {
 		liqa = "active";
 	}
-
 	int commucPage = 1;
 	int qacPage = 1;
 	try {
 		commucPage = Integer.parseInt(commucPageTemp);
 		qacPage = Integer.parseInt(qacPageTemp);
-
 	} catch (NumberFormatException e) {
 	}
 %>

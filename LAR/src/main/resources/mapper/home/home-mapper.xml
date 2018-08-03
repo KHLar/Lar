@@ -2,8 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="home">
 
-	<select id="selectLectureListRecent" resultType="lecture">
-		select * from TABLE_LECTURE order by LECTURE_INDEX desc
+	<select id="selectLectureListRecent" parameterType="hashmap" resultType="lecture">
+		SELECT DISTINCT LECTURE_INDEX, LECTURE_TITLE, LECTURE_PRICE, LECTURE_THUMBNAIL, LECTURE_UPLOAD_DATE 
+		<choose>
+			<when test="user_index != 0">
+				, WISH_USER_INDEX
+				FROM TABLE_LECTURE
+				LEFT JOIN (SELECT * FROM TABLE_WISH_LIST WHERE WISH_USER_INDEX = #{user_index}) ON (LECTURE_INDEX = WISH_LECTURE_INDEX) 
+				LEFT JOIN (SELECT * FROM TABLE_CART WHERE CART_USER_INDEX = #{user_index}) ON (LECTURE_INDEX = CART_LECTURE_INDEX)
+			</when>
+			<otherwise>
+				FROM TABLE_LECTURE
+			</otherwise>
+		</choose>
+		WHERE LECTURE_IS_DELETED = 0
+		ORDER BY LECTURE_UPLOAD_DATE DESC
 	</select>
 	
 	<select id="selectLectureListRecommanded" resultType="lecture">

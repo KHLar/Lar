@@ -1,8 +1,10 @@
 package com.misoot.lar.common.sockJS.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Clob;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,15 +42,9 @@ public class InquireController {
 		System.out.println("receiver : " + msg.getInquire_receiver_index());
 		System.out.println("receive message : " + msg.getInquire_content());
 		System.out.println("sendDate : " + new Date(System.currentTimeMillis()));
-		System.out.println("sendFile : " + msg.getInquire_attachment_file());
-		//System.out.println("sendFile : " + msg.getSendFile().getOriginalFilename());
-		
 		msg.setInquire_sendDate(new Date(System.currentTimeMillis()));
 		
 		System.out.println("What is msg? : "+msg);
-		if(msg.getInquire_attachment_file() == null){
-			msg.setInquire_attachment_file("");
-		}
 		
 		Map<String, Object> msgMap = new HashMap<String, Object>();
 		
@@ -64,18 +60,57 @@ public class InquireController {
 		
 		return msg;
 	}
-	/*@RequestMapping("/inquireAttachment")
-	public @ResponseBody String inquireAttachment(@RequestParam(value="input_file", required=false) MultipartFile file,
-													HttpServletRequest request){
-		
+	
+	/**
+	 *	fileUpload part 
+	 */
+	@RequestMapping("/inquireAttachment")
+	public @ResponseBody Map<String, Object> inquireAttachment(@RequestParam(value = "input_file", required = false) MultipartFile file,
+			HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int result = 0;
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/inquire");
 		File dir = new File(saveDir);
 		System.out.println(saveDir);
-		
-		return null;
-	}*/
+		if (!dir.exists())
+			System.out.println("dir.mkdirs() = " + dir.mkdirs());
+
+		if (!file.isEmpty()) {
+			// 파일명 재생성하여 원본 파일과 매칭 시키기
+			String originFileName = file.getOriginalFilename();
+			String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+			int randomNum = (int) (Math.random() * 1000);
+
+			String renamedFileName = sdf.format(new Date(System.currentTimeMillis())) + "_" + randomNum + "." + ext;
+
+			try {
+				file.transferTo(new File(saveDir + "/" + renamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+
+			Map<String, String> fileName = new HashMap<String, String>();
+
+			fileName.put("orginFileName", originFileName);
+			fileName.put("renamedFileName", renamedFileName);
+
+			int attachResult = ((InquireServiceImpl) larService).fileUpdate(fileName);
+			System.out.println(attachResult);
+			result = (attachResult > 0) ? 1 : 0;
+			
+			resultMap.put("result", result);
+			resultMap.put("renamedFileName", renamedFileName);
+		}
+
+		return resultMap;
+	}
 	
-	
+	/**
+	 *	userView Select 
+	 */
 	@RequestMapping(value="/inquireUserView", method=RequestMethod.POST)
 	public @ResponseBody List<Map<String, Object>> inquireUserView(@RequestParam("user") int user){
 		Utils util = new Utils();
@@ -109,6 +144,5 @@ public class InquireController {
 		int result = ((InquireServiceImpl) larService).deleteContent(no);
 		
 		return result;
-	}
-	
+	}	
 }

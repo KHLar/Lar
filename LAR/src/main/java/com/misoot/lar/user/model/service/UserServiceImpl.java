@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
-import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.dao.UserDaoImpl;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
@@ -113,6 +112,10 @@ public class UserServiceImpl implements LarService<User> {
 	public List<Map<String, String>> myCoupontList(int user_index) {
 		return ((UserDaoImpl)userDaoImpl).myCoupontList(user_index);
 	}
+	
+	public int cancelLecture(Map<String, Object> hmap) {
+		return ((UserDaoImpl)userDaoImpl).cancelLecture(hmap);
+	}
 
 	public int deleteWishList(Map<String, Object> checkList) {
 		return ((UserDaoImpl)userDaoImpl).deleteWishList(checkList);
@@ -196,5 +199,21 @@ public class UserServiceImpl implements LarService<User> {
 
 	public int history(Map<Object, Object> map) {
 		return ((UserDaoImpl)userDaoImpl).history(map);
+	}
+	
+	public int inputWishList(Map<String, Object> hmap) {
+		return ((UserDaoImpl)userDaoImpl).inputWishList(hmap);
+	}
+
+	public int deleteWishListone(Map<String, Object> hmap) {
+		return ((UserDaoImpl)userDaoImpl).deleteWishListone(hmap);
+	}
+
+	public int checkcart(Map<String, Object> hmap) {
+		return ((UserDaoImpl)userDaoImpl).checkcart(hmap);
+	}
+
+	public int addTocart(Map<String, Object> hmap) {
+		return ((UserDaoImpl)userDaoImpl).addTocart(hmap);
 	}
 }

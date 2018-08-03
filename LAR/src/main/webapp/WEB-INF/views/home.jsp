@@ -9,47 +9,46 @@
 </c:import>
 
 <!-- Header -->
-	<div class="container main-carousel" style="width: 100%">
-		<div id="carousel-example-generic" class="carousel slide"
-			data-ride="carousel">
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0"
-					class="active" style="border: 1px solid gray"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"
-					style="border: 1px solid gray"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="2"
-					style="border: 1px solid gray"></li>
-			</ol>
+<div class="container main-carousel" style="width: 100%">
+	<div id="carousel-example-generic" class="carousel slide"
+		data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#carousel-example-generic" data-slide-to="0"
+				class="active" style="border: 1px solid gray"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="1"
+				style="border: 1px solid gray"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="2"
+				style="border: 1px solid gray"></li>
+		</ol>
 
-			<!-- Wrapper for slides -->
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<img class="slide" src="" alt="test1">
-					<div class="carousel-caption">img1</div>
-				</div>
-				<div class="item">
-					<img class="slide" src="" alt="test2">
-					<div class="carousel-caption">img2</div>
-				</div>
-				<div class="item">
-					<img class="slide" src="" alt="test2">
-					<div class="carousel-caption">img3</div>
-				</div>
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<img class="slide" src="" alt="test1">
+				<div class="carousel-caption">img1</div>
 			</div>
-
-			<!-- Controls -->
-			<a class="left carousel-control" href="#carousel-example-generic"
-				role="button" data-slide="prev"> <span
-				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a> <a class="right carousel-control" href="#carousel-example-generic"
-				role="button" data-slide="next"> <span
-				class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
+			<div class="item">
+				<img class="slide" src="" alt="test2">
+				<div class="carousel-caption">img2</div>
+			</div>
+			<div class="item">
+				<img class="slide" src="" alt="test2">
+				<div class="carousel-caption">img3</div>
+			</div>
 		</div>
+
+		<!-- Controls -->
+		<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
 	</div>
+</div>
 </header>
 <!-- header end -->
 
@@ -65,10 +64,24 @@
 								<div class="thumbnail container-fluid">
 									<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}"><img src="${rec.lecture_thumbnail}"></a>
 									<div class="caption">
-										<h4><a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a></h4>
+										<h4>
+											<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a>
+										</h4>
 										<p>
-											<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
-											<a id="thumb-hart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color:tomato"></span></a>
+											<c:if test="${rec.lecture_price eq 0}">
+												<span style="text-align: right">Free</span>
+											</c:if>
+											<c:if test="${ rec.lecture_price ne 0}">
+												<span style="text-align: right">￦${rec.lecture_price}</span>
+												<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+											</c:if>
+											<c:if test="${rec.wish_user_index eq null}">
+												<a id="thumb_empty_heart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color: tomato"></span></a>
+											</c:if>
+											<c:if test="${rec.wish_user_index ne null}">
+												<a id="thumb_heart" class="pull-right"><span class="glyphicon glyphicon-heart" style="color: tomato"></span></a>
+											</c:if>
+											<input type="hidden" class="lecture_index" name="lecture_index" value="${rec.lecture_index}" />
 										</p>
 									</div>
 								</div>
@@ -82,4 +95,4 @@
 				</div>
 			</div>
 		</div>
-		<c:import url="/WEB-INF/views/common/_footer.jsp" />
+<c:import url="/WEB-INF/views/common/_footer.jsp" />

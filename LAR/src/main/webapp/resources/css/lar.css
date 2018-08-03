@@ -14,6 +14,9 @@ header {
 	.navbar-left {
 		padding-left: 15%;
 	}
+	.mobile-dropdown {
+		display: none !important;
+	}
 }
 
 @media ( max-width : 992px) {
@@ -125,12 +128,8 @@ a {
 }
 
 .thumbnail .glyphicon {
-	font-size: 90%;
+	font-size: 120%;
 	margin: 3px;
-}
-
-.thumbnail .glyphicon-heart {
-	color: tomato;
 }
 
 .thumbnail .glyphicon-shopping-cart {
@@ -197,11 +196,6 @@ a {
 .wrapWishList .table {
 	background-color: #fff;
 	border-bottom: 1px solid #eee;
-}
-
-.wrapWishList .table tbody tr:hover {
-	cursor: pointer;
-	background-color: #eee;
 }
 
 .wrapWishList .table tbody tr td {
@@ -293,11 +287,6 @@ a {
 /* QnAList */
 #wrapQnA table tr th {
 	text-align: center;
-}
-
-#wrapQnA table tbody tr:hover {
-	cursor: pointer !important;
-	background: #eee;	
 }
 
 /* alarmList */

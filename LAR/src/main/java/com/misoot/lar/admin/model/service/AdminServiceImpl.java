@@ -1,6 +1,7 @@
 package com.misoot.lar.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return adminDaoImpl.delete(index);
 	}
 
+	/*
+	 * user area start
+	 */
+	
 	public List<User> selectUserList(int user_level, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).selectUserList(user_level, rowBounds);
 	}
@@ -64,13 +69,34 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).modifyUserByAdmin(user);
 	}
 	
-	/*
-	 * community area
-	 */
-	
 	public List<Commu> selectCommuListByUserIndex(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuListByUserIndex(user_index);
 	}
+	
+	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByUserIndex(user_index);
+	}
+	
+	public List<Purchase> paymentList(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
+	}
+	
+	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchUserList(searchMap, rowBounds);
+	}
+
+	public int searchUserListCount(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchUserListCount(searchMap);
+	}
+	
+	/*
+	 * user area end
+	 */
+	
+	
+	/*
+	 * community area
+	 */
 	
 	public Commu selectCommuByCommuIndex(int commu_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuByCommuIndex(commu_index);
@@ -79,16 +105,24 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public List<CommuReply> selectCommuReplyListByCommuIndex(int commu_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByCommuIndex(commu_index);
 	}
-
-	public List<Purchase> paymentList(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
+	
+	public List<Commu> selectCommuList(String category, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuList(category, rowBounds);
 	}
-
-	public List<Commu> selectCommuBoardList(RowBounds rowBounds) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardList(rowBounds);
+	
+	public int selectCommuListCount(String category) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuListCount(category);
 	}
-
-	public int selectCommuBoardListCount() {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuBoardListCount();
+	
+	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuList(searchMap, rowBounds);
+	}
+	
+	public int searchCommuListCount(Map<String, String> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCount(searchMap);
+	}
+	
+	public boolean commuTrashRestore(int commu_index) {
+		return ((AdminDaoImpl)adminDaoImpl).commuTrashRestore(commu_index);
 	}
 }
