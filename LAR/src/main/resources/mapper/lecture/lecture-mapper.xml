@@ -169,15 +169,21 @@
 	</select>
 	
 	<select id="lectureQTotalContents" parameterType="_int" resultType="_int">
-		SELECT COUNT(*) FROM TABLE_LECTURE_Q WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} AND LECTURE_Q_IS_DELETED = 0 
+		SELECT COUNT(*) 
+		FROM TABLE_LECTURE_Q 
+		WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} 
+		AND LECTURE_Q_IS_DELETED = 0 
 	</select>
 	
 	<select id="lectureQdetail" parameterType="_int" resultType="lectureQ">
-		SELECT * FROM TABLE_LECTURE_Q JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) WHERE LECTURE_Q_INDEX = #{qindex}
+		SELECT * FROM TABLE_LECTURE_Q 
+		JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) 
+		WHERE LECTURE_Q_INDEX = #{qindex}
 	</select>
 	
 	<select id="lectureAdetail" parameterType="_int" resultType="lectureA">
-		SELECT * FROM TABLE_LECTURE_A JOIN TABLE_USER ON(LECTURE_A_WRITER_INDEX = USER_INDEX) WHERE LECTURE_A_LECTURE_Q_INDEX = #{qindex}
+		SELECT * FROM TABLE_LECTURE_A JOIN TABLE_USER ON(LECTURE_A_WRITER_INDEX = USER_INDEX) 
+		WHERE LECTURE_A_LECTURE_Q_INDEX = #{qindex}
 	</select>
 	
 	<update id="readCheckQ" parameterType="_int">

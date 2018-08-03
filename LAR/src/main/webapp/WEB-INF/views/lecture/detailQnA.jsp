@@ -47,6 +47,7 @@
 						<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/lectureDetail?lecture_index=${ lectureQ.lecture_q_lecture_index }">목록으로</a>
 						<c:if test="${session_user.user_index eq lectureQ.lecture_q_writer_index}">
 						<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/QnA/updateQ/${ lectureQ.lecture_q_index }">수정하기</a>
+						<a type="button" class="btn btn-default gotoListbtn" href="/lar/lecture/QnA/deleteQ/${ lectureQ.lecture_q_index }">삭제하기</a>
 						</c:if>
 						<button type="button" class="btn btn-default reply_btn" style="margin-top:10px; margin-bottom:10px;">답글작성</button>
 						<button type="button" class="btn btn-default reply_cancel_btn" style="margin-top:10px; margin-bottom:10px; display:none;">작성취소</button>
@@ -74,6 +75,7 @@
 						<input type="hidden" id="lecture_a_index" value="${a.lecture_a_index}"/>
 						<c:if test="${session_user.user_index eq a.lecture_a_writer_index}">
 							<button type="button" class="btn btn-default pull-right modify_a" style="margin-top: 5px;">수정하기</button>
+							<a type="button" class="btn btn-default pull-right" style="margin-top: 5px; margin-right:5px;">삭제하기</a>
 						</c:if>
 					</div>
 					</c:forEach>
