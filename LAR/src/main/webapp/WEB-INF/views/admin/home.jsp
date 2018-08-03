@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="row">
-		<a class="btn btn-default" role="button" data-toggle="modal" data-target=".dynamicModal" onclick="adminModal();">2</a>
+		
 	</div>
 </div>
 

@@ -111,7 +111,8 @@ function lecValidate() {
 }
 
 $(document).on('click','#Detail',function(){
-	localStorage.clear();
+	localStorage['tab'] = 0;
+	localStorage['panel'] = 0;
 });
 </script>
 

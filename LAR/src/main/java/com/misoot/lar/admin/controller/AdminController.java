@@ -12,6 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -279,9 +280,29 @@ public class AdminController {
 			System.out.println("value : " + modal_header.get(key));
 		}
 		
-		return "redirect:/";
+		int user_index = Integer.parseInt(modal_header.get("user_index").toString());
+		int page = Integer.parseInt(modal_header.get("page").toString());
+		
+		return "redirect:/admin/users/view/"+user_index+"/modal/commu/list/"+page;
 	}
 	
+	@RequestMapping(value="/users/view/{user_index}/modal/commu/list/{page}")
+	public String modal_commuListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index, rowBounds);
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCountByUserIndex(user_index);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
+		
+		return "admin/modal/_commuListByUserIndex";
+	}
 	
 	
 	/*

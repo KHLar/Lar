@@ -86,9 +86,23 @@
 		order by C.COMMU_UPLOAD_DATE desc
 	</select>
 	
+	<select id="selectCommuListCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		where U.USER_INDEX = #{user_index}
+	</select>
+	
 	<select id="selectCommuReplyListByUserIndex" parameterType="_int" resultType="commuReply">
-		select * FROM TABLE_COMMU_REPLY where COMMU_REPLY_WRITER_INDEX = #{user_index}
-		order by COMMU_REPLY_INDEX DESC
+		select R.*,U.USER_NICKNAME COMMU_REPLY_WRITER
+		from TABLE_COMMU_REPLY R
+		join TABLE_USER U on(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX)
+		where COMMU_REPLY_WRITER_INDEX = #{user_index}
+		order by COMMU_REPLY_PARENT_INDEX desc, COMMU_REPLY_ORDER_INDEX asc
+	</select>
+	
+	<select id="selectCommuReplyListCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from TABLE_COMMU_REPLY where COMMU_REPLY_WRITER_INDEX = #{user_index}
 	</select>
 	
 	<select id="searchUserList" parameterType="map" resultType="user">

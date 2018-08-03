@@ -139,14 +139,14 @@
 							<td><label class="control-label">작성한 글</label></td>
 							<td>개</td>
 							<td>
-								<button type="button" class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', 1)">View</button>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', 1)">View</a>
 							</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">작성한 댓글</label></td>
 							<td>개</td>
 							<td>
-								<button type="button" class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuReplyList', 1)">View</button>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuReplyList', 1)">View</a>
 							</td>
 						</tr>
 					</table>

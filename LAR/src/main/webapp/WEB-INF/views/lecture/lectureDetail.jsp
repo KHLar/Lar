@@ -218,9 +218,7 @@ body {
 				var ind2 = localStorage['panel'];
 				console.log('panel index : ' + ind2);
 				make_button_active($('.lecturedetail li').eq(ind), $('.tab-pane').eq(ind2));
-			} else {
-				localStorage['tab'] = 0;
-				localStorage['panel'] = 0;
+			} else {				
 				make_button_active($("#lectureTab"), $(".lecturepanel"));
 			}
 

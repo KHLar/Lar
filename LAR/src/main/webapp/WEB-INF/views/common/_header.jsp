@@ -20,25 +20,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>LAR : ${param.pageTitle}</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
 	<!-- Bootstrap Core CSS -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
 	<!-- Custom Fonts -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-
 	<!-- Theme CSS -->
 	<link href="${pageContext.request.contextPath}/resources/css/agency.min.css" rel="stylesheet">
-	    
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lar.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/megadrop.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/lar.js"></script>
 	
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/megadrop.css" />    
+	
 	<style>
 		.navbar-default .navbar-nav>.open>a,
 		.navbar-default .navbar-nav>.open>a:hover {
