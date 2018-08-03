@@ -13,9 +13,11 @@ import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureHistory;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
+import com.misoot.lar.user.model.vo.User;
 
 @Repository
 public class LectureDaoImpl implements LarDao<Lecture> {
@@ -197,4 +199,24 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	public int reupdaetStar(int lecture_index) {
 		return sqlSession.update("lecture.reupdaetStar",lecture_index);
 	}
+
+	public int insertHistory(LectureHistory lectureHistory) {
+		return sqlSession.insert("lecture.insertHistory",lectureHistory);
+	}
+
+	public int selectApplyOne(Map<String, Integer> map) {
+		return sqlSession.selectOne("lecture.selectApplyOne",map);
+	}
+
+	public int deleteHistory(Map<String, Integer> hmap) {
+		return sqlSession.update("lecture.deleteHistory",hmap);
+	}
+
+	public int updateBoardHistory(Map<String, Integer> hmap) {
+		return sqlSession.update("lecture.updateBoardHistory",hmap);
+	}
+
+	
+
 }
+
