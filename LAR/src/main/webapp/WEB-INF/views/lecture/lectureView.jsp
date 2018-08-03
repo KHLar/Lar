@@ -74,8 +74,7 @@
                     	</c:if>
                     	
                     	<tr>
-                 			<td class="play_icons"> <a class="lectureView">  <img src="${pageContext.request.contextPath}/resources/images/play-icon.png"></a><input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
-                           <input type="hidden" value="${lecture_index}"  class="my_lecture_index"></td> 
+                 			<td class="play_icons"><img src="${pageContext.request.contextPath}/resources/images/play-icon.png">
                             <td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
                            <input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
                            <input type="hidden" value="${lecture_index}"  class="my_lecture_index"/></td> 
@@ -85,12 +84,14 @@
                            <c:if test="${bl.LECTURE_ATTACH_RENAMEDFILENAME ne null}">
                               <a href="${pageContext.request.contextPath}/resources/uploadFiles/BoardLecture/${bl.LECTURE_ATTACH_RENAMEDFILENAME}" download><img src="${pageContext.request.contextPath}/resources/images/attachment.png"></a>
                            </c:if>
+                              <td><button class="btn btn-sm btn-warning checkBoardHistory">check</button></td>
                            	<c:set var="name" value="${bl.LECTURE_INSTRUCTOR_INDEX}" />
                           	<c:set var="name2" value="${session_user.user_index}"/>
                           	<c:if test="${ name eq name2}">
                           	<input type="hidden" value="${lecture_index}" class="my_lecture_index" />
                           	<input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
                             <button class="btn btn-warning pull-right lectureBoardUpdate">수정하기</button>
+                         
                             </c:if>
                            </td>
                        </tr>   

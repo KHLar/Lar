@@ -13,9 +13,11 @@ import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureHistory;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
+import com.misoot.lar.user.model.vo.User;
 
 @Service
 public class LectureServiceImpl implements LarService<Lecture> {
@@ -210,5 +212,24 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public int reupdaetStar(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).reupdaetStar(lecture_index);
 	}
+
+	public int insertHistory(LectureHistory lectureHistory) {
+		return ((LectureDaoImpl)lectureDaoImpl).insertHistory(lectureHistory);
+	}
+
+
+	public int selectApplycount(Map<String, Integer> map) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectApplyOne(map);
+	}
+
+	public int deleteHistory(Map<String, Integer> hmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).deleteHistory(hmap);
+	}
+
+	public int updateBoardHistory(Map<String, Integer> hmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).updateBoardHistory(hmap);
+	}
+
+	
 
 }

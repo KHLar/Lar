@@ -129,10 +129,93 @@ $(document).ready(function() {
 		 var index =$("#orgin").children('#lecture_review_lecture_index').val();
 		/* alert("rindex="+rindex+"index="+index)*/
 		 location.href = "/lar/deleteReview?index="+index+"&rindex="+rindex;
-	 })
+	 });
 	 
-	/* $("#lecture-dropdown").on("click", function(){
-		 location.href = "/lar/lectureList";
-	 });*/
+	 $(document).on('click','#applyLecture',function(){
+		 var price =$("#lecturePrice").text();
+		 var index =$("#orgin").children('#lecture_review_lecture_index').val();
+		 var user_index = $("#user_index").val();
+		 var bindex = $(".my_boardLecture_index").eq(1).val();
+		 if(price=='0원' || price == null){
+		    var r = confirm("수강 신청을 하시겠습니까?");
+		 }else{
+			 confirm("강의 신청을 위해 결제 페이지로 이동하겠습니까?");
+		 } 
+		    if (r == true) {
+		    	
+		   	 $.ajax({
+				 url : "/lar/updateHistory?index="+index+"&user_index="+user_index+"&bindex="+bindex,
+				 success: function(result){
+					 alert("수강신청 완료");
+					 location.reload();
+				 },error :function(error){
+					 if(error.status == 400)
+						 alert("로그인 후에 이용하세요!");
+				 }
+		   	 });
+		       
+		    } else {
+		    	console.log("cancel");
+		    }
+	 });
+	 
+	 $(document).on('click','#applyLectureCancel',function(){
+		 var price =$("#lecturePrice").text();
+		 var lecture_index =$("#orgin").children('#lecture_review_lecture_index').val();
+		/* var user_index = $("#user_index").val();*/
+		 var bindex = $(".my_boardLecture_index").eq(1).val();
+		 
+		 if(price=='0원' || price == null){
+		    var r = confirm("강의를 취소하시겠습니까?");
+		 }else{
+			 confirm("강의 취소를 위해 이동합니다");
+		 } 
+		    if (r == true) {
+		    	
+		   	 $.ajax({
+				 url : "/lar/deleteHistory/"+lecture_index,
+				 success: function(result){
+					 alert("수강 취소 완료");
+					 location.reload();
+				 },error :function(error){
+					 if(error.status == 400)
+						 alert("로그인 후에 이용하세요!");
+				 }
+		   	 });
+		       
+		    } else {
+		    	console.log("cancel");
+		    }
+	 });
+	 $(document).on('click','.checkBoardHistory',function(){
+		 	var bindex = $('.play_icons').siblings().find('.my_boardLecture_index').val();
+		 	var index =  $('.play_icons').siblings().find('.my_lecture_index').val();
+		 	var thiss = $(this);
+		 
+		    var r = confirm("동영상을 다보셨나요?");
+		   
+		    if (r == true) {
+		    	
+		    $.ajax({
+				 url : "/lar/updateBoardHistory/"+index+"/"+bindex,
+				 async: false,
+				 success: function(result){
+//					 alert("열심히 하는모습 보기 좋아요!");
+					 thiss.html('clear');
+					 thiss.addClass("btn-primary");
+				/*	 location.reload();*/
+				 },error :function(error){
+					 if(error.status == 400)
+						 alert("로그인 후에 이용하세요!");
+				 }
+		   	 });
+		       
+		    } else {
+		    	alert("좀더 분발하세요!");
+		    }
+	 });
+	 
+	 
+	 
 	 
 });

@@ -239,7 +239,6 @@ body {
 </script>
 
 </header>
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-sm-10">
@@ -259,9 +258,17 @@ body {
 					<div class="tab-pane active" id="lectureList">
 						<h1 class="mt-4">${lecture.lecture_title}</h1>
 						<p class="lead">
-							by <a href="#">${lecture.user_nickname}</a>
+							by <a href="#">${lecture.user_nickname}</a> 
 						</p>
-						<p>업로드 날짜:${lecture.lecture_upload_date }</p>
+						<span>업로드 날짜:${lecture.lecture_upload_date }
+						<c:if test="${applyCount == 0}">						
+						<button class="btn btn-sm btn-warning pull-right" id="applyLecture">수강신청</button></span>
+					 	</c:if>
+					 	<c:if test="${applyCount >0}">
+						<button class="btn btn-sm btn-warning pull-right" id="applyLectureCancel">수강 취소</button></span>
+						</c:if>
+					
+						<input  id="user_index" type="hidden" value="${session_user.user_index}" />
 						<hr>
 						<!-- Preview Image -->
 						<div class="col-sm-12 youtubeWrap ">
@@ -393,7 +400,7 @@ body {
 						</div>
 						<hr style="border: 3px solid #f1f1f1">
 
-						<div class="card my-4">
+						<div class="card my-4"> 
 							<c:if test="${session_user.user_index != null}">
 								<form method="get" name="cmtform"
 									action="${pageContext.request.contextPath}/lecture/lectureReview"
@@ -525,7 +532,7 @@ body {
 											</td>
 											<td class="play_title"><a class="lectureView">${bl.LECTURE_BOARD_TITLE}</a>
 												<input type="hidden" value="${bl.LECTURE_BOARD_INDEX}"
-												class="my_boardLecture_index" /> <input type="hidden"
+												class="my_boardLecture_index"  /> <input type="hidden"
 												value="${lecture.lecture_index}" class="my_lecture_index" /></td>
 											<td class="preview"><img
 												src="${pageContext.request.contextPath}/resources/images/free.png"></td>
@@ -541,6 +548,7 @@ body {
 													test="${ name eq name2}">
 
 												</c:if></td>
+											<td><button class="btn btn-sm btn-warning checkHistory">check</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -551,10 +559,11 @@ body {
 							value="${lecture.lecture_index}" />
 						<c:if
 							test="${session_user.user_index eq lecture.lecture_instructor_index }">
-							<button class="btn btn-warning pull-right"
+							<button class="btn btn-sm btn-warning pull-right"
 								id="lectureBoardInsert">등록하기</button>&nbsp;
 					</c:if>
 					</div>
+					
 
 					<div class="QnA tab-pane" id="QnA">
 						<table class="table table-striped">
@@ -612,7 +621,7 @@ body {
 									class="rounded-circle" alt="..." width="125" height="125">
 								<p>${lecture.user_nickname}</p>
 								<ul class="list-group list-group-flush">
-									<li class="list-group-item">${lecture.lecture_price}원</li>
+									<li class="list-group-item" id="lecturePrice">${lecture.lecture_price}원</li>
 									<li class="list-group-item">${lecture.lecture_level }</li>
 									<li class="list-group-item">n개의 강의, 총 N시간</li>
 									<input type="hidden" value="${lecutre.lecture_index }" />

@@ -15,7 +15,7 @@
 
 		SELECT COUNT(*) FROM TABLE_LECTURE WHERE 
 		<if test=" _parameter neq 'total'">
-		LECTURE_CATEGORY_INDEX = #{category}  AND 
+	LECTURE_CATEGORY_INDEX = #{category} AND 
 		</if>
 		LECTURE_IS_DELETED=0
 
@@ -40,7 +40,7 @@
 		<if test="category neq 'total'">
 		LECTURE_CATEGORY_INDEX = #{category}  AND 
 		</if>
-		UPPER(LECTURE_TITLE) LIKE UPPER(#{LecSearchText}) AND	LECTURE_IS_DELETED = 0 
+		UPPER(LECTURE_TITLE) LIKE UPPER(#{LecSearchText}) AND	LECTURE_IS_DELETED = 0 order by 1 DESC
 	</select>
 	<update id="IncreaseLecture">
 	UPDATE TABLE_LECTURE SET LECTURE_HITS=LECTURE_HITS+1 WHERE LECTURE_INDEX = #{lecture_index}
@@ -239,4 +239,32 @@
 		SET LECTURE_IS_DELETED = 1
 		WHERE LECTURE_REVIEW_INDEX=#{rindex}
 	</update>
+	
+	<insert id="insertHistory" parameterType="LectureHistory">
+		INSERT INTO TABLE_LECTURE_HISTORY 
+		VALUES(#{history_user_index},#{history_lecture_index},#{history_lecture_board_index},DEFAULT)
+	</insert>
+	
+	<select  id="selectApplyOne" parameterType="hashmap" resultType="_int">
+		select count(*) from table_lecture_history 
+		where history_user_index = #{user_index} and history_lecture_index = #{lecture_index} and HISTORY_IS_DELETED = 0
+	
+	</select>
+	
+	<update id="deleteHistory" parameterType="hashmap"  >
+		UPDATE TABLE_LECTURE_HISTORY
+ 		SET  HISTORY_IS_DELETED = 1
+ 		WHERE  HISTORY_USER_INDEX= #{ user_index } AND HISTORY_LECTURE_INDEX= #{ lecture_index } 
+	
+	</update>
+	
+	<update id="updateBoardHistory" parameterType="hashmap">
+	 	UPDATE TABLE_LECTURE_HISTORY
+ 		SET  HISTORY_LECTURE_BOARD_INDEX = #{bindex}
+ 		WHERE  HISTORY_USER_INDEX = #{user_index} AND  HISTORY_LECTURE_INDEX = #{index} AND HISTORY_IS_DELETED = 0
+	
+	</update>
+	
+	
+	
 </mapper>

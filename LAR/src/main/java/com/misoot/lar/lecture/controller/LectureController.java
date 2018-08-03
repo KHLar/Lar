@@ -21,11 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.Utils;
@@ -34,6 +38,7 @@ import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.lecture.model.vo.LectureA;
 import com.misoot.lar.lecture.model.vo.LectureBoard;
+import com.misoot.lar.lecture.model.vo.LectureHistory;
 import com.misoot.lar.lecture.model.vo.LectureQ;
 import com.misoot.lar.lecture.model.vo.LectureReview;
 import com.misoot.lar.lecture.model.vo.LectureTotalScore;
@@ -72,6 +77,7 @@ public class LectureController {
 	public String lectureBoardInsert() {
 		return "lecture/lectureBoardInsert";
 	}
+
 	// 게시글 등록
 	@RequestMapping(value="/lecture/lectureInsert", method=RequestMethod.POST)
 	public String insertLecture(Lecture Lecture){
@@ -181,14 +187,80 @@ public class LectureController {
 		return "lecture/lectureList";
 	}
 
+	//강의 신청하기
+	@ResponseBody
+	@RequestMapping(value ="/updateHistory")
+	public int updateHistory(LectureHistory lectureHistory,@RequestParam("index") int lecture_index,
+			@RequestParam("user_index") int user_index,@RequestParam("bindex") int bindex, RedirectAttributes redirectAttributes){
+		
+		lectureHistory.setHistory_user_index(user_index);
+		lectureHistory.setHistory_lecture_index(lecture_index);
+		lectureHistory.setHistory_lecture_board_index(bindex);
+		
+		int result =  ((LectureServiceImpl)LectureServiceImpl).insertHistory(lectureHistory);	
+		
+		return result;
+	}
+	//강의 취소하기
+	@ResponseBody
+	@RequestMapping(value = "/deleteHistory/{lecture_index}")
+	public int deleteHistory(@PathVariable(value = "lecture_index") int lecture_index,
+	         @SessionAttribute("session_user") User user) {
+	      
+			Map<String, Integer> hmap = new HashMap<String, Integer>();
+
+	      hmap.put("lecture_index", lecture_index);
+	      hmap.put("user_index", user.getUser_index());
+
+	      int result = ((LectureServiceImpl)LectureServiceImpl).deleteHistory(hmap);
+	      
+	      return result;
+	   }
+	//동영상 신청하기
+	@ResponseBody
+	@RequestMapping(value = "/updateBoardHistory/{index}/{bindex}")
+	public int updateBoardHistory(@PathVariable(value="index") int index,@PathVariable(value="bindex") int bindex, @SessionAttribute("session_user") User user){
+		
+
+		Map<String, Integer> hmap = new HashMap<String, Integer>();
+
+		hmap.put("index", index);
+		hmap.put("user_index", user.getUser_index());
+		hmap.put("bindex", bindex);
+
+		
+	
+		int result = ((LectureServiceImpl)LectureServiceImpl).updateBoardHistory(hmap);
+		
+		return result;
+		
+	}
+
+
 	//게시글 하나보기 // 강의 리스트 가져오기 //댓글 리스트 가져오기
 	@RequestMapping(value="lecture/lectureDetail")
 	public String lectureDetail(HttpServletResponse response, HttpServletRequest request,@RequestParam("lecture_index") int lecture_index, 
-			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model, HttpSession session){
+			@RequestParam(value="cPage", required=false, defaultValue="1") int cPage, Model model, HttpSession session,@SessionAttribute(value="session_user", required=false ) User user){
 		
 		Lecture lecture =  ((LectureServiceImpl)LectureServiceImpl).selectLectureOne(lecture_index);
 		
-		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);
+		LectureTotalScore lectureTotalScore = ((LectureServiceImpl)LectureServiceImpl).selectTotalScore(lecture_index);			 
+				 
+		Map< String, Integer> map = new HashMap<String, Integer>();
+		
+		int user_index = 0;
+		
+		if(user != null) {
+			user_index = user.getUser_index();
+		}
+		
+		map.put( "user_index", user_index );
+		map.put( "lecture_index", lecture_index );
+		
+		
+		int applyCount = ((LectureServiceImpl)LectureServiceImpl).selectApplycount(map);
+		
+		System.out.println("applyCount="+applyCount);
 		
 		List<LectureReview> rlist = ((LectureServiceImpl)LectureServiceImpl).reviewList(lecture_index);
 		boolean chk = true;
@@ -252,7 +324,7 @@ public class LectureController {
 		addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist).
 		addAttribute("qlist", qlist).addAttribute("numPerPage", numPerPage).
 		addAttribute("totalContents", totalContents)
-		.addAttribute("chk",chk);
+		.addAttribute("chk",chk).addAttribute("applyCount",applyCount);
 		
 		return "lecture/lectureDetail";
 	}
