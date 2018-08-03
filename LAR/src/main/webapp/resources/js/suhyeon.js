@@ -27,7 +27,7 @@ function getModal(target) {
 /* submit validate function */
 function form_validate(target) {
 	var result = false;
-
+	
 	switch (target) {
 	case 'signup':
 		if ((input_duplicate_check('id') == 1)
@@ -50,7 +50,7 @@ function form_validate(target) {
 		}
 		break;
 	}
-
+	
 	return result;
 }
 
@@ -108,7 +108,6 @@ function input_help_block_change(kinds, reason, flag) {
 			}
 
 		} else if (reason == 'duplicate') {
-			// 중복 검사 실패
 			result = '이미 사용중인 값 입니다.';
 		}
 	}
@@ -150,46 +149,53 @@ function input_validate(kinds) {
 	default:
 		break;
 	}
-	//	
 	if (result) result_value = 1;
 
 	input_state_change(kinds, result_value);
 	input_help_block_change(kinds, 'validate', result_value);
-
+	
 	return result_value;
 }
 
 // This function use to onblur event.
 function input_duplicate_check(kinds) {
-	if (!input_validate(kinds)) {
-		return 0;
+	var dup_result = 0;
+	var validate = 0;
+	validate = input_validate(kinds);
+	
+	if (validate == 0) {
+		return dup_result;
 	}
 
 	var target_html_id = 'user_' + kinds;
 	var target_html_value = $('#' + target_html_id).val();
-
+	
 	$.ajax({
 		type : 'post',
 		url : '/lar/user/' + kinds + 'DuplicateCheck',
+		async : false,
 		data : {
 			value : target_html_value
 		},
 		dataType : 'json',
 		success : function(data) {
 			if (data) {
+				console.log(data);
 				input_state_change(kinds, 1);
 				input_help_block_change(kinds, 'duplicate', 1);
-				return 1;
+				dup_result = 1;
 			} else {
 				input_state_change(kinds, 0);
 				input_help_block_change(kinds, 'duplicate', 0);
-				return 0;
+				dup_result = 0;
 			}
 		},
 		error : function() {
 			alert('서버에 오류가 발생하였음.');
 		}
 	});
+	
+	return dup_result;
 }
 
 /* get unlock pages */
