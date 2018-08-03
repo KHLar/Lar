@@ -12,18 +12,15 @@
 tr {
    vertical-align: text-top;
 }
-
 th, td {
    padding: 15px;
 }
-
 li {
    margin: 0 0 0 0;
    padding: 0 0 0 0;
    border: 0;
    float: left;
 }
-
 ul {
    list-style: none;
    margin: 0;
@@ -34,7 +31,6 @@ ul {
    function infoValidate() {
       reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
       NicknameResult = reg_Exp.test($('#transName').val());
-
       reg_Exp = /(01[016789])[-](\d{4}|\d{3})[-]\d{4}$/g;
       phoneResult = reg_Exp.test($('#myPhone').val());
       if (($('#Phone').css('display') == 'none')
@@ -85,14 +81,12 @@ ul {
       }
       return true;
    }
-
    $(function() {
       $("#imgFile").hide();
       $("#Photo").click(function() {
          $("#imgFile").click();
       });
    });
-
    function LoadImg(value, num) {
       if (value.files && value.files[0]) {
          var reader = new FileReader();
@@ -102,12 +96,10 @@ ul {
                $(".img-responsive").attr("src", e.target.result);
             }
             var formData = new FormData();
-
             formData.append("updateImg", $("#imgFile")[0].files[0]);
-
             $
                   .ajax({
-                     url : "${pageContext.request.contextPath}/mypage/imgUpdate",
+                     url : "${pageContext.request.contextPath}/user/mypage/imgUpdate",
                      data : formData,
                      processData : false,
                      contentType : false,
@@ -215,7 +207,7 @@ ul {
                   </div>
                </div>
                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-                  <form action="${pageContext.request.contextPath}/mypage/C_Info" onsubmit="return infoValidate();">
+                  <form action="${pageContext.request.contextPath}/user/mypage/C_Info" onsubmit="return infoValidate();">
                      <input type="hidden" value="${session_user.user_index}" name="userindex" />
                      <table style="width:100%;"cellspacing='0' cellpadding="0" >
                         <tr>
@@ -267,9 +259,7 @@ ul {
                      $('#nicknameBtn').on('click', function() {
                         $('#nickname').toggle();
                         hideSubmitBtn();
-
                      });
-
                      function hideSubmitBtn() {
                         if ($('#Phone').css('display') != 'none'
                               || $('#nickname').css('display') != 'none') {
@@ -436,7 +426,7 @@ ul {
                      });
                      
                      $('#getout').on('click',function() {
-                         location.href = "${pageContext.request.contextPath}/mypage/getout?userindex="+ ${session_user.user_index};})
+                         location.href = "${pageContext.request.contextPath}/user/mypage/getout?userindex="+ ${session_user.user_index};})
                   </script>
                </div>
             </div>
@@ -451,7 +441,6 @@ ul {
                               alert("자동입력 방지를 체크해야 합니다.");
                               return false;
                            } else {
-
                               var userpassword = $('#now_pw').val();
                               var change_pw = $('#change_pw').val();
                               var change_pw_check = $('#change_pw_check').val();
@@ -464,7 +453,6 @@ ul {
                               console.log("3"+change_pw_check);
                               console.log("4"+userpassword);
                               /* 새로운 비밀번호1 가 같은지2 확인 하고 같다면 값을 넘겨주고 같지 않다면 같은 비밀번호를 입력 하라고 보여주기 */
-
                               if (userpassword == "") {
                                  alert("비밀번호를 입력해주세요");
                               }else if(!pjCheck){
@@ -479,7 +467,7 @@ ul {
                                              "userpassword" : userpassword,
                                              "userindex" : userIndex
                                           },
-                                          url : "${pageContext.request.contextPath}/mypage/PasswordCheck",
+                                          url : "${pageContext.request.contextPath}/user/mypage/PasswordCheck",
                                           dataType : "json",
                                           success : function(data) {
                                              if (data == 0) {
@@ -505,7 +493,7 @@ ul {
                                                 "change_pw" : change_pw,
                                                 "userindex" : userIndex
                                              },
-                                             url : "${pageContext.request.contextPath}/mypage/PasswordChange",
+                                             url : "${pageContext.request.contextPath}/user/mypage/PasswordChange",
                                              dataType : "json",
                                              success : function(
                                                    data) {
@@ -514,7 +502,7 @@ ul {
                                                    
                                                 } else {
                                                    alert("비밀번호 변경 성공!");
-                                                   location.href='${pageContext.request.contextPath}/mypage/infoPage/${session_user.user_index}';
+                                                   location.href='${pageContext.request.contextPath}/user/mypage/infoPage/${session_user.user_index}';
                                                 }
                                              },
                                              error : function(
@@ -558,14 +546,13 @@ ul {
                            reg_Exp = /^[가-힣a-zA-Z0-9]{2,8}$/;
                            NicknameResult = reg_Exp.test($(
                                  '#transName').val());
-
                               $.ajax({
                                     async : false,
                                     type : 'POST',
                                     data : {
                                        "userid" : userid
                                     },
-                                    url : "${pageContext.request.contextPath}/mypage/infoTrans",
+                                    url : "${pageContext.request.contextPath}/user/mypage/infoTrans",
                                     dataType : "json",
                                     success : function(data) {
                                        if (data.cnt > 0) {
