@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<span class="copyright">Copyright &copy; <a
-					href="/lar/aboutLar">LAR of KH Team Misoot 2018</a></span>
+					href="/lar/aboutLar">LAR</a>&nbsp;&nbsp;of&nbsp;&nbsp;<a href="/lar/about"> KH Team Misoot 2018</a></span>
 			</div>
 			<div class="col-md-4">
 				<ul class="list-inline social-buttons">

@@ -31,7 +31,7 @@
 						</div>
 
 						<div class="panel-body">
-							${ lectureQ.lecture_q_content }
+							${lectureQ.lecture_q_content}
 						</div>
 
 						<div class="panel-footer" style="text-align: right;">

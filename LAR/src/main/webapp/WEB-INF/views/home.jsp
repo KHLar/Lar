@@ -25,7 +25,7 @@
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<img class="slide" src="" alt="test1">
+				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel1.png" style="height:480px;" alt="test1">
 				<div class="carousel-caption">img1</div>
 			</div>
 			<div class="item">

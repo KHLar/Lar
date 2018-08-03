@@ -47,6 +47,11 @@ public class HomeController {
 		return "common/aboutLar";
 	}
 	
+	@RequestMapping(value="/about", method = RequestMethod.GET)
+	public String about() {
+		return "common/about";
+	}
+	
 	@RequestMapping(value = "/modal/{target}")
 	public String get_modal_sign(@PathVariable("target") String target) {
 		return "modal/_" + target;
