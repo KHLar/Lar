@@ -2,19 +2,22 @@ package com.misoot.lar.admin.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
@@ -23,7 +26,6 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
-import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Controller
@@ -260,8 +262,29 @@ public class AdminController {
 	 * community area end
 	 */
 	
+	
+	/*
+	 * modal area start
+	 */
+	
 	@RequestMapping(value="/modal", method={RequestMethod.POST, RequestMethod.GET})
-	public String getModal(@RequestParam("num") int num) {
-		return "redirect:/admin/commu/view/"+num;
+	public String modalController(@RequestBody Map<Object, Object> modal_header) {
+		
+		Set<Object> keySet = modal_header.keySet();
+		ArrayList<Object> valueList = new ArrayList<Object>();
+		
+		for (Object key : keySet) {
+			valueList.add(modal_header.get(key));
+			System.out.println("key : " + key);
+			System.out.println("value : " + modal_header.get(key));
+		}
+		
+		return "redirect:/";
 	}
+	
+	
+	
+	/*
+	 * modal area end
+	 */
 }

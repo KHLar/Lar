@@ -59,7 +59,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/user/nicknameDuplicateCheck", method = RequestMethod.POST)
 	public boolean nicknameDuplicateCheck(@RequestParam("value") String user_nickname) {
-		System.out.println(user_nickname);
+		System.out.println("dup Nick : " + user_nickname);
 		return ((UserServiceImpl) userServiceImpl).nicknameDuplicateCheck(user_nickname);
 	}
 
@@ -72,14 +72,23 @@ public class UserController {
 
 	@RequestMapping(value = "/user/signup", method = RequestMethod.POST)
 	public String signup(User user, Model model) {
-		// password encoding
-		System.out.println(user);
-
+				
 		user.setUser_password(bcryptPasswordEncoder.encode(user.getUser_password()));
-
+		
 		int result = ((UserServiceImpl) userServiceImpl).insert(user);
-
-		return "redirect:/";
+		String message = "";
+		String location = "common/_message";
+		String href = "";
+		
+		if (result > 0) {
+			message = "회원가입에 성공 했습니다!";
+		} else {
+			message = "회원가입에 실패 했습니다!";
+		}
+		
+		model.addAttribute("message", message).addAttribute("href", href);
+		
+		return location;
 	}
 
 	@RequestMapping(value = "/user/signin", method = RequestMethod.POST)

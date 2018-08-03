@@ -27,9 +27,6 @@
 		<div class="container">
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-target="#user_view" data-toggle="tab">유저 정보</a></li>
-				<li><a data-target="#commuWriteList" data-toggle="tab">작성한 글</a></li>
-				<li><a data-target="#commuReplyList" data-toggle="tab">댓글</a></li>
-				<li><a data-target="#paymentList" data-toggle="tab">결제 내역</a></li>
 				<% if (view_user.getUser_type().equals("inst")) { %>
 					<li><a data-target="#lectureLaunchedList" data-toggle="tab">강의 제공 내역</a></li>
 				<% } %>
@@ -43,7 +40,7 @@
 							<th style="width:50%;">동작</th>
 						</tr>
 						<tr>
-							<td>번호</td>
+							<td><label class="control-label">번호</label></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" name="user_index" value="${view_user.user_index}" readonly/>
@@ -52,7 +49,7 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>ID</td>
+							<td><label class="control-label">ID</label></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" name="user_id" value="${view_user.user_id}" readonly/>
@@ -61,7 +58,7 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>닉네임</td>
+							<td><label class="control-label">닉네임</label></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" name="user_nickname" value="${view_user.user_nickname}"/>
@@ -70,12 +67,12 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>가입일</td>
+							<td><label class="control-label">가입일</label></td>
 							<td>${view_user.user_enrolled_date}</td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>핸드폰</td>
+							<td><label class="control-label">핸드폰</label></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" name="user_phone" value="${view_user.user_phone}"/>
@@ -84,17 +81,17 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>타입</td>
+							<td><label class="control-label">타입</label></td>
 							<td>${view_user.user_type}</td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>레벨</td>
+							<td><label class="control-label">레벨</label></td>
 							<td>${view_user.user_level}</td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>탈퇴 여부</td>
+							<td><label class="control-label">탈퇴 여부</label></td>
 							<td>
 								<div class="form-group">
 									<select class="form-control" name="user_is_secession">
@@ -111,7 +108,7 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>추방 여부</td>
+							<td><label class="control-label">추방 여부</label></td>
 							<td>
 								<div class="form-group">
 									<select class="form-control" name="user_is_kicked">
@@ -128,7 +125,7 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>접속 시도</td>
+							<td><label class="control-label">접속 시도</label></td>
 							<td>
 								<div class="form-group">
 									<input type="text" class="form-control" name="user_try_signin_count" id="user_try_signin_count" value="${view_user.user_try_signin_count}" readonly/>
@@ -138,60 +135,23 @@
 								<button type="button" class="btn btn-default" onclick="$('#user_try_signin_count').val(0);">Reset</button>
 							</td>
 						</tr>
+						<tr>
+							<td><label class="control-label">작성한 글</label></td>
+							<td>개</td>
+							<td>
+								<button type="button" class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', 1)">View</button>
+							</td>
+						</tr>
+						<tr>
+							<td><label class="control-label">작성한 댓글</label></td>
+							<td>개</td>
+							<td>
+								<button type="button" class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuReplyList', 1)">View</button>
+							</td>
+						</tr>
 					</table>
 					<button class="btn btn-warning pull-right">수정</button>
 				</form>
-				<div id="commuWriteList" class="tab-pane">
-					<table class="table">
-						<tr>
-							<th>Category</th>
-							<th>Index</th>
-							<th>Title</th>
-							<th>Date</th>
-						</tr>
-						<c:forEach items="${writeList}" var="w">
-						<tr>
-							<td>${w}</td>
-						</tr>
-						</c:forEach>
-					</table>
-				</div>
-				<div id="commuReplyList" class="tab-pane">
-				
-				</div>
-				<div id="paymentList" class="tab-pane">
-					<table class="table" frame=void>
-						<tr>
-							<th style="width: 17%; text-align: center;">결제일</th>
-							<th style="width: 48%; text-align: center;">강의정보</th>
-							<th style="width: 25%; text-align: center;">사용쿠폰</th>
-							<th style="width: 10%; text-align: center;">결제금액</th>
-						</tr>
-						<c:forEach items="${paymentList}" var="p">							
-							<tr>
-								<td class="paymentDate" style="text-align: center;">${p.purchase_date}</td>
-								<td style="text-align: center;">
-									<div class="media">
-										<div class="media-body">
-											<p class="puchaseList">${p.purchase_lecture_list}</p>											
-										</div>
-									</div>
-								</td>
-								<td style="text-align: center;">
-								<c:choose>
-									<c:when test="${p.coupon_name ne null}"> 
-										${p.coupon_name } 
-									</c:when>
-									<c:otherwise>
-										X
-									</c:otherwise>
-								</c:choose>
-								</td>
-								<td style="text-align: center;">${p.paid_amount}</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
 				<% if (view_user.getUser_type().equals("inst")) { %>
 				<div id="lectureLaunchedList" class="tab-pane">
 					
