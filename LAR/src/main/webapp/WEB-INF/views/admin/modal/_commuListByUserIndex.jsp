@@ -65,15 +65,15 @@
 	<nav class="text-center">
 		<ul class="pagination">
 			<% if (pi.getCurrent_page() != 1) { %>
-				<li><a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', 1)">&lt;&lt;</a></li>
-				<li><a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', ${pi.current_page-1})">&lt;</a></li>				
+				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commuList', 1)">&lt;&lt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commuList', ${pi.current_page-1})">&lt;</a></li>				
 			<% } %>
 				
 			<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 				<% if (i == pi.getCurrent_page()) { %>
-					<li class="active" disabled><a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', <%=i%>)"><%=i%></a></li>
+					<li class="active" disabled><a class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', <%=i%>)"><%=i%></a></li>
 				<% } else if (i <= pi.getMax_page_count()) { %>
-					<li><a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', <%=i%>)"><%=i%></a></li>
+					<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commuList', <%=i%>)"><%=i%></a></li>
 				<% } %>
 			<% } %>
 			

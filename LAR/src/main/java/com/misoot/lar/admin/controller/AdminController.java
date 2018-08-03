@@ -299,7 +299,7 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index",user_index);
 		
 		return "admin/modal/_commuListByUserIndex";
 	}
