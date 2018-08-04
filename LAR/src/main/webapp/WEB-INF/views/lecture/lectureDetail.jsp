@@ -17,13 +17,11 @@
    height: auto;
    padding-bottom: 10%;
 } 
-
  .youtubeWrap iframe {
    /* position: absolute; */
    width: 100%;
       
 }  
-
 </style>
 <script>
    var locked = 0;
@@ -33,15 +31,11 @@
       var i;
       var image;
       var el;
-
       for (i = 1; i <= star; i++) {
-
          image = "image" + i
          el = document.getElementById(image);
          el.className = "fa fa-star checked"
-
       }
-
    }
    function noshow(별) {
       if (locked)
@@ -49,29 +43,23 @@
       var i;
       var image;
       var el;
-
       for (i = 1; i <= star; i++) {
          image = 'image' + i;
          el = document.getElementById(image);
          el.className = "fa fa-star"
-
       }
-
    }
    function lock(별) {
       locked = 0;
       noshow(5);
       show(별);
       locked = 1;
-
    }
    function mark(별) {
       lock(별);
       /* alert("별점"+star+"점");  */
       document.cmtform.lecture_review_score.value = star;
-
    }
-
    /* $('.lectureTab a').click(function (e) {
 	   e.preventDefault();
 	   $(this).tab('show');
@@ -518,13 +506,11 @@
                      <%
                         int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
                         int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
-
                         String cPageTemp = request.getParameter("cPage");
                         int cPage = 1;
                         try {
                            cPage = Integer.parseInt(cPageTemp);
                         } catch (NumberFormatException e) {
-
                         }
                      %>
                      <%=com.misoot.lar.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "/lar/lecture/QnA")%>
@@ -600,8 +586,6 @@
             $("#orgin").children().find('#lecture_review_index').val(rindex);
             $("#orgin").children().find('.card-header').text("수강후기 수정");
             /* $("#mody").children().find('#').val(score) */
-
-
             /*   location.href = "/lar/lectureReivewUpdate?index="+index+"&rindex="+rindex;  */
          });
 /*           var e = function validate();  */

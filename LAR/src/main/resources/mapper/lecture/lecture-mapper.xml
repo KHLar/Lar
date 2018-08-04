@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="selectLectureList" parameterType="map" resultType="lecture">
-		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_TITLE, LECTURE_THUMBNAIL, LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE,LECTURE_REVIEW_COUNT 
+		SELECT LECTURE_INDEX,LECTURE_INSTRUCTOR_INDEX,USER_NICKNAME,LECTURE_TITLE, LECTURE_THUMBNAIL, LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE,LECTURE_REVIEW_COUNT 
 		FROM TABLE_LECTURE TL LEFT JOIN TABLE_LECTURE_TOTAL_SCORE TLS ON(TL.LECTURE_INDEX = TLS.TOTAL_LECTURE_INDEX)
 
 		LEFT JOIN TABLE_USER TU ON(TL.LECTURE_INSTRUCTOR_INDEX = TU.USER_INDEX) WHERE 
@@ -97,7 +97,7 @@
 		SELECT * FROM TABLE_LECTURE_BOARD 
 		LEFT JOIN TABLE_LECTURE_ATTACH ON(LECTURE_BOARD_INDEX = LECTURE_ATTACH_BOARD_INDEX)
 		LEFT JOIN TABLE_LECTURE ON(LECTURE_INDEX = LECTURE_BOARD_LECTURE_INDEX) WHERE LECTURE_INDEX =#{lecture_index} AND  LECTURE_BOARD_IS_DELETED = 0
-		ORDER BY LECTURE_BOARD_CHAPTER, LECTURE_BOARD_TITLE
+		ORDER BY LECTURE_BOARD_INDEX ASC 
 	</select>
 	
 	<select  id="selectLectureView" resultType="LectureBoard" parameterType="_int">
@@ -266,7 +266,7 @@
 	
 	<insert id="insertHistory" parameterType="LectureHistory">
 		INSERT INTO TABLE_LECTURE_HISTORY 
-		VALUES(#{history_user_index},#{history_lecture_index},#{history_lecture_board_index},DEFAULT)
+		VALUES(#{history_user_index},#{history_lecture_index},null,DEFAULT)
 	</insert>
 	
 	<select  id="selectApplyOne" parameterType="hashmap" resultType="_int">
@@ -283,10 +283,22 @@
 	</update>
 	
 	<update id="updateBoardHistory" parameterType="hashmap">
-	 	UPDATE TABLE_LECTURE_HISTORY
- 		SET  HISTORY_LECTURE_BOARD_INDEX = #{bindex}
- 		WHERE  HISTORY_USER_INDEX = #{user_index} AND  HISTORY_LECTURE_INDEX = #{index} AND HISTORY_IS_DELETED = 0
+		insert into  TABLE_LECTURE_HISTORY values(
+ 		#{user_index}, #{index}, #{bindex},0
+		)
 	
+	</update>
+	
+	<select  id="selectBoardHistoryList" parameterType="hashmap" resultType="LectureHistory" >
+		select * from table_lecture_history where history_lecture_index=  #{ index }  and HISTORY_USER_INDEX =#{user_index}	
+	</select>
+	
+	<update id="deleteStar" parameterType="hashmap">
+	update TABLE_LECTURE_TOTAL_SCORE
+	set LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT -1 ,
+	LECTURE_TOTAL_SCORE = LECTURE_TOTAL_SCORE - 
+	(select LECTURE_REVIEW_SCORE from TABLE_LECTURE_REVIEW where  LECTURE_REVIEW_INDEX=#{rindex})
+	where  TOTAL_LECTURE_INDEX =#{ index}
 	</update>
 		
 </mapper>

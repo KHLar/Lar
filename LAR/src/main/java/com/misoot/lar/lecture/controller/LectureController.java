@@ -127,7 +127,18 @@ public class LectureController {
 	// 리뷰 삭제
 	@RequestMapping(value="/deleteReview")
 	public String deleteReview(@RequestParam("rindex") int rindex, @RequestParam("index") int index){
-		int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+		
+			int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+			
+
+			Map<String, Integer> hmap = new HashMap<String, Integer>();
+			
+			hmap.put("rindex", rindex);
+
+			hmap.put("index", index);
+			
+			int result2 = ((LectureServiceImpl)LectureServiceImpl).deleteStar(hmap);
+		
 		
 		return "redirect:/lecture/lectureDetail?lecture_index="+index;	
 	}
@@ -191,11 +202,11 @@ public class LectureController {
 	@ResponseBody
 	@RequestMapping(value ="/updateHistory")
 	public int updateHistory(LectureHistory lectureHistory,@RequestParam("index") int lecture_index,
-			@RequestParam("user_index") int user_index,@RequestParam("bindex") int bindex, RedirectAttributes redirectAttributes){
+			@RequestParam("user_index") int user_index, RedirectAttributes redirectAttributes){
 		
 		lectureHistory.setHistory_user_index(user_index);
 		lectureHistory.setHistory_lecture_index(lecture_index);
-		lectureHistory.setHistory_lecture_board_index(bindex);
+	
 		
 		int result =  ((LectureServiceImpl)LectureServiceImpl).insertHistory(lectureHistory);	
 		
@@ -266,7 +277,7 @@ public class LectureController {
 		boolean chk = true;
 		if(session.getAttribute("session_user") != null){
 			for(LectureReview r : rlist){
-				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index()){
+				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index() || ((User)session.getAttribute("session_user")).getUser_type().equals("admin")){
 					chk = false;
 					break;
 				}
@@ -331,14 +342,30 @@ public class LectureController {
 	
 	//동영상 하나보기
 	@RequestMapping(value="/lectureBoardView")
-	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index, Model model){
+	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index,@SessionAttribute(value="session_user", required=false ) User user, Model model){
 		
 		
 		Map< String, Integer> map = new HashMap<String, Integer>();
 		map.put( "lecture_board_index", lecture_board_index );
 		map.put( "lecture_index", lecture_index );
 		
+		
+		Map<String, Integer> hmap = new HashMap<String, Integer>();
+
+		hmap.put("index", lecture_index);
+		hmap.put("user_index", user.getUser_index());
+		hmap.put("bindex", lecture_board_index);
+		
+		
 		LectureBoard bLecture = ((LectureServiceImpl)LectureServiceImpl).selectLectureView(map);
+		
+		
+		List<LectureHistory> hlist = ((LectureServiceImpl)LectureServiceImpl).selectBoardHistoryList(hmap);
+		
+		System.out.println("hlist" +hlist);
+		
+		/*int boardCheckCount = ((LectureServiceImpl)LectureServiceImpl).selectBoardCheckCount(hmap);*/
+		
 		
 		/*List<LectureBoard> blist = ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);*/
 		 List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
@@ -349,12 +376,25 @@ public class LectureController {
 				 }
 			 }
 		 }
+		 
+		 for(int i = 0; i < blist.size() ; i++){
+			 for(LectureHistory history : hlist){
+				 if(Integer.parseInt((blist.get(i).get("LECTURE_BOARD_INDEX")).toString()) == (history.getHistory_lecture_board_index())){				
+					 blist.get(i).put("hcheck", 1);
+					break;
+				 } else {
+					 blist.get(i).put("hcheck", 0);
+				 }
+			 }
+		 }
+		 
+		 System.out.println(blist);
 	/*	
 		System.out.println("bLecture="+bLecture+"blist="+blist);
 		
 		System.out.println(lecture_index);*/
 		
-		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
+		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("hlist", hlist);
 		return "lecture/lectureView";
 	}
 	

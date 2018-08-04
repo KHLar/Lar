@@ -179,18 +179,38 @@ $(document).ready(function() {
 	 
 	 $(document).on('click','#applyLecture',function(){
 		 var price =$("#lecturePrice").text();
-		 var index =$("#orgin").children('#lecture_review_lecture_index').val();
+		 var index =$(this).siblings('#lecture_index_applyLecture').val();
 		 var user_index = $("#user_index").val();
-		 var bindex = $(".my_boardLecture_index").eq(1).val();
+/*		 var bindex = $(".my_boardLecture_index").eq(0).val();*/
+		
+		 alert("index="+index)
+		 
 		 if(price=='0원' || price == null){
 		    var r = confirm("수강 신청을 하시겠습니까?");
 		 }else{
-			 confirm("강의 신청을 위해 결제 페이지로 이동하겠습니까?");
+			 
+			var j  = confirm("강의 신청을 위해 장바구니 페이지로 이동하겠습니까?");
+			
+			if( j== true){
+				 $.ajax({
+					 url : "/lar/user/mypage/addTocart/"+index,
+					 success : function(result){
+						 alert("ㅋ");
+						 location.href="/lar/user/cart"; 
+					 },error :function(error){
+						 if(error.status == 400)
+							 alert("로그인 후에 이용하세요!");
+					 }
+				 });
+			}
+			
+			 
+			 
 		 } 
 		    if (r == true) {
 		    	
 		   	 $.ajax({
-				 url : "/lar/updateHistory?index="+index+"&user_index="+user_index+"&bindex="+bindex,
+				 url : "/lar/updateHistory?index="+index+"&user_index="+user_index,
 				 success: function(result){
 					 alert("수강신청 완료");
 					 location.reload();
@@ -234,8 +254,15 @@ $(document).ready(function() {
 		    }
 	 });
 	 $(document).on('click','.checkBoardHistory',function(){
-		 	var bindex = $('.play_icons').siblings().find('.my_boardLecture_index').val();
-		 	var index =  $('.play_icons').siblings().find('.my_lecture_index').val();
+		 	/*var bindex = $('.play_icons').siblings().find('.my_boardLecture_index').val();
+		 	var index =  $('.play_icons').siblings().find('.my_lecture_index').val();*/
+		 	/*var bindex = $(this).siblings().children().find('.my_boardLecture_index').val();
+		 	var index = $(this).siblings().children().find('.my_lecture_index').val();*/
+		 	
+		 	var bindex = $(this).siblings('.my_boardLecture_index').val();
+		 	var index = $(this).siblings('.my_lecture_index').val(); 
+	
+		 	
 		 	var thiss = $(this);
 		 
 		    var r = confirm("동영상을 다보셨나요?");
@@ -248,8 +275,7 @@ $(document).ready(function() {
 				 success: function(result){
 //					 alert("열심히 하는모습 보기 좋아요!");
 					 thiss.html('clear');
-					 thiss.addClass("btn-primary");
-				/*	 location.reload();*/
+				 location.reload();
 				 },error :function(error){
 					 if(error.status == 400)
 						 alert("로그인 후에 이용하세요!");

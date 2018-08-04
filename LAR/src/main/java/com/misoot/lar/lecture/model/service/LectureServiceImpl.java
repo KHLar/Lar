@@ -250,6 +250,16 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).updateBoardHistory(hmap);
 	}
 
+	public List<LectureHistory> selectBoardHistoryList(Map<String, Integer> hmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).selectBoardHistoryList(hmap);
+	}
+
+	public int deleteStar(Map<String, Integer> hmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).deleteStar(hmap);
+	}
+
+	
+
 	
 
 }

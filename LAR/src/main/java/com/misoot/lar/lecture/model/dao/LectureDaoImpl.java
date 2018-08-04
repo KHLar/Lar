@@ -213,8 +213,18 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	public int updateBoardHistory(Map<String, Integer> hmap) {
-		return sqlSession.update("lecture.updateBoardHistory",hmap);
+		return sqlSession.insert("lecture.updateBoardHistory",hmap);
 	}
+
+	public List<LectureHistory> selectBoardHistoryList(Map<String, Integer> hmap) {
+		return sqlSession.selectList("lecture.selectBoardHistoryList",hmap);
+	}
+
+	public int deleteStar(Map<String, Integer> hmap) {
+		return sqlSession.update("lecture.deleteStar",hmap);
+	}
+
+	
 
 	
 
