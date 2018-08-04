@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="selectLectureList" parameterType="map" resultType="lecture">
-		SELECT LECTURE_INDEX,USER_NICKNAME,LECTURE_TITLE, LECTURE_THUMBNAIL, LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE,LECTURE_REVIEW_COUNT 
+		SELECT LECTURE_INDEX,LECTURE_INSTRUCTOR_INDEX,USER_NICKNAME,LECTURE_TITLE, LECTURE_THUMBNAIL, LECTURE_INTRO ,LECTURE_CONTENT,LECTURE_PRICE, LECTURE_TOTAL_SCORE,LECTURE_REVIEW_COUNT 
 		FROM TABLE_LECTURE TL LEFT JOIN TABLE_LECTURE_TOTAL_SCORE TLS ON(TL.LECTURE_INDEX = TLS.TOTAL_LECTURE_INDEX)
 
 		LEFT JOIN TABLE_USER TU ON(TL.LECTURE_INSTRUCTOR_INDEX = TU.USER_INDEX) WHERE 
@@ -97,7 +97,7 @@
 		SELECT * FROM TABLE_LECTURE_BOARD 
 		LEFT JOIN TABLE_LECTURE_ATTACH ON(LECTURE_BOARD_INDEX = LECTURE_ATTACH_BOARD_INDEX)
 		LEFT JOIN TABLE_LECTURE ON(LECTURE_INDEX = LECTURE_BOARD_LECTURE_INDEX) WHERE LECTURE_INDEX =#{lecture_index} AND  LECTURE_BOARD_IS_DELETED = 0
-		ORDER BY LECTURE_BOARD_CHAPTER, LECTURE_BOARD_TITLE
+		ORDER BY LECTURE_BOARD_INDEX ASC 
 	</select>
 	
 	<select  id="selectLectureView" resultType="LectureBoard" parameterType="_int">
@@ -161,7 +161,7 @@
 		SELECT SEQ_LECTURE_Q_INDEX.currval FROM DUAL
 	</selectKey>
 		INSERT INTO TABLE_LECTURE_Q VALUES(
-		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{user_index}, 1, #{lecture_q_title}, #{lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+		 SEQ_LECTURE_Q_INDEX.NEXTVAL, #{user_index}, #{lecture_q_lecture_index}, #{lecture_q_title}, #{lecture_q_content}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<select id="lectureQlist" parameterType="_int" resultType="hashmap">
@@ -169,16 +169,26 @@
 	</select>
 	
 	<select id="lectureQTotalContents" parameterType="_int" resultType="_int">
-		SELECT COUNT(*) FROM TABLE_LECTURE_Q WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} AND LECTURE_Q_IS_DELETED = 0 
+		SELECT COUNT(*) 
+		FROM TABLE_LECTURE_Q 
+		WHERE LECTURE_Q_LECTURE_INDEX = #{lecidx} 
+		AND LECTURE_Q_IS_DELETED = 0 
 	</select>
 	
 	<select id="lectureQdetail" parameterType="_int" resultType="lectureQ">
-		SELECT * FROM TABLE_LECTURE_Q JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) WHERE LECTURE_Q_INDEX = #{qindex}
+		SELECT * FROM TABLE_LECTURE_Q 
+		JOIN TABLE_USER ON(LECTURE_Q_WRITER_INDEX = USER_INDEX) 
+		WHERE LECTURE_Q_INDEX = #{qindex}
 	</select>
 	
 	<select id="lectureAdetail" parameterType="_int" resultType="lectureA">
-		SELECT * FROM TABLE_LECTURE_A JOIN TABLE_USER ON(LECTURE_A_WRITER_INDEX = USER_INDEX) WHERE LECTURE_A_LECTURE_Q_INDEX = #{qindex}
+		SELECT * FROM TABLE_LECTURE_A JOIN TABLE_USER ON(LECTURE_A_WRITER_INDEX = USER_INDEX) 
+		WHERE LECTURE_A_LECTURE_Q_INDEX = #{qindex}
 	</select>
+	
+	<update id="readCheckQ" parameterType="_int">
+		UPDATE TABLE_LECTURE_A SET LECTURE_A_IS_READED = 1 WHERE LECTURE_A_LECTURE_Q_INDEX = #{lecture_q_index}
+	</update>
 	
 	<insert id="insertA" parameterType="hashmap">
 		INSERT INTO TABLE_LECTURE_A VALUES(
@@ -195,25 +205,39 @@
 	
 	<update id="updateQ" parameterType="lectureQ">
 		UPDATE TABLE_LECTURE_Q SET 
-		LECTURE_Q_CONTENT = #{lecture_q_content}, LECTURE_Q_TITLE = #{lecture_q_title}
+		LECTURE_Q_CONTENT = #{lecture_q_content}, LECTURE_Q_TITLE = #{lecture_q_title}, LECTURE_Q_UPDATE_DATE = SYSDATE
 		WHERE LECTURE_Q_INDEX = #{lecture_q_index}
+	</update>
+	
+	<update id="updateA" parameterType="lectureA">
+		UPDATE TABLE_LECTURE_A SET 
+		LECTURE_A_CONTENT = #{lecture_a_content}, LECTURE_A_UPDATE_DATE = SYSDATE
+		WHERE LECTURE_A_INDEX = #{lecture_a_index}
+	</update>
+	
+	<update id="deleteQ">
+		UPDATE TABLE_LECTURE_Q SET
+		LECTURE_Q_IS_DELETED = 1
+		WHERE LECTURE_Q_INDEX = #{qindex}
 	</update>
 	
 	<select id="recomandedList" parameterType="hashmap" resultType="lecture">
 		<if test="keyword eq 'reviews'">
-		SELECT * FROM TABLE_LECTURE JOIN TABLE_USER ON(USER_INDEX = LECTURE_INSTRUCTOR_INDEX) 
+		SELECT DISTINCT LECTURE_INDEX, LECTURE_TITLE, LECTURE_PRICE, LECTURE_THUMBNAIL , LECTURE_REVIEW_COUNT
+		FROM TABLE_LECTURE JOIN TABLE_USER ON(USER_INDEX = LECTURE_INSTRUCTOR_INDEX) 
 		LEFT JOIN TABLE_LECTURE_TOTAL_SCORE ON(TOTAL_LECTURE_INDEX = LECTURE_INDEX)
 		WHERE USER_IS_SECESSION = 0 AND USER_IS_KICKED = 0 AND LECTURE_IS_DELETED = 0 
 		ORDER BY LECTURE_REVIEW_COUNT DESC
 		</if>
 		<if test="keyword eq 'score'">
-		SELECT * FROM TABLE_LECTURE JOIN TABLE_USER ON(USER_INDEX = LECTURE_INSTRUCTOR_INDEX) 
+		SELECT DISTINCT LECTURE_INDEX, LECTURE_TITLE, LECTURE_PRICE, LECTURE_THUMBNAIL, LECTURE_TOTAL_SCORE 
+		FROM TABLE_LECTURE JOIN TABLE_USER ON(USER_INDEX = LECTURE_INSTRUCTOR_INDEX) 
 		LEFT JOIN TABLE_LECTURE_TOTAL_SCORE ON(TOTAL_LECTURE_INDEX = LECTURE_INDEX)
 		WHERE USER_IS_SECESSION = 0 AND USER_IS_KICKED = 0 AND LECTURE_IS_DELETED = 0 
 		ORDER BY LECTURE_TOTAL_SCORE DESC
 		</if>
 		<if test="keyword eq 'hotest'">
-		SELECT TABLE_LECTURE.*, COUNT(HISTORY_LECTURE_INDEX)OVER(PARTITION BY LECTURE_INDEX) CNT
+		SELECT DISTINCT LECTURE_INDEX, LECTURE_TITLE, LECTURE_PRICE, LECTURE_THUMBNAIL, COUNT(HISTORY_LECTURE_INDEX)OVER(PARTITION BY LECTURE_INDEX) CNT
 		FROM TABLE_LECTURE 
 		LEFT JOIN TABLE_LECTURE_HISTORY ON(LECTURE_INDEX = HISTORY_LECTURE_INDEX) 
 		JOIN TABLE_USER ON(LECTURE_INSTRUCTOR_INDEX = USER_INDEX)
@@ -242,7 +266,7 @@
 	
 	<insert id="insertHistory" parameterType="LectureHistory">
 		INSERT INTO TABLE_LECTURE_HISTORY 
-		VALUES(#{history_user_index},#{history_lecture_index},#{history_lecture_board_index},DEFAULT)
+		VALUES(#{history_user_index},#{history_lecture_index},null,DEFAULT)
 	</insert>
 	
 	<select  id="selectApplyOne" parameterType="hashmap" resultType="_int">
@@ -259,12 +283,23 @@
 	</update>
 	
 	<update id="updateBoardHistory" parameterType="hashmap">
-	 	UPDATE TABLE_LECTURE_HISTORY
- 		SET  HISTORY_LECTURE_BOARD_INDEX = #{bindex}
- 		WHERE  HISTORY_USER_INDEX = #{user_index} AND  HISTORY_LECTURE_INDEX = #{index} AND HISTORY_IS_DELETED = 0
+		insert into  TABLE_LECTURE_HISTORY values(
+ 		#{user_index}, #{index}, #{bindex},0
+		)
 	
 	</update>
 	
+	<select  id="selectBoardHistoryList" parameterType="hashmap" resultType="LectureHistory" >
+		select * from table_lecture_history where history_lecture_index=  #{ index }  and HISTORY_USER_INDEX =#{user_index}	
+	</select>
 	
-	
+	<update id="deleteStar" parameterType="hashmap">
+	update TABLE_LECTURE_TOTAL_SCORE
+	set LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT -1 ,
+	LECTURE_TOTAL_SCORE = LECTURE_TOTAL_SCORE - 
+	(select LECTURE_REVIEW_SCORE from TABLE_LECTURE_REVIEW where  LECTURE_REVIEW_INDEX=#{rindex})
+	where  TOTAL_LECTURE_INDEX =#{ index}
+	</update>
+		
 </mapper>
+

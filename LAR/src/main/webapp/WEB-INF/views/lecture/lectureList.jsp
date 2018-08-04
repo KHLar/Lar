@@ -111,7 +111,8 @@ function lecValidate() {
 }
 
 $(document).on('click','#Detail',function(){
-	localStorage.clear();
+	localStorage['tab'] = 0;
+	localStorage['panel'] = 0;
 });
 </script>
 
@@ -217,9 +218,12 @@ $(document).on('click','#Detail',function(){
 							<c:otherwise>
 							<p><c:out value="${lList.lecture_intro }"/></p>
 							</c:otherwise> 
-							</c:choose>	
+							</c:choose>
 						
+
+						<c:if test="${ (rsession_user.user_index  != null or lList.lecture_instructor_index eq session_user.user_index) or session_user.user_level >1000 or session_user.user_type eq 'admin'  }">
 						<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
+						</c:if>
 						<h4 class="pull-right">${lList.lecture_price }원</h4>
 					</div>
 				</div>
@@ -251,7 +255,8 @@ $(document).on('click','#Detail',function(){
       
    %>
    <%=com.misoot.lar.common.util.Utils.getLecPageBar(totalContents, cPage, numPerPage,category,LecSearchText,"/lar/lectureList") %>
-			
+				<c:if test="${ session_user.user_level >1000 or session_user.user_type eq 'admin' }">
 				<button class="btn btn-warning pull-right" id="lectureInsert">등록하기</button>
+				</c:if>
 			</div>
 <c:import url="/WEB-INF/views/common/_footer.jsp" />

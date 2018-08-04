@@ -127,7 +127,18 @@ public class LectureController {
 	// 리뷰 삭제
 	@RequestMapping(value="/deleteReview")
 	public String deleteReview(@RequestParam("rindex") int rindex, @RequestParam("index") int index){
-		int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+		
+			int result = ((LectureServiceImpl)LectureServiceImpl).deleteReview(rindex);
+			
+
+			Map<String, Integer> hmap = new HashMap<String, Integer>();
+			
+			hmap.put("rindex", rindex);
+
+			hmap.put("index", index);
+			
+			int result2 = ((LectureServiceImpl)LectureServiceImpl).deleteStar(hmap);
+		
 		
 		return "redirect:/lecture/lectureDetail?lecture_index="+index;	
 	}
@@ -191,11 +202,11 @@ public class LectureController {
 	@ResponseBody
 	@RequestMapping(value ="/updateHistory")
 	public int updateHistory(LectureHistory lectureHistory,@RequestParam("index") int lecture_index,
-			@RequestParam("user_index") int user_index,@RequestParam("bindex") int bindex, RedirectAttributes redirectAttributes){
+			@RequestParam("user_index") int user_index, RedirectAttributes redirectAttributes){
 		
 		lectureHistory.setHistory_user_index(user_index);
 		lectureHistory.setHistory_lecture_index(lecture_index);
-		lectureHistory.setHistory_lecture_board_index(bindex);
+	
 		
 		int result =  ((LectureServiceImpl)LectureServiceImpl).insertHistory(lectureHistory);	
 		
@@ -266,7 +277,7 @@ public class LectureController {
 		boolean chk = true;
 		if(session.getAttribute("session_user") != null){
 			for(LectureReview r : rlist){
-				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index()){
+				if(r.getLecture_review_writer_index() == ((User)session.getAttribute("session_user")).getUser_index() || ((User)session.getAttribute("session_user")).getUser_type().equals("admin")){
 					chk = false;
 					break;
 				}
@@ -331,14 +342,30 @@ public class LectureController {
 	
 	//동영상 하나보기
 	@RequestMapping(value="/lectureBoardView")
-	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index, Model model){
+	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index,@SessionAttribute(value="session_user", required=false ) User user, Model model){
 		
 		
 		Map< String, Integer> map = new HashMap<String, Integer>();
 		map.put( "lecture_board_index", lecture_board_index );
 		map.put( "lecture_index", lecture_index );
 		
+		
+		Map<String, Integer> hmap = new HashMap<String, Integer>();
+
+		hmap.put("index", lecture_index);
+		hmap.put("user_index", user.getUser_index());
+		hmap.put("bindex", lecture_board_index);
+		
+		
 		LectureBoard bLecture = ((LectureServiceImpl)LectureServiceImpl).selectLectureView(map);
+		
+		
+		List<LectureHistory> hlist = ((LectureServiceImpl)LectureServiceImpl).selectBoardHistoryList(hmap);
+		
+		System.out.println("hlist" +hlist);
+		
+		/*int boardCheckCount = ((LectureServiceImpl)LectureServiceImpl).selectBoardCheckCount(hmap);*/
+		
 		
 		/*List<LectureBoard> blist = ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);*/
 		 List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
@@ -349,12 +376,25 @@ public class LectureController {
 				 }
 			 }
 		 }
+		 
+		 for(int i = 0; i < blist.size() ; i++){
+			 for(LectureHistory history : hlist){
+				 if(Integer.parseInt((blist.get(i).get("LECTURE_BOARD_INDEX")).toString()) == (history.getHistory_lecture_board_index())){				
+					 blist.get(i).put("hcheck", 1);
+					break;
+				 } else {
+					 blist.get(i).put("hcheck", 0);
+				 }
+			 }
+		 }
+		 
+		 System.out.println(blist);
 	/*	
 		System.out.println("bLecture="+bLecture+"blist="+blist);
 		
 		System.out.println(lecture_index);*/
 		
-		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index);
+		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("hlist", hlist);
 		return "lecture/lectureView";
 	}
 	
@@ -453,92 +493,106 @@ public class LectureController {
 		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
 	}
 	
-	@RequestMapping("/lecture/QnA/writeForm")
-	public String writeFormView() {
+	@RequestMapping("/lecture/QnA/writeForm/{lecture_index}")
+	public String writeFormView(@PathVariable int lecture_index, Model model) {
+		model.addAttribute("lecture_index", lecture_index);
 		return "lecture/writeFormQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/insertQ")
-	public String insertQ(LectureQ lectureq, @SessionAttribute("session_user") User user,Model model) {
-		
+	public String insertQ(LectureQ lectureq, @SessionAttribute("session_user") User user, Model model) {
+
 		lectureq.setUser_index(user.getUser_index());
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).insertQ(lectureq);
-		
-		return "redirect:/lecture/QnA/detail/"+result;
+
+		int result = ((LectureServiceImpl) LectureServiceImpl).insertQ(lectureq);
+
+		return "redirect:/lecture/QnA/detail/" + result;
 	}
-	
+
 	@RequestMapping("/lecture/QnA/detail/{content}")
-	public String lectureQnAdetail(@PathVariable int content, Model model) {
-		
-		int result = ((LectureServiceImpl)LectureServiceImpl).updateQhits(content);
-		
-		if(result > 0) {
-			LectureQ lectureQ = ((LectureServiceImpl)LectureServiceImpl).lectureQdetail(content);
+	public String lectureQnAdetail(@PathVariable int content, Model model, @SessionAttribute(value="session_user", required=false) User user) {
+
+		int result = ((LectureServiceImpl) LectureServiceImpl).updateQhits(content);
+
+		if (result > 0) {
+			LectureQ lectureQ = ((LectureServiceImpl) LectureServiceImpl).lectureQdetail(content);
+
+			List<LectureA> lectureA = ((LectureServiceImpl) LectureServiceImpl).lectureAdetail(content);
 			
-			List<LectureA> lectureA = ((LectureServiceImpl)LectureServiceImpl).lectureAdetail(content);
+			if(lectureQ.getLecture_q_writer_index() == user.getUser_index()) {
+				int readCheck = ((LectureServiceImpl) LectureServiceImpl).readCheckQ(lectureQ.getLecture_q_index());
+			}
 			
-			model.addAttribute("lectureQ",lectureQ).addAttribute("lectureA", lectureA);
+			model.addAttribute("lectureQ", lectureQ).addAttribute("lectureA", lectureA);
 		}
-		
+
 		return "lecture/detailQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/insertA")
 	public String insertA(LectureA lecturea, @SessionAttribute("session_user") User user) {
-		
+
 		Map<String, Object> amap = new HashMap<String, Object>();
-		
-		System.out.println(user.getUser_index());
-		
+
 		amap.put("useridx", user.getUser_index());
 		amap.put("lecturea", lecturea);
 		
-		int result = ((LectureServiceImpl)LectureServiceImpl).insertA(amap);
-		
-		return "redirect:/lecture/QnA/detail?content="+lecturea.getLecture_a_lecture_q_index();
+		int result = 0;
+		if(lecturea.getLecture_a_index() == 0) {
+			result = ((LectureServiceImpl) LectureServiceImpl).insertA(amap);
+		} else {
+			result = ((LectureServiceImpl) LectureServiceImpl).updateA(lecturea);
+		}
+
+		return "redirect:/lecture/QnA/detail/"+ lecturea.getLecture_a_lecture_q_index();
 	}
-	
+
 	@RequestMapping("/lecture/QnA/updateQ/{qindex}")
 	public String updateQview(@PathVariable int qindex, Model model) {
-		LectureQ lectureq = ((LectureServiceImpl)LectureServiceImpl).updateQview(qindex);
-		
+		LectureQ lectureq = ((LectureServiceImpl) LectureServiceImpl).updateQview(qindex);
+
 		model.addAttribute("lectureq", lectureq);
-		
+
 		return "lecture/updateFormQnA";
 	}
-	
+
 	@RequestMapping("/lecture/QnA/updateQ")
 	public String updateQ(LectureQ lectureq) {
-		int result = ((LectureServiceImpl)LectureServiceImpl).updateQ(lectureq); 
-		return "redirect:/lecture/QnA/detail/"+lectureq.getLecture_q_index();
+		int result = ((LectureServiceImpl) LectureServiceImpl).updateQ(lectureq);
+		return "redirect:/lecture/QnA/detail/" + lectureq.getLecture_q_index();
 	}
 	
+	@RequestMapping("/lecture/QnA/deleteQ/{lecture_index}/{qindex}")
+	public String deleteQ(@PathVariable("lecture_index") int lecture_index, @PathVariable("qindex") int qindex) {		
+		int result = ((LectureServiceImpl) LectureServiceImpl).deleteQ(qindex);
+		return "redirect:/lecture/lectureDetail?lecture_index="+lecture_index;
+	}
+
 	// 추천강의
 	@RequestMapping("/recommanded")
 	public String recomandedList(Model model) {
-		
+
 		Map<String, String> keyword = new HashMap<String, String>();
-		
+
 		keyword.put("keyword", "reviews");
-		List<Lecture> reviews = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> reviews = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		keyword.put("keyword", "score");
-		List<Lecture> score = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> score = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		keyword.put("keyword", "hotest");
-		List<Lecture> hotest = ((LectureServiceImpl)LectureServiceImpl).recomandedList(keyword);
-		
+		List<Lecture> hotest = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
+
 		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
-		
+
 		recomandedList.put("reviews", reviews);
 		recomandedList.put("score", score);
 		recomandedList.put("hotest", hotest);
-		
+
 		System.out.println(recomandedList);
-		
+
 		model.addAttribute("recomandedList", recomandedList);
-		
+
 		return "lecture/recommanded";
 	}
 }

@@ -32,10 +32,6 @@
     body{
     background-color:#CEF6D8;
 /*     background-image: url("${pageContext.request.contextPath}/resources/images/sky.jpg"); */
-     
-    
-
-			   
     }
     
     </style>
@@ -63,10 +59,16 @@
        
             <div class="col-md-12"> 
              <h3> 강좌 교육 과정</h3>
+             
+             
+             
+          
+           
              <br />
             <table class="table table-hover">
                 <tbody>
-                        <c:forEach items="${blist}" var="bl">
+                
+                        <c:forEach items="${blist}" var="bl">                                          
                         <c:if test="${!empty bl.LECTURE_BOARD_CHAPTER }">                       
                          <tr class="lecture_section" scope="col">
                         	<td colspan="6"><h3>${bl.LECTURE_BOARD_CHAPTER } </h3></td>
@@ -84,17 +86,30 @@
                            <c:if test="${bl.LECTURE_ATTACH_RENAMEDFILENAME ne null}">
                               <a href="${pageContext.request.contextPath}/resources/uploadFiles/BoardLecture/${bl.LECTURE_ATTACH_RENAMEDFILENAME}" download><img src="${pageContext.request.contextPath}/resources/images/attachment.png"></a>
                            </c:if>
-                              <td><button class="btn btn-sm btn-warning checkBoardHistory">check</button></td>
+                    		
+                 
+                    		
+                    		
                            	<c:set var="name" value="${bl.LECTURE_INSTRUCTOR_INDEX}" />
                           	<c:set var="name2" value="${session_user.user_index}"/>
-                          	<c:if test="${ name eq name2}">
+                          	<c:if test="${ name eq name2 or session_user.user_level >1000 or session_user.user_type eq 'admin'}">
                           	<input type="hidden" value="${lecture_index}" class="my_lecture_index" />
                           	<input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
+                      
                             <button class="btn btn-warning pull-right lectureBoardUpdate">수정하기</button>
                          
                             </c:if>
                            </td>
-                       </tr>   
+                       	 	<c:if test="${bl.hcheck == 0 || bl.hcheck == null }">                      
+                           <td><button class="btn btn-sm btn-warning checkBoardHistory">check</button>
+                           			<input type="hidden" value="${lecture_index}" class="my_lecture_index" />
+                          	<input type="hidden"  value="${bl.LECTURE_BOARD_INDEX}" class="my_boardLecture_index"/>
+                           </td>
+        					</c:if>
+        					<c:if test="${bl.hcheck == 1 }">           
+                           <td> <button  type="button"class="btn btn-sm btn-primary" >수강 완료</button></td>
+                        	</c:if>
+                       </tr> 
                     </c:forEach>
                 </tbody>
             </table>
