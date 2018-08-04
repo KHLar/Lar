@@ -16,13 +16,24 @@
 <script>
 	var current_path = window.location.href;
 	var path_arr = current_path.split('/');
-		
 	$(function() {
 		if (current_path.includes('search')) {
 			$('.breadcrumb .fa-search').parent('li').css('display', '');
 			$('.breadcrumb .fa-list').parent('a').attr('href', current_path);
 			$('input[name=text]').val(decodeURI(path_arr[path_arr.indexOf('search')+2]));
 			$('select[name=filter]').children('option[value='+path_arr[path_arr.indexOf('search')+1]+']').attr('selected','true');
+			
+			var insert_arr = [path_arr[path_arr.indexOf('search')], path_arr[path_arr.indexOf('search')+1], decodeURI(path_arr[path_arr.indexOf('search')+2])];
+			var test = $('ul.pagination').children('li').find('a');
+			
+			test.each(function() {
+				var temp = $(this).attr('href').split('/');
+				for (var i=0; i<insert_arr.length; i++)
+					temp.splice(temp.indexOf('list'), 0, insert_arr[i]);
+				temp = temp.join('/');
+				
+				$(this).attr('href', temp);
+			});
 		}
 	});
 </script>

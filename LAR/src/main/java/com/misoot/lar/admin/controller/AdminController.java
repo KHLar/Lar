@@ -78,8 +78,12 @@ public class AdminController {
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_view(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
+		int commuList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCountByUserIndex(user_index);
+		int commuReplyList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListCountByUserIndex(user_index);
 		
-		model.addAttribute("view_user", view_user);
+		model.addAttribute("view_user", view_user)
+			.addAttribute("commuList_count", commuList_count)
+			.addAttribute("commuReplyList_count", commuReplyList_count);
 
 		return "admin/users/userView";
 	}
@@ -101,7 +105,7 @@ public class AdminController {
 	public String commu_search_paging(Model model, @SessionAttribute("session_user") User session_user, @PathVariable("filter") String filter, @PathVariable("text") String text, @PathVariable("page") int page) throws UnsupportedEncodingException {
 		int content_per_page = 20;
 		int paging_count = 10;
-
+		
 		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
 		
 		Map<String, Object> searchMap = new HashMap<String, Object>();
@@ -269,21 +273,31 @@ public class AdminController {
 	 */
 	
 	@RequestMapping(value="/modal", method={RequestMethod.POST, RequestMethod.GET})
-	public String modalController(@RequestBody Map<Object, Object> modal_header) {
+	public String modalController(@RequestBody Map<String, Object> modal_header) {
+		Set<String> keySet = modal_header.keySet();
 		
-		Set<Object> keySet = modal_header.keySet();
-		ArrayList<Object> valueList = new ArrayList<Object>();
-		
-		for (Object key : keySet) {
-			valueList.add(modal_header.get(key));
-			System.out.println("key : " + key);
-			System.out.println("value : " + modal_header.get(key));
+		for (String k : keySet) {
+			System.out.println("key : " + k + ", value : " + modal_header.get(k));
 		}
 		
-		int user_index = Integer.parseInt(modal_header.get("user_index").toString());
-		int page = Integer.parseInt(modal_header.get("page").toString());
+		String menu = modal_header.get("menu").toString();
+		int index = Integer.parseInt(modal_header.get("index").toString());
 		
-		return "redirect:/admin/users/view/"+user_index+"/modal/commu/list/"+page;
+		if (menu.equals("users")) {
+			String list = modal_header.get("list").toString();
+			int page = Integer.parseInt(modal_header.get("page").toString());
+			if (!keySet.contains("filter")) {
+				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/list/"+page;
+			} else {
+				String filter = modal_header.get("filter").toString();
+				String text = modal_header.get("text").toString();
+				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/"+filter+"/"+text+"/list/"+page;
+			}
+		} else if (menu.equals("charts")) {
+			return "redirect:/admin/"+menu+"/view/"+index+"/modal";
+		} else {
+			return "admin/modal/_void";
+		}
 	}
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/commu/list/{page}")
@@ -299,11 +313,81 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index",user_index);
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
 		
 		return "admin/modal/_commuListByUserIndex";
 	}
 	
+	@RequestMapping(value="/users/view/{user_index}/modal/commuReply/list/{page}")
+	public String modal_commuReplyListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		List<CommuReply> commuReply_list = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListByUserIndex(user_index, rowBounds);
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListCountByUserIndex(user_index);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("commuReply_list", commuReply_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		
+		return "admin/modal/_commuListByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/commu/{filter}/{text}/list/{page}")
+	public String modal_searchCommuListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("filter") String filter,
+												@PathVariable("text") String text,
+												@PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("user_index", user_index);
+		searchMap.put("filter", filter);
+		searchMap.put("text", text);
+		
+		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).searchCommuListByUserIndex(searchMap, rowBounds);
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuListCountByUserIndex(searchMap);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		
+		return "admin/modal/_commuListByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/commuReply/{filter}/{text}/list/{page}")
+	public String modal_searchCommuReplyListSearchByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("filter") String filter,
+												@PathVariable("text") String text,
+												@PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		searchMap.put("user_index", user_index);
+		searchMap.put("filter", filter);
+		searchMap.put("text", text);
+		
+		List<CommuReply> commuReply_list = ((AdminServiceImpl) adminServiceImpl).searchCommuReplyListByUserIndex(searchMap, rowBounds);;
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuReplyListCountByUserIndex(searchMap);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("commuReply_list", commuReply_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		
+		return "admin/modal/_commuReplyListByUserIndex";
+	}
 	
 	/*
 	 * modal area end

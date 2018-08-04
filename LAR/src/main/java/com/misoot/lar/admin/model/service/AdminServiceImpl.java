@@ -77,12 +77,28 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuListCountByUserIndex(user_index);
 	}
 	
+	public List<Commu> searchCommuListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuListByUserIndex(searchMap, rowBounds);
+	}
+	
+	public int searchCommuListCountByUserIndex(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCountByUserIndex(searchMap);
+	}
+	
 	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListByUserIndex(user_index, rowBounds);
 	}
 	
 	public int selectCommuReplyListCountByUserIndex(int user_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListCountByUserIndex(user_index);
+	}
+	
+	public List<CommuReply> searchCommuReplyListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuReplyListByUserIndex(searchMap, rowBounds);
+	}
+	
+	public int searchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).searchCommuReplyListCountByUserIndex(searchMap);
 	}
 	
 	public List<Purchase> paymentList(int user_index) {

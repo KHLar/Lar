@@ -71,12 +71,28 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectOne("admin.selectCommuListCountByUserIndex", user_index);
 	}
 	
+	public List<Commu> searchCommuListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.searchCommuListByUserIndex", searchMap, rowBounds);
+	}
+
+	public int searchCommuListCountByUserIndex(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.searchCommuListCountByUserIndex", searchMap);
+	}
+	
 	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectCommuReplyListByUserIndex", user_index, rowBounds);
 	}
 	
 	public int selectCommuReplyListCountByUserIndex(int user_index) {
 		return sqlSession.selectOne("admin.selectCommuReplyListCountByUserIndex", user_index);
+	}
+	
+	public List<CommuReply> searchCommuReplyListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.searchCommuReplyListByUserIndex", searchMap, rowBounds);
+	}
+
+	public int searchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.searchCommuReplyListCountByUserIndex", searchMap);
 	}
 	
 	public List<Purchase> paymentList(int user_index) {

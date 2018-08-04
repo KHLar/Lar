@@ -92,7 +92,33 @@
 		where U.USER_INDEX = #{user_index}
 	</select>
 	
-	<select id="selectCommuReplyListByUserIndex" parameterType="_int" resultType="commuReply">
+	<select id="searchCommuListByUserIndex" parameterType="map" resultMap="getselectCommuList">
+		select
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		where U.USER_INDEX = #{user_index}
+		
+	</select>
+	
+	<select id="searchCommuListCountByUserIndex" parameterType="map" resultType="_int">
+		select
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		where U.USER_INDEX = #{user_index}
+		<if test="filter eq 'title'">
+			and C.COMMU_TITLE like '%'||#{text}||'%'
+		</if>
+		<if test="filter eq 'content'">
+			and C.COMMU_CONTENT like '%'||#{text}||'%' 
+		</if>
+		<if test="filter eq 'tag'">
+			and C.COMMU_TAGS like '%'||#{text}||'%' 
+		</if>
+	</select>
+	
+	<select id="selectCommuReplyListByUserIndex" parameterType="_int" resultMap="getselectCommuReplyList">
 		select R.*,U.USER_NICKNAME COMMU_REPLY_WRITER
 		from TABLE_COMMU_REPLY R
 		join TABLE_USER U on(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX)
@@ -103,6 +129,24 @@
 	<select id="selectCommuReplyListCountByUserIndex" parameterType="_int" resultType="_int">
 		select COUNT(*)
 		from TABLE_COMMU_REPLY where COMMU_REPLY_WRITER_INDEX = #{user_index}
+	</select>
+	
+	<select id="searchCommuReplyListByUserIndex" parameterType="map" resultMap="getselectCommuList">
+		select
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		where U.USER_INDEX = #{user_index}
+		
+	</select>
+	
+	<select id="searchCommuReplyListCountByUserIndex" parameterType="map" resultType="_int">
+		select
+		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
+		COMMU_WRITER, COMMU_TAGS
+		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
+		where U.USER_INDEX = #{user_index}
+		
 	</select>
 	
 	<select id="searchUserList" parameterType="map" resultType="user">

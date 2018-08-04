@@ -18,7 +18,7 @@ $(function() {
 </script>
 
 <div class="modal-header">
-	User's Community Write List
+	User's Community Reply Write List
 </div>
 
 <div class="modal-body">
@@ -29,9 +29,7 @@ $(function() {
 					<ul class="nav">
 						<li class="active">
 							<select class="form-control" name="filter">
-								<option value="title">제목</option>
 								<option value="content">내용</option>
-								<option value="tag">태그</option>
 							</select>
 						</li>
 					</ul>
@@ -48,22 +46,22 @@ $(function() {
 
 	<table class="table table-striped table-condensed">
 		<tr>
-			<td>Idx</td>
-			<td>Title</td>
+			<td>Parent Idx</td>
+			<td>Content</td>
 			<td>Nick</td>
 			<td>Date</td>
 		</tr>
-		<c:forEach items="${commu_list}" var="cb">
+		<c:forEach items="${commuReply_list}" var="cr">
 			<tr>
-				<td>${cb.commu_Index}</td>
+				<td>${cr.commu_Index}</td>
 				<td>
-					<p><a href="/lar/admin/commu/view/${cb.commu_Index}">${cb.commu_Title}</a></p>
-					<c:forTokens items="${cb.commu_tags}" var="tag" delims=",">
+					<p><a href="/lar/admin/commu/view/${cr.commu_Index}">${cr.commu_Title}</a></p>
+					<c:forTokens items="${cr.commu_tags}" var="tag" delims=",">
 						<a href="/lar/admin/commu/board/search/tag/${tag}/list/1" class="bg-warning labelinput badge badge-warning" style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
 					</c:forTokens>
 				</td>
-				<td>${cb.commu_Writer}</td>
-				<td>${cb.commu_Upload_Date}</td>
+				<td>${cr.commu_Writer}</td>
+				<td>${cr.commu_Upload_Date}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -73,21 +71,21 @@ $(function() {
 	<nav class="text-center">
 		<ul class="pagination">
 			<% if (pi.getCurrent_page() != 1) { %>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', 1)">&lt;&lt;</a></li>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.current_page-1})">&lt;</a></li>				
+				<li><a class="btn btn-default" onclick="adminUsersCommuModal('${user_index}', 'commuReply', 1)">&lt;&lt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersCommuModal('${user_index}', 'commuReply', ${pi.current_page-1})">&lt;</a></li>				
 			<% } %>
 				
 			<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 				<% if (i == pi.getCurrent_page()) { %>
-					<li class="active" disabled><a class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commu', <%=i%>)"><%=i%></a></li>
+					<li class="active" disabled><a class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commuReply', <%=i%>)"><%=i%></a></li>
 				<% } else if (i <= pi.getMax_page_count()) { %>
-					<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', <%=i%>)"><%=i%></a></li>
+					<li><a class="btn btn-default" onclick="adminUsersCommuModal('${user_index}', 'commuReply', <%=i%>)"><%=i%></a></li>
 				<% } %>
 			<% } %>
 			
 			<% if (pi.getMax_page_count() > pi.getCurrent_page()) { %>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.current_page+1})">&gt;</a></li>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.max_page_count})">&gt;&gt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersCommuModal('${user_index}', 'commuReply', ${pi.current_page+1})">&gt;</a></li>
+				<li><a class="btn btn-default" onclick="adminUsersCommuModal('${user_index}', 'commuReply', ${pi.max_page_count})">&gt;&gt;</a></li>
 			<% } %>
 		</ul>
 	</nav>

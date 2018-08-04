@@ -137,16 +137,16 @@
 						</tr>
 						<tr>
 							<td><label class="control-label">작성한 글</label></td>
-							<td>개</td>
+							<td>${commuList_count} 개</td>
 							<td>
-								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuList', 1)">View</a>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commu', 1)">View</a>
 							</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">작성한 댓글</label></td>
-							<td>개</td>
+							<td>${commuReplyList_count} 개</td>
 							<td>
-								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuReplyList', 1)">View</a>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'commuReply', 1)">View</a>
 							</td>
 						</tr>
 					</table>
