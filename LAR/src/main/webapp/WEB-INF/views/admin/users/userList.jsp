@@ -9,8 +9,12 @@
 	<c:param value="Users List" name="pageTitle" />
 </c:import>
 
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+%>
+
 <script>
-	var current_path = window.location.href;
+	var current_path = window.location.href.toString();
 	var path_arr = current_path.split('/');
 	$(function() {
 		if (current_path.includes('search')) {
@@ -92,10 +96,6 @@
 		</table>
 	</div>
 
-	<%
-		PageInfo pi = (PageInfo)request.getAttribute("pi");
-	%>
-
 	<div class="row">
 		<nav class="text-center">
 			<ul class="pagination">
@@ -105,7 +105,7 @@
 				<% } %>
 				<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 					<% if (i == pi.getCurrent_page()) { %>
-						<li class="active" disabled><a href="/lar/admin/users/list/<%=i%>"><%=i%></a></li>
+						<li class="active"><a href="/lar/admin/users/list/<%=i%>" onclick="return false;"><%=i%></a></li>
 					<% } else if (i <= pi.getMax_page_count()) { %>
 						<li><a href="/lar/admin/users/list/<%=i%>"><%=i%></a></li>
 					<% } %>

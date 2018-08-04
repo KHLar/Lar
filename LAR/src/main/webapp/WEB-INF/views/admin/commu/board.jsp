@@ -16,8 +16,10 @@
 %>
 
 <script>
+	
 	var current_path = window.location.href;
-	var path_arr = current_path.split('/');
+	console.log(current_path);
+	var path_arr = current_path.split("/");
 	$(function() {
 		if (current_path.includes('search')) {
 			$('.breadcrumb .fa-search').parent('li').css('display', '');
@@ -113,7 +115,7 @@
 					
 				<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 					<% if (i == pi.getCurrent_page()) { %>
-						<li class="active" disabled><a href="/lar/admin/commu/board/list/<%=i%>"><%=i%></a></li>
+						<li class="active"><a href="/lar/admin/commu/board/list/<%=i%>" onclick="return false;"><%=i%></a></li>
 					<% } else if (i <= pi.getMax_page_count()) { %>
 						<li><a href="/lar/admin/commu/board/list/<%=i%>"><%=i%></a></li>
 					<% } %>

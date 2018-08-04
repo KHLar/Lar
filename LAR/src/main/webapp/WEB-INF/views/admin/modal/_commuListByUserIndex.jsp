@@ -11,7 +11,6 @@
 <script>
 $(function() {
 	$('#dynamicModal').on('hidden.bs.modal', function() {
-		$('#modalContent').html(null);
 		location.reload();
 	});
 });
@@ -24,7 +23,7 @@ $(function() {
 <div class="modal-body">
 	<nav class="navbar">
 		<div class="container-fluid">
-			<form class="navbar-form navbar-right">
+			<div class="navbar-form navbar-right modal-search">
 				<div class="form-group">
 					<ul class="nav">
 						<li class="active">
@@ -37,12 +36,12 @@ $(function() {
 					</ul>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search" name="text" required>
-					<button class="btn btn-default form-control" type="button">
+					<input type="text" class="form-control" placeholder="Search" name="text">
+					<button class="btn btn-default form-control" type="button" onclick="">
 						<i class="fa fa-search"></i>
 					</button>
 				</div>
-			</form>
+			</div>
 		</div>
 	</nav>
 
@@ -52,18 +51,22 @@ $(function() {
 			<td>Title</td>
 			<td>Nick</td>
 			<td>Date</td>
+			<td>Hits</td>
+			<td>Is Deleted</td>
 		</tr>
 		<c:forEach items="${commu_list}" var="cb">
 			<tr>
 				<td>${cb.commu_Index}</td>
 				<td>
-					<p><a href="/lar/admin/commu/view/${cb.commu_Index}">${cb.commu_Title}</a></p>
+					<p><a role="button" onclick="adminUsersViewModal(${user_index}, 'commu', ${cb.commu_Index}, 'commu', ${pi.current_page})">${cb.commu_Title}</a></p>
 					<c:forTokens items="${cb.commu_tags}" var="tag" delims=",">
-						<a href="/lar/admin/commu/board/search/tag/${tag}/list/1" class="bg-warning labelinput badge badge-warning" style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
+						<a class="bg-warning labelinput badge badge-warning" style="background-color: #fed136; color: #4c0b5f; font-size: 10px;">#${tag}</a>
 					</c:forTokens>
 				</td>
 				<td>${cb.commu_Writer}</td>
 				<td>${cb.commu_Upload_Date}</td>
+				<td>${cb.commu_Hits}</td>
+				<td>${cb.commu_Is_Deleted == 1 ? true : false}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -73,21 +76,21 @@ $(function() {
 	<nav class="text-center">
 		<ul class="pagination">
 			<% if (pi.getCurrent_page() != 1) { %>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', 1)">&lt;&lt;</a></li>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.current_page-1})">&lt;</a></li>				
+				<li><a role="button" onclick="adminUsersListModal(${user_index}, 'commu', 1)">&lt;&lt;</a></li>
+				<li><a role="button" onclick="adminUsersListModal(${user_index}, 'commu', ${pi.current_page-1})">&lt;</a></li>				
 			<% } %>
 				
 			<% for (int i=pi.getStart_page(); i<=pi.getEnd_page(); i++) { %>
 				<% if (i == pi.getCurrent_page()) { %>
-					<li class="active" disabled><a class="btn btn-default" onclick="adminUsersListModal('${view_user.user_index}', 'commu', <%=i%>)"><%=i%></a></li>
+					<li class="active"><a><%=i%></a></li>
 				<% } else if (i <= pi.getMax_page_count()) { %>
-					<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', <%=i%>)"><%=i%></a></li>
+					<li><a role="button" onclick="adminUsersListModal(${user_index}, 'commu', <%=i%>)"><%=i%></a></li>
 				<% } %>
 			<% } %>
 			
 			<% if (pi.getMax_page_count() > pi.getCurrent_page()) { %>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.current_page+1})">&gt;</a></li>
-				<li><a class="btn btn-default" onclick="adminUsersListModal('${user_index}', 'commu', ${pi.max_page_count})">&gt;&gt;</a></li>
+				<li><a role="button" onclick="adminUsersListModal(${user_index}, 'commu', ${pi.current_page+1})">&gt;</a></li>
+				<li><a role="button" onclick="adminUsersListModal(${user_index}, 'commu', ${pi.max_page_count})">&gt;&gt;</a></li>
 			<% } %>
 		</ul>
 	</nav>

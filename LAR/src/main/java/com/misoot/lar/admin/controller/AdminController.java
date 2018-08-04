@@ -285,13 +285,21 @@ public class AdminController {
 		
 		if (menu.equals("users")) {
 			String list = modal_header.get("list").toString();
-			int page = Integer.parseInt(modal_header.get("page").toString());
-			if (!keySet.contains("filter")) {
-				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/list/"+page;
+			if(!keySet.contains("target_index")) {
+				int page = Integer.parseInt(modal_header.get("page").toString());
+				
+				if (!keySet.contains("filter")) {
+					return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/list/"+page;
+				} else {
+					String filter = modal_header.get("filter").toString();
+					String text = modal_header.get("text").toString();
+					return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/"+filter+"/"+text+"/list/"+page;
+				}
 			} else {
-				String filter = modal_header.get("filter").toString();
-				String text = modal_header.get("text").toString();
-				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/"+filter+"/"+text+"/list/"+page;
+				int target_index = Integer.parseInt(modal_header.get("target_index").toString());
+				String pre_list = modal_header.get("pre_list").toString();
+				int pre_page = Integer.parseInt(modal_header.get("pre_page").toString());
+				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/view/"+target_index+"/"+pre_list+"/"+pre_page;
 			}
 		} else if (menu.equals("charts")) {
 			return "redirect:/admin/"+menu+"/view/"+index+"/modal";
@@ -333,7 +341,23 @@ public class AdminController {
 		
 		model.addAttribute("commuReply_list", commuReply_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
 		
-		return "admin/modal/_commuListByUserIndex";
+		return "admin/modal/_commuReplyListByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/commu/view/{target_index}/{pre_list}/{pre_page}")
+	public String modal_commuView(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("target_index") int target_index,
+												@PathVariable("pre_list") String pre_list,
+												@PathVariable("pre_page") int pre_page) {
+		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByCommuIndex(target_index);
+		
+		List<CommuReply> reply_list = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyListByCommuIndex(target_index);
+		model.addAttribute("view_commu", commu)
+			.addAttribute("view_commu_reply", reply_list)
+			.addAttribute("pre_list", pre_list)
+			.addAttribute("pre_page", pre_page);
+		
+		return "admin/modal/_commuView";
 	}
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/commu/{filter}/{text}/list/{page}")
