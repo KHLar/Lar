@@ -270,7 +270,18 @@
 			<!-- <version>${org.springframework-version}</version> -->
 			<version>4.2.6.RELEASE</version>
 		</dependency>
-
+		
+		<!-- webSocket dependencies/ don't touch diz -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

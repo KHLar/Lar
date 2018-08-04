@@ -44,4 +44,22 @@
 		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean>
 	
+	<interceptors>
+		<!-- 접속 체크용 인터셉터 -->
+		<interceptor>
+			<mapping path="/user/cart"/>
+			<mapping path="/user/purchase"/>
+			<mapping path="/user/mypage/**/*"/>
+			<mapping path="/commu/commuForm/*"/>
+			<!-- 스프링 3.2버전 이후부터 예외 URL(경로)를 추가할 수 있다. -->
+			<beans:bean id="SignincheckInterceptor" class="com.misoot.lar.common.interceptors.SigninCheckInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin"/>
+			<mapping path="/admin/**/*"/>
+			<!-- 스프링 3.2버전 이후부터 예외 URL(경로)를 추가할 수 있다. -->
+			<beans:bean id="AdmincheckInterceptor" class="com.misoot.lar.common.interceptors.AdminCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
 </beans:beans>
