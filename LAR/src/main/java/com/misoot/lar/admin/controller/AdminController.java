@@ -2,7 +2,6 @@ package com.misoot.lar.admin.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.misoot.lar.admin.model.service.AdminServiceImpl;
 import com.misoot.lar.admin.model.vo.Admin;
@@ -80,11 +79,15 @@ public class AdminController {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
 		int commuList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCountByUserIndex(user_index);
 		int commuReplyList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListCountByUserIndex(user_index);
+		int payment_count = ((AdminServiceImpl) adminServiceImpl).getPaymentCountByUserIndex(user_index);
+		int payment_amount = ((AdminServiceImpl) adminServiceImpl).getPaymentAmountByUserIndex(user_index);
 		
 		model.addAttribute("view_user", view_user)
 			.addAttribute("commuList_count", commuList_count)
-			.addAttribute("commuReplyList_count", commuReplyList_count);
-
+			.addAttribute("commuReplyList_count", commuReplyList_count)
+			.addAttribute("payment_count", payment_count)
+			.addAttribute("payment_amount", payment_amount);
+			
 		return "admin/users/userView";
 	}
 	
@@ -216,9 +219,9 @@ public class AdminController {
 			return location;
 		}
 		
-		boolean result = ((AdminServiceImpl)adminServiceImpl).commuTrashRestore(commu_index);
+		int result = ((AdminServiceImpl)adminServiceImpl).restoreCommuByCommuIndex(commu_index);
 		
-		if (!result) {
+		if (result > 0) {
 			String message = "알 수 없는 오류로 게시글 복원에 실패했습니다.";
 			String href = "admin/commu/trash/view/"+commu_index;
 			String location = "common/_message";
@@ -273,7 +276,8 @@ public class AdminController {
 	 */
 	
 	@RequestMapping(value="/modal", method={RequestMethod.POST, RequestMethod.GET})
-	public String modalController(@RequestBody Map<String, Object> modal_header) {
+	public String modalController(@RequestBody Map<String, Object> modal_header, RedirectAttributes redirectAttributes) {
+		
 		Set<String> keySet = modal_header.keySet();
 		
 		for (String k : keySet) {
@@ -299,13 +303,40 @@ public class AdminController {
 				int target_index = Integer.parseInt(modal_header.get("target_index").toString());
 				String pre_list = modal_header.get("pre_list").toString();
 				int pre_page = Integer.parseInt(modal_header.get("pre_page").toString());
+				
+				if (keySet.contains("filter")) {
+					redirectAttributes.addFlashAttribute("filter", modal_header.get("filter"));
+					redirectAttributes.addFlashAttribute("text", modal_header.get("text"));
+				}
+				
 				return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/view/"+target_index+"/"+pre_list+"/"+pre_page;
 			}
 		} else if (menu.equals("charts")) {
 			return "redirect:/admin/"+menu+"/view/"+index+"/modal";
+		} else if (menu.equals("delete") || menu.equals("restore")) {
+			String list = modal_header.get("list").toString();
+			int target_index = Integer.parseInt(modal_header.get("target_index").toString());
+			String pre_list = modal_header.get("pre_list").toString();
+			int pre_page = Integer.parseInt(modal_header.get("pre_page").toString());
+			
+			redirectAttributes.addFlashAttribute("pre_list", pre_list);
+			redirectAttributes.addFlashAttribute("pre_page", pre_page);
+			
+			if (keySet.contains("filter")) {
+				redirectAttributes.addFlashAttribute("filter", modal_header.get("filter"));
+				redirectAttributes.addFlashAttribute("text", modal_header.get("text"));
+			}
+			
+			return "redirect:/admin/"+menu+"/"+index+"/modal/"+list+"/"+target_index;
 		} else {
 			return "admin/modal/_void";
 		}
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/payment/list/{page}")
+	public String modal_paymentListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("page") int page) {
+		return "";
 	}
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/commu/list/{page}")
@@ -348,7 +379,9 @@ public class AdminController {
 	public String modal_commuView(Model model, @PathVariable("user_index") int user_index,
 												@PathVariable("target_index") int target_index,
 												@PathVariable("pre_list") String pre_list,
-												@PathVariable("pre_page") int pre_page) {
+												@PathVariable("pre_page") int pre_page,
+												@ModelAttribute("filter") String filter,
+												@ModelAttribute("text") String text) {
 		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByCommuIndex(target_index);
 		
 		List<CommuReply> reply_list = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyListByCommuIndex(target_index);
@@ -356,6 +389,10 @@ public class AdminController {
 			.addAttribute("view_commu_reply", reply_list)
 			.addAttribute("pre_list", pre_list)
 			.addAttribute("pre_page", pre_page);
+		
+		if (filter != null) {
+			model.addAttribute("filter", filter).addAttribute("text", text);
+		}
 		
 		return "admin/modal/_commuView";
 	}
@@ -381,7 +418,11 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		model.addAttribute("commu_list", commu_list)
+			.addAttribute("pi", pi)
+			.addAttribute("user_index", user_index)
+			.addAttribute("filter", filter)
+			.addAttribute("text", text);
 		
 		return "admin/modal/_commuListByUserIndex";
 	}
@@ -408,10 +449,71 @@ public class AdminController {
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commuReply_list", commuReply_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		model.addAttribute("commuReply_list", commuReply_list)
+			.addAttribute("pi", pi)
+			.addAttribute("user_index", user_index)
+			.addAttribute("filter", filter)
+			.addAttribute("text", text);
 		
 		return "admin/modal/_commuReplyListByUserIndex";
 	}
+	
+	@RequestMapping(value = "/delete/{user_index}/modal/{list}/{target_index}")
+	public String modal_Delete_Action(Model model, RedirectAttributes redirectAttributes,
+			@PathVariable("user_index") int user_index, @PathVariable("list") String list,
+			@PathVariable("target_index") int target_index, @ModelAttribute("pre_list") String pre_list,
+			@ModelAttribute("pre_page") String pre_page, @ModelAttribute("filter") String filter,
+			@ModelAttribute("text") String text) {
+		if (list.equals("commu")) {
+			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuByCommuIndex(target_index);
+			if (filter != null) {
+				redirectAttributes.addFlashAttribute("filter", filter);
+				redirectAttributes.addFlashAttribute("text", text);
+			}
+			return "redirect:/admin/users/view/" + user_index + "/modal/commu/view/" + target_index + "/"
+					+ pre_list + "/" + pre_page;
+		} else if (list.equals("commuReply")) {
+			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuReplyByCommuIndex(target_index);
+			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
+			if (filter != null) {
+				redirectAttributes.addFlashAttribute("filter", filter);
+				redirectAttributes.addFlashAttribute("text", text);
+			}
+			return "redirect:/admin/users/view/" + user_index + "/modal/commu/view/" + result + "/" + pre_list
+					+ "/" + pre_page;
+		} else {
+			return "admin/modal/_void";
+		}
+	}
+	
+	@RequestMapping(value = "/restore/{user_index}/modal/{list}/{target_index}")
+	public String modal_Restore_Action(Model model, RedirectAttributes redirectAttributes,
+			@PathVariable("user_index") int user_index, @PathVariable("list") String list,
+			@PathVariable("target_index") int target_index, @ModelAttribute("pre_list") String pre_list,
+			@ModelAttribute("pre_page") String pre_page, @ModelAttribute("filter") String filter,
+			@ModelAttribute("text") String text) {
+		if (list.equals("commu")) {
+			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuByCommuIndex(target_index);
+			if (filter != null) {
+				redirectAttributes.addFlashAttribute("filter", filter);
+				redirectAttributes.addFlashAttribute("text", text);
+			}
+			return "redirect:/admin/users/view/" + user_index + "/modal/" + list + "/view/" + target_index + "/"
+					+ pre_list + "/" + pre_page;
+		} else if (list.equals("commuReply")) {
+			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuReplyByCommuIndex(target_index);
+			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
+			if (filter != null) {
+				redirectAttributes.addFlashAttribute("filter", filter);
+				redirectAttributes.addFlashAttribute("text", text);
+			}
+			return "redirect:/admin/users/view/" + user_index + "/modal/commu/view/" + result + "/" + pre_list
+					+ "/" + pre_page;
+		} else {
+			return "admin/modal/_void";
+		}
+	}
+	
 	
 	/*
 	 * modal area end

@@ -95,8 +95,16 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectOne("admin.searchCommuReplyListCountByUserIndex", searchMap);
 	}
 	
-	public List<Purchase> paymentList(int user_index) {
-		return sqlSession.selectList("admin.paymentList", user_index);
+	public List<Purchase> getPaymentListByUserIndex(int user_index) {
+		return sqlSession.selectList("admin.getPaymentListByUserIndex", user_index);
+	}
+	
+	public int getPaymentCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getPaymentCountByUserIndex", user_index);
+	}
+
+	public int getPaymentAmountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getPaymentAmountByUserIndex", user_index);
 	}
 	
 	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
@@ -134,8 +142,24 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int searchCommuListCount(Map<String, String> searchMap) {
 		return sqlSession.selectOne("admin.searchCommuListCount", searchMap);
 	}
-	
-	public boolean commuTrashRestore(int commu_index) {
-		return sqlSession.update("admin.commuTrashRestore", commu_index) > 0 ? true : false;
+
+	public int deleteCommuByCommuIndex(int target_index) {
+		return sqlSession.update("admin.deleteCommuByCommuIndex", target_index);
+	}
+
+	public int restoreCommuByCommuIndex(int target_index) {
+		return sqlSession.update("admin.restoreCommuByCommuIndex", target_index);
+	}
+
+	public int deleteCommuReplyByCommuIndex(int target_index) {
+		return sqlSession.update("admin.deleteCommuReplyByCommuIndex", target_index);
+	}
+
+	public int restoreCommuReplyByCommuIndex(int target_index) {
+		return sqlSession.update("admin.restoreCommuReplyByCommuIndex", target_index);
+	}
+
+	public int getCommuIndexByCommuReplyIndex(int target_index) {
+		return sqlSession.selectOne("admin.getCommuIndexByCommuReplyIndex", target_index);
 	}
 }

@@ -9,7 +9,7 @@
 	<c:param value="Community" name="pageTitle" />
 </c:import>
 
-<div class="col-lg-12">
+<div class="col-lg-12 col-md-12">
 	<div class="row">
 		<ol class="breadcrumb">
 			<li><i class="fa fa-dashboard"></i> Community</li>

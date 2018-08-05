@@ -78,11 +78,11 @@
 	<div class="row table-responsive">
 		<table class="table table-striped table-condensed">
 			<tr>
-				<td>Idx</td>
-				<td>ID</td>
-				<td>Nick</td>
-				<td>E_Date</td>
-				<td>Level</td>
+				<th>Idx</th>
+				<th>ID</th>
+				<th>Nick</th>
+				<th>E_Date</th>
+				<th>Level</th>
 			</tr>
 			<c:forEach items="${user_list}" var="u">
 				<tr>

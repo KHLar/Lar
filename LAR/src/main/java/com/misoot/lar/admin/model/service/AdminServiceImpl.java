@@ -101,8 +101,16 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuReplyListCountByUserIndex(searchMap);
 	}
 	
-	public List<Purchase> paymentList(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).paymentList(user_index);
+	public List<Purchase> getPmentList(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getPaymentListByUserIndex(user_index);
+	}
+	
+	public int getPaymentCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getPaymentCountByUserIndex(user_index);
+	}
+	
+	public int getPaymentAmountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getPaymentAmountByUserIndex(user_index);
 	}
 	
 	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
@@ -146,7 +154,25 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCount(searchMap);
 	}
 	
-	public boolean commuTrashRestore(int commu_index) {
-		return ((AdminDaoImpl)adminDaoImpl).commuTrashRestore(commu_index);
+	public int deleteCommuByCommuIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).deleteCommuByCommuIndex(target_index);
 	}
+
+	public int restoreCommuByCommuIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).restoreCommuByCommuIndex(target_index);
+	}
+
+	public int deleteCommuReplyByCommuIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).deleteCommuReplyByCommuIndex(target_index);
+	}
+
+	public int restoreCommuReplyByCommuIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).restoreCommuReplyByCommuIndex(target_index);
+	}
+
+	public int getCommuIndexByCommuReplyIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getCommuIndexByCommuReplyIndex(target_index);
+	}
+
+	
 }

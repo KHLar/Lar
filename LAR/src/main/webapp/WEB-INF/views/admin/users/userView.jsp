@@ -82,13 +82,11 @@
 						</tr>
 						<tr>
 							<td><label class="control-label">타입</label></td>
-							<td>${view_user.user_type}</td>
-							<td></td>
+							<td colspan="2">${view_user.user_type}</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">레벨</label></td>
-							<td>${view_user.user_level}</td>
-							<td></td>
+							<td colspan="2">${view_user.user_level}</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">탈퇴 여부</label></td>
@@ -133,6 +131,13 @@
 							</td>
 							<td>
 								<button type="button" class="btn btn-default" onclick="$('#user_try_signin_count').val(0);">Reset</button>
+							</td>
+						</tr>
+						<tr>
+							<td><label class="control-label">결제 내역</label></td>
+							<td>총 ${payment_count}건(총 ${payment_amount}원)</td>
+							<td>
+								<button type="button" class="btn btn-default" onclick="$('#user_try_signin_count').val(0);">View</button>
 							</td>
 						</tr>
 						<tr>
