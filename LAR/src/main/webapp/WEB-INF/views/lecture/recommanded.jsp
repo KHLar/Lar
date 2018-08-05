@@ -27,7 +27,18 @@
 							<div class="thumbnail container-fluid">
 								<a href="/lar/lecture/lectureDetail?lecture_index=${r.lecture_index}"><img src="${r.lecture_thumbnail}"></a>
 								<div class="caption">
-									<h4><a href="/lar/lecture/lectureDetail?lecture_index=${r.lecture_index}">${r.lecture_title}</a></h4>
+									<h4>
+										<a href="/lar/lecture/lectureDetail?lecture_index=${r.lecture_index}">											
+											<c:choose>
+												<c:when test="${fn:length(r.lecture_title) > 30}">
+													<p><c:out value="${fn:substring(r.lecture_title,0,29)}"/>....</p>
+												</c:when>
+												<c:otherwise>
+													<p><c:out value="${r.lecture_title}"/></p>
+												</c:otherwise> 
+											</c:choose>
+										</a>
+									</h4>
 									<p>
 										<c:if test="${r.lecture_price eq 0}">
 											<span style="text-align: right">Free</span>
@@ -58,7 +69,16 @@
 							<div class="thumbnail container-fluid">
 								<a href="/lar/lecture/lectureDetail?lecture_index=${s.lecture_index}"><img src="${s.lecture_thumbnail}"></a>
 								<div class="caption">
-									<h4><a href="/lar/lecture/lectureDetail?lecture_index=${s.lecture_index}">${s.lecture_title}</a></h4>
+									<h4><a href="/lar/lecture/lectureDetail?lecture_index=${s.lecture_index}">										
+										<c:choose>
+											<c:when test="${fn:length(s.lecture_title) > 30}">
+												<p><c:out value="${fn:substring(s.lecture_title,0,29)}"/>....</p>
+											</c:when>
+											<c:otherwise>
+												<p><c:out value="${s.lecture_title}"/></p>
+											</c:otherwise> 
+										</c:choose>
+									</a></h4>
 									<p>
 										<c:if test="${s.lecture_price eq 0}">
 											<span style="text-align: right">Free</span>
@@ -89,7 +109,16 @@
 							<div class="thumbnail container-fluid">
 								<a href="/lar/lecture/lectureDetail?lecture_index=${h.lecture_index}"><img src="${h.lecture_thumbnail}"></a>
 								<div class="caption">
-									<h4><a href="/lar/lecture/lectureDetail?lecture_index=${h.lecture_index}">${h.lecture_title}</a></h4>
+									<h4><a href="/lar/lecture/lectureDetail?lecture_index=${h.lecture_index}">
+										<c:choose>
+											<c:when test="${fn:length(h.lecture_title) > 30}">
+												<p><c:out value="${fn:substring(h.lecture_title,0,29)}"/>....</p>
+											</c:when>
+											<c:otherwise>
+												<p><c:out value="${h.lecture_title}"/></p>
+											</c:otherwise> 
+										</c:choose>
+									</a></h4>
 									<p>
 										<c:if test="${h.lecture_price eq 0}">
 											<span style="text-align: right">Free</span>

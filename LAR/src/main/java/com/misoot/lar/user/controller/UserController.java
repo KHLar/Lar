@@ -456,8 +456,8 @@ public class UserController {
 		int numPerPage = 5;
 
 		List<Map<String, String>> llist = ((UserServiceImpl) userServiceImpl).myLectureList(user.getUser_index(), lcPage, numPerPage);
-		List<Map<String, String>> qnalist = ((UserServiceImpl) userServiceImpl).myqnaList(user.getUser_index(), lcPage, numPerPage);
-		List<Map<String, String>> wlist = ((UserServiceImpl) userServiceImpl).myWishList(user.getUser_index(), qnaPage, numPerPage);
+		List<Map<String, String>> qnalist = ((UserServiceImpl) userServiceImpl).myqnaList(user.getUser_index(), qnaPage, numPerPage);
+		List<Map<String, String>> wlist = ((UserServiceImpl) userServiceImpl).myWishList(user.getUser_index(), wcPage, numPerPage);
 		List<Purchase> plist = ((UserServiceImpl) userServiceImpl).myPaymentList(user.getUser_index());
 		List<Map<String, String>> couponlist = ((UserServiceImpl) userServiceImpl).myCoupontList(user.getUser_index());
 
@@ -467,12 +467,15 @@ public class UserController {
 
 		pagingInf.put("tab", "myLecture");
 		pagingInf.put("lTotalCnt", ((UserServiceImpl) userServiceImpl).myPageTotalCnt(pagingInf));
+		pagingInf.put("lcPage", lcPage);
 
 		pagingInf.put("tab", "wishList");
 		pagingInf.put("wTotalCnt", ((UserServiceImpl) userServiceImpl).myPageTotalCnt(pagingInf));
+		pagingInf.put("wcPage", wcPage);
 
 		pagingInf.put("tab", "QnAList");
 		pagingInf.put("qnaTotalCnt", ((UserServiceImpl) userServiceImpl).myPageTotalCnt(pagingInf));
+		pagingInf.put("qnaPage", qnaPage);
 
 		Map<String, Object> mypageList = new HashMap<String, Object>();
 
@@ -642,7 +645,7 @@ public class UserController {
 		System.out.println("이미지 파일 명 : " + updateImg.getOriginalFilename());
 		System.out.println("Image Size check : " + updateImg.getSize());
 
-		String saveDir = request.getSession().getServletContext().getRealPath("/resources/userthumbnail");
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/uploadFiles/userthumbnail");
 
 		File dir = new File(saveDir);
 

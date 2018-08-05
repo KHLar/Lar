@@ -29,7 +29,8 @@
 				<div class="carousel-caption">img1</div>
 			</div>
 			<div class="item">
-				<img class="slide" src="" alt="test2">
+				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel2.JPG" style="height:300px;" alt="test2">
+				전자정부프레임워크 개발자 대상 교육 실시
 				<div class="carousel-caption">img2</div>
 			</div>
 			<div class="item">
@@ -65,7 +66,16 @@
 									<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}"><img src="${rec.lecture_thumbnail}"></a>
 									<div class="caption">
 										<h4>
-											<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">${rec.lecture_title}</a>
+											<a href="/lar/lecture/lectureDetail?lecture_index=${rec.lecture_index}">											
+												<c:choose>
+												<c:when test="${fn:length(rec.lecture_title) > 30}">
+													<p><c:out value="${fn:substring(rec.lecture_title,0,29)}"/>....</p>
+												</c:when>
+												<c:otherwise>
+													<p><c:out value="${rec.lecture_title}"/></p>
+												</c:otherwise> 
+												</c:choose>	
+											</a>
 										</h4>
 										<p>
 											<c:if test="${rec.lecture_price eq 0}">

@@ -8,6 +8,12 @@
 	<c:param value="마이페이지" name="pageTitle" />
 </c:import>
 
+<style>
+.checked {
+	color: orange;
+}
+</style>
+
 <script>
 	$('.mypageTab a').click(function(e) {
 		e.preventDefault();
@@ -68,6 +74,51 @@
 			}
 		});
 	}
+	
+	function make_button_active(tab, panel) {
+		var siblings = tab.siblings();
+		var panSiblings = panel.siblings();
+
+		siblings.each(function() {
+			$(this).removeClass('active');
+		});
+
+		panSiblings.each(function() {
+			$(this).removeClass('active');
+		});
+
+		tab.addClass('active');
+		panel.addClass('active');
+	}
+
+	//Attach events to menu
+	$(document).ready(
+		function() {
+			if (localStorage.getItem('myptab') != 'undefined'
+					&& localStorage.getItem('myptab') != null
+					&& (localStorage.getItem('mypanel') != 'undefined' && localStorage
+							.getItem('mypanel') != null)) {
+				var ind = localStorage['myptab'];
+				var ind2 = localStorage['mypanel'];
+				make_button_active($('.mypage_ul li').eq(ind),
+						$('.tab-pane').eq(ind2));
+			} else {
+				make_button_active($("#myLecture"),
+						$("##wrapMyLecture"));
+			}
+
+			$(".mypage_ul li").click(
+					function() {
+						if (localStorage) {
+							localStorage['myptab'] = $(this).index();
+							var panel = $(this).children().attr(
+									'data-target');
+							localStorage['mypanel'] = $(panel)
+									.index();
+						}
+					}
+			);
+	});
 </script>
 
 </header>
@@ -81,16 +132,11 @@
 	int wtotalContents = (Integer) pagingInf.get("wTotalCnt");
 	int qtotalContents = (Integer) pagingInf.get("qnaTotalCnt");
 
-	int lcPage = 1;
-	int wcPage = 1;
-	int qnaPage = 1;
-	try {
-		lcPage = Integer.parseInt(request.getParameter("lcPage"));
-		wcPage = Integer.parseInt(request.getParameter("wcPage"));
-		qnaPage = Integer.parseInt(request.getParameter("qnaPage"));
-	} catch (Exception e) {
-	}
-	String url = "/lar/mypage";
+	int lcPage = (Integer) pagingInf.get("lcPage");
+	int wcPage = (Integer) pagingInf.get("wcPage");
+	int qnaPage = (Integer) pagingInf.get("qnaPage");
+	
+	String url = "/lar/user/mypage";
 %>
 
 <div class="container" style="margin-left: 5%;">
@@ -150,9 +196,9 @@
 			</div>
 
 			<div class="tabs" style="width: 100%;">
-				<ul class="nav mypageTab nav-tabs" role="tablist"
+				<ul class="nav mypageTab nav-tabs mypage_ul" role="tablist"
 					style="width: 98%;">
-					<li role="presentation" class="active"><a class="myLecture"
+					<li role="presentation" class="myLecture"><a class="myLecture"
 						data-target="#wrapMyLecture" id="myLecture" data-toggle="tab">
 							&nbsp;&nbsp;&nbsp;나의 강의&nbsp;&nbsp;&nbsp; </a></li>
 					<li role="presentation"><a class="QnAList"
@@ -167,20 +213,17 @@
 					<li role="presentation"><a class="couponList"
 						data-target="#wrapCoupon" id="couponList" data-toggle="tab">
 							&nbsp;&nbsp;&nbsp;쿠폰내역&nbsp;&nbsp;&nbsp;</a></li>
-					<!-- <li role="presentation"><a class="alarm"
-						data-target="#wrapAlarm" id="alarm" data-toggle="tab">
-							&nbsp;&nbsp;&nbsp;알림&nbsp;&nbsp;&nbsp; </a></li> -->
 				</ul>
 			</div>
 
 			<div class="mypageBody tab-content">
-				<div class="wrapMyLecture tab-pane active" id="wrapMyLecture">
+				<div class="wrapMyLecture tab-pane" id="wrapMyLecture">
 					<h3>나의 강의</h3>
 					<c:forEach items="${mypageList.llist}" var="mylecture">
 						<div class="well">
 							<div class="media row">
 								<div class="col-md-3">
-									<a class="pull-left"
+									<a class="pull-left resetTab"
 										href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">
 										<img class="media-object" src="${mylecture.lecture_thumbnail}" style="width: 100%;">
 									</a>
@@ -188,26 +231,76 @@
 								<div class="col-md-9">
 									<div class="media-body">										
 											<h4 class="media-heading">
-												<a href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">${mylecture.lecture_title}</a>		
+												<a class="resetTab" href="/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}">${mylecture.lecture_title}</a>		
 											</h4>					
 											<p class="text-right">${mylecture.user_nickname}</p>
-											<p>${mylecture.lecture_intro}</p>
+											<p>												
+												<c:choose>
+													<c:when test="${fn:length(mylecture.lecture_intro) > 100}">
+														<p><c:out value="${fn:substring(mylecture.lecture_intro,0,99)}"/>....</p>
+													</c:when>
+													<c:otherwise>
+														<p><c:out value="${mylecture.lecture_intro}"/></p>
+													</c:otherwise> 
+												</c:choose>	
+											</p>
 										<ul class="list-inline list-unstyled">
 											<li><span><i class="glyphicon glyphicon-calendar"></i>${mylecture.lecture_upload_date}</span></li>
 											<li>|</li>
 											<span><i class="glyphicon glyphicon-comment"></i>
 												${mylecture.lecture_review_count} reviews</span>
 											<li>|</li>
-											<li><span class="glyphicon glyphicon-star"></span> <span
-												class="glyphicon glyphicon-star"></span> <span
-												class="glyphicon glyphicon-star"></span> <span
-												class="glyphicon glyphicon-star"></span> <span
-												class="glyphicon glyphicon-star-empty"></span></li>
+											<li>
+												<c:if test="${mylecture.lecture_total_score == 0}">
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>													
+												</c:if> <c:if test="${mylecture.lecture_total_score == 1}">
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star"></span>
+												</c:if> <c:if test="${mylecture.lecture_total_score == 2}">
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star"></span>
+												</c:if> <c:if test="${mylecture.lecture_total_score == 3}">
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star "></span>
+													<span class="fa fa-star"></span>
+												</c:if> <c:if test="${mylecture.lecture_total_score == 4}">
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star"></span>
+												</c:if> <c:if test="${mylecture.lecture_total_score == 5}">
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+												</c:if>
+											</li>
 											<li>|</li>
 											<li>
+											<c:if test="${mylecture.history_lecture_board_index ne ''}">
 												<button type="button" class="btn btn-success btn-sm"
 													style="border: none"
 													onclick="location.href='/lar/lectureBoardView?bindex=${mylecture.history_lecture_board_index}&index=${mylecture.lecture_index}'">계속하기</button>
+											</c:if>
+											<c:if test="${mylecture.history_lecture_board_index eq ''}">
+												<button type="button" class="btn btn-success btn-sm"
+													style="border: none"
+													onclick="location.href='/lar/lecture/lectureDetail?lecture_index=${mylecture.lecture_index}'">계속하기</button>
+											</c:if>
 												<button type="button"
 													class="btn btn-danger btn-sm cancel_lecture"
 													style="border: none">수강취소</button> <input type="hidden"
@@ -288,22 +381,64 @@
 										<div class="media">
 											<a
 												href="/lar/lecture/lectureDetail?lecture_index=${wishList.lecture_index}"
-												class="pull-left"> <img
+												class="pull-left resetTab"> <img
 												src="${wishList.lecture_thumbnail}" class="media-photo">
 											</a>
 											<div class="media-body">
 												<span class="media-meta pull-right">${wishList.lecture_review_count}
 													reviews</span>
 												<h4 class="title">
-													<a
+													<a class="resetTab"
 														href="/lar/lecture/lectureDetail?lecture_index=${wishList.lecture_index}">${wishList.lecture_title}</a>
 												</h4>
-												<p class="summary">${wishList.lecture_intro}</p>
-												<span> <i class="glyphicon glyphicon-star"></i> <i
-													class="glyphicon glyphicon-star"></i> <i
-													class="glyphicon glyphicon-star"></i> <i
-													class="glyphicon glyphicon-star"></i> <i
-													class="glyphicon glyphicon-star"></i>
+												<p class="summary">											
+													<c:choose>
+														<c:when test="${fn:length(wishList.lecture_intro) > 100}">
+															<p><c:out value="${fn:substring(wishList.lecture_intro,0,99)}"/>....</p>
+														</c:when>
+														<c:otherwise>
+															<p><c:out value="${wishList.lecture_intro}"/></p>
+														</c:otherwise> 
+													</c:choose>	
+												</p>
+												<span> 
+													<c:if test="${wishList.lecture_total_score == 0}">
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>													
+													</c:if> <c:if test="${wishList.lecture_total_score == 1}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star"></span>
+													</c:if> <c:if test="${wishList.lecture_total_score == 2}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star"></span>
+													</c:if> <c:if test="${wishList.lecture_total_score == 3}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star "></span>
+														<span class="fa fa-star"></span>
+													</c:if> <c:if test="${wishList.lecture_total_score == 4}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+													</c:if> <c:if test="${wishList.lecture_total_score == 5}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+													</c:if>
 												</span>
 											</div>
 										</div>
@@ -396,40 +531,6 @@
 						</tbody>
 					</table>
 				</div>
-
-				<!-- <div class="wrapAlarm tab-pane" id="wrapAlarm">
-					<h3>알림</h3>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="update-nag">
-								<div class="update-split update-info">
-									<i class="glyphicon glyphicon-sunglasses"></i>
-								</div>
-								<div class="update-text">
-									1/7/2016 - <a href="#">DadDadDaddyO.com/blog</a> - Check out my sweet new site!
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="update-nag">
-								<div class="update-split update-danger">
-									<i class="glyphicon glyphicon-warning-sign"></i>
-								</div>
-								<div class="update-text">
-									2/10/2016 - <a href="#">news.ycombinator.com</a> - <strong>Sweet new WordPress hack</strong>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="update-nag">
-								<div class="update-split update-success">
-									<i class="glyphicon glyphicon-user"></i>
-								</div>
-								<div class="update-text">2/14/2016 - You - Yikes! Updating WordPress.</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/common/_footer.jsp" />
