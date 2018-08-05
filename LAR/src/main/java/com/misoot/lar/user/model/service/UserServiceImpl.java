@@ -220,5 +220,4 @@ public class UserServiceImpl implements LarService<User> {
 	public int addTocart(Map<String, Object> hmap) {
 		return ((UserDaoImpl)userDaoImpl).addTocart(hmap);
 	}
-
 }

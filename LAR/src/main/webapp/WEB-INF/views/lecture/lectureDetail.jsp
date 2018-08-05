@@ -166,7 +166,6 @@ body {
 }
 </style>
 <script>
-
 	var locked = 0;
 	function show(star) {
 		if (locked)
@@ -211,15 +210,15 @@ body {
 		siblings.each(function() {
 			$(this).removeClass('active');
 		});
-
+	
 		panSiblings.each(function() {
 			$(this).removeClass('active');
 		});
-
+	
 		tab.addClass('active');
 		panel.addClass('active');
 	}
-
+	
 	//Attach events to menu
 	$(document).ready(
 		function() {

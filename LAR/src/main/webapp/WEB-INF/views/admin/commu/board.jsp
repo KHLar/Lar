@@ -16,9 +16,7 @@
 %>
 
 <script>
-	
 	var current_path = window.location.href;
-	console.log(current_path);
 	var path_arr = current_path.split("/");
 	$(function() {
 		if (current_path.includes('search')) {
@@ -42,7 +40,7 @@
 	});
 </script>
 
-<div class="col-lg-12">
+<div class="col-lg-12 col-md-12">
 	<div class="row">
 		<h1 class="page-header">
 			Community

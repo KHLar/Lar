@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <style>
 	.modal-footer .panel-body {
 		padding: 15px;
@@ -20,14 +21,7 @@ $(function() {
 
 <div class="modal-header">
 	<ul class="pager pull-left">
-		<c:choose>
-			<c:when test="${filter == null or filter == ''}">
-				<li><a class="pre" role="button" onclick="adminUsersListModal(${view_commu.commu_Writer_Index}, '${pre_list}', ${pre_page})">이전 목록</a></li>
-			</c:when>
-			<c:otherwise>
-				<li><a class="pre" role="button" onclick="adminUsersListModal(${view_commu.commu_Writer_Index}, '${pre_list}', ${pre_page}, '${filter}', '${text}')">이전 목록</a></li>
-			</c:otherwise>
-		</c:choose>
+		<li><a class="pre" role="button" onclick="adminUsersListModal(${view_commu.commu_Writer_Index}, '${pre_list}', ${pre_page})">이전 목록</a></li>
 	</ul>
 </div>
 
@@ -53,33 +47,32 @@ $(function() {
 					</div>
 				</div>
 			</div>
-			<div class="panel-footer" style="text-align: right;">
-				<c:choose>
-					<c:when test="${filter == null or filter == ''}">
-						<c:choose>
-							<c:when test="${view_commu.commu_Is_Deleted == 0}">
-								<button type="button" class="btn btn-danger" onclick="adminActionModal('delete', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page})">삭제</button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="btn btn-success" onclick="adminActionModal('restore', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page})">복원</button>
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<c:choose>
-							<c:when test="${view_commu.commu_Is_Deleted == 0}">
-								<button type="button" class="btn btn-danger" onclick="adminActionModal('delete', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page}, '${filter}', '${text}')">삭제</button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="btn btn-success" onclick="adminActionModal('restore', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page}, '${filter}', '${text}')">복원</button>
-							</c:otherwise>
-						</c:choose>
-					</c:otherwise>
-				</c:choose>
-			</div>
 		</div>
 	</div>
-	
+	<div class="row" style="text-align: right;">
+		<c:choose>
+			<c:when test="${filter == null or filter == ''}">
+				<c:choose>
+					<c:when test="${view_commu.commu_Is_Deleted == 0}">
+						<button type="button" class="btn btn-danger" onclick="adminActionModal('delete', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page})">삭제</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-success" onclick="adminActionModal('restore', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page})">복원</button>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${view_commu.commu_Is_Deleted == 0}">
+						<button type="button" class="btn btn-danger" onclick="adminActionModal('delete', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page}, '${filter}', '${text}')">삭제</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-success" onclick="adminActionModal('restore', ${view_commu.commu_Writer_Index}, 'commu', ${view_commu.commu_Index}, '${pre_list}', ${pre_page}, '${filter}', '${text}')">복원</button>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+	</div>
 	<div class="row">
 		댓글 [총 ${fn:length(view_commu_reply)} 개]
 	</div>

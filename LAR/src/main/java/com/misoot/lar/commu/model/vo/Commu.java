@@ -1,6 +1,5 @@
 package com.misoot.lar.commu.model.vo;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +11,15 @@ public class Commu {
 	private String commu_Title;
 	private String commu_Content;
 	private int commu_Hits;
-	private Date commu_Upload_Date;	
-	private Date commu_Update_Date;
+	private String commu_Upload_Date;
+	private String commu_Update_Date;
 	private int commu_Is_Deleted;
 	private String commu_Writer;
 	private String commu_tags;
 	private int fileCount;
 	private String commu_Attach_Renamedfilename;
-	
-	//첨부파일 관련 필드 추가하기
+
+	// 첨부파일 관련 필드 추가하기
 	private List<Attachment> files = new ArrayList<>();
 
 	public Commu() {
@@ -28,8 +27,9 @@ public class Commu {
 	}
 
 	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
-			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
-			String commu_Writer, int fileCount, String commu_Attach_Renamedfilename, List<Attachment> files) {
+			String commu_Content, int commu_Hits, String commu_Upload_Date, String commu_Update_Date,
+			int commu_Is_Deleted, String commu_Writer, int fileCount, String commu_Attach_Renamedfilename,
+			List<Attachment> files) {
 		super();
 		this.commu_Index = commu_Index;
 		this.commu_Writer_Index = commu_Writer_Index;
@@ -47,8 +47,8 @@ public class Commu {
 	}
 
 	public Commu(int commu_Index, int commu_Writer_Index, String commu_Category_Index, String commu_Title,
-			String commu_Content, int commu_Hits, Date commu_Upload_Date, Date commu_Update_Date, int commu_Is_Deleted,
-			String commu_Writer) {
+			String commu_Content, int commu_Hits, String commu_Upload_Date, String commu_Update_Date,
+			int commu_Is_Deleted, String commu_Writer) {
 		super();
 		this.commu_Index = commu_Index;
 		this.commu_Writer_Index = commu_Writer_Index;
@@ -110,19 +110,19 @@ public class Commu {
 		this.commu_Hits = commu_Hits;
 	}
 
-	public Date getCommu_Upload_Date() {
+	public String getCommu_Upload_Date() {
 		return commu_Upload_Date;
 	}
 
-	public void setCommu_Upload_Date(Date commu_Upload_Date) {
+	public void setCommu_Upload_Date(String commu_Upload_Date) {
 		this.commu_Upload_Date = commu_Upload_Date;
 	}
 
-	public Date getCommu_Update_Date() {
+	public String getCommu_Update_Date() {
 		return commu_Update_Date;
 	}
 
-	public void setCommu_Update_Date(Date commu_Update_Date) {
+	public void setCommu_Update_Date(String commu_Update_Date) {
 		this.commu_Update_Date = commu_Update_Date;
 	}
 
@@ -165,7 +165,7 @@ public class Commu {
 	public void setFiles(List<Attachment> files) {
 		this.files = files;
 	}
-	
+
 	public String getCommu_tags() {
 		return commu_tags;
 	}

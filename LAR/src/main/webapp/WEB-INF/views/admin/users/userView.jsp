@@ -82,13 +82,11 @@
 						</tr>
 						<tr>
 							<td><label class="control-label">타입</label></td>
-							<td>${view_user.user_type}</td>
-							<td></td>
+							<td colspan="2">${view_user.user_type}</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">레벨</label></td>
-							<td>${view_user.user_level}</td>
-							<td></td>
+							<td colspan="2">${view_user.user_level}</td>
 						</tr>
 						<tr>
 							<td><label class="control-label">탈퇴 여부</label></td>
@@ -133,6 +131,20 @@
 							</td>
 							<td>
 								<button type="button" class="btn btn-default" onclick="$('#user_try_signin_count').val(0);">Reset</button>
+							</td>
+						</tr>
+						<tr>
+							<td><label class="control-label">쿠폰 내역</label></td>
+							<td>총 ${coupon_count}개(미사용 : ${unused_coupon_count}개)</td>
+							<td>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'coupon', 1)">View</a>
+							</td>
+						</tr>
+						<tr>
+							<td><label class="control-label">결제 내역</label></td>
+							<td>총 ${total_purchase_count}건(총 ${total_purchase_amount}원)</td>
+							<td>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'purchase', 1)">View</a>
 							</td>
 						</tr>
 						<tr>

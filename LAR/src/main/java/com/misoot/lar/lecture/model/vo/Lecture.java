@@ -33,6 +33,7 @@ public class Lecture implements java.io.Serializable {
 			int lecture_price, Date lecture_upload_date, int lecture_is_deleted, int lecture_hits,
 			String lecture_content, int lecture_total_score, String user_nickname, int lecture_review_count,
 			String cart_user_index, String wish_user_index, int history_lecture_board_index, String user_thumbnail) {
+
 		super();
 		this.lecture_index = lecture_index;
 		this.lecture_category_index = lecture_category_index;

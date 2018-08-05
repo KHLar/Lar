@@ -58,7 +58,7 @@
 		order by USER_LEVEL desc, USER_INDEX desc
 	</select>
 	
-	<select id="selectUserCount" parameterType="_int" resultType="_int">
+	<select id="getSelectUserListCount" parameterType="_int" resultType="_int">
 		select COUNT(*) from TABLE_USER
 		where USER_LEVEL <![CDATA[<]]> #{user_level} and
 			(USER_TYPE like '%'||'user'||'%' OR 
@@ -86,7 +86,7 @@
 		order by C.COMMU_UPLOAD_DATE desc
 	</select>
 	
-	<select id="selectCommuListCountByUserIndex" parameterType="_int" resultType="_int">
+	<select id="getSelectCommuListCountByUserIndex" parameterType="_int" resultType="_int">
 		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
 		where U.USER_INDEX = #{user_index}
@@ -98,11 +98,20 @@
 		COMMU_WRITER, COMMU_TAGS
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
 		where U.USER_INDEX = #{user_index}
-		
+		<if test="filter eq 'title'">
+			and C.COMMU_TITLE like '%'||#{text}||'%'
+		</if>
+		<if test="filter eq 'content'">
+			and C.COMMU_CONTENT like '%'||#{text}||'%' 
+		</if>
+		<if test="filter eq 'tag'">
+			and C.COMMU_TAGS like '%'||#{text}||'%' 
+		</if>
+		order by C.COMMU_INDEX DESC
 	</select>
 	
-	<select id="searchCommuListCountByUserIndex" parameterType="map" resultType="_int">
-		select CONUT(*)
+	<select id="getSearchCommuListCountByUserIndex" parameterType="map" resultType="_int">
+		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
 		where U.USER_INDEX = #{user_index}
 		<if test="filter eq 'title'">
@@ -124,27 +133,75 @@
 		order by COMMU_REPLY_PARENT_INDEX desc, COMMU_REPLY_ORDER_INDEX asc
 	</select>
 	
-	<select id="selectCommuReplyListCountByUserIndex" parameterType="_int" resultType="_int">
+	<select id="getSelectCommuReplyListCountByUserIndex" parameterType="_int" resultType="_int">
 		select COUNT(*)
 		from TABLE_COMMU_REPLY where COMMU_REPLY_WRITER_INDEX = #{user_index}
 	</select>
 	
-	<select id="searchCommuReplyListByUserIndex" parameterType="map" resultMap="getselectCommuList">
-		select
-		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
-		COMMU_WRITER, COMMU_TAGS
-		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where U.USER_INDEX = #{user_index}
-		
+	<select id="searchCommuReplyListByUserIndex" parameterType="map" resultMap="getselectCommuReplyList">
+		select R.*,U.USER_NICKNAME COMMU_REPLY_WRITER
+		from TABLE_COMMU_REPLY R
+		join TABLE_USER U on(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX)
+		where COMMU_REPLY_WRITER_INDEX = #{user_index}
+		<if test="filter != null">
+			and R.COMMU_REPLY_CONTENT like '%'||#{text}||'%'
+		</if>
+		order by R.COMMU_REPLY_INDEX DESC
 	</select>
 	
-	<select id="searchCommuReplyListCountByUserIndex" parameterType="map" resultType="_int">
-		select
-		COMMU_INDEX,COMMU_WRITER_INDEX,COMMU_CATEGORY_INDEX,COMMU_TITLE,COMMU_CONTENT,COMMU_HITS,COMMU_UPLOAD_DATE,COMMU_UPDATE_DATE,COMMU_IS_DELETED,USER_NICKNAME
-		COMMU_WRITER, COMMU_TAGS
-		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
-		where U.USER_INDEX = #{user_index}
-		
+	<select id="getSearchCommuReplyListCountByUserIndex" parameterType="map" resultType="_int">
+		select COUNT(*)
+		from TABLE_COMMU_REPLY R
+		join TABLE_USER U on(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX)
+		where COMMU_REPLY_WRITER_INDEX = #{user_index}
+		<if test="filter != null">
+			and R.COMMU_REPLY_CONTENT like '%'||#{text}||'%'
+		</if>
+	</select>
+	
+	<select id="getTotalPurchaseCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*) from TABLE_PURCHASE
+		where PURCHASE_USER_INDEX = #{user_index}
+		and status='paid'
+	</select>
+	
+	<select id="getTotalPurchaseAmountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(PAID_AMOUNT) from TABLE_PURCHASE
+		where PURCHASE_USER_INDEX = #{user_index}
+		and status='paid'
+	</select>
+	
+	<select id="selectPurchaseListByUserIndex" parameterType="_int" resultType="purchase">
+		select * from TABLE_PURCHASE
+		left join TABLE_COUPON on(PURCHASE_USED_COUPON_INDEX = COUPON_INDEX)
+		where PURCHASE_USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="getSelectPurchaseListCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*) from TABLE_PURCHASE
+		where PURCHASE_USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="selectCouponListByUserIndex" parameterType="_int" resultType="hashmap">
+		select *
+		from TABLE_USER_COUPON
+		join TABLE_COUPON using(COUPON_INDEX) 
+		where USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="getSelectCouponListCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from TABLE_USER_COUPON
+		join TABLE_COUPON using(COUPON_INDEX) 
+		where USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="getSelectUnusedCouponListCountByUserIndex" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from TABLE_USER_COUPON
+		join TABLE_COUPON using(COUPON_INDEX) 
+		where USER_INDEX = #{user_index} and
+		USER_COUPON_USED_DATE is NULL
 	</select>
 	
 	<select id="searchUserList" parameterType="map" resultType="user">
@@ -168,7 +225,7 @@
 		order by USER_LEVEL desc, USER_INDEX desc
 	</select>
 	
-	<select id="searchUserListCount" parameterType="map" resultType="_int">
+	<select id="getSearchUserListCount" parameterType="map" resultType="_int">
 		select COUNT(*) from TABLE_USER
 		where USER_LEVEL <![CDATA[<]]> #{user_level} and
 			(USER_TYPE like '%'||'user'||'%' OR 
@@ -221,7 +278,7 @@
 		order by C.COMMU_INDEX DESC
 	</select>
 	
-	<select id="selectCommuListCount" parameterType="string" resultType="_int">
+	<select id="getSelectCommuListCount" parameterType="string" resultType="_int">
 		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
 		<where> 
@@ -293,7 +350,7 @@
 		order by C.COMMU_INDEX DESC
 	</select>
 	
-	<select id="searchCommuListCount" parameterType="map" resultType="_int">
+	<select id="getSearchCommuListCount" parameterType="map" resultType="_int">
 		select COUNT(*)
 		from TABLE_USER U join TABLE_COMMU C on(C.COMMU_WRITER_INDEX=U.USER_INDEX)
 		<where>
@@ -348,8 +405,29 @@
 		order by COMMU_REPLY_PARENT_INDEX desc, COMMU_REPLY_ORDER_INDEX asc
 	</select>
 	
-	<select id="paymentList" parameterType="_int" resultType="purchase">
-		select * from TABLE_PURCHASE left join TABLE_COUPON on(PURCHASE_USED_COUPON_INDEX = COUPON_INDEX) where PURCHASE_USER_INDEX = #{user_index}
+	<update id="deleteCommuByCommuIndex" parameterType="_int">
+		update TABLE_COMMU set
+		COMMU_IS_DELETED=1 where COMMU_INDEX=#{target_index}
+	</update>
+	
+	<update id="restoreCommuByCommuIndex" parameterType="_int">
+		update TABLE_COMMU set
+		COMMU_IS_DELETED=0 where COMMU_INDEX=#{target_index}
+	</update>
+	
+	<update id="deleteCommuReplyByCommuIndex" parameterType="_int">
+		update TABLE_COMMU_REPLY set
+		COMMU_REPLY_IS_DELETED=1 where COMMU_REPLY_INDEX=#{target_index}
+	</update>
+	
+	<update id="restoreCommuReplyByCommuIndex" parameterType="_int">
+		update TABLE_COMMU_REPLY set
+		COMMU_REPLY_IS_DELETED=0 where COMMU_REPLY_INDEX=#{target_index}
+	</update>
+	
+	<select id="getCommuIndexByCommuReplyIndex" parameterType="_int" resultType="_int">
+		select COMMU_REPLY_COMMU_INDEX from TABLE_COMMU_REPLY
+		where COMMU_REPLY_INDEX=#{target_index}
 	</select>
 	
 </mapper>

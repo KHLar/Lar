@@ -40,7 +40,7 @@
 	});
 </script>
 
-<div class="col-lg-12">
+<div class="col-lg-12 col-md-12">
 	<div class="row">
 		<h1 class="page-header">
 			Community
