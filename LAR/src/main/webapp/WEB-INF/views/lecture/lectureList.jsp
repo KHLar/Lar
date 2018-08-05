@@ -155,9 +155,7 @@ function lecValidate() {
 						<img class="img-fluid rounded mb-3 mb-md-1" src="${lList.lecture_thumbnail}" alt="">
 						</a>
 					</div>
-					<div class="col-md-6">
-						
-						
+					<div class="col-md-6">				
 						<input class="index" type="hidden" value="${lList.lecture_index}">
 						<a class="resetTab" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><h3>${lList.lecture_title} </h3></a>
 						<c:if test="${lList.lecture_total_score == 0}">
@@ -214,19 +212,20 @@ function lecValidate() {
 							<p><c:out value="${lList.lecture_intro }"/></p>
 							</c:otherwise> 
 							</c:choose>
-						
-
-						<c:if test="${ (rsession_user.user_index  != null or lList.lecture_instructor_index eq session_user.user_index) or session_user.user_level >1000 or session_user.user_type eq 'admin'  }">
-						<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
-						</c:if>
+															
+					</div>
+					<div class="col-md-3">
 						<h4 class="pull-right">
 							<c:if test="${lList.lecture_price == 0}">
 								Free
 							</c:if>
 							<c:if test="${lList.lecture_price > 0}">
-								${lList.lecture_price}원
+								￦${lList.lecture_price}
 							</c:if>
 						</h4>
+						<c:if test="${ (rsession_user.user_index  != null or lList.lecture_instructor_index eq session_user.user_index) or session_user.user_level >1000 or session_user.user_type eq 'admin'  }">
+							<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
+						</c:if>
 					</div>
 				</div>
 				<hr>

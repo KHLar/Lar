@@ -79,36 +79,71 @@ body {
 }
 
 /* Individual bars */
-.bar-5 {
-	width: 60%;
+.bar-10 {
+	width: 100%;
 	height: 18px;
 	background-color: #4CAF50;
 }
 
-.bar-4 {
-	width: 30%;
+.bar-9 {
+	width: 90%;
+	height: 18px;
+	background-color: #4CAF50;
+}
+
+.bar-8 {
+	width: 80%;
+	height: 18px;
+	background-color: #4CAF50;
+}
+
+.bar-7 {
+	width: 70%;
+	height: 18px;
+	background-color: #ff9800;
+}
+
+.bar-6 {
+	width: 60%;
 	height: 18px;
 	background-color: #2196F3;
 }
 
+.bar-5 {
+	width: 50%;
+	height: 18px;
+	background-color: #2196F3;
+}
+
+.bar-4 {
+	width: 40%;
+	height: 18px;
+	background-color: #00bcd4;
+}
+
 .bar-3 {
-	width: 10%;
+	width: 30%;
 	height: 18px;
 	background-color: #00bcd4;
 }
 
 .bar-2 {
-	width: 4%;
+	width: 20%;
 	height: 18px;
 	background-color: #ff9800;
 }
 
 .bar-1 {
-	width: 15%;
+	width: 10%;
 	height: 18px;
 	background-color: #f44336;
 }
 
+.bar-0 {
+	width: 0%;
+	height: 18px;
+	background-color: #f44336;
+}
 /* Responsive layout - make the columns stack on top of each other instead of next to each other */
 @media ( max-width : 400px) {
 	.side, .middle {
@@ -240,10 +275,10 @@ body {
 							<button class="btn btn-sm btn-warning pull-right" id="applyLecture">수강신청</button>
 							<input type="hidden" id="lecture_index_applyLecture" value="${lecture.lecture_index}"/>
 					</c:if>                   
-                   	<c:if test="${applyCount >0}">
+                   <c:if test="${applyCount >0}">
                   			<button class="btn btn-sm btn-warning pull-right" id="applyLectureCancel">수강 취소</button>
                   	</c:if>
-                  	</span>
+                  </span>
                   </p>
                   <hr />
                   <span>업로드 날짜:${lecture.lecture_upload_date }</span>
@@ -299,8 +334,45 @@ body {
                      <span class="fa fa-star checked"></span>
                   </c:if>
                   </div>
-                  <h5>${lectureTotalScore.lecture_review_count }개의수강평</h5>
+                  <h5>${lectureTotalScore.lecture_review_count }개의수강평</h5> 
+										
+					<c:set var="five" value="0"/>
+					<c:set var="four" value="0"/>
+					<c:set var="three" value="0"/>
+					<c:set var="two" value="0"/>
+					<c:set var="one" value="0"/>					
+					
+					<c:set var="fiveCNT" value="0"/>
+					<c:set var="fourCNT" value="0"/>
+					<c:set var="threeCNT" value="0"/>
+					<c:set var="twoCNT" value="0"/>
+					<c:set var="oneCNT" value="0"/>
+					
+					<c:forEach items="${barmap}" var="barmap">
+						<c:if test="${barmap.LECTURE_REVIEW_SCORE eq 5}">
+							<c:set var="five" value="${barmap.BARAVG}"/>
+							<c:set var="fiveCNT" value="${barmap.BARCNT}"/>
+						</c:if>
+						<c:if test="${barmap.LECTURE_REVIEW_SCORE eq 4}">
+							<c:set var="four" value="${barmap.BARAVG}"/>
+							<c:set var="fourCNT" value="${barmap.BARCNT}"/>
+						</c:if>
+						<c:if test="${barmap.LECTURE_REVIEW_SCORE eq 3}">
+							<c:set var="three" value="${barmap.BARAVG}"/>
+							<c:set var="threeCNT" value="${barmap.BARCNT}"/>
+						</c:if>
+						<c:if test="${barmap.LECTURE_REVIEW_SCORE eq 2}">
+							<c:set var="two" value="${barmap.BARAVG}"/>
+							<c:set var="twoCNT" value="${barmap.BARCNT}"/>
+						</c:if>
+						<c:if test="${barmap.LECTURE_REVIEW_SCORE eq 1}">
+							<c:set var="one" value="${barmap.BARAVG}"/>
+							<c:set var="oneCNT" value="${barmap.BARCNT}"/>
+						</c:if>												
+					</c:forEach>
+				
                   <div class="row">
+                  
                      <div class="side">
                         <div>
                            <h3>
@@ -310,11 +382,11 @@ body {
                      </div>
                      <div class="middle">
                         <div class="bar-container">
-                           <div class="bar-5"></div>
+                           <div class="bar-${five}"></div>
                         </div>
                      </div>
                      <div class="side right">
-                        <div>150</div>
+                        <div>${fiveCNT}</div>
                      </div>
                      <div class="side">
                         <div>
@@ -325,11 +397,11 @@ body {
                      </div>
                      <div class="middle">
                         <div class="bar-container">
-                           <div class="bar-4"></div>
+                           <div class="bar-${four}"></div>
                         </div>
                      </div>
                      <div class="side right">
-                        <div>63</div>
+                        <div>${fourCNT}</div>
                      </div>
                      <div class="side">
                         <div>
@@ -340,11 +412,11 @@ body {
                      </div>
                      <div class="middle">
                         <div class="bar-container">
-                           <div class="bar-3"></div>
+                           <div class="bar-${three}"></div>
                         </div>
                      </div>
                      <div class="side right">
-                        <div>15</div>
+                        <div>${threeCNT}</div>
                      </div>
                      <div class="side">
                         <div>
@@ -355,11 +427,11 @@ body {
                      </div>
                      <div class="middle">
                         <div class="bar-container">
-                           <div class="bar-2"></div>
+                           <div class="bar-${two}"></div>
                         </div>
                      </div>
                      <div class="side right">
-                        <div>6</div>
+                        <div>${twoCNT}</div>
                      </div>
                      <div class="side">
                         <div>
@@ -370,13 +442,16 @@ body {
                      </div>
                      <div class="middle">
                         <div class="bar-container">
-                           <div class="bar-1"></div>
+                           <div class="bar-${one}"></div>
                         </div>
                      </div>
                      <div class="side right">
-                        <div>20</div>
-                     </div>
+                        <div>${oneCNT}</div>
+                     </div>                     
                   </div>
+                  
+                  
+                  
                   <hr style="border: 3px solid #f1f1f1">
                   
                   <br /><br />

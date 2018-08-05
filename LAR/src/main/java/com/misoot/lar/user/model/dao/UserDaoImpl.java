@@ -167,6 +167,10 @@ public class UserDaoImpl implements LarDao<User> {
 	public int deletefromCart(Map<String, Object> delcartList) {
 		return sqlSession.delete("user.deletefromCart", delcartList);
 	}
+	
+	public int insertPurchaseList(Map<String, Object> addPurchaseList) {
+		return sqlSession.insert("user.insertPurchaseList", addPurchaseList);
+	}
 	/*
 	 * purchase end
 	 */
@@ -221,4 +225,5 @@ public class UserDaoImpl implements LarDao<User> {
 	public int addTocart(Map<String, Object> hmap) {
 		return sqlSession.insert("user.addTocart", hmap);
 	}
+
 }

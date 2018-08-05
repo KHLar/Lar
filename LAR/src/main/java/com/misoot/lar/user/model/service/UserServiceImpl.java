@@ -161,6 +161,10 @@ public class UserServiceImpl implements LarService<User> {
 	public int deletefromCart(Map<String, Object> delcartList) {
 		return ((UserDaoImpl)userDaoImpl).deletefromCart(delcartList);
 	}
+	
+	public int insertPurchaseList(Map<String, Object> addPurchaseList) {
+		return ((UserDaoImpl)userDaoImpl).insertPurchaseList(addPurchaseList);
+	}
 	/*
 	 * purchase end
 	 */
@@ -216,4 +220,5 @@ public class UserServiceImpl implements LarService<User> {
 	public int addTocart(Map<String, Object> hmap) {
 		return ((UserDaoImpl)userDaoImpl).addTocart(hmap);
 	}
+
 }

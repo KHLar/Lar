@@ -148,7 +148,7 @@ $(document).ready(function() {
 	 });
 	 
 	 $(".lectureUpdate").on("click", function(){
-		 var index = $(this).siblings('.index').val();
+		 var index = $(this).parent().siblings('.col-md-6').children('.index').val();
 		 location.href = "/lar/lectureUpdate?index="+index;
 	 });
 	 

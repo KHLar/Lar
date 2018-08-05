@@ -419,12 +419,14 @@ public class UserController {
 
 		delcartList.put("userIdx", user.getUser_index());
 		delcartList.put("cartList", ucList.get(2));
+		
+		Map<String, Object> addPurchaseList = new HashMap<String, Object>();
+		
+		addPurchaseList.put("lecIdx", ucList.get(2));
+		addPurchaseList.put("u_id", rsp2.get("merchant_uid"));
 
-		System.out.println(ucList);
-
-		if (((UserServiceImpl) userServiceImpl).insertPurchase(rsp) > 0) {
-			if (ucList.get(1).equals("") || ucList.get(1) == null
-					|| ((UserServiceImpl) userServiceImpl).deleteUserCoupon(ucList.get(1)) > 0) {
+		if (((UserServiceImpl) userServiceImpl).insertPurchase(rsp) > 0 && ((UserServiceImpl) userServiceImpl).insertPurchaseList(addPurchaseList) > 0) {
+			if (ucList.get(1).equals("") || ucList.get(1) == null || ((UserServiceImpl) userServiceImpl).deleteUserCoupon(ucList.get(1)) > 0) {
 				if (((UserServiceImpl) userServiceImpl).deletefromCart(delcartList) > 0) {
 					msg = (String) rsp2.get("merchant_uid");
 				}

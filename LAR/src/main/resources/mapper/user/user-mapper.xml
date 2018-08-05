@@ -189,7 +189,7 @@
    	</update>
    	
    	<select id="selectPurchase" parameterType="string" resultType="hashmap">
-   		SELECT * FROM TABLE_PURCHASE JOIN TABLE_COUPON ON(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX) WHERE MERCHANT_UID = #{msg}
+   		SELECT * FROM TABLE_PURCHASE LEFT JOIN TABLE_COUPON ON(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX) WHERE MERCHANT_UID = #{msg}
    	</select>
    	
    	<delete id="deletefromCart" parameterType="hashmap">
@@ -200,6 +200,12 @@
 		</foreach>
 		AND CART_USER_INDEX = #{userIdx}
    	</delete>	
+   	
+   	<insert id="insertPurchaseList" parameterType="hashmap">
+   		<foreach item="item" collection="lecIdx" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+			INTO TABLE_PURCHASE_LIST VALUES ( #{u_id}, #{item} )
+		</foreach>
+   	</insert>
    	
    	<select id="pwSearch" parameterType="String" resultType="String">
    		SELECT USER_PASSWORD FROM TABLE_USER WHERE USER_INDEX= #{userindex}

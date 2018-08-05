@@ -300,6 +300,12 @@
 	(select LECTURE_REVIEW_SCORE from TABLE_LECTURE_REVIEW where  LECTURE_REVIEW_INDEX=#{rindex})
 	where  TOTAL_LECTURE_INDEX =#{ index}
 	</update>
-		
+	
+	<select id="barList" parameterType="_int" resultType="hashmap">
+		select LECTURE_REVIEW_SCORE, trunc((count(*)/(select LECTURE_REVIEW_COUNT from TABLE_LECTURE_TOTAL_SCORE where TOTAL_LECTURE_INDEX = #{lecture_index}))*10) as baravg, count(*) barcnt 
+		from table_lecture_review
+		where LECTURE_IS_DELETED = 0 and LECTURE_REVIEW_LECTURE_INDEX = #{lecture_index}
+		group by LECTURE_REVIEW_SCORE
+	</select>	
 </mapper>
 

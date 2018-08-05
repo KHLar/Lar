@@ -26,16 +26,20 @@
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
 				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel1.png" style="height:480px;" alt="test1">
-				<div class="carousel-caption">img1</div>
 			</div>
 			<div class="item">
-				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel2.JPG" style="height:300px;" alt="test2">
-				전자정부프레임워크 개발자 대상 교육 실시
-				<div class="carousel-caption">img2</div>
+				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel2.png" style="height:300px;" alt="test2">
+				<div class="carousel-caption d-none d-md-block">
+					<button type="button" class="btn btn-default" style="width:30%; background-color: #ffffff; background-color: rgba( 255, 255, 255, 0.5 ); margin-left: 70%" 
+        			onclick="location.href='http://estudy.kitri.re.kr/usrs/eduRegMgnt/eduRegInfoDetailForm.do?p_crscd=434&p_crsseq_id=300&p_view_type=&CRSCD=&CRSSEQ_ID=300&p_ctgrycd=&p_hmpgcd=32&mkey=47675&p_srch_year=2018'">신청하기</button>
+				</div>
 			</div>
 			<div class="item">
-				<img class="slide" src="" alt="test2">
-				<div class="carousel-caption">img3</div>
+				<img class="slide" src="/lar/resources/uploadFiles/carousel/carousel3.JPG" alt="test2">
+				<div class="carousel-caption d-none d-md-block" style="margin-left: 35%; margin-bottom: 150px;">
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="getModal('signup');" style="width: 150px; height: 70px; margin-right: 10px;">회원가입</button>
+					<button type="button" class="btn btn-default" onclick="location.href='/lar/lecture/regist'" style="width: 150px; height: 70px;">강의등록 신청</button>
+				</div>
 			</div>
 		</div>
 
@@ -57,7 +61,7 @@
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10">
 			<div class="row">
-				<div class="main-newlecture" style="margin-bottom: 10px;">
+				<div class="main-newlecture" style="margin-bottom: 50px;">
 					<h3>신규 강좌</h3>
 					<div class="row">
 						<c:forEach items="${recent_lecture_list}" var="rec">
@@ -99,7 +103,10 @@
 						</c:forEach>
 					</div>
 				</div>
-				<div class="main-recommandlecture">
+				
+				<hr>
+				
+				<div class="main-recommandlecture" style="margin-top: 50px;">
 					<h3>추천 강좌</h3>
 					추후 추가예정
 				</div>

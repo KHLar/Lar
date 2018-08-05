@@ -224,6 +224,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.update("lecture.deleteStar",hmap);
 	}
 
+	public List<Map<String, Object>> barList(int lecture_index) {
+		return sqlSession.selectList("lecture.barList", lecture_index);
+	}
+
 	
 
 	
