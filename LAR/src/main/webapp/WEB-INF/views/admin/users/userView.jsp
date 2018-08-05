@@ -134,10 +134,17 @@
 							</td>
 						</tr>
 						<tr>
-							<td><label class="control-label">결제 내역</label></td>
-							<td>총 ${payment_count}건(총 ${payment_amount}원)</td>
+							<td><label class="control-label">쿠폰 내역</label></td>
+							<td>총 ${coupon_count}개(미사용 : ${unused_coupon_count}개)</td>
 							<td>
-								<button type="button" class="btn btn-default" onclick="$('#user_try_signin_count').val(0);">View</button>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'coupon', 1)">View</a>
+							</td>
+						</tr>
+						<tr>
+							<td><label class="control-label">결제 내역</label></td>
+							<td>총 ${total_purchase_count}건(총 ${total_purchase_amount}원)</td>
+							<td>
+								<a class="btn btn-default" data-toggle="modal" data-target=".dynamicModal" onclick="adminUsersListModal('${view_user.user_index}', 'purchase', 1)">View</a>
 							</td>
 						</tr>
 						<tr>

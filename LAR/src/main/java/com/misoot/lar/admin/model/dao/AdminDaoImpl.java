@@ -51,8 +51,8 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectList("admin.selectUserList", user_level, rowBounds);
 	}
 
-	public int selectUserCount(int user_level) {
-		return sqlSession.selectOne("admin.selectUserCount", user_level);
+	public int getSelectUserListCount(int user_level) {
+		return sqlSession.selectOne("admin.getSelectUserListCount", user_level);
 	}
 
 	public User selectUser(int user_index) {
@@ -67,52 +67,68 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectList("admin.selectCommuListByUserIndex", user_index, rowBounds);
 	}
 	
-	public int selectCommuListCountByUserIndex(int user_index) {
-		return sqlSession.selectOne("admin.selectCommuListCountByUserIndex", user_index);
+	public int getSelectCommuListCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getSelectCommuListCountByUserIndex", user_index);
 	}
 	
 	public List<Commu> searchCommuListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.searchCommuListByUserIndex", searchMap, rowBounds);
 	}
 
-	public int searchCommuListCountByUserIndex(Map<String, Object> searchMap) {
-		return sqlSession.selectOne("admin.searchCommuListCountByUserIndex", searchMap);
+	public int getSearchCommuListCountByUserIndex(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.getSearchCommuListCountByUserIndex", searchMap);
 	}
 	
 	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectCommuReplyListByUserIndex", user_index, rowBounds);
 	}
 	
-	public int selectCommuReplyListCountByUserIndex(int user_index) {
-		return sqlSession.selectOne("admin.selectCommuReplyListCountByUserIndex", user_index);
+	public int getSelectCommuReplyListCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getSelectCommuReplyListCountByUserIndex", user_index);
 	}
 	
 	public List<CommuReply> searchCommuReplyListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.searchCommuReplyListByUserIndex", searchMap, rowBounds);
 	}
 
-	public int searchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
-		return sqlSession.selectOne("admin.searchCommuReplyListCountByUserIndex", searchMap);
+	public int getSearchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.getSearchCommuReplyListCountByUserIndex", searchMap);
 	}
 	
-	public List<Purchase> getPaymentListByUserIndex(int user_index) {
-		return sqlSession.selectList("admin.getPaymentListByUserIndex", user_index);
-	}
-	
-	public int getPaymentCountByUserIndex(int user_index) {
-		return sqlSession.selectOne("admin.getPaymentCountByUserIndex", user_index);
+	public int getTotalPurchaseCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getTotalPurchaseCountByUserIndex", user_index);
 	}
 
-	public int getPaymentAmountByUserIndex(int user_index) {
-		return sqlSession.selectOne("admin.getPaymentAmountByUserIndex", user_index);
+	public int getTotalPurchaseAmountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getTotalPurchaseAmountByUserIndex", user_index);
+	}
+	
+	public List<Purchase> selectPurchaseListByUserIndex(int user_index, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectPurchaseListByUserIndex", user_index, rowBounds);
+	}
+	
+	public int getSelectPurchaseListCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getSelectPurchaseListCountByUserIndex", user_index);
+	}
+	
+	public List<Map<String, String>> selectCouponListByUserIndex(int user_index, RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCouponListByUserIndex", user_index, rowBounds);
+	}
+	
+	public int getSelectCouponListCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getSelectCouponListCountByUserIndex", user_index);
+	}
+	
+	public int getSelectUnusedCouponListCountByUserIndex(int user_index) {
+		return sqlSession.selectOne("admin.getSelectUnusedCouponListCountByUserIndex", user_index);
 	}
 	
 	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.searchUserList", searchMap, rowBounds);
 	}
 
-	public int searchUserListCount(Map<String, Object> searchMap) {
-		return sqlSession.selectOne("admin.searchUserListCount", searchMap);
+	public int getSearchUserListCount(Map<String, Object> searchMap) {
+		return sqlSession.selectOne("admin.getSearchUserListCount", searchMap);
 	}
 	
 	/*
@@ -131,16 +147,16 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectList("admin.selectCommuList", category, rowBounds);
 	}
 	
-	public int selectCommuListCount(String category) {
-		return sqlSession.selectOne("admin.selectCommuListCount", category);
+	public int getSelectCommuListCount(String category) {
+		return sqlSession.selectOne("admin.getSelectCommuListCount", category);
 	}
 	
 	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.searchCommuList", searchMap, rowBounds);
 	}
 	
-	public int searchCommuListCount(Map<String, String> searchMap) {
-		return sqlSession.selectOne("admin.searchCommuListCount", searchMap);
+	public int getSearchCommuListCount(Map<String, String> searchMap) {
+		return sqlSession.selectOne("admin.getSearchCommuListCount", searchMap);
 	}
 
 	public int deleteCommuByCommuIndex(int target_index) {

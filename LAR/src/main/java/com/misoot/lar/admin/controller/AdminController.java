@@ -26,6 +26,7 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
 @Controller
@@ -65,7 +66,7 @@ public class AdminController {
 		
 		if (user_list.size() < 1 && page != 1) return "redirect:/admin/users/list/1"; 
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectUserCount(session_user.getUser_level());
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectUserListCount(session_user.getUser_level());
 
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 
@@ -77,16 +78,20 @@ public class AdminController {
 	@RequestMapping(value="/users/view/{user_index}")
 	public String user_view(Model model, @PathVariable("user_index") int user_index) {
 		User view_user = ((AdminServiceImpl) adminServiceImpl).selectUser(user_index);
-		int commuList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCountByUserIndex(user_index);
+		int commuList_count = ((AdminServiceImpl) adminServiceImpl).getSelectCommuListCountByUserIndex(user_index);
 		int commuReplyList_count = ((AdminServiceImpl) adminServiceImpl).selectCommuReplyListCountByUserIndex(user_index);
-		int payment_count = ((AdminServiceImpl) adminServiceImpl).getPaymentCountByUserIndex(user_index);
-		int payment_amount = ((AdminServiceImpl) adminServiceImpl).getPaymentAmountByUserIndex(user_index);
+		int total_purchase_count = ((AdminServiceImpl) adminServiceImpl).getTotalPurchaseCountByUserIndex(user_index);
+		int total_purchase_amount = ((AdminServiceImpl) adminServiceImpl).getTotalPurchaseAmountByUserIndex(user_index);
+		int coupon_count = ((AdminServiceImpl) adminServiceImpl).getSelectCouponListCountByUserIndex(user_index);
+		int unused_coupon_count = ((AdminServiceImpl) adminServiceImpl).getSelectUnusedCouponListCountByUserIndex(user_index);
 		
 		model.addAttribute("view_user", view_user)
+			.addAttribute("coupon_count", coupon_count)
+			.addAttribute("unused_coupon_count", unused_coupon_count)
+			.addAttribute("total_purchase_count", total_purchase_count)
+			.addAttribute("total_purchase_amount", total_purchase_amount)
 			.addAttribute("commuList_count", commuList_count)
-			.addAttribute("commuReplyList_count", commuReplyList_count)
-			.addAttribute("payment_count", payment_count)
-			.addAttribute("payment_amount", payment_amount);
+			.addAttribute("commuReplyList_count", commuReplyList_count);
 			
 		return "admin/users/userView";
 	}
@@ -121,7 +126,7 @@ public class AdminController {
 		
 		if (user_list.size() < 1 && page != 1) return "redirect:/admin/users/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchUserListCount(searchMap); 
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSearchUserListCount(searchMap); 
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
@@ -171,7 +176,7 @@ public class AdminController {
 		
 		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/list/1";
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCount(category);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectCommuListCount(category);
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
@@ -191,6 +196,33 @@ public class AdminController {
 			.addAttribute("view_commu_reply", reply_list);
 		
 		return "admin/commu/commuView";
+	}
+	
+	@RequestMapping(value="/commu/delete/{commu_index}")
+	public String commu_Delete(Model model, @PathVariable("commu_index") int commu_index) {
+		Commu commu = ((AdminServiceImpl)adminServiceImpl).selectCommuByCommuIndex(commu_index);
+		
+		if (commu.getCommu_Is_Deleted() == 1) {
+			String message = "이미 삭제된 게시글이라 삭제할 수 없습니다.";
+			String href = "admin/commu/list/1";
+			String location = "common/_message";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		int result = ((AdminServiceImpl)adminServiceImpl).deleteCommuByCommuIndex(commu_index);
+		
+		if (result < 1) {
+			String message = "알 수 없는 오류로 게시글 삭제에 실패했습니다.";
+			String href = "admin/commu/view/"+commu_index;
+			String location = "common/_message";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		return "redirect:/admin/commu/trash/view/"+commu_index;
 	}
 	
 	@RequestMapping(value="/commu/trash/view/{commu_index}")
@@ -221,7 +253,7 @@ public class AdminController {
 		
 		int result = ((AdminServiceImpl)adminServiceImpl).restoreCommuByCommuIndex(commu_index);
 		
-		if (result > 0) {
+		if (result < 1) {
 			String message = "알 수 없는 오류로 게시글 복원에 실패했습니다.";
 			String href = "admin/commu/trash/view/"+commu_index;
 			String location = "common/_message";
@@ -257,7 +289,7 @@ public class AdminController {
 		
 		if (commu_list.size() < 1 && page != 1) return "redirect:/admin/commu/"+category+"/search/"+filter+"/"+URLEncoder.encode(text,"UTF-8")+"/list/1";
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuListCount(searchMap); 
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSearchCommuListCount(searchMap); 
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
@@ -333,10 +365,54 @@ public class AdminController {
 		}
 	}
 	
-	@RequestMapping(value="/users/view/{user_index}/modal/payment/list/{page}")
-	public String modal_paymentListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+	@RequestMapping(value="/users/view/{user_index}/modal/coupon/list/{page}")
+	public String modal_couponListByUserIndex(Model model, @PathVariable("user_index") int user_index,
 												@PathVariable("page") int page) {
-		return "";
+		int content_per_page = 20;
+		int paging_count = 10;
+		
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		List<Map<String, String>> coupon_list = ((AdminServiceImpl) adminServiceImpl).selectCouponListByUserIndex(user_index, rowBounds);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectCouponListCountByUserIndex(user_index);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("coupon_list", coupon_list)
+			.addAttribute("pi", pi)
+			.addAttribute("user_index", user_index);
+		
+		return "admin/modal/_couponListByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/purchase/list/{page}")
+	public String modal_purchaseListByUserIndex(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+		
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		List<Purchase> purchase_list = ((AdminServiceImpl) adminServiceImpl).selectPurchaseList(user_index, rowBounds);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectPurchaseListCountByUserIndex(user_index);
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("purchase_list", purchase_list)
+			.addAttribute("pi", pi)
+			.addAttribute("user_index", user_index);
+		
+		return "admin/modal/_purchaseListByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/purchase/view/{target_index}/{pre_list}/{pre_page}")
+	public String modal_purchaseView(Model model, @PathVariable("user_index") int user_index,
+												@PathVariable("target_index") int target_index,
+												@PathVariable("pre_list") String pre_list,
+												@PathVariable("pre_page") int pre_page) {
+		
+		
+		
+		
+		return "admin/modal/_purchaseView";
 	}
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/commu/list/{page}")
@@ -348,11 +424,13 @@ public class AdminController {
 		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
 		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).selectCommuListByUserIndex(user_index, rowBounds);
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).selectCommuListCountByUserIndex(user_index);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectCommuListCountByUserIndex(user_index);
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
-		model.addAttribute("commu_list", commu_list).addAttribute("pi", pi).addAttribute("user_index", user_index);
+		model.addAttribute("commu_list", commu_list)
+			.addAttribute("pi", pi)
+			.addAttribute("user_index", user_index);
 		
 		return "admin/modal/_commuListByUserIndex";
 	}
@@ -414,7 +492,7 @@ public class AdminController {
 		
 		List<Commu> commu_list = ((AdminServiceImpl) adminServiceImpl).searchCommuListByUserIndex(searchMap, rowBounds);
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuListCountByUserIndex(searchMap);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSearchCommuListCountByUserIndex(searchMap);
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		
@@ -445,7 +523,7 @@ public class AdminController {
 		
 		List<CommuReply> commuReply_list = ((AdminServiceImpl) adminServiceImpl).searchCommuReplyListByUserIndex(searchMap, rowBounds);;
 		
-		int max_list_count = ((AdminServiceImpl) adminServiceImpl).searchCommuReplyListCountByUserIndex(searchMap);
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSearchCommuReplyListCountByUserIndex(searchMap);
 		
 		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
 		

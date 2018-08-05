@@ -16,9 +16,7 @@
 %>
 
 <script>
-	
 	var current_path = window.location.href;
-	console.log(current_path);
 	var path_arr = current_path.split("/");
 	$(function() {
 		if (current_path.includes('search')) {

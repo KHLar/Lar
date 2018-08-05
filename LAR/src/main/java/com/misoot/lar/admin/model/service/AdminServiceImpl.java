@@ -61,8 +61,8 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).selectUser(user_index);
 	}
 
-	public int selectUserCount(int user_level) {
-		return ((AdminDaoImpl)adminDaoImpl).selectUserCount(user_level);
+	public int getSelectUserListCount(int user_level) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectUserListCount(user_level);
 	}
 	
 	public int modifyUserByAdmin(User user) {
@@ -73,16 +73,16 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuListByUserIndex(user_index, rowBounds);
 	}
 	
-	public int selectCommuListCountByUserIndex(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuListCountByUserIndex(user_index);
+	public int getSelectCommuListCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCommuListCountByUserIndex(user_index);
 	}
 	
 	public List<Commu> searchCommuListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuListByUserIndex(searchMap, rowBounds);
 	}
 	
-	public int searchCommuListCountByUserIndex(Map<String, Object> searchMap) {
-		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCountByUserIndex(searchMap);
+	public int getSearchCommuListCountByUserIndex(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).getSearchCommuListCountByUserIndex(searchMap);
 	}
 	
 	public List<CommuReply> selectCommuReplyListByUserIndex(int user_index, RowBounds rowBounds) {
@@ -90,35 +90,51 @@ public class AdminServiceImpl implements LarService<Admin> {
 	}
 	
 	public int selectCommuReplyListCountByUserIndex(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyListCountByUserIndex(user_index);
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCommuReplyListCountByUserIndex(user_index);
 	}
 	
 	public List<CommuReply> searchCommuReplyListByUserIndex(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuReplyListByUserIndex(searchMap, rowBounds);
 	}
 	
-	public int searchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
-		return ((AdminDaoImpl)adminDaoImpl).searchCommuReplyListCountByUserIndex(searchMap);
+	public int getSearchCommuReplyListCountByUserIndex(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).getSearchCommuReplyListCountByUserIndex(searchMap);
 	}
 	
-	public List<Purchase> getPmentList(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).getPaymentListByUserIndex(user_index);
+	public int getTotalPurchaseCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getTotalPurchaseCountByUserIndex(user_index);
 	}
 	
-	public int getPaymentCountByUserIndex(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).getPaymentCountByUserIndex(user_index);
+	public int getTotalPurchaseAmountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getTotalPurchaseAmountByUserIndex(user_index);
 	}
 	
-	public int getPaymentAmountByUserIndex(int user_index) {
-		return ((AdminDaoImpl)adminDaoImpl).getPaymentAmountByUserIndex(user_index);
+	public List<Purchase> selectPurchaseList(int user_index, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectPurchaseListByUserIndex(user_index, rowBounds);
+	}
+	
+	public int getSelectPurchaseListCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectPurchaseListCountByUserIndex(user_index);
+	}
+	
+	public List<Map<String, String>> selectCouponListByUserIndex(int user_index, RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCouponListByUserIndex(user_index, rowBounds);
+	}
+	
+	public int getSelectCouponListCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCouponListCountByUserIndex(user_index);
+	}
+	
+	public int getSelectUnusedCouponListCountByUserIndex(int user_index) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectUnusedCouponListCountByUserIndex(user_index);
 	}
 	
 	public List<User> searchUserList(Map<String, Object> searchMap, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).searchUserList(searchMap, rowBounds);
 	}
 
-	public int searchUserListCount(Map<String, Object> searchMap) {
-		return ((AdminDaoImpl)adminDaoImpl).searchUserListCount(searchMap);
+	public int getSearchUserListCount(Map<String, Object> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).getSearchUserListCount(searchMap);
 	}
 	
 	/*
@@ -142,16 +158,16 @@ public class AdminServiceImpl implements LarService<Admin> {
 		return ((AdminDaoImpl)adminDaoImpl).selectCommuList(category, rowBounds);
 	}
 	
-	public int selectCommuListCount(String category) {
-		return ((AdminDaoImpl)adminDaoImpl).selectCommuListCount(category);
+	public int getSelectCommuListCount(String category) {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCommuListCount(category);
 	}
 	
 	public List<Commu> searchCommuList(Map<String, String> searchMap, RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).searchCommuList(searchMap, rowBounds);
 	}
 	
-	public int searchCommuListCount(Map<String, String> searchMap) {
-		return ((AdminDaoImpl)adminDaoImpl).searchCommuListCount(searchMap);
+	public int getSearchCommuListCount(Map<String, String> searchMap) {
+		return ((AdminDaoImpl)adminDaoImpl).getSearchCommuListCount(searchMap);
 	}
 	
 	public int deleteCommuByCommuIndex(int target_index) {
@@ -173,6 +189,4 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int getCommuIndexByCommuReplyIndex(int target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).getCommuIndexByCommuReplyIndex(target_index);
 	}
-
-	
 }
