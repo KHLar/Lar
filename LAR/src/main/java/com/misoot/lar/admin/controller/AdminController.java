@@ -45,11 +45,6 @@ public class AdminController {
 		return "admin/charts";
 	}
 	
-	@RequestMapping(value= "/tables")
-	public String tables(Model model) {
-		return "admin/tables";
-	}
-	
 	/*
 	 * Admin Users area start 
 	 */
@@ -236,6 +231,68 @@ public class AdminController {
 			.addAttribute("view_commu_reply", reply_list);
 		
 		return "admin/commu/commuTrashView";
+	}
+	
+	@RequestMapping(value="/commuReply/delete/{commuReply_index}")
+	public String commuReply_Delete(Model model, @PathVariable("commuReply_index") int commuReply_index) {
+		CommuReply commuReply = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		System.out.println(commuReply);
+		
+		String message = "";
+		String href = "admin/commu/view/"+commuReply.getCommu_Reply_Commu_Index();
+		String location = "common/_message";
+		
+		if (commuReply.getCommu_Reply_Is_Deleted() == 1) {
+			message = "이미 삭제된 댓글이라 삭제할 수 없습니다.";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		int result = ((AdminServiceImpl)adminServiceImpl).deleteCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		if (result < 1) {
+			message = "알 수 없는 오류로 댓글 삭제에 실패했습니다.";
+			
+		} else {
+			message = "댓글 삭제에 성공했습니다.";
+		}
+		
+		model.addAttribute("message", message).addAttribute("href", href);
+		
+		return location;
+	}
+	
+	@RequestMapping(value="/commuReply/restore/{commuReply_index}")
+	public String commuReply_Restore(Model model, @PathVariable("commuReply_index") int commuReply_index) {
+		CommuReply commuReply = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		System.out.println(commuReply);
+		
+		String message = "";
+		String href = "admin/commu/view/"+commuReply.getCommu_Reply_Commu_Index();
+		String location = "common/_message";
+		
+		if (commuReply.getCommu_Reply_Is_Deleted() == 0) {
+			message = "삭제되지 않은 댓글이라 복원할 수 없습니다.";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		int result = ((AdminServiceImpl)adminServiceImpl).restoreCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		if (result < 1) {
+			message = "알 수 없는 오류로 댓글 복원에 실패했습니다.";
+			
+		} else {
+			message = "댓글 복원에 성공했습니다.";
+		}
+		
+		model.addAttribute("message", message).addAttribute("href", href);
+		
+		return location;
 	}
 	
 	@RequestMapping(value="/commu/trash/restore/{commu_index}")
@@ -551,7 +608,7 @@ public class AdminController {
 			return "redirect:/admin/users/view/" + user_index + "/modal/commu/view/" + target_index + "/"
 					+ pre_list + "/" + pre_page;
 		} else if (list.equals("commuReply")) {
-			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuReplyByCommuIndex(target_index);
+			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuReplyByCommuReplyIndex(target_index);
 			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
 			if (filter != null) {
 				redirectAttributes.addFlashAttribute("filter", filter);
@@ -579,7 +636,7 @@ public class AdminController {
 			return "redirect:/admin/users/view/" + user_index + "/modal/" + list + "/view/" + target_index + "/"
 					+ pre_list + "/" + pre_page;
 		} else if (list.equals("commuReply")) {
-			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuReplyByCommuIndex(target_index);
+			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuReplyByCommuReplyIndex(target_index);
 			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
 			if (filter != null) {
 				redirectAttributes.addFlashAttribute("filter", filter);

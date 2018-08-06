@@ -177,13 +177,17 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int restoreCommuByCommuIndex(int target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).restoreCommuByCommuIndex(target_index);
 	}
-
-	public int deleteCommuReplyByCommuIndex(int target_index) {
-		return ((AdminDaoImpl)adminDaoImpl).deleteCommuReplyByCommuIndex(target_index);
+	
+	public CommuReply selectCommuReplyByCommuReplyIndex(int commuReply_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
 	}
 
-	public int restoreCommuReplyByCommuIndex(int target_index) {
-		return ((AdminDaoImpl)adminDaoImpl).restoreCommuReplyByCommuIndex(target_index);
+	public int deleteCommuReplyByCommuReplyIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).deleteCommuReplyByCommuReplyIndex(target_index);
+	}
+
+	public int restoreCommuReplyByCommuReplyIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).restoreCommuReplyByCommuReplyIndex(target_index);
 	}
 
 	public int getCommuIndexByCommuReplyIndex(int target_index) {

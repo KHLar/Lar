@@ -166,13 +166,17 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int restoreCommuByCommuIndex(int target_index) {
 		return sqlSession.update("admin.restoreCommuByCommuIndex", target_index);
 	}
-
-	public int deleteCommuReplyByCommuIndex(int target_index) {
-		return sqlSession.update("admin.deleteCommuReplyByCommuIndex", target_index);
+	
+	public CommuReply selectCommuReplyByCommuReplyIndex(int commuReply_index) {
+		return sqlSession.selectOne("admin.selectCommuReplyByCommuReplyIndex", commuReply_index);
 	}
 
-	public int restoreCommuReplyByCommuIndex(int target_index) {
-		return sqlSession.update("admin.restoreCommuReplyByCommuIndex", target_index);
+	public int deleteCommuReplyByCommuReplyIndex(int target_index) {
+		return sqlSession.update("admin.deleteCommuReplyByCommuReplyIndex", target_index);
+	}
+
+	public int restoreCommuReplyByCommuReplyIndex(int target_index) {
+		return sqlSession.update("admin.restoreCommuReplyByCommuReplyIndex", target_index);
 	}
 
 	public int getCommuIndexByCommuReplyIndex(int target_index) {
