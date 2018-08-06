@@ -176,7 +176,7 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	// 추천강의
 	public List<Lecture> recomandedList(Map<String, String> keyword) {
-		RowBounds rows = new RowBounds(0, 7);
+		RowBounds rows = new RowBounds(0, 8);
 		return sqlSession.selectList("lecture.recomandedList", keyword, rows);
 	}
 
@@ -222,6 +222,10 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 
 	public int deleteStar(Map<String, Integer> hmap) {
 		return sqlSession.update("lecture.deleteStar",hmap);
+	}
+
+	public List<Map<String, Object>> barList(int lecture_index) {
+		return sqlSession.selectList("lecture.barList", lecture_index);
 	}
 
 	

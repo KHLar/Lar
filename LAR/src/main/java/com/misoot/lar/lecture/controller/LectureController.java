@@ -283,6 +283,12 @@ public class LectureController {
 				}
 			}
 		}
+		
+		//bar
+		List<Map<String, Object>> barmap = ((LectureServiceImpl)LectureServiceImpl).barList(lecture_index);
+		
+		//bar
+		
 		// QnA		
 		int numPerPage = 10;
 		
@@ -335,7 +341,8 @@ public class LectureController {
 		addAttribute("lectureTotalScore",lectureTotalScore).addAttribute("rlist", rlist).
 		addAttribute("qlist", qlist).addAttribute("numPerPage", numPerPage).
 		addAttribute("totalContents", totalContents)
-		.addAttribute("chk",chk).addAttribute("applyCount",applyCount);
+		.addAttribute("chk",chk).addAttribute("applyCount",applyCount)
+		.addAttribute("barmap", barmap);
 		
 		return "lecture/lectureDetail";
 	}

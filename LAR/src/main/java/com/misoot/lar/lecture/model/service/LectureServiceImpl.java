@@ -258,9 +258,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl)lectureDaoImpl).deleteStar(hmap);
 	}
 
-	
-
-	
-
+	public List<Map<String, Object>> barList(int lecture_index) {
+		return ((LectureDaoImpl)lectureDaoImpl).barList(lecture_index);
+	}
 }
 

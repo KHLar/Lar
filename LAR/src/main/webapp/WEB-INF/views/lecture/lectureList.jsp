@@ -109,11 +109,6 @@ function lecValidate() {
 	}
 	return true;
 }
-
-$(document).on('click','#Detail',function(){
-	localStorage['tab'] = 0;
-	localStorage['panel'] = 0;
-});
 </script>
 
 <div class="container">
@@ -122,19 +117,34 @@ $(document).on('click','#Detail',function(){
 			<ul class="list-group">
 				<li class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
-					<a>메뉴</a> <span class="navbar-toggler-icon"></span>
+					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
 				</li>
 
 				<div id="cool1">
 					<div data-toggle="collapse" data-target="#cool1"
-						aria-expanded="false">
-					
+						aria-expanded="ture">				
+				<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L04">php</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
-					
+						</c:if>
+						<c:if test="${category eq 'mtotal' or category eq 'L06'or category eq 'L07' or category eq 'L08' or category eq 'L09' or category eq 'L10'}">
+						
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L06">Swift</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L07">FireBase</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L08">Android Studio</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L09">Raspberries</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L10">Hybrid</a></li>
+						</c:if>
+						<c:if test="${category eq 'dtotal' or category eq 'L11'or category eq 'L12' or category eq 'L13' or category eq 'L14'}">
+						
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L11">Oracle</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L12">Mysql</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
+						</c:if>
 					</div>
 				</div>
 			</ul>
@@ -156,16 +166,14 @@ $(document).on('click','#Detail',function(){
 				<c:forEach items="${lList}" var="lList">
 				<div class="row">
 					<div class="col-md-3">
-						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
+						<a class="resetTab" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}">
 						<img class="img-fluid rounded mb-3 mb-md-1" src="${lList.lecture_thumbnail}" alt="">
 						</a>
-					</div>
-					<div class="col-md-6">
-						
-						
+					</div>				
+					<div class="col-md-6">				
 						<input class="index" type="hidden" value="${lList.lecture_index}">
-						<a class="" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><h3>${lList.lecture_title} </h3></a>
-						<c:if test="${lList.lecture_total_score == 0}">
+						<a class="resetTab" id="Detail" href="${pageContext.request.contextPath}/lecture/lectureDetail?lecture_index=${lList.lecture_index}"><h3>${lList.lecture_title} </h3></a>
+						<c:if test="${lList.lecture_total_score <= 0}">
           				  <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
 				          <span class="fa fa-star "></span>
@@ -219,19 +227,26 @@ $(document).on('click','#Detail',function(){
 							<p><c:out value="${lList.lecture_intro }"/></p>
 							</c:otherwise> 
 							</c:choose>
-						
-
+															
+					</div>
+					<div class="col-md-3">
+						<h4 class="pull-right">
+							<c:if test="${lList.lecture_price == 0}">
+								Free
+							</c:if>
+							<c:if test="${lList.lecture_price > 0}">
+								￦${lList.lecture_price}
+							</c:if>
+						</h4>
 						<c:if test="${ (rsession_user.user_index  != null or lList.lecture_instructor_index eq session_user.user_index) or session_user.user_level >1000 or session_user.user_type eq 'admin'  }">
-						<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
+							<button type="button" class="btn btn-warning pull-right lectureUpdate">수정하기</button>
 						</c:if>
-						<h4 class="pull-right">${lList.lecture_price }원</h4>
 					</div>
 				</div>
 				<hr>
 				</c:forEach>
 			
 			
-				<!-- Pagination -->
 				
 	<% 
       int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
