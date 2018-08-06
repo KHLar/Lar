@@ -144,6 +144,5 @@ public class InquireController {
 		int result = ((InquireServiceImpl) larService).deleteContent(no);
 		
 		return result;
-	}
-	
+	}	
 }

@@ -4,15 +4,17 @@ import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Inquire implements java.io.Serializable{
-	
+public class Inquire implements java.io.Serializable {
+
 	private static final long serialVersionUID = 9968L;
 
 	private int inquire_no;
-	private String inquire_sender_index, inquire_receiver_index, inquire_content, inquire_attach_originfilename, inquire_attach_renamedfilename;
+	private String inquire_sender_index, inquire_receiver_index, inquire_content, inquire_attach_originfilename,
+			inquire_attach_renamedfilename;
 	private Date inquire_sendDate; // 작성일
 
-	public Inquire() {}
+	public Inquire() {
+	}
 
 	public Inquire(int inquire_no, String inquire_sender_index, String inquire_receiver_index, String inquire_content,
 			String inquire_attach_originfilename, String inquire_attach_renamedfilename, Date inquire_sendDate) {
@@ -90,8 +92,4 @@ public class Inquire implements java.io.Serializable{
 				+ ", inquire_attach_renamedfilename=" + inquire_attach_renamedfilename + ", inquire_sendDate="
 				+ inquire_sendDate + "]";
 	}
-
-
 }
-
-

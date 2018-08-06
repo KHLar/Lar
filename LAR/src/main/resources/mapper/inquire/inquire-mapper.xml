@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="inquire">
-
-	<!-- <resultMap type="exam" id="Inquire">
-		<result column="INQUIRE_CONTENT" property="content" typeHandler="strArrTypeHandler"/>
-	</resultMap> -->
-
 	<select id="selectUserInquireList" parameterType="_int" resultType="hashmap">
 		select * from TABLE_INQUIRE WHERE INQUIRE_SENDER_INDEX = #{inquire_sender_index} AND INQUIRE_IS_DELETED = 0 OR INQUIRE_RECEIVER_INDEX = #{inquire_sender_index} order by INQUIRE_SENDDATE ASC
 	</select>
