@@ -148,10 +148,18 @@
 					style="margin-left: 10px; border-bottom: 0; box-shadow: 0;">
 					<div class="panel-body">
 						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<c:if test="${session_user.user_thumbnail ne null}">
 							<img
-								src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
+								src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}"
 								id="profile-image1" class="img-circle img-responsive"
-								alt="User Pic" style="width: 613px; height: 233px">
+								alt="User Pic" style="width: 250px; height: 200px"/>
+						</c:if>
+						<c:if test="${session_user.user_thumbnail eq null}">
+							<img
+								src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/defaultThumbnail.png"
+								id="profile-image1" class="img-circle img-responsive"
+								alt="User Pic" style="width: 250px; height: 200px"/>
+						</c:if>
 						</div>
 						<div class="col-md-9 col-xs-12 col-sm-8 col-lg-9">
 							<div class="wrapprofile">

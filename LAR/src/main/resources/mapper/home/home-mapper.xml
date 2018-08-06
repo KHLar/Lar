@@ -23,4 +23,43 @@
 		select * from TABLE_LECTURE order by LECTURE_UPLOAD_DATE desc
 	</select>
 	
+	<select id="userRecomandedList" parameterType="hashmap" resultType="lecture">
+	<choose>
+		<when test="user_index != 0 and wish_cnt != 0">
+			select * from (select * from (select * from (select * from (SELECT * FROM TABLE_LECTURE
+			WHERE LECTURE_CATEGORY_INDEX IN (select lecture_category_index
+	        from table_lecture_history
+	        join TABLE_LECTURE on(history_lecture_index = lecture_index)
+	        where history_user_index = #{user_index})
+	        AND LECTURE_INDEX NOT IN (select lecture_index
+	        from table_lecture_history
+	        join TABLE_LECTURE on(history_lecture_index = lecture_index)
+	        where history_user_index = #{user_index})
+	        )order by lecture_hits desc, lecture_upload_date desc)
+	        <![CDATA[  
+	        where rownum <= 20 
+	        ]]> )order by DBMS_RANDOM.value )    
+	        left join TABLE_WISH_LIST on(lecture_index = WISH_LECTURE_INDEX) 
+	        <![CDATA[ 
+	        where rownum <= 12
+	        ]]>
+        </when>
+		<otherwise>
+			SELECT * FROM 
+			(select * from(select * from( select * from (select * from table_lecture) 
+			order by lecture_hits desc, lecture_upload_date desc)
+			<![CDATA[  
+			where rownum <= 20
+			]]>
+			)order by DBMS_RANDOM.value) 
+			<![CDATA[ 
+			where rownum <= 12
+			]]>
+		</otherwise>
+	</choose>
+	</select>
+	
+	<select id="wishCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM TABLE_WISH_LIST WHERE WISH_USER_INDEX = #{user_index}
+	</select>
 </mapper>

@@ -148,7 +148,7 @@ ul {
                   </c:if>
                   <c:if test="${!empty session_user.user_thumbnail}">
                      <img
-                        src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}"
                         id="profile-image1" class="img-circle img-responsive"
                         alt="User Pic" style="width: 613px; height: 233px">
                   </c:if>
@@ -195,7 +195,7 @@ ul {
                   </c:if>
                   <c:if test="${!empty session_user.user_thumbnail}">
                      <img
-                        src="${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}"
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}"
                         id="profile-image1" class="img-circle img-responsive"
                         alt="User Pic" style="width: 613px; height: 233px">
                   </c:if>

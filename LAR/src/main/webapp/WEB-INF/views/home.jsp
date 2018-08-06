@@ -108,7 +108,45 @@
 				
 				<div class="main-recommandlecture" style="margin-top: 50px;">
 					<h3>추천 강좌</h3>
-					추후 추가예정
+					<div class="row">
+						<c:forEach items="${recomand_lecture_list}" var="userRec">
+							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
+								<div class="thumbnail container-fluid">
+									<a href="/lar/lecture/lectureDetail?lecture_index=${userRec.lecture_index}"><img src="${userRec.lecture_thumbnail}"></a>
+									<div class="caption">
+										<h4>
+											<a href="/lar/lecture/lectureDetail?lecture_index=${userRec.lecture_index}">											
+												<c:choose>
+												<c:when test="${fn:length(userRec.lecture_title) > 30}">
+													<p><c:out value="${fn:substring(userRec.lecture_title,0,29)}"/>....</p>
+												</c:when>
+												<c:otherwise>
+													<p><c:out value="${userRec.lecture_title}"/></p>
+												</c:otherwise> 
+												</c:choose>	
+											</a>
+										</h4>
+										<p>
+											<c:if test="${userRec.lecture_price eq 0}">
+												<span style="text-align: right">Free</span>
+											</c:if>
+											<c:if test="${userRec.lecture_price ne 0}">
+												<span style="text-align: right">￦${userRec.lecture_price}</span>
+												<a id="thumb-cart" class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span></a>&nbsp;&nbsp;&nbsp;
+											</c:if>
+											<c:if test="${userRec.wish_user_index eq null}">
+												<a id="thumb_empty_heart" class="pull-right"><span class="glyphicon glyphicon-heart-empty" style="color: tomato"></span></a>
+											</c:if>
+											<c:if test="${userRec.wish_user_index ne null}">
+												<a id="thumb_heart" class="pull-right"><span class="glyphicon glyphicon-heart" style="color: tomato"></span></a>
+											</c:if>
+											<input type="hidden" class="lecture_index" name="lecture_index" value="${userRec.lecture_index}" />
+										</p>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,8 +1,9 @@
 package com.misoot.lar.home.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,17 +28,23 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, @SessionAttribute(value="session_user", required=false) User user) {
 		
-		List<Lecture> recent_lecture_list = new ArrayList<Lecture>();
-		
 		int user_index = 0;	
-		
+		int wish_cnt = 0;
 		if(user != null) {
 			user_index = user.getUser_index();
+			wish_cnt = ((HomeServiceImpl)homeServiceImpl).wishCount(user_index);
 		}
 		
-		recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user_index);
+		Map<String, Object> hmap = new HashMap<String, Object>();
 		
-		model.addAttribute("recent_lecture_list", recent_lecture_list);
+		hmap.put("user_index", user_index);
+		hmap.put("wish_cnt", wish_cnt);
+		
+		List<Lecture> recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user_index);
+		List<Lecture> recomand_lecture_list = ((HomeServiceImpl)homeServiceImpl).recomandLectureList(hmap);
+		
+		model.addAttribute("recent_lecture_list", recent_lecture_list)
+		.addAttribute("recomand_lecture_list",recomand_lecture_list);
 		
 		return "home";
 	}

@@ -1,6 +1,7 @@
 package com.misoot.lar.home.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,13 @@ public class HomeServiceImpl implements LarService<Home> {
 	
 	public List<Lecture> selectLectureList(String method, int user_index) {
 		return ((HomeDaoImpl)homeDaoImpl).selectLectureList(method, user_index);
+	}
+
+	public List<Lecture> recomandLectureList(Map<String, Object> hmap) {
+		return ((HomeDaoImpl)homeDaoImpl).recomandLectureList(hmap);
+	}
+
+	public int wishCount(int user_index) {
+		return ((HomeDaoImpl)homeDaoImpl).wishCount(user_index);
 	}
 }
