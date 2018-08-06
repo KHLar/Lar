@@ -6,6 +6,10 @@
 <script	src="${pageContext.request.contextPath}/resources/js/sockjs.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
+<style>
+
+</style>
+
 <div class="quest" style="z-index: 1000;">
 	<p>문의하기</p>
 </div>
@@ -41,7 +45,7 @@
 					
 				</div>
 				<div class="panel-footer">
-					<div class="input-group">
+					<div style="display: table; border-collapse: separate;">
 						<textarea id="chat-area" class="form-control input-sm chat_input" placeholder="Write your message here..." style="resize: none;" rows="5"></textarea>
 						<span class="input-group-btn" style="padding-left: 20px;">
 							<button class="btn btn-primary btn-sm" id="btn-chat" style="border-radius: 5px; background-color: #337ab7; border-color: #2e6da4;">Send</button>
@@ -148,7 +152,7 @@
 					console.log(data);
 					$.each(data, function(i, v) {
 						var $msg_container_base = $('.msg_container_base');
-						var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
+						var $inquire_container = $('<div class="inquire_container" style="margin-bottom: 20px;">');
 						var $base_sent = $('<div class="row msg_container base_sent">');
 						var $base_receive = $('<div class="row msg_container base_receive">');
 						var $col = $('<div class="col-xs-10 col-md-10">');
@@ -201,7 +205,7 @@
 			success : function(data){
 				$.each(data, function(i, v) {
 					var $msg_container_base = $('.msg_container_base');
-					var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
+					var $inquire_container = $('<div class="inquire_container" style="margin-bottom: 20px;">');
 					var $base_sent = $('<div class="row msg_container base_sent">');
 					var $base_receive = $('<div class="row msg_container base_receive">');
 					var $col = $('<div class="col-xs-10 col-md-10">');
@@ -255,7 +259,7 @@
 	function sendMsg() {
 			if ($('#chat-area').val() != null && $('#chat-area').val().trim() != ''){
 				if('${session_user.user_level}'!='1001'){ 		// user send
-					if(ext!="jpg" && ext!="JPG" && ext!="png" && ext!="PNG" && ext!="gif" && ext!="GIF")	$('.upload-name').val('');
+					if(ext!="jpg" && ext!="JPG" && ext!="png" && ext!="PNG" && ext!="gif" && ext!="GIF" || (ext=="" && ext==null)) $('.upload-name').val('');
 				stompClient.send("/app/question", {}, JSON.stringify({
 					'inquire_sender_index' : '${session_user.user_index}',
 					/* 'inquire_receiver_index' : '2', */
@@ -264,6 +268,7 @@
 					'user_level' : '${session_user.user_level}',
 					'user_thumbnail' : '${session_user.user_thumbnail}'
 				}));
+				$('.upload-name').val('파일선택');
 				}	else{  									// admin send
 					stompClient.send("/app/question", {}, JSON.stringify({
 						'inquire_sender_index' : '${session_user.user_index}',
@@ -271,14 +276,13 @@
 						'inquire_content' : $('#chat-area').val(),
 						'user_level' : '${session_user.user_level}'
 					}));
-
 					$('.panel-footer').css('display', 'none');
-				}
-			}	else	alert("내용을 입력해주세요.");
+					$('.panel-title').text('1:1 문의');
+					}
+				}	else	alert("내용을 입력해주세요.");
 			
 			$('#chat-area').val(null);
 			if($('.upload-name').val()!='파일선택'){
-				
 				if(ext=="jpg"||ext=="JPG"||ext=="png"||ext=="PNG"||ext=="gif"||ext=="GIF"){
 					fileUpload();	
 				}	else	return false;
@@ -290,7 +294,7 @@
 	// 보낸 메시지 화면 output
 	function showGreeting(data) {
 		var $msg_container_base = $('.msg_container_base');
-		var $inquire_container = $('<div class="inquire_container" style="margin-top: 25px; margin-bottom: 25px;">');
+		var $inquire_container = $('<div class="inquire_container" style="margin-bottom: 20px;">');
 		var $base_sent = $('<div class="row msg_container base_sent">');
 		var $base_receive = $('<div class="row msg_container base_receive">');
 		var $col = $('<div class="col-xs-10 col-md-10">');
@@ -377,14 +381,13 @@
 					console.log("ERROR");
 				}
 			});
-		}
-		else return false;
+		}		else return;
 		
 	}
 	
 	function reply(num){
 		$('.panel-footer').css('display', 'block');
-		console.log("What receiver_index : "+num);
+		$('.panel-title').text("1:1 문의(To.유저 번호 : "+num+")");
 		r=num;
 	}
 	

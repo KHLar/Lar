@@ -8,12 +8,13 @@
 	<c:param value="장바구니" name="pageTitle" />
 </c:import>
 </header>
-
-<script
+<%-- <script
 	src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
+	href="${pageContext.request.contextPath}/resources/css/tagInput.css" /> --%>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" ></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link
@@ -23,7 +24,14 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#tags').tagInput();
+		/* $('#tags').tagInput(); */
+		if('${commu.commu_tags}' != null || '${commu.commu_tags}' != '') {
+			var tagArr = '${commu.commu_tags}'.split(",");
+			for(var i=0; i < tagArr.length; i++) {
+				$('#tags').tagsinput('add', tagArr[i]);
+				console.log(tagArr[i]);
+			}
+		}
 	});
 	function validate() {
 		var content = $("#commu_Content").val();
@@ -36,10 +44,10 @@
 			alert('로그인 먼저해주세요^^');
 			return false;
 		}
-		if(${session_user.user_type}!="admin"){
+		/* if('${session_user.user_type}' != "admin"){
 			alert('관리자만 공지사항을 작성할수 있습니다');
 			return false;
-		}
+		} */
 		return true;
 	}
 	/*부트스트랩 : file 변경시 파일명 보이기 */
@@ -71,7 +79,7 @@
 						<input type="text" class="form-control" id="commu_Title" name="commu_Title" placeholder="제목" required>
 						</c:if>
 					</div>
-					
+					<br />
 					<div class="form-group">
 						<label for="commu_file">파일</label>
 						<div class="custom-file">
@@ -82,18 +90,36 @@
 							<label>파일은 수정불가하옵니다.</label>
 						</c:if>
 						</div>
+					
+					<%-- <div class="bootstrap-tagsinput form-group">
+						<c:if test="${commu.commu_tags ne null }">
+							 <div class="form-control tags" id="tags">
+						  		 <label>수정 전 태그</label>
+									<c:forTokens items="${commu.commu_tags}" var="tag" delims=",">
+										<a href="${pageContext.request.contextPath}/commu/commuMain?commuSearchType=tags&commuSearchText=${tag}"
+											class="bg-warning labelinput badge badge-warning"
+											style="background-color:#428bca; font-size: 10px;">#${tag}</a>
+									</c:forTokens>
+								</div> 
+								<div class="form-control tags" id="tags">
+									<label>수정 후 태그</label>
+									<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
+									<input type="hidden" value="" name="result" />
+								</div>
+							</c:if>
+						 <c:if test="${commu.commu_tags eq null }">
+								 <div class="form-control tags" id="tags">
+									<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
+									<input type="hidden" value="" name="result" />
+									
+								</div> 
+								
+							</c:if> 
+						</div> --%>
+						<input type="text" name="result" id="tags" class="form-control" data-role="tagsinput" placeholder="태그를 입력하세요"/>
+					<br />
 					</div>
-					<div class="bootstrap-tagsinput form-group">
-						<div class="form-control tags" id="tags">
-						<c:if test="${commu ne null }">
-						<input type="text" class="labelinput" value="${commu.commu_tags }"/>
-						</c:if>
-						<c:if test="${commu eq null }">
-						<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
-						</c:if>
-							<input type="hidden" value="" name="result" />
-						</div>
-					</div>
+					
 					<div class="form-group">
 						<div id="summernote">
 						<c:if test="${commu ne null }">
@@ -120,6 +146,7 @@
 				tabsize : 2,
 				height : 300,
 			});
+			
 			function funcNote() {
 				document.getElementById("commu_Content").value = $(
 						'#summernote').summernote('code');
