@@ -39,6 +39,16 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
  						 	<option>L03</option>
  						 	<option>L04</option>
  						 	<option>L05</option>
+ 						 	<option>L06</option>
+ 						 	<option>L07</option>
+ 						 	<option>L08</option>
+ 						 	<option>L09</option>
+ 						 	<option>L10</option>
+ 						 	<option>L11</option>
+ 						 	<option>L12</option>
+ 						 	<option>L13</option>
+ 						 	<option>L14</option>
+ 						 	
 							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="staticEmail" class=" col-form-label">난이도 :</label>&nbsp;&nbsp;
 							<select class="form-control form-control mb-2 mr-sm-2" name="lecture_level"required>
