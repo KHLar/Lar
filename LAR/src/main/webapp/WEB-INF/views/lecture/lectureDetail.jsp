@@ -287,9 +287,10 @@ body {
                   <div class="col-sm-12 youtubeWrap ">
                      ${lecture.lecture_content }<br> <br>
                   </div>
+                test:  ${lectureTotalScore.lecture_total_score }
                   <div class="col-sm-12" id="lectureList">
                   <!-- User Rating -->
-                  <c:if test="${lectureTotalScore.lecture_total_score == 0}">
+                  <c:if test="${lectureTotalScore.lecture_total_score <= 0}">
                      <span class="fa fa-star "></span>
                      <span class="fa fa-star "></span>
                      <span class="fa fa-star "></span>
@@ -488,7 +489,7 @@ body {
                                  onclick="mark(5);" onmouseout="noshow(5);"></span>
                            </div>
                            
-                           <input type="hidden" name="lecture_review_score" id="starScore" />
+                           <input type="text" name="lecture_review_score" id="starScore" class="lecture_review_score"  value=""/>
                            <div class="card-body">
                               <div class="form-group">
                                  <textarea class="form-control" rows="3"
@@ -500,13 +501,13 @@ body {
                                  <button type="submit" class="btn btn-primary ">등록</button>
                               </c:if>
                               <c:if test="${!chk}">
-                                 <button type="submit" class="btn btn-primary hiddenTag">완료</button>
-                                 <button type="button" class="btn btn-danger deleteReview hiddenTag">삭제</button>
+                                 <button type="submit" class="btn btn-primary hiddenTag" style="display:none">완료</button>
+                                 <button type="button" class="btn btn-danger deleteReview hiddenTag"   style="display:none">삭제</button>
                               </c:if>
                            </div>
                         </form>
                      </c:if>
-                     <c:if test="${session_user.user_index == null or applyCount == 0 }">
+                     <c:if test="${((session_user.user_level <1001 or session_user.user_type ne 'admin' )and applyCount == 0 ) or session_user.user_index == null  }">
                         <form method="get" name="cmtform"
                            action="${pageContext.request.contextPath}/lecture/lectureReview"
                            onsubmit="return validate();" id="orgin">
@@ -532,7 +533,7 @@ body {
                                  <span class="fa fa-star checked"></span>
                            </div>
                            
-                           <input type="hidden" name="lecture_review_score" id="starScore" />
+                      
                            <div class="card-body">
                               <div class="form-group">
                                  <textarea class="form-control" rows="3"
@@ -768,12 +769,14 @@ body {
             var content = $(this).siblings('.content').text();
             var rindex = $(this).siblings('.lecture_review_index').val();
             var score = $(this).siblings('.score').val();
+            /*  alert("score="+score);  */
             $(".hiddenTag").each(function(index, item){
                $(item).css('display','inline');
             });
             $("#orgin").children().find('#reviewTitle').val(title);
-            $("#orgin").children().find('#lecture_review_content').val(content);
+            $("#orgin").children().find('#lecture_review_content').val(content).focus();
             $("#orgin").children().find('#lecture_review_index').val(rindex);
+               $('.lecture_review_score').val(score);  
             $("#orgin").children().find('.card-header').text("수강후기 수정");
             /* $("#mody").children().find('#').val(score) */
             /*   location.href = "/lar/lectureReivewUpdate?index="+index+"&rindex="+rindex;  */

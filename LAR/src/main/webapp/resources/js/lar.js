@@ -222,8 +222,9 @@ $(document).ready(function() {
 		 var lecture_index =$("#orgin").children('#lecture_review_lecture_index').val();
 		/* var user_index = $("#user_index").val();*/
 		 var bindex = $(".my_boardLecture_index").eq(1).val();
+		 price = price.trim();
 		 
-		 if(price=='0원' || price == null){
+		 if(price=='Free' || price == null){
 		    var r = confirm("강의를 취소하시겠습니까?");
 		 }else{
 			 confirm("강의 취소를 위해 이동합니다");
