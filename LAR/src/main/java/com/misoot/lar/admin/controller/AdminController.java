@@ -2,6 +2,7 @@ package com.misoot.lar.admin.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,6 +28,7 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
@@ -45,9 +48,27 @@ public class AdminController {
 		return "admin/charts";
 	}
 	
-	@RequestMapping(value= "/tables")
-	public String tables(Model model) {
-		return "admin/tables";
+	@ResponseBody
+	@RequestMapping(value="/charts/{target}/{filter}")
+	public List<Object[]> getCharts(@PathVariable("target") String target,
+												@PathVariable("filter") String filter) {
+		List<Map<String, Integer>> charts = ((AdminServiceImpl) adminServiceImpl).getCharts();
+		List<Object[]> result = new ArrayList<Object[]>();
+		
+		for (Map<String, Integer> map : charts) {
+			Set<String> keySet = map.keySet();
+			Object[] arr = new Object[2];
+			int i = 0;
+			for (String key : keySet) {
+				arr[i++] = map.get(key);
+			}
+			result.add(arr);
+			
+			for (Object o : arr) {
+				System.out.println(o);
+			}
+		}
+		return result;
 	}
 	
 	/*
@@ -146,17 +167,26 @@ public class AdminController {
 	 */
 	
 	//
-	@RequestMapping(value= "/lectures/{category}/list/{page}")
-	public String lectures(Model model, @PathVariable("category") String category, @PathVariable("page") int page) {
+	@RequestMapping(value= "/lectures/list/{page}")
+	public String lectures(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+		
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Lecture> lecture_list = ((AdminServiceImpl) adminServiceImpl).selectLectureList(rowBounds);
+		
+		if (lecture_list.size() < 1 && page != 1) return "redirect:/admin/lectures/list/1";
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectLectureListCount();
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("lecture_list", lecture_list).addAttribute("pi", pi);
+		
 		return "admin/lectures/lectureList";
 	}
-	
-	@RequestMapping(value= "/lectures/{category}/search/{filter}/{text}/list/{page}")
-	public String lectures(Model model, @PathVariable("category") String category, @PathVariable("filter") String filter,
-							@PathVariable("text") String text, @PathVariable("page") int page) {
-		return "admin/lectures/lectureList";
-	}
-	
+
 	/*
 	 * Admin Lectures area End
 	 */
@@ -236,6 +266,68 @@ public class AdminController {
 			.addAttribute("view_commu_reply", reply_list);
 		
 		return "admin/commu/commuTrashView";
+	}
+	
+	@RequestMapping(value="/commuReply/delete/{commuReply_index}")
+	public String commuReply_Delete(Model model, @PathVariable("commuReply_index") int commuReply_index) {
+		CommuReply commuReply = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		System.out.println(commuReply);
+		
+		String message = "";
+		String href = "admin/commu/view/"+commuReply.getCommu_Reply_Commu_Index();
+		String location = "common/_message";
+		
+		if (commuReply.getCommu_Reply_Is_Deleted() == 1) {
+			message = "이미 삭제된 댓글이라 삭제할 수 없습니다.";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		int result = ((AdminServiceImpl)adminServiceImpl).deleteCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		if (result < 1) {
+			message = "알 수 없는 오류로 댓글 삭제에 실패했습니다.";
+			
+		} else {
+			message = "댓글 삭제에 성공했습니다.";
+		}
+		
+		model.addAttribute("message", message).addAttribute("href", href);
+		
+		return location;
+	}
+	
+	@RequestMapping(value="/commuReply/restore/{commuReply_index}")
+	public String commuReply_Restore(Model model, @PathVariable("commuReply_index") int commuReply_index) {
+		CommuReply commuReply = ((AdminServiceImpl)adminServiceImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		System.out.println(commuReply);
+		
+		String message = "";
+		String href = "admin/commu/view/"+commuReply.getCommu_Reply_Commu_Index();
+		String location = "common/_message";
+		
+		if (commuReply.getCommu_Reply_Is_Deleted() == 0) {
+			message = "삭제되지 않은 댓글이라 복원할 수 없습니다.";
+			model.addAttribute("message", message).addAttribute("href", href);
+			
+			return location;
+		}
+		
+		int result = ((AdminServiceImpl)adminServiceImpl).restoreCommuReplyByCommuReplyIndex(commuReply_index);
+		
+		if (result < 1) {
+			message = "알 수 없는 오류로 댓글 복원에 실패했습니다.";
+			
+		} else {
+			message = "댓글 복원에 성공했습니다.";
+		}
+		
+		model.addAttribute("message", message).addAttribute("href", href);
+		
+		return location;
 	}
 	
 	@RequestMapping(value="/commu/trash/restore/{commu_index}")
@@ -551,7 +643,7 @@ public class AdminController {
 			return "redirect:/admin/users/view/" + user_index + "/modal/commu/view/" + target_index + "/"
 					+ pre_list + "/" + pre_page;
 		} else if (list.equals("commuReply")) {
-			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuReplyByCommuIndex(target_index);
+			int result = ((AdminServiceImpl) adminServiceImpl).deleteCommuReplyByCommuReplyIndex(target_index);
 			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
 			if (filter != null) {
 				redirectAttributes.addFlashAttribute("filter", filter);
@@ -579,7 +671,7 @@ public class AdminController {
 			return "redirect:/admin/users/view/" + user_index + "/modal/" + list + "/view/" + target_index + "/"
 					+ pre_list + "/" + pre_page;
 		} else if (list.equals("commuReply")) {
-			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuReplyByCommuIndex(target_index);
+			int result = ((AdminServiceImpl) adminServiceImpl).restoreCommuReplyByCommuReplyIndex(target_index);
 			result = ((AdminServiceImpl) adminServiceImpl).getCommuIndexByCommuReplyIndex(target_index);
 			if (filter != null) {
 				redirectAttributes.addFlashAttribute("filter", filter);
@@ -595,4 +687,49 @@ public class AdminController {
 	/*
 	 * modal area end
 	 */
+	
+	@RequestMapping("/management/coupon/list/{page}")
+	public String management_Coupon(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+		
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Map<String, String>> coupon_list = ((AdminServiceImpl) adminServiceImpl).selectCouponList(rowBounds);
+		
+		if (coupon_list.size() < 1 && page != 1) return "redirect:/management/coupon/list/1";
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectCouponListCount();
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("coupon_list", coupon_list).addAttribute("pi", pi);
+		
+		return "admin/management/coupon";
+	}
+	
+	@RequestMapping("/management/coupon/form")
+	public String management_Coupon_Form() {
+		return "admin/management/coupon_Form";
+	}
+	
+	@RequestMapping(value="/management/coupon/add", method=RequestMethod.POST)
+	public String management_Coupon_Add(@RequestParam("coupon_name") String coupon_name, 
+										@RequestParam("coupon_discount_inf") String coupon_discount_inf,
+										@RequestParam("coupon_type") String coupon_type) {
+		
+		Map<String, String> coupon_map = new HashMap<String, String>();
+		
+		coupon_map.put("coupon_name", coupon_name);
+		coupon_map.put("coupon_discount_inf", coupon_discount_inf + coupon_type);
+		
+		int result = ((AdminServiceImpl) adminServiceImpl).management_Coupon_Add(coupon_map);
+		
+		return "redirect:/admin/management/coupon/list/1";
+	}
+	
+	@RequestMapping("/management/lecture")
+	public String management_Lecture(Model model) {
+		return "admin/management/lecture";
+	}
 }

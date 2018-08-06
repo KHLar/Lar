@@ -13,6 +13,7 @@ import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
@@ -177,16 +178,46 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int restoreCommuByCommuIndex(int target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).restoreCommuByCommuIndex(target_index);
 	}
-
-	public int deleteCommuReplyByCommuIndex(int target_index) {
-		return ((AdminDaoImpl)adminDaoImpl).deleteCommuReplyByCommuIndex(target_index);
+	
+	public CommuReply selectCommuReplyByCommuReplyIndex(int commuReply_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCommuReplyByCommuReplyIndex(commuReply_index);
 	}
 
-	public int restoreCommuReplyByCommuIndex(int target_index) {
-		return ((AdminDaoImpl)adminDaoImpl).restoreCommuReplyByCommuIndex(target_index);
+	public int deleteCommuReplyByCommuReplyIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).deleteCommuReplyByCommuReplyIndex(target_index);
+	}
+
+	public int restoreCommuReplyByCommuReplyIndex(int target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).restoreCommuReplyByCommuReplyIndex(target_index);
 	}
 
 	public int getCommuIndexByCommuReplyIndex(int target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).getCommuIndexByCommuReplyIndex(target_index);
+	}
+
+	public List<Map<String, Integer>> getCharts() {
+		return ((AdminDaoImpl)adminDaoImpl).getCharts();
+	}
+	
+	/* lecture area */
+	public List<Lecture> selectLectureList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectLectureList(rowBounds);
+	}
+
+	public int getSelectLectureListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectLectureListCount();
+	}
+	
+	/* coupon area */
+	public List<Map<String, String>> selectCouponList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCouponList(rowBounds);
+	}
+
+	public int getSelectCouponListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCouponListCount();
+	}
+
+	public int management_Coupon_Add(Map<String, String> coupon_map) {
+		return ((AdminDaoImpl)adminDaoImpl).management_Coupon_Add(coupon_map);
 	}
 }

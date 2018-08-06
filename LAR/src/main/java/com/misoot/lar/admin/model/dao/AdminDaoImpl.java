@@ -12,6 +12,7 @@ import com.misoot.lar.admin.model.vo.Admin;
 import com.misoot.lar.common.interfaces.LarDao;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
 
@@ -166,16 +167,44 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int restoreCommuByCommuIndex(int target_index) {
 		return sqlSession.update("admin.restoreCommuByCommuIndex", target_index);
 	}
-
-	public int deleteCommuReplyByCommuIndex(int target_index) {
-		return sqlSession.update("admin.deleteCommuReplyByCommuIndex", target_index);
+	
+	public CommuReply selectCommuReplyByCommuReplyIndex(int commuReply_index) {
+		return sqlSession.selectOne("admin.selectCommuReplyByCommuReplyIndex", commuReply_index);
 	}
 
-	public int restoreCommuReplyByCommuIndex(int target_index) {
-		return sqlSession.update("admin.restoreCommuReplyByCommuIndex", target_index);
+	public int deleteCommuReplyByCommuReplyIndex(int target_index) {
+		return sqlSession.update("admin.deleteCommuReplyByCommuReplyIndex", target_index);
+	}
+
+	public int restoreCommuReplyByCommuReplyIndex(int target_index) {
+		return sqlSession.update("admin.restoreCommuReplyByCommuReplyIndex", target_index);
 	}
 
 	public int getCommuIndexByCommuReplyIndex(int target_index) {
 		return sqlSession.selectOne("admin.getCommuIndexByCommuReplyIndex", target_index);
+	}
+
+	public List<Map<String, Integer>> getCharts() {
+		return sqlSession.selectList("admin.getChartTest");
+	}
+
+	public List<Lecture> selectLectureList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectLectureList", null, rowBounds);
+	}
+
+	public int getSelectLectureListCount() {
+		return sqlSession.selectOne("admin.getSelectLectureListCount");
+	}
+
+	public List<Map<String, String>> selectCouponList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCouponList", null, rowBounds);
+	}
+
+	public int getSelectCouponListCount() {
+		return sqlSession.selectOne("admin.getSelectCouponListCount");
+	}
+
+	public int management_Coupon_Add(Map<String, String> coupon_map) {
+		return sqlSession.insert("admin.management_Coupon_Add", coupon_map);
 	}
 }

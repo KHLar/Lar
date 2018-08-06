@@ -82,7 +82,18 @@
 						</tr>
 						<tr>
 							<td><label class="control-label">타입</label></td>
-							<td colspan="2">${view_user.user_type}</td>
+							<td>
+								<select class="form-control" name="user_type">
+									<% if (view_user.getUser_type().equals("user")) { %>
+										<option value="user" selected="true">user</option>
+										<option value="inst">inst</option>
+									<% } else { %>
+										<option value="user">user</option>
+										<option value="inst" selected="true">inst</option>
+									<% } %>
+								</select>
+							</td>
+							<td></td>
 						</tr>
 						<tr>
 							<td><label class="control-label">레벨</label></td>

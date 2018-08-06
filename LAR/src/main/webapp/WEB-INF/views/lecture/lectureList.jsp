@@ -127,13 +127,10 @@ function lecValidate() {
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L04">php</a></li>
-						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
-					s
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>					
 					</div>
 				</div>
 			</ul>
-
-		
 		</div>
 		<div class="col-lg-7">
 			<br>

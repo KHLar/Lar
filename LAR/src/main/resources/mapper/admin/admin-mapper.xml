@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
-
 	<!-- community result map -->
 	<resultMap id="getselectCommuList" type="commu">
 		<result property="commu_Index" column="COMMU_INDEX" />
@@ -70,6 +69,7 @@
 		<set>
 			<if test="user_nickname != null">USER_NICKNAME = #{user_nickname},</if>
 			<if test="user_phone != null">USER_PHONE = #{user_phone},</if>
+			USER_TYPE = #{user_type},
 			USER_IS_SECESSION = #{user_is_secession},
 			USER_IS_KICKED = #{user_is_kicked},
 			<if test="user_try_signin_count gte 0">USER_TRY_SIGNIN_COUNT = #{user_try_signin_count},</if>
@@ -415,12 +415,17 @@
 		COMMU_IS_DELETED=0 where COMMU_INDEX=#{target_index}
 	</update>
 	
-	<update id="deleteCommuReplyByCommuIndex" parameterType="_int">
+	<select id="selectCommuReplyByCommuReplyIndex" parameterType="_int" resultMap="getselectCommuReplyList">
+		select R.*,U.USER_NICKNAME COMMU_REPLY_WRITER from TABLE_COMMU_REPLY R join TABLE_USER U 
+		on(R.COMMU_REPLY_WRITER_INDEX=U.USER_INDEX) where COMMU_REPLY_INDEX=#{commuReply_index}
+	</select>
+	
+	<update id="deleteCommuReplyByCommuReplyIndex" parameterType="_int">
 		update TABLE_COMMU_REPLY set
 		COMMU_REPLY_IS_DELETED=1 where COMMU_REPLY_INDEX=#{target_index}
 	</update>
 	
-	<update id="restoreCommuReplyByCommuIndex" parameterType="_int">
+	<update id="restoreCommuReplyByCommuReplyIndex" parameterType="_int">
 		update TABLE_COMMU_REPLY set
 		COMMU_REPLY_IS_DELETED=0 where COMMU_REPLY_INDEX=#{target_index}
 	</update>
@@ -430,4 +435,41 @@
 		where COMMU_REPLY_INDEX=#{target_index}
 	</select>
 	
+	
+	<!-- chart area -->
+	<select id="getChartTest" resultType="hashMap">
+		select * from (select SUBSTR(COMMU_UPLOAD_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_COMMU
+                where COMMU_UPLOAD_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(COMMU_UPLOAD_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+	
+	<!-- lecture area -->
+	<select id="selectLectureList" resultType="lecture">
+		select LECTURE_INDEX, CATEGORY_NAME, LECTURE_TITLE, USER_NICKNAME, LECTURE_UPLOAD_DATE 
+		from TABLE_LECTURE 
+		join TABLE_USER on (LECTURE_INSTRUCTOR_INDEX = USER_INDEX)
+		join TABLE_CATEGORY on (LECTURE_CATEGORY_INDEX = CATEGORY_INDEX)
+		order by LECTURE_UPLOAD_DATE DESC
+	</select>
+	
+	<select id="getSelectLectureListCount" resultType="_int">
+		select count(*) from TABLE_LECTURE
+	</select>
+	
+	<!-- coupon area -->
+	<select id="selectCouponList" resultType="hashmap">
+		select * from TABLE_COUPON
+	</select>
+	
+	<select id="getSelectCouponListCount" resultType="_int">
+		select COUNT(*) from TABLE_COUPON
+	</select>
+	
+	<insert id="management_Coupon_Add" parameterType="hashmap">
+		insert into TABLE_COUPON VALUES (
+			SEQ_COUPON_INDEX.NEXTVAL, #{coupon_name}, #{coupon_discount_inf}
+		)
+	</insert>
 </mapper>

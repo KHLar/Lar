@@ -9,11 +9,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>LAR : Admin-${param.pageTitle}</title>
-
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/lar-admin.js"></script>
+		
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
@@ -27,6 +29,7 @@
     		}
 		</style>
 	</head>
+	
 	<body>
 		<div id="wrapper">
 			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -39,62 +42,17 @@
 					</button>
 					<a class="navbar-brand" href="/lar/admin/"><span class="fa fa-fw fa-home"></span> LAR : Admin</a>
 				</div>
-
-				<ul class="nav navbar-right top-nav">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-						<ul class="dropdown-menu alert-dropdown">
-							<li>
-								<a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="#">View All</a>
-							</li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>
-								<a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-							</li>
-							<li>
-								<a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-							</li>
-							<li>
-								<a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-
+				
 				<div class="collapse navbar-collapse" id="admin-nav-collapse">
 					<ul class="nav navbar-nav side-nav">
 						<li>
-							<a href="/lar/admin/charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+							<a href="/lar"><i class="fa fa-fw fa-backward"></i> Go LAR</a>
 						</li>
 						<li>
-							<a href="/lar/admin/tables"><i class="fa fa-fw fa-table"></i> Tables</a>
+							<a href="/lar/user/signout"><i class="fa fa-fw fa-power-off"></i> Sign Out</a>
+						</li>
+						<li>
+							<a href="/lar/admin/charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
 						</li>
 						<li>
 							<a href="/lar/admin/users/list/1"><i class="fa fa-fw fa-address-book"></i> Users</a>
@@ -119,6 +77,17 @@
 								</li>
 								<li>
 									<a href="/lar/admin/commu/trash/list/1"><i class="fa fa-fw fa-trash"></i> Trash</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="javascript:;" data-toggle="collapse" data-target="#manageDropdown"><i class="fa fa-fw fa-cogs"></i> Management <i class="fa fa-fw fa-caret-down"></i></a>
+							<ul id="manageDropdown" class="collapse">
+								<li>
+									<a href="/lar/admin/management/coupon/list/1"><i class="fa fa-fw fa-ticket"></i> Coupon</a>
+								</li>
+								<li>
+									<a href="/lar/admin/management/lecture"><i class="fa fa-fw fa-registered"></i> Lecture</a>
 								</li>
 							</ul>
 						</li>

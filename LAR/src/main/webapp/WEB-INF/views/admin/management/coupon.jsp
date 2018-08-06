@@ -16,12 +16,12 @@
 <div class="col-lg-12">
 	<div class="row">
 		<h1 class="page-header">
-			Lectures
+			Management
 		</h1>
 		<ol class="breadcrumb">
-			<li class="active"><i class="fa fa-book"></i> Lectures</li>
-			<li class="active" style="display: none;"><i class="fa fa-search"></i> Search</li>
-			<li class="active"><a href="/lar/admin/lectures/list/1"><i class="fa fa-list"></i> List</a></li>
+			<li class="active"><i class="fa fa-cogs"></i> Management</li>
+			<li class="active"><i class="fa fa-ticket"></i> Coupon</li>
+			<li class="active"><a href="/lar/admin/management/coupon/list/1"><i class="fa fa-list"></i> List</a></li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${pi.current_page}</li>
 		</ol>
 	</div>
@@ -30,21 +30,18 @@
 		<table class="table table-striped table-condensed">
 			<tr>
 				<th>Idx</th>
-				<th>Category</th>
-				<th>Title</th>
-				<th>Author</th>
-				<th>U_Date</th>
+				<th>Name</th>
+				<th>Discount Info</th>
 			</tr>
-			<c:forEach items="${lecture_list}" var="lecture">
+			<c:forEach items="${coupon_list}" var="coupon">
 				<tr>
-					<td>${lecture.lecture_index}</td>
-					<td>${lecture.category_name}</td>
-					<td><a href="/lar/lecture/lectureDetail?lecture_index=${lecture.lecture_index}">${lecture.lecture_title}</a></td>
-					<td>${lecture.user_nickname}</td>
-					<td>${lecture.lecture_upload_date}</td>
+					<td>${coupon.COUPON_INDEX}</td>
+					<td>${coupon.COUPON_NAME}</td>
+					<td>${coupon.COUPON_DISCOUNT_INF}</td>
 				</tr>
 			</c:forEach>
 		</table>
+		<div class="pull-right"><a class="btn btn-primary" role="button" href="/lar/admin/management/coupon/form">추가</a></div>
 	</div>
 
 	<div class="row">

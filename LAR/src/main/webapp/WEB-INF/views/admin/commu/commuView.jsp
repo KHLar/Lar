@@ -58,9 +58,27 @@
 	</div>
 	
 	<div class="row">
-		<c:forEach items="${view_commu_reply}" var="cr">
-			${cr}
-		</c:forEach>
+		<div class="panel panel-default">
+			<c:forEach items="${view_commu_reply}" var="reply">
+				<div class="panel-body">
+					<p style="color: #2a6496; font-size: auto;">${reply.commu_Reply_Writer}(Index : ${reply.commu_Reply_Writer_Index})</p>
+					<p style="color: #959595; font-size: auto;">${reply.commu_Reply_Upload_Date}</p>
+					<div style="padding: 10px;">
+						${reply.commu_Reply_Content}
+					</div>
+					<div class="row" style="padding: 10px; text-align: right;">
+						<c:choose>
+							<c:when test="${reply.commu_Reply_Is_Deleted == 0}">
+								<a role="button" class="btn btn-danger" href="/lar/admin/commuReply/delete/${reply.commu_Reply_Index}">삭제</a>
+							</c:when>
+							<c:otherwise>
+								<a role="button" class="btn btn-success" href="/lar/admin/commuReply/restore/${reply.commu_Reply_Index}">복원</a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/admin/common/_footer.jsp">
