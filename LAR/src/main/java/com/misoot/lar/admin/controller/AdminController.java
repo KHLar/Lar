@@ -427,7 +427,7 @@ public class AdminController {
 					return "redirect:/admin/"+menu+"/view/"+index+"/modal/"+list+"/"+filter+"/"+text+"/list/"+page;
 				}
 			} else {
-				int target_index = Integer.parseInt(modal_header.get("target_index").toString());
+				String target_index = modal_header.get("target_index").toString();
 				String pre_list = modal_header.get("pre_list").toString();
 				int pre_page = Integer.parseInt(modal_header.get("pre_page").toString());
 				
@@ -540,7 +540,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/purchase/view/{target_index}/{pre_list}/{pre_page}")
 	public String modal_purchaseView(Model model, @PathVariable("user_index") int user_index,
-												@PathVariable("target_index") int target_index,
+												@PathVariable("target_index") String target_index,
 												@PathVariable("pre_list") String pre_list,
 												@PathVariable("pre_page") int pre_page) {
 		
@@ -549,6 +549,13 @@ public class AdminController {
 		selectMap.put("uid", target_index);
 		
 		Purchase purchase = ((AdminServiceImpl)adminServiceImpl).selectPurchaseByPurchaseMap(selectMap);
+		List<Map<String, Object>> purchase_lecture_list = ((AdminServiceImpl)adminServiceImpl).selectPurchaseLectureList(target_index);
+		
+		model.addAttribute("user_index", user_index)
+			.addAttribute("purchase", purchase)
+			.addAttribute("purchase_lecture_list", purchase_lecture_list)
+			.addAttribute("pre_list", pre_list)
+			.addAttribute("pre_page", pre_page);
 		
 		return "admin/modal/_purchaseView";
 	}

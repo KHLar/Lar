@@ -239,4 +239,8 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public Purchase selectPurchaseByPurchaseMap(Map<String, Object> selectMap) {
 		return sqlSession.selectOne("admin.selectPurchaseByPurchaseMap", selectMap);
 	}
+
+	public List<Map<String, Object>> selectPurchaseLectureList(String target_index) {
+		return sqlSession.selectList("admin.selectPurchaseLectureList", target_index);
+	}
 }

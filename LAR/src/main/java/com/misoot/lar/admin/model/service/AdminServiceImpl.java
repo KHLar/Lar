@@ -252,4 +252,8 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public Purchase selectPurchaseByPurchaseMap(Map<String, Object> selectMap) {
 		return ((AdminDaoImpl)adminDaoImpl).selectPurchaseByPurchaseMap(selectMap);
 	}
+
+	public List<Map<String, Object>> selectPurchaseLectureList(String target_index) {
+		return ((AdminDaoImpl)adminDaoImpl).selectPurchaseLectureList(target_index);
+	}
 }

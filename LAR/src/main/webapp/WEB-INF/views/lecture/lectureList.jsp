@@ -109,14 +109,25 @@ function lecValidate() {
 	}
 	return true;
 }
+
+$(window).resize(function() {
+	if (window.matchMedia("(min-width: 768px)").matches) {
+		$('#cool1').removeClass('collapse');
+		$('#cool2').removeClass('collapsed');
+	} else {
+		$('#cool1').addClass('collapse');
+		$('#cool2').addClass('collapsed');
+	}
+});
 </script>
 
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
 			<ul class="list-group">
-				<li class="list-group-item list-group-item-warning"
+				<button   id="cool2" type="button" class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
+
 					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
 				</li>
 
@@ -144,8 +155,10 @@ function lecValidate() {
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
                   </c:if>						
 									</div>
+
 				</div>
 			</ul>
+
 		</div>
 		<div class="col-lg-7">
 			<br>
