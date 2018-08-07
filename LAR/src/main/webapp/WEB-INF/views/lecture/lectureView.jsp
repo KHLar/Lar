@@ -45,6 +45,8 @@
     </style>
     </head>
     <body>
+	    <c:if test="${checkApply >0 or session_user.user_level >1000 or session_user.user_type eq 'admin' }">
+ 
     <div class="container">
     	<div class="row" style="margin-bottom: 15px;">
 		      <h1 class="col col-md-12" style="text-align: center;">${bLecture.lecture_board_title }</h1>
@@ -122,6 +124,7 @@
             </div>
 		</div>   
 	</div>
+</c:if>
 <script>
 	$(function(){
     	var currentPage = $('.${bLecture.lecture_board_index}').index();
