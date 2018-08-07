@@ -177,7 +177,7 @@
 				</form>
 				<% if (view_user.getUser_type().equals("inst")) { %>
 				<div id="lectureLaunchedList" class="tab-pane">
-					
+					 
 				</div>
 				<% } %>
 			</div>
