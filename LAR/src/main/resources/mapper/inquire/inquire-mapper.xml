@@ -6,7 +6,7 @@
 	</select>
 	
 	<select id="selectAll" resultType="hashmap">
-		select * from TABLE_INQUIRE ORDER BY INQUIRE_SENDDATE
+		SELECT USER_THUMBNAIL, TABLE_INQUIRE.*  FROM TABLE_INQUIRE JOIN TABLE_USER ON (INQUIRE_SENDER_INDEX = USER_INDEX) ORDER BY INQUIRE_SENDDATE
 	</select>
 	
 	<insert id="insert" parameterType="hashmap">

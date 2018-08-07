@@ -69,8 +69,9 @@
 	var r;		// receiver
 	var ext;	// extension
 	var f;		// renamedfileName
+	var th;		// user_thumbnail
 	
-	if('${session_user.user_id}'=='inquire@co.kr'){	
+	if('${session_user.user_level}'=='1001'){	
 		$('.quest p').text("문의확인");
 		$('.panel-footer').css('display', 'none');
 		$('.preview-image').css('display', 'none');
@@ -164,10 +165,10 @@
 						var $div = $('<div class="inquire_option">');
 						
 						if('${session_user.user_index}'!= v.INQUIRE_SENDER_INDEX){
-						if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+						if(v.USER_THUMBNAIL==null || v.USER_THUMBNAIL== ''){
 							$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 						}	else{
-							$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+							$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/"+v.USER_THUMBNAIL);
 						}
 						$base_sent.append(
 								$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
@@ -220,7 +221,7 @@
 							if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 								$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 							}	else{
-								$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+								$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");
 							}
 					$base_sent.append(
 							$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
@@ -303,56 +304,60 @@
 		var $timeData = $('<time>');
 		var $avatar = $('<div class="col-md-2 col-xs-2 avatar">');
 		var $img = $('<img class="img-responsive">');
-		var date = new Date(data.inquire_sendDate).toLocaleString();
+		var date = new Date(data.msg.inquire_sendDate).toLocaleString();
 		var $div = $('<div class="inquire_option">');
 		
-		
-		if(data.inquire_sender_index=='${session_user.user_index}' && '${session_user.user_level}'!='1001'){
+		console.log("data로는 : ");
+		console.log(data);
+		console.log(data.msg);
+		console.log(data.user_thumbnail);
+		if(data.msg.inquire_sender_index=='${session_user.user_index}' && '${session_user.user_level}'!='1001'){	// user realtime View
 			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			}	else{
-				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");}
+				$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");}
 			
 		$base_sent.append(
-				$col.append($message.append($pre.text(data.inquire_content))
+				$col.append($message.append($pre.text(data.msg.inquire_content))
 						.append($timeData.text("${session_user.user_id}" + " : "+ date)
 								))).append($avatar.append($img));
 		
-		if(data.inquire_attach_originfilename==null || data.inquire_attach_originfilename=='파일선택') data.inquire_attach_originfilename="";
-		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.inquire_attach_originfilename+'</span><span style="float: right;" onclick="deleteContent('+data.inquire_no+')">삭제</span></div>');
+		if(data.msg.inquire_attach_originfilename==null || data.msg.inquire_attach_originfilename=='파일선택') data.msg.inquire_attach_originfilename="";
+		$div.html('<div style="display: inline; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.msg.inquire_attach_originfilename+'</span><span style="float: right;" onclick="deleteContent('+data.msg.inquire_no+')">삭제</span></div>');
 		/* $inquire_container.append($base_sent).append($div); */
 		$msg_container_base.append($inquire_container.append($base_sent).append($div));
-		}	else if (data.inquire_receiver_index=='${session_user.user_index}'){
+		}	else if (data.msg.inquire_receiver_index=='${session_user.user_index}'){
 			$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			$base_receive.append(
 					$avatar.append($img)).append(
 							$col.append(
 									$message.append(
-											$pre.text(data.inquire_content)).append(
+											$pre.text(data.msg.inquire_content)).append(
 													$timeData.text("LAR : "+date))));
 			$msg_container_base.append($inquire_container.append($base_receive));
-		}	else if('${session_user.user_level}'=='1001' && data.inquire_sender_index!='${session_user.user_index}'){
-			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
+		}	else if('${session_user.user_level}'=='1001' && data.msg.inquire_sender_index!='${session_user.user_index}'){
+			if(data.user_thumbnail=="" || data.user_thumbnail==null){
 				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			}	else{
-				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+				$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/"+data.user_thumbnail);
 			}
 			$base_sent.append(
-					$col.append($message.append($pre.text(data.inquire_content))
-							.append($timeData.text(data.inquire_sender_index + " : "+ new Date(data.inquire_sendDate).toLocaleString())
+					$col.append($message.append($pre.text(data.msg.inquire_content))
+							.append($timeData.text(data.msg.inquire_sender_index + " : "+ new Date(data.msg.inquire_sendDate).toLocaleString())
 									))).append($avatar.append($img));
-			if(data.inquire_attach_originfilename==null || data.inquire_attach_originfilename=='파일선택') data.inquire_attach_originfilename="";
-			$div.html('<div style="display: block; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.inquire_attach_originfilename+'</span><span style="float: right;" onclick="reply('+data.inquire_sender_index+')">답신</span></div>');
+			if(data.msg.inquire_attach_originfilename==null || data.msg.inquire_attach_originfilename=='파일선택') data.msg.inquire_attach_originfilename="";
+			$div.html('<div style="display: block; color: skyblue;"><span style="float: left;" onclick="imgConfirm(\''+f+'\');" data-toggle="modal" data-target="#imgConfirm">'+data.msg.inquire_attach_originfilename+'</span><span style="float: right;" onclick="reply('+data.msg.inquire_sender_index+')">답신</span></div>');
 			
 			$msg_container_base.append($inquire_container.append($base_sent).append($div));
 			
-		}	else if('${session_user.user_level}'=='1001' && data.inquire_sender_index=='${session_user.user_index}'){
-			$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
+		}	else if('${session_user.user_level}'=='1001' && data.msg.inquire_sender_index=='${session_user.user_index}'){
+			if(data.user_thumbnail=="" || data.user_thumbnail==null){$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");}
+			else {$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/"+data.user_thumbnail);}
 			$base_receive.append(
 					$avatar.append($img)).append(
 							$col.append(
 									$message.append(
-											$pre.text(data.inquire_content)).append(
+											$pre.text(data.msg.inquire_content)).append(
 													$timeData.text("LAR : "+date))));
 			$msg_container_base.append($inquire_container.append($base_receive));
 		}
