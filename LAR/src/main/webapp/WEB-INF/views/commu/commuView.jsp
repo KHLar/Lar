@@ -59,6 +59,8 @@ textarea {
 							if ($('#replyComment').val().trim() == null
 									|| $('#replyComment').val().trim() == "") {
 								alert('내용을 입력하세요');
+							}else if('${session_user.user_index}'==''){
+								alert('로그인을 먼저 해주세요');
 							} else
 								location.href = "${pageContext.request.contextPath}/commu/commuReply?replyWriter="
 										+ ${session_user.user_index}
@@ -72,6 +74,13 @@ textarea {
 			alert(s);
 		}
 	});
+	function validate() {
+		if('${session_user.user_index}'==''){
+			alert('로그인을 먼저 해주세요');
+			return false;
+		}
+		return true;
+	}
 	function realDeleteCommu(){
 		location.href = "${pageContext.request.contextPath}/commu/commuDelete/${commu.commu_Index}";
 		}
@@ -171,7 +180,7 @@ textarea {
 				<c:forEach items="${commuReply}" var="cr">
 					<form
 						action="${pageContext.request.contextPath}/commu/commuReplyReply"
-						method="POST">
+						method="POST" onsubmit="return validate();">
 						<div class="row">
 							<input type="hidden" name="commu_Reply_Parent_Index"
 								value="${cr.commu_Reply_Parent_Index}" /> <input type="hidden"

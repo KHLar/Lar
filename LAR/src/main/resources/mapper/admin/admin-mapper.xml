@@ -166,7 +166,7 @@
 	</select>
 	
 	<select id="getTotalPurchaseAmountByUserIndex" parameterType="_int" resultType="_int">
-		select SUM(PAID_AMOUNT) from TABLE_PURCHASE
+		select NVL(SUM(PAID_AMOUNT), 0) from TABLE_PURCHASE
 		where PURCHASE_USER_INDEX = #{user_index}
 		and status='paid'
 	</select>
