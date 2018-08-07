@@ -2,9 +2,7 @@ package com.misoot.lar.lecture.controller;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.sql.Clob;
-
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,18 +19,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.Utils;
+import com.misoot.lar.home.model.service.HomeServiceImpl;
+import com.misoot.lar.home.model.vo.Home;
 import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.BoardLectureAttachment;
 import com.misoot.lar.lecture.model.vo.Lecture;
@@ -51,6 +49,8 @@ public class LectureController {
 
 	@Autowired
 	LarService<Lecture> LectureServiceImpl;
+	@Autowired
+	LarService<Home> homeServiceImpl;
 
 	/*  Lecture*/
 	
@@ -99,7 +99,7 @@ public class LectureController {
 	public String DeleteLecture(@RequestParam int index){
 	
 		int result = ((LectureServiceImpl)LectureServiceImpl).delete(index);
-		return "redirect:/lectureList";
+		return "redirect:/lectureList?category=ptotal";
 	}
 	
 	
@@ -114,7 +114,7 @@ public class LectureController {
 	@RequestMapping(value="/lecture/lectureUpdateEnd",method=RequestMethod.POST)
 	public String updateLecture(Lecture t){
 		int result = ((LectureServiceImpl)LectureServiceImpl).update(t);
-		return "redirect:/lectureList";
+		return "redirect:/lectureList?category=ptotal";
 	}
 	
 	// 동영상 삭제
@@ -190,8 +190,11 @@ public class LectureController {
 		    parameters.put("LecSearchText", LecSearchText);
 			lList = ((LectureServiceImpl)LectureServiceImpl).selectList(parameters,cPage, numPerPage);
 		}
+		Map<String,String> totalcontents = new HashMap<String,String>();
+		totalcontents.put("category", category);
+		totalcontents.put("LecSearchText", LecSearchText);
 		
-		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount(category);
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount(totalcontents);
 		
 		model.addAttribute("lList", lList).addAttribute("numPerPage", numPerPage).addAttribute("totalContents", totalContents);
 		model.addAttribute("category",category);
@@ -572,9 +575,24 @@ public class LectureController {
 
 	// 추천강의
 	@RequestMapping("/recommanded")
-	public String recomandedList(Model model) {
+	public String recomandedList(Model model, @SessionAttribute(value="session_user", required=false) User user) {
 
 		Map<String, String> keyword = new HashMap<String, String>();
+		
+		int user_index = 0;	
+		int wish_cnt = 0;
+		
+		if(user != null) {
+			user_index = user.getUser_index();
+			wish_cnt = ((HomeServiceImpl)homeServiceImpl).wishCount(user_index);
+		}
+		
+		Map<String, Object> hmap = new HashMap<String, Object>();
+		
+		hmap.put("user_index", user_index);
+		hmap.put("wish_cnt", wish_cnt);
+		
+		List<Lecture> recomand_lecture_list = ((HomeServiceImpl)homeServiceImpl).recomandLectureList(hmap);
 
 		keyword.put("keyword", "reviews");
 		List<Lecture> reviews = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
@@ -586,7 +604,8 @@ public class LectureController {
 		List<Lecture> hotest = ((LectureServiceImpl) LectureServiceImpl).recomandedList(keyword);
 
 		Map<String, List<Lecture>> recomandedList = new HashMap<String, List<Lecture>>();
-
+		
+		recomandedList.put("recomands", recomand_lecture_list);
 		recomandedList.put("reviews", reviews);
 		recomandedList.put("score", score);
 		recomandedList.put("hotest", hotest);

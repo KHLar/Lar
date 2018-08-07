@@ -14,6 +14,7 @@ public class LectureReview {
 	private Date lecture_review_update_date;
 	private int lecture_is_deleted;
 	private String user_nickname;
+	private String user_thumbnail;
 
 	public LectureReview() {
 		super();
@@ -22,7 +23,7 @@ public class LectureReview {
 	public LectureReview(int lecture_review_index, int lecture_review_lecture_index, int lecture_review_writer_index,
 			String lecture_review_title, String lecture_review_content, int lecture_review_score,
 			Date lecture_review_upload_date, Date lecture_review_update_date, int lecture_is_deleted,
-			String user_nickname) {
+			String user_nickname, String user_thumbnail) {
 		super();
 		this.lecture_review_index = lecture_review_index;
 		this.lecture_review_lecture_index = lecture_review_lecture_index;
@@ -34,6 +35,7 @@ public class LectureReview {
 		this.lecture_review_update_date = lecture_review_update_date;
 		this.lecture_is_deleted = lecture_is_deleted;
 		this.user_nickname = user_nickname;
+		this.user_thumbnail = user_thumbnail;
 	}
 
 	public int getLecture_review_index() {
@@ -116,6 +118,14 @@ public class LectureReview {
 		this.user_nickname = user_nickname;
 	}
 
+	public String getUser_thumbnail() {
+		return user_thumbnail;
+	}
+
+	public void setUser_thumbnail(String user_thumbnail) {
+		this.user_thumbnail = user_thumbnail;
+	}
+
 	@Override
 	public String toString() {
 		return "LectureReview [lecture_review_index=" + lecture_review_index + ", lecture_review_lecture_index="
@@ -124,7 +134,9 @@ public class LectureReview {
 				+ lecture_review_content + ", lecture_review_score=" + lecture_review_score
 				+ ", lecture_review_upload_date=" + lecture_review_upload_date + ", lecture_review_update_date="
 				+ lecture_review_update_date + ", lecture_is_deleted=" + lecture_is_deleted + ", user_nickname="
-				+ user_nickname + "]";
+				+ user_nickname + ", user_thumbnail=" + user_thumbnail + "]";
 	}
+
+	
 
 }

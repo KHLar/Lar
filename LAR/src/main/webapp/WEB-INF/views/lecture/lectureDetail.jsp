@@ -271,7 +271,7 @@ body {
                      by <a href="#">${lecture.user_nickname}</a> 
 					<span>
 					<c:if test="${applyCount == 0}">                  
-							<button class="btn btn-sm btn <btn-success></btn-success> pull-right" id="applyLecture">수강신청</button>
+							<button class="btn btn-sm btn btn-success pull-right" id="applyLecture">수강신청</button>
 							<input type="hidden" id="lecture_index_applyLecture" value="${lecture.lecture_index}"/>
 					</c:if>                   
                    <c:if test="${applyCount >0}">
@@ -485,8 +485,7 @@ body {
                                  onclick="mark(4);" onmouseout="noshow(4);"></span> <span
                                  id="image5" class="fa fa-star " onmouseover="show(5);"
                                  onclick="mark(5);" onmouseout="noshow(5);"></span>
-                           </div>
-                           
+                           </div>                          
                            <input type="hidden" name="lecture_review_score" id="starScore" class="lecture_review_score"  value=""/>
                            <div class="card-body">
                               <div class="form-group">
@@ -548,8 +547,20 @@ body {
                   <c:forEach items="${rlist}" var="r">
                      <!-- Single Comment -->
                      <div class="media mb-2">
-                        <img class="d-flex mr-3 rounded-circle"
-                           src="http://placehold.it/50x50" alt="">
+                      <!--   <img class="d-flex mr-3 rounded-circle"
+                           src="http://placehold.it/50x50" alt=""> -->
+                    <c:if test="${r.user_thumbnail ne null}">
+                     <img
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${r.user_thumbnail}"
+                        id="profile-image1" class="d-flex mr-3 rounded-circle"
+                        alt="User Pic" style="width: 50px; height: 50px"/>
+                  </c:if>
+                  <c:if test="${r.user_thumbnail eq null}">
+                     <img
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/defaultThumbnail.png"
+                        id="profile-image1" class="d-flex mr-3 rounded-circle"
+                        alt="User Pic" style="width: 50px; height: 50px"/>
+                  </c:if>
                         <div class="media-body">
                            <span>${r.user_nickname } </span>
 	                      
@@ -597,7 +608,6 @@ body {
                               value="${lecture.lecture_index} " class="lecture_index"
                               name="lecture_index" /> <input type="hidden"
                               value="${r.lecture_review_score }" class="score" />
-                              <span>${r.lecture_review_writer_index }</span>
                           <input type="hidden" class="uindex" value="${r.lecture_review_writer_index }"/>
                           <input type="hidden" class="nickname" value="${r.user_nickname }"/>
                               
@@ -774,12 +784,13 @@ body {
             var score = $(this).siblings('.score').val();
             var uindex = $(this).siblings('.uindex').val();
             var nickname = $(this).siblings('.nickname').val();
+
             $(".hiddenTag").each(function(index, item){
                $(item).css('display','inline');
             });
             $("#orgin").children().find('#reviewTitle').val(title);
             $("#orgin").children().find('#lecture_review_content').val(content).focus();
-            $("#orgin").children().find('#lecture_review_index').val(rindex);
+            $("#orgin").children().find('#lecture_review_index').val(rindex);         
             $('.lecture_review_score').val(score);
             $('#review_writer').val(uindex);
             $('#updaetName').text( "닉네임 :" +nickname);
