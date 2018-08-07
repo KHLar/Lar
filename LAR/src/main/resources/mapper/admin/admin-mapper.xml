@@ -472,4 +472,27 @@
 			SEQ_COUPON_INDEX.NEXTVAL, #{coupon_name}, #{coupon_discount_inf}
 		)
 	</insert>
+	
+	<select id="selectCategoryList" resultType="hashmap">
+		select * from TABLE_CATEGORY
+		where CATEGORY_INDEX like 'L' || '%'
+	</select>
+	
+	<select id="getSelectCategoryListCount" resultType="_int">
+		select count(*) from TABLE_CATEGORY
+	</select>
+	
+	<insert id="management_Category_Add" parameterType="string">
+		insert into TABLE_CATEGORY VALUES(
+		(select 'L'||to_char(max(substr(CATEGORY_INDEX, 2, LENGTH(CATEGORY_INDEX))) + 1) from (select * from TABLE_CATEGORY where CATEGORY_INDEX LIKE  'L' || '%')), #{category_name})
+	</insert>
+	
+	<insert id="management_Lecture_Add">
+		<selectKey keyProperty="lecture_index" resultType="_int" order="AFTER">
+		SELECT SEQ_LECTURE_INDEX.currval FROM DUAL
+		</selectKey>
+		INSERT INTO TABLE_LECTURE VALUES(
+  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_thumbnail},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
+ 		)
+	</insert>
 </mapper>

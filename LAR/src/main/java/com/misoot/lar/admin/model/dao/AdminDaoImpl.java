@@ -207,4 +207,24 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int management_Coupon_Add(Map<String, String> coupon_map) {
 		return sqlSession.insert("admin.management_Coupon_Add", coupon_map);
 	}
+
+	public List<Map<String, String>> selectCategoryList(RowBounds rowBounds) {
+		return sqlSession.selectList("admin.selectCategoryList", null, rowBounds);
+	}
+	
+	public List<Map<String, String>> selectCategoryList() {
+		return sqlSession.selectList("admin.selectCategoryList");
+	}
+
+	public int getSelectCategoryListCount() {
+		return sqlSession.selectOne("admin.getSelectCategoryListCount"); 
+	}
+
+	public int management_Category_Add(String category_name) {
+		return sqlSession.insert("admin.management_Category_Add", category_name);
+	}
+
+	public int management_Lecture_Add(Lecture lecture) {
+		return sqlSession.insert("admin.management_Lecture_Add", lecture);
+	}
 }

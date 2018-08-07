@@ -28,6 +28,7 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
+import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
@@ -708,9 +709,9 @@ public class AdminController {
 		return "admin/management/coupon";
 	}
 	
-	@RequestMapping("/management/coupon/form")
-	public String management_Coupon_Form() {
-		return "admin/management/coupon_Form";
+	@RequestMapping("/management/{type}/form")
+	public String management_Form(@PathVariable("type") String type) {
+		return "admin/management/"+type+"_Form";
 	}
 	
 	@RequestMapping(value="/management/coupon/add", method=RequestMethod.POST)
@@ -728,8 +729,56 @@ public class AdminController {
 		return "redirect:/admin/management/coupon/list/1";
 	}
 	
+	@RequestMapping("/management/category/list/{page}")
+	public String management_Category(Model model, @PathVariable("page") int page) {
+		int content_per_page = 20;
+		int paging_count = 10;
+		
+		RowBounds rowBounds = new RowBounds((page - 1) * content_per_page, content_per_page);
+		
+		List<Map<String, String>> category_list = ((AdminServiceImpl) adminServiceImpl).selectCategoryList(rowBounds);
+		
+		if (category_list.size() < 1 && page != 1) return "redirect:/management/category/list/1";
+		
+		int max_list_count = ((AdminServiceImpl) adminServiceImpl).getSelectCategoryListCount();
+		
+		PageInfo pi = new PageInfo(page, content_per_page, max_list_count, paging_count);
+		
+		model.addAttribute("category_list", category_list).addAttribute("pi", pi);
+		
+		return "admin/management/category";
+	}
+	
+	@RequestMapping(value="/management/category/add", method=RequestMethod.POST)
+	public String management_Category_Add(@RequestParam("category_name") String category_name) {
+		int result = ((AdminServiceImpl) adminServiceImpl).management_Category_Add(category_name);
+		
+		return "redirect:/admin/management/category/list/1";
+	}
+	
 	@RequestMapping("/management/lecture")
-	public String management_Lecture(Model model) {
+	public String management_Lecture(Model model) { 
+		List<Map<String, String>> category_list_option = ((AdminServiceImpl) adminServiceImpl).selectCategoryList();
+		
+		model.addAttribute("category_list_option", category_list_option);
+		
 		return "admin/management/lecture";
 	}
+	
+	// 게시글 등록
+	@RequestMapping(value="/management/lecture/add", method=RequestMethod.POST)
+	public String management_Lecture_Add(Lecture lecture){
+		
+		int start = lecture.getLecture_content().indexOf("//www.youtube.com/embed/") + ("//www.youtube.com/embed/").length();
+		
+		int end = lecture.getLecture_content().indexOf("\" width");
+		
+		lecture.setLecture_thumbnail(
+				"https://img.youtube.com/vi/"+lecture.getLecture_content().substring(start, end)+"/sddefault.jpg");
+		
+		int result = ((AdminServiceImpl) adminServiceImpl).management_Lecture_Add(lecture);
+		
+		return "redirect:/admin/lectures/list/1";
+	}
+	
 }

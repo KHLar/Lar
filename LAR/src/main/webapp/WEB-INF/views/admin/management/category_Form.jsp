@@ -17,33 +17,21 @@
 		</h1>
 		<ol class="breadcrumb">
 			<li class="active"><i class="fa fa-cogs"></i> Management</li>
-			<li class="active"><i class="fa fa-ticket"></i> Coupon</li>
+			<li class="active"><i class="fa fa-bookmark-o"></i> Category</li>
 			<li class="active"><i class="fa fa-plus-square-o"></i> Add</li>
 		</ol>
 	</div>
 	
 	<div class="row table-responsive">
-		<form action="/lar/admin/management/coupon/add" method="post">
+		<form action="/lar/admin/management/category/add" method="post">
 			<table class="table table-striped table-condensed">
 				<tr>
 					<th>Filed</th>
-					<th>Value</th>
-					<th>Type</th>
+					<th>Value</th>				
 				</tr>
 				<tr>
-					<td>쿠폰 명 : </td>
-					<td><input type="text" class="form-control" name="coupon_name"/></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>할인 가:</td>
-					<td><input type="text" class="form-control" name="coupon_discount_inf"/></td>
-					<td>
-						<select class="form-control" name="coupon_type">							
-							<option value="%" selected="true">％</option>
-							<option value="원">￦</option>					
-						</select>
-					</td>
+					<td>카테고리 명:</td>
+					<td><input type="text" class="form-control" name="category_name"/></td>
 				</tr>
 			</table>
 			<div class="pull-right"><button type="submit" class="btn btn-primary">추가</button></div>

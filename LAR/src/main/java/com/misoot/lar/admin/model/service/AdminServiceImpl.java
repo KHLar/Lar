@@ -220,4 +220,24 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int management_Coupon_Add(Map<String, String> coupon_map) {
 		return ((AdminDaoImpl)adminDaoImpl).management_Coupon_Add(coupon_map);
 	}
+
+	public List<Map<String, String>> selectCategoryList(RowBounds rowBounds) {
+		return ((AdminDaoImpl)adminDaoImpl).selectCategoryList(rowBounds);
+	}
+	
+	public List<Map<String, String>> selectCategoryList() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCategoryList();
+	}
+
+	public int getSelectCategoryListCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getSelectCategoryListCount();
+	}
+
+	public int management_Category_Add(String category_name) {
+		return ((AdminDaoImpl)adminDaoImpl).management_Category_Add(category_name);
+	}
+
+	public int management_Lecture_Add(Lecture lecture) {
+		return ((AdminDaoImpl)adminDaoImpl).management_Lecture_Add(lecture);
+	}
 }

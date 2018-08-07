@@ -87,7 +87,10 @@
 									<a href="/lar/admin/management/coupon/list/1"><i class="fa fa-fw fa-ticket"></i> Coupon</a>
 								</li>
 								<li>
-									<a href="/lar/admin/management/lecture"><i class="fa fa-fw fa-registered"></i> Lecture</a>
+									<a href="/lar/admin/management/category/list/1"><i class="fa fa-fw fa-bookmark-o"></i> Lecture Category</a>
+								</li>
+								<li>
+									<a href="/lar/admin/management/lecture"><i class="fa fa-fw fa-registered"></i> Lecture Registered</a>
 								</li>
 							</ul>
 						</li>

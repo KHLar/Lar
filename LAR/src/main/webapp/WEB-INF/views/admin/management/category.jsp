@@ -20,8 +20,8 @@
 		</h1>
 		<ol class="breadcrumb">
 			<li class="active"><i class="fa fa-cogs"></i> Management</li>
-			<li class="active"><i class="fa fa-ticket"></i> Coupon</li>
-			<li class="active"><a href="/lar/admin/management/coupon/list/1"><i class="fa fa-list"></i> List</a></li>
+			<li class="active"><i class="fa fa-bookmark-o"></i> Category</li>
+			<li class="active"><a href="/lar/admin/management/category/list/1"><i class="fa fa-list"></i> List</a></li>
 			<li class="active"><i class="fa fa-hashtag"></i> ${pi.current_page}</li>
 		</ol>
 	</div>
@@ -31,19 +31,17 @@
 			<tr>
 				<th>Idx</th>
 				<th>Name</th>
-				<th>Discount Info</th>
 			</tr>
-			<c:forEach items="${coupon_list}" var="coupon">
+			<c:forEach items="${category_list}" var="category">
 				<tr>
-					<td>${coupon.COUPON_INDEX}</td>
-					<td>${coupon.COUPON_NAME}</td>
-					<td>${coupon.COUPON_DISCOUNT_INF}</td>
+					<td>${category.CATEGORY_INDEX}</td>
+					<td>${category.CATEGORY_NAME}</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 	<div class="row">
-		<div class="pull-right"><a class="btn btn-primary" role="button" href="/lar/admin/management/coupon/form">추가</a></div>
+		<div class="pull-right"><a class="btn btn-primary" role="button" href="/lar/admin/management/category/form">추가</a></div>
 	</div>
 
 	<div class="row">
