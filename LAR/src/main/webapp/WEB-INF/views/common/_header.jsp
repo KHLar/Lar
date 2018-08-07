@@ -15,6 +15,12 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-122666585-1');
+  
+  function mypageTabreset(){
+	localStorage['myptab'] = 0;
+	localStorage['mypanel'] = 0;  
+	location.href="/lar/user/mypage";
+  }
 </script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,42 +71,40 @@
 						<a href="/lar/recommanded">추천 강좌</a>
 					</li>
 					<li class="dropdown mega-dropdown">
-						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button" href = "/lar/lectureList">분류별 <span class="caret" style="display:none;"></span></a>
+						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button" href = "/lar/lectureList?category=ptotal">분류별 <span class="caret" style="display:none;"></span></a>
 						<ul class="dropdown-menu mobile-dropdown" aria-labelledby="lecture-dropdown"">
-							<li><a>Web</a></li>
-							<li><a>Android</a></li>
-							<li><a>Database</a></li>
+							<li><a href="/lar/lectureList?category=ptotal">프로그래밍 언어</a></li>
+							<li><a href="/lar/lectureList?category=mtotal">Android</a></li>
+							<li><a href="/lar/lectureList?category=dtotal">Database</a></li>
 						</ul>
 						<div class="container-3 mega-dropdownmenu">
 							<div class="col1" style="border-right:1px solid #222;">
 								<ul>
-									<li><h3><a>Web</a></h3></li>
-									<li><a href="#">Tomatoes</a></li>
-									<li><a href="#">Squash</a></li>
-									<li><a href="#">Zucchini</a></li>
-									<li><a href="#">Cucumbers</a></li>
-									<li><a href="#">Green Beans</a></li>
-									<li><a href="#">Lima Beans</a></li>
+									<li><h3><a href="/lar/lectureList?category=ptotal">프로그래밍</a></h3></li>
+									<li><a href="/lar/lectureList?category=L01">Java</a></li>
+									<li><a href="/lar/lectureList?category=L02">C++</a></li>
+									<li><a href="/lar/lectureList?category=L03">JavaScript</a></li>
+									<li><a href="/lar/lectureList?category=L04">php</a></li>
+									<li><a href="/lar/lectureList?category=L05">Python</a></li>
 								</ul>
 							</div>
 							<div class="col1" style="border-right:1px solid #222;">
 								<ul>
-									<li><h3><a>Android</a></h3></li>
-									<li><a href="#">Apples</a></li>
-									<li><a href="#">Blueberries</a></li>
-									<li><a href="#">Cranberries</a></li>
-									<li><a href="#">Raspberries</a></li>
-									<li><a href="#">Strawberries</a></li>
+									<li><h3><a href="/lar/lectureList?category=mtotal">Android</a></h3></li>
+									<li><a href="/lar/lectureList?category=L06">Swift</a></li>
+									<li><a href="/lar/lectureList?category=L07">FireBase</a></li>
+									<li><a href="/lar/lectureList?category=L08">Android Studio</a></li>
+									<li><a href="/lar/lectureList?category=L09">Raspberries</a></li>
+									<li><a href="/lar/lectureList?category=L10">Hybrid</a></li>
 								</ul>
 							</div>
 							<div class="col1">								
 								<ul>
-									<li><h3><a>Database</a></h3></li>
-									<li><a href="#">Apples</a></li>
-									<li><a href="#">Blueberries</a></li>
-									<li><a href="#">Cranberries</a></li>
-									<li><a href="#">Raspberries</a></li>
-									<li><a href="#">Strawberries</a></li>
+									<li><h3><a href="/lar/lectureList?category=dtotal">Database</a></h3></li>
+									<li><a href="/lar/lectureList?category=L11">Oracle</a></li>
+									<li><a href="/lar/lectureList?category=L12">Mysql</a></li>
+									<li><a href="/lar/lectureList?category=L13">MSsql</a></li>
+									<li><a href="/lar/lectureList?category=L14">Nosql</a></li>
 								</ul>
 							</div>
 						</div>
@@ -120,7 +124,7 @@
 					<li class="dropdown">
 						<a class="dropdown-toggle" role="button" id="user-btn" data-toggle="dropdown" style="color:#ffe484;" aria-haspopup="true" aria-expanded="true"><span class="glyphicon glyphicon-education"></span> ${session_user.user_nickname} <span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="user-btn">
-							<li><a href="/lar/user/mypage" style="color:black;"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
+							<li><a class="mypage_btn" style="color:black;" onclick="mypageTabreset();"><span class="glyphicon glyphicon-user"></span> 마이페이지</a></li>
 							<li><a href="/lar/user/cart" style="color:black;"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
 							<li><a href="/lar/user/signout" style="color:black;"><span class="glyphicon glyphicon-log-out"></span> 접속해제</a></li>
 						</ul>

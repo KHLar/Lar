@@ -271,7 +271,7 @@ body {
                      by <a href="#">${lecture.user_nickname}</a> 
 					<span>
 					<c:if test="${applyCount == 0}">                  
-							<button class="btn btn-sm btn-warning pull-right" id="applyLecture">수강신청</button>
+							<button class="btn btn-sm btn <btn-success></btn-success> pull-right" id="applyLecture">수강신청</button>
 							<input type="hidden" id="lecture_index_applyLecture" value="${lecture.lecture_index}"/>
 					</c:if>                   
                    <c:if test="${applyCount >0}">
@@ -287,7 +287,6 @@ body {
                   <div class="col-sm-12 youtubeWrap ">
                      ${lecture.lecture_content }<br> <br>
                   </div>
-                test:  ${lectureTotalScore.lecture_total_score }
                   <div class="col-sm-12" id="lectureList">
                   <!-- User Rating -->
                   <c:if test="${lectureTotalScore.lecture_total_score <= 0}">
@@ -610,8 +609,8 @@ body {
                      </div>
                      <hr />
                   </c:forEach>
-
-
+			
+	
                   <!-- Comment with nested comments -->
                   <div class="">
                      <h1>강좌 교육 과정</h1>
@@ -629,7 +628,7 @@ body {
                                     src="${pageContext.request.contextPath}/resources/images/play-icon.png">
                                  </td>
                            
-                                 <td class="play_title"><c:if test="${session_user.user_index != null and applyCount > 0 or lecture.lecture_instructor_index eq session_user.user_index }"><a class="lectureView"></c:if>${bl.LECTURE_BOARD_TITLE}</a>
+                                 <td class="play_title"><c:if test="${session_user.user_index != null and applyCount > 0 or lecture.lecture_instructor_index eq session_user.user_index }"><a class="lectureView2"></c:if>${bl.LECTURE_BOARD_TITLE}</a>
                                     <input type="hidden" value="${bl.LECTURE_BOARD_INDEX}"
                                     class="my_boardLecture_index"  /> <input type="hidden"
                                     value="${lecture.lecture_index}" class="my_lecture_index" /></td>
@@ -764,7 +763,10 @@ body {
             }
             
          }
+         var toggle = 0;
          $(".modiy").on("click",function() {
+        	 
+        	 if( toggle== 0){
             var index = $(this).siblings(".lecture_index").val();
             var title = $(this).siblings(".title").text();
             var content = $(this).siblings('.content').text();
@@ -782,29 +784,12 @@ body {
             $('#review_writer').val(uindex);
             $('#updaetName').text( "닉네임 :" +nickname);
             $('.headrmody').text("수강후기 수정");
+             toggle = 1;
+        	 }else {
+        		 location.reload();
+        	 }
          });
-       /*   
-         $(".modiy").toggle(function() {
-             var index = $(this).siblings(".lecture_index").val();
-             var title = $(this).siblings(".title").text();
-             var content = $(this).siblings('.content').text();
-             var rindex = $(this).siblings('.lecture_review_index').val();
-             var score = $(this).siblings('.score').val();
-             var uindex = $(this).siblings('.uindex').val();
-             var nickname = $(this).siblings('.nickname').val();
-             $(".hiddenTag").each(function(index, item){
-                $(item).css('display','inline');
-             });
-             $("#orgin").children().find('#reviewTitle').val(title);
-             $("#orgin").children().find('#lecture_review_content').val(content).focus();
-             $("#orgin").children().find('#lecture_review_index').val(rindex);
-             $('.lecture_review_score').val(score);
-             $('#review_writer').val(uindex);
-             $('#updaetName').text( "닉네임 :" +nickname);
-             $('.headrmody').text("수강후기 수정");
-          },function(){
-         	 location.reload();
-          }); */
+     
                
       </script>
       <c:import url="/WEB-INF/views/common/_footer.jsp" />

@@ -31,7 +31,7 @@
 							<br />
 							<div class="form-inline">
   							  <input type="text" class="form-control mb-2 mr-sm-2" placeHolder="chapter" name="lecture_board_chapter" value="${b.LECTURE_BOARD_CHAPTER}" required>
-  							  <input type="text"/>
+  							
   							  <input type="file" class="form-control mb-2 mr-sm-2 pull-right" id="inlineFormInputName2" placeholder="파일 업로드" name="upFile"  multiple>
 							 <input type="hidden" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="강의넘버" name="lecture_board_lecture_index" value="${b.LECTURE_BOARD_LECTURE_INDEX }" required> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

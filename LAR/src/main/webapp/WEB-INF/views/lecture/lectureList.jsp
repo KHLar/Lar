@@ -109,20 +109,30 @@ function lecValidate() {
 	}
 	return true;
 }
+
+$(window).resize(function() {
+	if (window.matchMedia("(min-width: 768px)").matches) {
+		$('#cool1').removeClass('collapse');
+		$('#cool2').removeClass('collapsed');
+	} else {
+		$('#cool1').addClass('collapse');
+		$('#cool2').addClass('collapsed');
+	}
+});
 </script>
 
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
 			<ul class="list-group">
-				<li class="list-group-item list-group-item-warning"
+				<button   id="cool2" type="button" class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
-					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
-				</li>
+					<a> 메뉴  </a> 
+				</button>
 
-				<div id="cool1">
+				<div id="cool1" class="" >
 					<div data-toggle="collapse" data-target="#cool1"
-						aria-expanded="ture">				
+						aria-expanded="false">				
 				<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
 						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
@@ -149,6 +159,7 @@ function lecValidate() {
 				</div>
 			</ul>
 
+  	
 		
 		</div>
 		<div class="col-lg-7">
