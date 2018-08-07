@@ -40,7 +40,7 @@ public class AdminController {
 	
 	@RequestMapping(value = {""})
 	public String home(Model model) {
-		// 당일 가입 건수
+		// 당일 가입 건수 
 		// 당일 결제 건수
 		// 당일 글(커뮤니티) 건수
 		// 당일 댓글(커뮤니티) 건수
