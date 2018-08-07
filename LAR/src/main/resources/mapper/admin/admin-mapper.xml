@@ -495,4 +495,9 @@
   		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_thumbnail},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
  		)
 	</insert>
+	
+	<insert id="giveCouponToUser" parameterType="map">
+		insert into TABLE_USER_COUPON VALUES(SEQ_USER_COUPON_INDEX.NEXTVAL ,#{target_index}, #{user_index}, DEFAULT, DEFAULT)
+	</insert>
+	
 </mapper>

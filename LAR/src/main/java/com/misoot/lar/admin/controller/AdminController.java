@@ -12,6 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -414,6 +415,7 @@ public class AdminController {
 		
 		if (menu.equals("users")) {
 			String list = modal_header.get("list").toString();
+
 			if(!keySet.contains("target_index")) {
 				int page = Integer.parseInt(modal_header.get("page").toString());
 				
@@ -453,6 +455,20 @@ public class AdminController {
 			}
 			
 			return "redirect:/admin/"+menu+"/"+index+"/modal/"+list+"/"+target_index;
+		} else if (menu.equals("give")) {
+			String list = modal_header.get("list").toString();
+			String pre_list = modal_header.get("pre_list").toString();
+			int pre_page = Integer.parseInt(modal_header.get("pre_page").toString());
+			
+			redirectAttributes.addFlashAttribute("pre_list", pre_list);
+			redirectAttributes.addFlashAttribute("pre_page", pre_page);
+			
+			if (!keySet.contains("target_index")) {
+				return "redirect:/admin/users/view/"+index+"/modal/"+list+"/give/form";
+			} else {
+				int target_index = Integer.parseInt(modal_header.get("target_index").toString());
+				return "redirect:/admin/users/view/"+index+"/modal/coupon/give/"+target_index;
+			}
 		} else {
 			return "admin/modal/_void";
 		}
@@ -476,6 +492,32 @@ public class AdminController {
 		
 		return "admin/modal/_couponListByUserIndex";
 	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/coupon/give/form")
+	public String modal_coupon_give_form(Model model, @PathVariable("user_index") int user_index,
+										@ModelAttribute("pre_list") String pre_list, @ModelAttribute("pre_page") int pre_page) {
+		
+		List<Map<String, String>> coupon_list = ((AdminServiceImpl) adminServiceImpl).selectCouponList();
+		model.addAttribute("user_index", user_index)
+			.addAttribute("coupon_list", coupon_list)
+			.addAttribute("pre_list", pre_list)
+			.addAttribute("pre_page", pre_page);
+		
+		return "admin/modal/_couponGiveByUserIndex";
+	}
+	
+	@RequestMapping(value="/users/view/{user_index}/modal/coupon/give/{target_index}")
+	public String modal_coupon_give(Model model, @PathVariable("user_index") int user_index, @PathVariable("target_index") int target_index) {
+		
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("user_index", user_index);
+		insertMap.put("target_index", target_index);
+		
+		int result = ((AdminServiceImpl) adminServiceImpl).giveCouponToUser(insertMap);
+		
+		return "redirect:/admin/users/view/"+user_index+"/modal/coupon/list/1";
+	}
+	
 	
 	@RequestMapping(value="/users/view/{user_index}/modal/purchase/list/{page}")
 	public String modal_purchaseListByUserIndex(Model model, @PathVariable("user_index") int user_index,
@@ -501,7 +543,6 @@ public class AdminController {
 												@PathVariable("target_index") int target_index,
 												@PathVariable("pre_list") String pre_list,
 												@PathVariable("pre_page") int pre_page) {
-		
 		
 		
 		

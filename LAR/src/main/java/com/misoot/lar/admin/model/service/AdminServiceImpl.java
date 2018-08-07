@@ -209,6 +209,10 @@ public class AdminServiceImpl implements LarService<Admin> {
 	}
 	
 	/* coupon area */
+	public List<Map<String, String>> selectCouponList() {
+		return ((AdminDaoImpl)adminDaoImpl).selectCouponList();
+	}
+	
 	public List<Map<String, String>> selectCouponList(RowBounds rowBounds) {
 		return ((AdminDaoImpl)adminDaoImpl).selectCouponList(rowBounds);
 	}
@@ -239,5 +243,9 @@ public class AdminServiceImpl implements LarService<Admin> {
 
 	public int management_Lecture_Add(Lecture lecture) {
 		return ((AdminDaoImpl)adminDaoImpl).management_Lecture_Add(lecture);
+	}
+
+	public int giveCouponToUser(Map<String, Object> insertMap) {
+		return ((AdminDaoImpl)adminDaoImpl).giveCouponToUser(insertMap);
 	}
 }

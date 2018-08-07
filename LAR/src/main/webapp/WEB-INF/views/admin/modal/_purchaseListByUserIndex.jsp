@@ -18,15 +18,24 @@ $(function() {
 </script>
 
 <div class="modal-header">
-	<h4><b>User's Payment List</b></h4>
+	<h4><b>User's Purchase List</b></h4>
 </div>
 
 <div class="modal-body">
 
 	<table class="table table-striped table-condensed">
 		<tr>
-			
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
 		</tr>
+		<c:forEach items="${purchase_list}" var="purchase">
+			<tr>
+				
+			</tr>
+		</c:forEach>
 	</table>
 </div>
 

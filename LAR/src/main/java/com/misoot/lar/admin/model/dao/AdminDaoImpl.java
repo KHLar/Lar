@@ -196,10 +196,14 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectOne("admin.getSelectLectureListCount");
 	}
 
+	public List<Map<String, String>> selectCouponList() {
+		return sqlSession.selectList("admin.selectCouponList");
+	}
+	
 	public List<Map<String, String>> selectCouponList(RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectCouponList", null, rowBounds);
 	}
-
+	
 	public int getSelectCouponListCount() {
 		return sqlSession.selectOne("admin.getSelectCouponListCount");
 	}
@@ -226,5 +230,9 @@ public class AdminDaoImpl implements LarDao<Admin> {
 
 	public int management_Lecture_Add(Lecture lecture) {
 		return sqlSession.insert("admin.management_Lecture_Add", lecture);
+	}
+
+	public int giveCouponToUser(Map<String, Object> insertMap) {
+		return sqlSession.insert("admin.giveCouponToUser", insertMap);
 	}
 }

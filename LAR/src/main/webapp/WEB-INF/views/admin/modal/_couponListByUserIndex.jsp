@@ -31,20 +31,23 @@ $(function() {
 			<th>Is Deleted</th>
 			<th>Used Date</th>
 		</tr>
+		<c:forEach items="${coupon_list}" var="coupon">
 		<tr>
-			<c:forEach items="${coupon_list}" var="coupon">
-				<td>${coupon.USER_COUPON_INDEX}</td>
-				<td>${coupon.COUPON_NAME}</td>
-				<td>${coupon.COUPON_DISCOUNT_INF}</td>
-				<td>${coupon.USER_COUPON_GIVEN_DATE}</td>
-				<td>${coupon.USER_COUPON_USED_DATE == null ? false : true}</td>
-				<td>${coupon.USER_COUPON_USED_DATE}</td>
-			</c:forEach>
+			<td>${coupon.USER_COUPON_INDEX}</td>
+			<td>${coupon.COUPON_NAME}</td>
+			<td>${coupon.COUPON_DISCOUNT_INF}</td>
+			<td>${coupon.USER_COUPON_GIVEN_DATE}</td>
+			<td>${coupon.USER_COUPON_USED_DATE == null ? false : true}</td>
+			<td>${coupon.USER_COUPON_USED_DATE}</td>
 		</tr>
+		</c:forEach>
 	</table>
 </div>
 
 <div class="modal-footer">
+	<div class="row">
+		<div class="pull-right"><a class="btn btn-primary" role="button" onclick="adminGiveCouponFormView(${user_index}, 'coupon', ${pi.current_page})">추가</a></div>
+	</div>
 	<nav class="text-center">
 		<ul class="pagination">
 			<% if (pi.getCurrent_page() != 1) { %>
