@@ -47,6 +47,22 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int delete(int index) {
 		return 0;
 	}
+	
+	public int getTodaySignupCount() {
+		return sqlSession.selectOne("admin.getTodaySignupCount");
+	}
+
+	public int getTodayPurchaseCount() {
+		return sqlSession.selectOne("admin.getTodayPurchaseCount");
+	}
+
+	public int getTodayCommuCount() {
+		return sqlSession.selectOne("admin.getTodayCommuCount");
+	}
+
+	public int getTodayCommuReply() {
+		return sqlSession.selectOne("admin.getTodayCommuReply");
+	}
 
 	public List<User> selectUserList(int user_level, RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectUserList", user_level, rowBounds);
@@ -184,10 +200,6 @@ public class AdminDaoImpl implements LarDao<Admin> {
 		return sqlSession.selectOne("admin.getCommuIndexByCommuReplyIndex", target_index);
 	}
 
-	public List<Map<String, Integer>> getCharts() {
-		return sqlSession.selectList("admin.getChartTest");
-	}
-
 	public List<Lecture> selectLectureList(RowBounds rowBounds) {
 		return sqlSession.selectList("admin.selectLectureList", null, rowBounds);
 	}
@@ -242,5 +254,25 @@ public class AdminDaoImpl implements LarDao<Admin> {
 
 	public List<Map<String, Object>> selectPurchaseLectureList(String target_index) {
 		return sqlSession.selectList("admin.selectPurchaseLectureList", target_index);
+	}
+
+	public List<Map<String, Integer>> getYearlySignupChart() {
+		return sqlSession.selectList("admin.getYearlySignupChart");
+	}
+
+	public List<Map<String, Integer>> getYearlyPurchaseCountChart() {
+		return sqlSession.selectList("admin.getYearlyPurchaseCountChart");
+	}
+
+	public List<Map<String, Integer>> getYearlyPurchaseAmountChart() {
+		return sqlSession.selectList("admin.getYearlyPurchaseAmountChart");
+	}
+	
+	public List<Map<String, Integer>> getYearlyCommuChart() {
+		return sqlSession.selectList("admin.getYearlyCommuChart");
+	}
+
+	public List<Map<String, Integer>> getYearlyCommuReplyChart() {
+		return sqlSession.selectList("admin.getYearlyCommuReplyChart");
 	}
 }

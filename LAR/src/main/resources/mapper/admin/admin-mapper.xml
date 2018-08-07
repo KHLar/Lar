@@ -44,7 +44,68 @@
 		<result property="commu_Reply_Is_Readed" column="COMMU_REPLY_IS_READED" />  
 		<result property="commu_Reply_Order_Index" column="COMMU_REPLY_ORDER_INDEX" />  
 	</resultMap>
-		
+	
+	<select id="getTodaySignupCount" resultType="_int">
+		select COUNT(*) from TABLE_USER
+		where SUBSTR(USER_ENROLLED_DATE, 1, 8) = SUBSTR(SYSDATE, 1, 8)
+	</select>
+	
+	<select id="getTodayPurchaseCount" resultType="_int">
+		select COUNT(*) from TABLE_PURCHASE
+		where SUBSTR(PURCHASE_DATE, 1, 8) = SUBSTR(SYSDATE, 1, 8) 
+	</select>
+	
+	<select id="getTodayCommuCount" resultType="_int">
+		select COUNT(*) from TABLE_COMMU
+		where SUBSTR(COMMU_UPLOAD_DATE, 1, 8) = SUBSTR(SYSDATE, 1, 8) 
+	</select>
+	
+	<select id="getTodayCommuReply" resultType="_int">
+		select COUNT(*) from TABLE_COMMU_REPLY
+		where SUBSTR(COMMU_REPLY_UPLOAD_DATE, 1, 8) = SUBSTR(SYSDATE, 1, 8)
+	</select>
+	
+	<!-- chart area -->
+	<select id="getYearlySignupChart" resultType="hashMap">
+		select * from (select SUBSTR(USER_ENROLLED_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_USER
+                where USER_ENROLLED_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(USER_ENROLLED_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+	
+	<select id="getYearlyPurchaseCountChart" resultType="hashMap">
+		select * from (select SUBSTR(PURCHASE_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_PURCHASE
+                where PURCHASE_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(PURCHASE_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+
+	<select id="getYearlyPurchaseAmountChart" resultType="hashMap">
+		select * from (select SUBSTR(PURCHASE_DATE, 1, 5) as "Month", NVL(SUM(PAID_AMOUNT), 0) as "Value" from TABLE_PURCHASE
+                where PURCHASE_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(PURCHASE_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+	
+	<select id="getYearlyCommuChart" resultType="hashMap">
+		select * from (select SUBSTR(COMMU_UPLOAD_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_COMMU
+                where COMMU_UPLOAD_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(COMMU_UPLOAD_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+	
+	<select id="getYearlyCommuReplyChart" resultType="hashMap">
+		select * from (select SUBSTR(COMMU_REPLY_UPLOAD_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_COMMU_REPLY
+                where COMMU_REPLY_UPLOAD_DATE <![CDATA[<]]> SYSDATE
+		group by SUBSTR(COMMU_REPLY_UPLOAD_DATE, 1, 5))
+		where ROWNUM <![CDATA[<=]]> 12
+		order by "Month" asc
+	</select>
+	
 	<select id="selectUser" parameterType="_int" resultType="user">
 		select * from TABLE_USER where USER_INDEX = #{user_index}
 	</select>
@@ -166,7 +227,7 @@
 	</select>
 	
 	<select id="getTotalPurchaseAmountByUserIndex" parameterType="_int" resultType="_int">
-		select SUM(PAID_AMOUNT) from TABLE_PURCHASE
+		select NVL(SUM(PAID_AMOUNT), 0) from TABLE_PURCHASE
 		where PURCHASE_USER_INDEX = #{user_index}
 		and status='paid'
 	</select>
@@ -175,6 +236,7 @@
 		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT, STATUS from TABLE_PURCHASE
 		left join TABLE_COUPON on(PURCHASE_USED_COUPON_INDEX = COUPON_INDEX)
 		where PURCHASE_USER_INDEX = #{user_index}
+		order by MERCHANT_UID desc
 	</select>
 	
 	<select id="getSelectPurchaseListCountByUserIndex" parameterType="_int" resultType="_int">
@@ -435,16 +497,6 @@
 		where COMMU_REPLY_INDEX=#{target_index}
 	</select>
 	
-	
-	<!-- chart area -->
-	<select id="getChartTest" resultType="hashMap">
-		select * from (select SUBSTR(COMMU_UPLOAD_DATE, 1, 5) as "Month", count(*) as "Value" from TABLE_COMMU
-                where COMMU_UPLOAD_DATE <![CDATA[<]]> SYSDATE
-		group by SUBSTR(COMMU_UPLOAD_DATE, 1, 5))
-		where ROWNUM <![CDATA[<=]]> 12
-		order by "Month" asc
-	</select>
-	
 	<!-- lecture area -->
 	<select id="selectLectureList" resultType="lecture">
 		select LECTURE_INDEX, CATEGORY_NAME, LECTURE_TITLE, USER_NICKNAME, LECTURE_UPLOAD_DATE 
@@ -502,12 +554,12 @@
 	
 	<select id="selectPurchaseByPurchaseMap" parameterType="map" resultType="purchase">
 		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT, COUPON_NAME from TABLE_PURCHASE
-		join TABLE_COUPON on(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX)
+		left join TABLE_COUPON on(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX)
 		where MERCHANT_UID = #{uid} and PURCHASE_USER_INDEX = #{user_index}
 	</select>
 	
 	<select id="selectPurchaseLectureList" parameterType="string" resultType="hashmap">
-		select LECTURE_TITLE, LECTURE_PRICE
+		select LECTURE_TITLE, LECTURE_PRICE, LECTURE_THUMBNAIL, LECTURE_INDEX
 		from TABLE_PURCHASE JOIN TABLE_PURCHASE_LIST USING(MERCHANT_UID) 
 		join TABLE_LECTURE USING(LECTURE_INDEX)
 		where MERCHANT_UID = #{target_index}

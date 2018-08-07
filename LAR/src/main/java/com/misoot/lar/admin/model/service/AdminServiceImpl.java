@@ -49,6 +49,22 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int delete(int index) {
 		return adminDaoImpl.delete(index);
 	}
+	
+	public int getTodaySignupCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getTodaySignupCount();
+	}
+
+	public int getTodayPurchaseCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getTodayPurchaseCount();
+	}
+
+	public int getTodayCommuCount() {
+		return ((AdminDaoImpl)adminDaoImpl).getTodayCommuCount();
+	}
+
+	public int getTodayCommuReply() {
+		return ((AdminDaoImpl)adminDaoImpl).getTodayCommuReply();
+	}
 
 	/*
 	 * user area start
@@ -194,10 +210,6 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int getCommuIndexByCommuReplyIndex(int target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).getCommuIndexByCommuReplyIndex(target_index);
 	}
-
-	public List<Map<String, Integer>> getCharts() {
-		return ((AdminDaoImpl)adminDaoImpl).getCharts();
-	}
 	
 	/* lecture area */
 	public List<Lecture> selectLectureList(RowBounds rowBounds) {
@@ -255,5 +267,25 @@ public class AdminServiceImpl implements LarService<Admin> {
 
 	public List<Map<String, Object>> selectPurchaseLectureList(String target_index) {
 		return ((AdminDaoImpl)adminDaoImpl).selectPurchaseLectureList(target_index);
+	}
+
+	public List<Map<String, Integer>> getYearlySignupChart() {
+		return ((AdminDaoImpl)adminDaoImpl).getYearlySignupChart();
+	}
+	
+	public List<Map<String, Integer>> getYearlyPurchaseCountChart() {
+		return ((AdminDaoImpl)adminDaoImpl).getYearlyPurchaseCountChart();
+	}
+
+	public List<Map<String, Integer>> getYearlyPurchaseAmountChart() {
+		return ((AdminDaoImpl)adminDaoImpl).getYearlyPurchaseAmountChart();
+	}
+
+	public List<Map<String, Integer>> getYearlyCommuChart() {
+		return ((AdminDaoImpl)adminDaoImpl).getYearlyCommuChart();
+	}
+
+	public List<Map<String, Integer>> getYearlyCommuReplyChart() {
+		return ((AdminDaoImpl)adminDaoImpl).getYearlyCommuReplyChart();
 	}
 }
