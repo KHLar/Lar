@@ -352,6 +352,9 @@ public class LectureController {
 	public String BoardLecutreDetail( @RequestParam("bindex") int lecture_board_index,@RequestParam("index") int lecture_index,@SessionAttribute(value="session_user", required=false ) User user, Model model){
 		
 		
+		// TABLE_LECTURE -> IS DELETED 0체크, 0이면 아래 알고리즘 실행, 1이면 에러
+		
+		
 		Map< String, Integer> map = new HashMap<String, Integer>();
 		map.put( "lecture_board_index", lecture_board_index );
 		map.put( "lecture_index", lecture_index );
@@ -363,6 +366,10 @@ public class LectureController {
 		hmap.put("user_index", user.getUser_index());
 		hmap.put("bindex", lecture_board_index);
 		
+	
+
+		int checkApply = ((LectureServiceImpl)LectureServiceImpl).checkApply(hmap);
+	
 		
 		LectureBoard bLecture = ((LectureServiceImpl)LectureServiceImpl).selectLectureView(map);
 		
@@ -389,7 +396,7 @@ public class LectureController {
 			 }
 		 }
 		
-		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("hlist", hlist);
+		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("checkApply",checkApply);
 		return "lecture/lectureView";
 	}
 	

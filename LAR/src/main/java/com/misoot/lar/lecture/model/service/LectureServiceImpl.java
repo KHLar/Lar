@@ -261,5 +261,15 @@ public class LectureServiceImpl implements LarService<Lecture> {
 	public List<Map<String, Object>> barList(int lecture_index) {
 		return ((LectureDaoImpl)lectureDaoImpl).barList(lecture_index);
 	}
+
+	public int checkApply(Map<String, Integer> hmap) {
+		return ((LectureDaoImpl)lectureDaoImpl).checkApply(hmap);
+	}
+
+	
+
+	
+
+	
 }
 

@@ -228,6 +228,14 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 		return sqlSession.selectList("lecture.barList", lecture_index);
 	}
 
+	public int checkApply(Map<String, Integer> hmap) {
+		return sqlSession.selectOne("lecture.checkApply",hmap);
+	}
+
+
+
+
+
 	
 
 	

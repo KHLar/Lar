@@ -324,5 +324,11 @@ INSERT INTO TABLE_LECTURE VALUES( SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_i
 		where LECTURE_IS_DELETED = 0 and LECTURE_REVIEW_LECTURE_INDEX = #{lecture_index}
 		group by LECTURE_REVIEW_SCORE
 	</select>	
+	
+	<select  id="checkApply" parameterType="hashmap" resultType="_int">
+			select count(HISTORY_IS_DELETED) from  TABLE_LECTURE_HISTORY 
+			where HISTORY_USER_INDEX= #{user_index} and HISTORY_LECTURE_INDEX =#{ index } and HISTORY_IS_DELETED= 0 
+	</select>
+	
 </mapper>
 
