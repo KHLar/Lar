@@ -25,15 +25,17 @@ $(function() {
 
 	<table class="table table-striped table-condensed">
 		<tr>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th></th>
+			<th>UID</th>
+			<th>P_DATE</th>
+			<th>Amount</th>
+			<th>Status</th>
 		</tr>
 		<c:forEach items="${purchase_list}" var="purchase">
 			<tr>
-				
+				<td><a role="button" onclick="adminUsersViewModal(${user_index}, 'purchase', '${purchase.merchant_uid}', '${pre_list}', ${pre_page})">${purchase.merchant_uid}</a></td>
+				<td>${purchase.purchase_date}</td>
+				<td>${purchase.paid_amount}</td>
+				<td>${purchase.status}</td>
 			</tr>
 		</c:forEach>
 	</table>

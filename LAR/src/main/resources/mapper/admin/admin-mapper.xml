@@ -172,7 +172,7 @@
 	</select>
 	
 	<select id="selectPurchaseListByUserIndex" parameterType="_int" resultType="purchase">
-		select * from TABLE_PURCHASE
+		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT, STATUS from TABLE_PURCHASE
 		left join TABLE_COUPON on(PURCHASE_USED_COUPON_INDEX = COUPON_INDEX)
 		where PURCHASE_USER_INDEX = #{user_index}
 	</select>
@@ -500,4 +500,8 @@
 		insert into TABLE_USER_COUPON VALUES(SEQ_USER_COUPON_INDEX.NEXTVAL ,#{target_index}, #{user_index}, DEFAULT, DEFAULT)
 	</insert>
 	
+	<select id="selectPurchaseByPurchaseMap" parameterType="map" resultType="purchase">
+		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT from TALBE_PURCHASE
+		where MARCHANT_UID = #{uid} and USER_INDEX = #{user_index}
+	</select>
 </mapper>

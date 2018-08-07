@@ -235,4 +235,8 @@ public class AdminDaoImpl implements LarDao<Admin> {
 	public int giveCouponToUser(Map<String, Object> insertMap) {
 		return sqlSession.insert("admin.giveCouponToUser", insertMap);
 	}
+
+	public Purchase selectPurchaseByPurchaseMap(Map<String, Object> selectMap) {
+		return sqlSession.selectOne("admin.selectPurchaseByPurchaseMap", selectMap);
+	}
 }
