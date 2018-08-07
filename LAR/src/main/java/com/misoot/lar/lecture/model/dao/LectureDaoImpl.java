@@ -72,8 +72,8 @@ public class LectureDaoImpl implements LarDao<Lecture> {
 	}
 
 	/* lecture insert */
-	public int selectlectureTotalCount(String category) {
-		return sqlSession.selectOne("lecture.selectlectureTotalCount", category);
+	public int selectlectureTotalCount(Map<String, String> totalcontents) {
+		return sqlSession.selectOne("lecture.selectlectureTotalCount", totalcontents);
 	}
 
 	public Lecture selectLectureOne(int lecture_index) {
