@@ -409,9 +409,9 @@ public class CommuController {
 		String loc = "/commu/commuView/" + commuIndex;
 		String msg = "";
 		if (result > 0)
-			msg = "게시글 등록 성공!";
+			msg = "댓글 등록 성공!";
 		else {
-			msg = "게시글 등록 실패!";
+			msg = "댓글 등록 실패!";
 		}
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);

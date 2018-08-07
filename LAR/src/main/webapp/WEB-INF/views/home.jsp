@@ -109,7 +109,7 @@
 				<div class="main-recommandlecture" style="margin-top: 50px;">
 					<h3>추천 강좌</h3>
 					<div class="row">
-						<c:forEach items="${recomand_lecture_list}" var="userRec">
+						<c:forEach items="${recomand_lecture_list}" var="userRec" begin="0" end="7" step="1" varStatus="status">
 							<div class="container col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding: 5px;">
 								<div class="thumbnail container-fluid">
 									<a href="/lar/lecture/lectureDetail?lecture_index=${userRec.lecture_index}"><img src="${userRec.lecture_thumbnail}"></a>
