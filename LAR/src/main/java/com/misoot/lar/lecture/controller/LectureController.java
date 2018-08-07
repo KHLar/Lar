@@ -174,7 +174,7 @@ public class LectureController {
 	
 	// 강의 리스트 불러오기
 	@RequestMapping(value = "/lectureList")
-	public String lectureList(@RequestParam(value="category", required=false, defaultValue="ptotal") String category, Model model,
+	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
 			@RequestParam(value="LecSearchText", required=false, defaultValue="")String LecSearchText) {
 		int numPerPage = 7;	// 한 페이지 당 게시글 수
@@ -190,8 +190,11 @@ public class LectureController {
 		    parameters.put("LecSearchText", LecSearchText);
 			lList = ((LectureServiceImpl)LectureServiceImpl).selectList(parameters,cPage, numPerPage);
 		}
+		Map<String,String> totalcontents = new HashMap<String,String>();
+		totalcontents.put("category", category);
+		totalcontents.put("LecSearchText", LecSearchText);
 		
-		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount(category);
+		int totalContents = ((LectureServiceImpl)LectureServiceImpl).selectlectureTotalCount(totalcontents);
 		
 		model.addAttribute("lList", lList).addAttribute("numPerPage", numPerPage).addAttribute("totalContents", totalContents);
 		model.addAttribute("category",category);
