@@ -167,7 +167,7 @@
 						if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 							$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 						}	else{
-							$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+							$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");
 						}
 						$base_sent.append(
 								$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
@@ -220,7 +220,7 @@
 							if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 								$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 							}	else{
-								$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+								$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");
 							}
 					$base_sent.append(
 							$col.append($message.append($pre.text(v.INQUIRE_CONTENT))
@@ -311,7 +311,7 @@
 			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			}	else{
-				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");}
+				$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");}
 			
 		$base_sent.append(
 				$col.append($message.append($pre.text(data.inquire_content))
@@ -335,7 +335,7 @@
 			if('${session_user.user_thumbnail}'==null || '${session_user.user_thumbnail}'== ''){
 				$img.attr('src', "http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg");
 			}	else{
-				$img.attr('src', "${pageContext.request.contextPath}/resources/userthumbnail/${session_user.user_thumbnail}");
+				$img.attr('src', "${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${session_user.user_thumbnail}");
 			}
 			$base_sent.append(
 					$col.append($message.append($pre.text(data.inquire_content))
