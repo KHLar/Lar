@@ -144,7 +144,7 @@ textarea {
 					</div>
 
 					<!-- .panel-heading -->
-					<div class="panel-body" style="height: 300px">
+					<div class="panel-body" style=" min-height: 300px;">
 						<div class="panel-group" id="accordion">
 							<p style="font-size: 15pt">${commu.commu_Content}</p>
 						</div>

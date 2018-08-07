@@ -174,7 +174,7 @@ public class LectureController {
 	
 	// 강의 리스트 불러오기
 	@RequestMapping(value = "/lectureList")
-	public String lectureList(@RequestParam(value="category", required=false, defaultValue="total") String category, Model model,
+	public String lectureList(@RequestParam(value="category", required=false, defaultValue="ptotal") String category, Model model,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
 			@RequestParam(value="LecSearchText", required=false, defaultValue="")String LecSearchText) {
 		int numPerPage = 7;	// 한 페이지 당 게시글 수

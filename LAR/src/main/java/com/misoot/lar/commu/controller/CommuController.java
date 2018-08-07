@@ -409,9 +409,9 @@ public class CommuController {
 		String loc = "/commu/commuView/" + commuIndex;
 		String msg = "";
 		if (result > 0)
-			msg = "게시글 등록 성공!";
+			msg = "댓글 등록 성공!";
 		else {
-			msg = "게시글 등록 실패!";
+			msg = "댓글 등록 실패!";
 		}
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
@@ -468,8 +468,6 @@ public class CommuController {
 	@RequestMapping(value = "/commu/commuDelete/{user_index}")
 	public String commuDelete(@PathVariable("user_index") String user_index, Model model) {
 
-		// String loc="";
-		// String msg="";
 		int commuDelete = ((CommuServiceImpl) commuServiceImpl).deleteCommu(user_index);
 		if (commuDelete > 0) {
 			System.out.println("삭제성공");
