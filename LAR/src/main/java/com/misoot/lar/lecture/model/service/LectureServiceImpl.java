@@ -103,8 +103,8 @@ public class LectureServiceImpl implements LarService<Lecture> {
 		return ((LectureDaoImpl) lectureDaoImpl).selectBoardList(lecture_index);
 	}
 
-	public int selectlectureTotalCount(String category) {
-		return ((LectureDaoImpl) lectureDaoImpl).selectlectureTotalCount(category);
+	public int selectlectureTotalCount(Map<String, String> totalcontents) {
+		return ((LectureDaoImpl) lectureDaoImpl).selectlectureTotalCount(totalcontents);
 	}
 
 	public Lecture selectLectureOne(int lecture_index) {
