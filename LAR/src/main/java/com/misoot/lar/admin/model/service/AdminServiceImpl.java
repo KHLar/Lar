@@ -248,4 +248,8 @@ public class AdminServiceImpl implements LarService<Admin> {
 	public int giveCouponToUser(Map<String, Object> insertMap) {
 		return ((AdminDaoImpl)adminDaoImpl).giveCouponToUser(insertMap);
 	}
+
+	public Purchase selectPurchaseByPurchaseMap(Map<String, Object> selectMap) {
+		return ((AdminDaoImpl)adminDaoImpl).selectPurchaseByPurchaseMap(selectMap);
+	}
 }

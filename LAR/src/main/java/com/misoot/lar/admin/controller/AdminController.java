@@ -544,7 +544,11 @@ public class AdminController {
 												@PathVariable("pre_list") String pre_list,
 												@PathVariable("pre_page") int pre_page) {
 		
+		Map<String, Object> selectMap = new HashMap<String, Object>();
+		selectMap.put("user_index", user_index);
+		selectMap.put("uid", target_index);
 		
+		Purchase purchase = ((AdminServiceImpl)adminServiceImpl).selectPurchaseByPurchaseMap(selectMap);
 		
 		return "admin/modal/_purchaseView";
 	}
