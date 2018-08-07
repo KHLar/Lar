@@ -124,6 +124,7 @@ function lecValidate() {
 					<div data-toggle="collapse" data-target="#cool1"
 						aria-expanded="false">				
 						<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
+
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
@@ -146,8 +147,7 @@ function lecValidate() {
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
                   </c:if>						
-				
-					</div>
+									</div>
 				</div>
 			</ul>
 		</div>

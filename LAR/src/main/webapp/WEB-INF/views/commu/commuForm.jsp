@@ -44,10 +44,12 @@
 			alert('로그인 먼저해주세요^^');
 			return false;
 		}
-		/* if('${session_user.user_type}' != "admin"){
-			alert('관리자만 공지사항을 작성할수 있습니다');
-			return false;
-		} */
+		/*   if($('#commu_Category_Index').val() == 'N01'){
+			alert('dd');
+			if('${session_user.user_type}' != 'admin' || ${session_user.user_level} <=1000){
+				alert('사용자만 공지사항을 작성할수 있습니다.');
+				return false;
+			}   */
 		return true;
 	}
 	/*부트스트랩 : file 변경시 파일명 보이기 */
@@ -69,7 +71,7 @@
 		<div class="col-md-10 col-sm-10">
 			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="border-right: none; padding-right: 0%;">
 			<form name="commuFrm" action="${pageContext.request.contextPath}/commu/commuFormEnd" method="POST" onsubmit="return validate();" enctype="multipart/form-data">
-			
+					
 					<div class="form-group">
 						<label for="commu_title">제목</label>
 						<c:if test="${commu ne null }">
@@ -81,45 +83,24 @@
 					</div>
 					<br />
 					<div class="form-group">
+					<c:if test="${commu_Category_Index ne 'N01'}">
+					
+					
 						<label for="commu_file">파일</label>
 						<div class="custom-file">
 						<c:if test="${commu eq null }">
 							<input type="file" class="custom-file-input" name="upFile" id="upFile" multiple ${req}>
 						</c:if>
 						<c:if test="${commu ne null}">
-							<label>파일은 수정불가하옵니다.</label>
+							<label style="color:red;">파일은 수정불가하옵니다.</label>
 						</c:if>
 						</div>
-					
-					<%-- <div class="bootstrap-tagsinput form-group">
-						<c:if test="${commu.commu_tags ne null }">
-							 <div class="form-control tags" id="tags">
-						  		 <label>수정 전 태그</label>
-									<c:forTokens items="${commu.commu_tags}" var="tag" delims=",">
-										<a href="${pageContext.request.contextPath}/commu/commuMain?commuSearchType=tags&commuSearchText=${tag}"
-											class="bg-warning labelinput badge badge-warning"
-											style="background-color:#428bca; font-size: 10px;">#${tag}</a>
-									</c:forTokens>
-								</div> 
-								<div class="form-control tags" id="tags">
-									<label>수정 후 태그</label>
-									<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
-									<input type="hidden" value="" name="result" />
-								</div>
-							</c:if>
-						 <c:if test="${commu.commu_tags eq null }">
-								 <div class="form-control tags" id="tags">
-									<input type="text" class="labelinput" placeholder="태그를 입력하세요" />
-									<input type="hidden" value="" name="result" />
-									
-								</div> 
-								
-							</c:if> 
-						</div> --%>
+					</c:if>
+					<c:if test="${commu_Category_Index eq 'B02' or commu_Category_Index eq 'B04'}">
 						<input type="text" name="result" id="tags" class="form-control" data-role="tagsinput" placeholder="태그를 입력하세요"/>
 					<br />
+					</c:if>
 					</div>
-					
 					<div class="form-group">
 						<div id="summernote">
 						<c:if test="${commu ne null }">
@@ -142,7 +123,6 @@
 		
 		<script>
 			$('#summernote').summernote({
-				placeholder : '내용을 자유롭게 작성해주세요(너무 자유로우면 제재함)',
 				tabsize : 2,
 				height : 300,
 			});

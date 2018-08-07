@@ -208,6 +208,10 @@ td {
 								</div>
 
 							</c:forEach>
+							<c:if test="${session_user.user_type eq 'admin' and session_user.user_level > 1000 }">
+							<button type="button" class="btn btn-primary pull-right" onclick="testCommuModify('N01');">글쓰기</button>
+							</c:if>
+							
 						</div>
 					</div>
 				</div>

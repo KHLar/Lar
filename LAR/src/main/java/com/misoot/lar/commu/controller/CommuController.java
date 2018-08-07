@@ -210,7 +210,7 @@ public class CommuController {
 	@RequestMapping(value = "/commu/commuFormEnd", method = RequestMethod.POST)
 	public String commuFormEnd(@RequestParam("commu_Category_Index") String commu_Category_Index,
 			@RequestParam("commu_Title") String commu_Title, @RequestParam("commu_Content") String commu_Content,
-			@RequestParam("result") String commu_tag, @RequestParam("commu_Writer_Index") int commu_Writer_Index,
+			@RequestParam(value="result", required=false) String commu_tag, @RequestParam("commu_Writer_Index") int commu_Writer_Index,
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upfiles, HttpServletRequest request,
 			@RequestParam(value = "commu_Index", required = false, defaultValue = "-1") int commu_Index,
 			Model model) {
@@ -468,8 +468,6 @@ public class CommuController {
 	@RequestMapping(value = "/commu/commuDelete/{user_index}")
 	public String commuDelete(@PathVariable("user_index") String user_index, Model model) {
 
-		// String loc="";
-		// String msg="";
 		int commuDelete = ((CommuServiceImpl) commuServiceImpl).deleteCommu(user_index);
 		if (commuDelete > 0) {
 			System.out.println("삭제성공");
