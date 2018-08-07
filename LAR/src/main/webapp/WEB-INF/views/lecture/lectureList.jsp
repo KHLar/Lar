@@ -109,47 +109,56 @@ function lecValidate() {
 	}
 	return true;
 }
+
+$(window).resize(function() {
+	if (window.matchMedia("(min-width: 768px)").matches) {
+		$('#cool1').removeClass('collapse');
+		$('#cool2').removeClass('collapsed');
+	} else {
+		$('#cool1').addClass('collapse');
+		$('#cool2').addClass('collapsed');
+	}
+});
 </script>
 
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
 			<ul class="list-group">
-				<li class="list-group-item list-group-item-warning"
+				<button   id="cool2" type="button" class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
-					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
-				</li>
+					<a> 메뉴  </a> 
+				</button>
 
-				<div id="cool1">
+				<div id="cool1" class="" >
 					<div data-toggle="collapse" data-target="#cool1"
 						aria-expanded="false">				
-						<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
-
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L04">php</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
-               
-                  </c:if>
-                  <c:if test="${category eq 'mtotal' or category eq 'L06'or category eq 'L07' or category eq 'L08' or category eq 'L09' or category eq 'L10'}">
-                  
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L06">Swift</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L07">FireBase</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L08">Android Studio</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L09">Raspberries</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L10">Hybrid</a></li>
-                  </c:if>
-                  <c:if test="${category eq 'dtotal' or category eq 'L11'or category eq 'L12' or category eq 'L13' or category eq 'L14'}">
-                  
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L11">Oracle</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L12">Mysql</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
-                  <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
-                  </c:if>						
-									</div>
+				<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L04">php</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
+						</c:if>
+						<c:if test="${category eq 'mtotal' or category eq 'L06'or category eq 'L07' or category eq 'L08' or category eq 'L09' or category eq 'L10'}">
+						
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L06">Swift</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L07">FireBase</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L08">Android Studio</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L09">Raspberries</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L10">Hybrid</a></li>
+						</c:if>
+						<c:if test="${category eq 'dtotal' or category eq 'L11'or category eq 'L12' or category eq 'L13' or category eq 'L14'}">
+						
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L11">Oracle</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L12">Mysql</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
+						<li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
+						</c:if>
+					</div>
 				</div>
 			</ul>
+
 		</div>
 		<div class="col-lg-7">
 			<br>

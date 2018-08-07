@@ -166,7 +166,7 @@
 	</select>
 	
 	<select id="getTotalPurchaseAmountByUserIndex" parameterType="_int" resultType="_int">
-		select COUNT(PAID_AMOUNT) from TABLE_PURCHASE
+		select SUM(PAID_AMOUNT) from TABLE_PURCHASE
 		where PURCHASE_USER_INDEX = #{user_index}
 		and status='paid'
 	</select>
@@ -501,7 +501,15 @@
 	</insert>
 	
 	<select id="selectPurchaseByPurchaseMap" parameterType="map" resultType="purchase">
-		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT from TALBE_PURCHASE
-		where MARCHANT_UID = #{uid} and USER_INDEX = #{user_index}
+		select MERCHANT_UID, PURCHASE_DATE, PAID_AMOUNT, COUPON_NAME from TABLE_PURCHASE
+		join TABLE_COUPON on(COUPON_INDEX = PURCHASE_USED_COUPON_INDEX)
+		where MERCHANT_UID = #{uid} and PURCHASE_USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="selectPurchaseLectureList" parameterType="string" resultType="hashmap">
+		select LECTURE_TITLE, LECTURE_PRICE
+		from TABLE_PURCHASE JOIN TABLE_PURCHASE_LIST USING(MERCHANT_UID) 
+		join TABLE_LECTURE USING(LECTURE_INDEX)
+		where MERCHANT_UID = #{target_index}
 	</select>
 </mapper>

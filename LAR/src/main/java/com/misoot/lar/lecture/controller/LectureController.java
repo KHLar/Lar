@@ -368,13 +368,7 @@ public class LectureController {
 		
 		
 		List<LectureHistory> hlist = ((LectureServiceImpl)LectureServiceImpl).selectBoardHistoryList(hmap);
-		
-		System.out.println("hlist" +hlist);
-		
-		/*int boardCheckCount = ((LectureServiceImpl)LectureServiceImpl).selectBoardCheckCount(hmap);*/
-		
-		
-		/*List<LectureBoard> blist = ((LectureServiceImpl)LectureServiceImpl).selectBoardList(lecture_index);*/
+
 		 List<Map<String, Object>> blist = ((LectureServiceImpl)LectureServiceImpl).selectAttachment(lecture_index);
 		 for(int i = 0; i < blist.size() - 1 ; i++){
 			 for(int j = i+1; j < blist.size() ; j++){
@@ -394,12 +388,6 @@ public class LectureController {
 				 }
 			 }
 		 }
-		 
-		 System.out.println(blist);
-	/*	
-		System.out.println("bLecture="+bLecture+"blist="+blist);
-		
-		System.out.println(lecture_index);*/
 		
 		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("hlist", hlist);
 		return "lecture/lectureView";

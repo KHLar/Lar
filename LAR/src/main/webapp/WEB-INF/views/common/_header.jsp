@@ -73,9 +73,9 @@
 					<li class="dropdown mega-dropdown">
 						<a class="dropdown-toggle" id="lecture-dropdown" data-toggle="dropdown" role="button" href = "/lar/lectureList?category=ptotal">분류별 <span class="caret" style="display:none;"></span></a>
 						<ul class="dropdown-menu mobile-dropdown" aria-labelledby="lecture-dropdown"">
-							<li><a href="/lar/lectureList?category=total">프로그래밍 언어</a></li>
-							<li><a>Android</a></li>
-							<li><a>Database</a></li>
+							<li><a href="/lar/lectureList?category=ptotal">프로그래밍 언어</a></li>
+							<li><a href="/lar/lectureList?category=mtotal">Android</a></li>
+							<li><a href="/lar/lectureList?category=dtotal">Database</a></li>
 						</ul>
 						<div class="container-3 mega-dropdownmenu">
 							<div class="col1" style="border-right:1px solid #222;">

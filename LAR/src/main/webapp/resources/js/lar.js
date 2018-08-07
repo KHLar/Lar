@@ -4,10 +4,12 @@ $(document).ready(function() {
 		$('#lecture-dropdown').attr('data-toggle', '');
 		$('.mega-dropdown .caret').css('display', 'none');
 		$('.mega-dropdown').removeClass('open');
+		
 	} else {
 		$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 		$('.mega-dropdown .caret').css('display', '');
 		$('.mega-dropdown').addClass('open');
+	
 	}
 	
 	$(window).resize(function() {
@@ -15,10 +17,12 @@ $(document).ready(function() {
 			$('#lecture-dropdown').attr('data-toggle', '');
 			$('.mega-dropdown .caret').css('display', 'none');
 			$('.mega-dropdown').removeClass('open');
+			
 		} else {
 			$('#lecture-dropdown').attr('data-toggle', 'dropdown');
 			$('.mega-dropdown .caret').css('display', '');
 			$('.mega-dropdown').addClass('open');
+			
 		}
 	});
 	
@@ -126,11 +130,20 @@ $(document).ready(function() {
 	
 	//dk
 	// lecture.jsp
-	 $(".lectureView").on("click", function(){
+	 $(".lectureView2").on("click", function(){
        var bindex =$(this).siblings(".my_boardLecture_index").val();
        var index =$(this).siblings(".my_lecture_index").val();
-       
-       location.href = "/lar/lectureBoardView?index="+index+"&bindex="+bindex;
+
+
+       window.open('about:blank').location.href = "/lar/lectureBoardView?index="+index+"&bindex="+bindex;
+	 });
+	 
+	 $(".lectureView").on("click", function(){
+	       var bindex =$(this).siblings(".my_boardLecture_index").val();
+	       var index =$(this).siblings(".my_lecture_index").val();
+
+
+	      location.href = "/lar/lectureBoardView?index="+index+"&bindex="+bindex;
 	 });
 	 
 	 $("#lectureInsert").on("click", function(){
@@ -272,9 +285,6 @@ $(document).ready(function() {
 		    } else {
 		    	alert("좀더 분발하세요!");
 		    }
-	 });
-	 
-	 
-	 
+	 });	 
 	 
 });
