@@ -10,9 +10,9 @@
 </header>
 
 <script
-	src="${pageContext.request.contextPath}/resources/js/tagInput.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/tagInput.min.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/tagInput.css" />
+	href="${pageContext.request.contextPath}/resources/css/tagInput.min.css" />
 
 <style>
 span {

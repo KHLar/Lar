@@ -47,15 +47,15 @@
 	</div>
 </div>
 
-<script src="/lar/resources/js/suhyeon.js"></script>
+<script src="/lar/resources/js/suhyeon.min.js"></script>
 
 <!-- Plugin JavaScript -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 
 <!-- Contact Form JavaScript -->
-<script src="/lar/resources/js/jqBootstrapValidation.js"></script>
-<script src="/lar/resources/js/contact_me.js"></script>
+<script src="/lar/resources/js/jqBootstrapValidation.min.js"></script>
+<script src="/lar/resources/js/contact_me.min.js"></script>
 
 <!-- Theme JavaScript -->
 <script src="/lar/resources/js/agency.min.js"></script>

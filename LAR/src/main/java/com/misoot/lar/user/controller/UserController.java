@@ -111,7 +111,13 @@ public class UserController {
 			message = "존재하지 않는 사용자입니다.";
 			model.addAttribute("message", message);
 		} else {
-			if (user.getUser_try_signin_count() > 4) {
+			if (user.isUser_is_secession()) {
+				message = "이미 탈퇴한 회원입니다! 관리자에게 문의해주세요.";
+				model.addAttribute("message", message).addAttribute("href", href);
+			} else if (user.isUser_is_kicked()) {
+				message = "약관을 위반해 추방당한 회원입니다! 관리자에게 문의해주세요.";
+				model.addAttribute("message", message).addAttribute("href", href);
+			} else if (user.getUser_try_signin_count() > 4) {
 				message = "로그인 시도 " + user.getUser_try_signin_count() + "회 초과! 계정을 잠금해제 해주세요.";
 				model.addAttribute("message", message).addAttribute("href", href);
 			} else {
@@ -520,7 +526,7 @@ public class UserController {
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("result", true);
-		data.put("href", "/mypage");
+		data.put("href", "/user/mypage");
 
 		return data;
 	}

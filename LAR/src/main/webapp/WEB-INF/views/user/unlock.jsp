@@ -27,4 +27,3 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
 		</div>
 
 <c:import url="/WEB-INF/views/common/_footer.jsp" />
-

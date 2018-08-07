@@ -37,11 +37,11 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 	<!-- Theme CSS -->
 	<link href="${pageContext.request.contextPath}/resources/css/agency.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lar.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/megadrop.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lar.min.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/megadrop.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/lar.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/lar.min.js"></script>
 	
 	
 	<style>
