@@ -117,7 +117,7 @@ function lecValidate() {
 			<ul class="list-group">
 				<li class="list-group-item list-group-item-warning"
 					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
-					<a>메뉴</a> <span class="navbar-toggler-icon"></span>
+					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
 				</li>
 
 				<div id="cool1">
@@ -145,7 +145,8 @@ function lecValidate() {
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L12">Mysql</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
-                  </c:if>					
+                  </c:if>						
+				
 					</div>
 				</div>
 			</ul>

@@ -463,13 +463,12 @@ body {
                            action="${pageContext.request.contextPath}/lecture/lectureReview"
                            onsubmit="return validate();" id="orgin">
                            <input type="hidden" value="${lecture.lecture_index}"
-                              name="lecture_review_lecture_index" id="lecture_review_lecture_index"/> <input type="hidden"
-                              value="${session_user.user_index}"
-                              name="lecture_review_writer_index" />
-                           <h5 class="card-header">수강 후기</h5>
+                              name="lecture_review_lecture_index" id="lecture_review_lecture_index"/> 
+                              <input type="hidden"  value="${session_user.user_index}" name="lecture_review_writer_index" id="review_writer" />
+                           <h5 class="card-header headrmody">수강 후기</h5>
                            <div class="star-rating"
                               style="display: inline-block; margin-left: 15px; margin-top: 7px; cursor: pointer;">
-                              <label class="col-form-label">닉네임 :
+                              <label class="col-form-label" id="updaetName">닉네임 :
                                  ${session_user.user_nickname}</label>
                               <div class="form-inline">
                                  <label class="col-form-label">제목 : &nbsp;&nbsp;&nbsp;</label>
@@ -487,9 +486,8 @@ body {
                                  onclick="mark(4);" onmouseout="noshow(4);"></span> <span
                                  id="image5" class="fa fa-star " onmouseover="show(5);"
                                  onclick="mark(5);" onmouseout="noshow(5);"></span>
-                           </div>
-                           
-                           <input type="text" name="lecture_review_score" id="starScore" class="lecture_review_score"  value=""/>
+                           </div>                          
+                           <input type="hidden" name="lecture_review_score" id="starScore" class="lecture_review_score"  value=""/>
                            <div class="card-body">
                               <div class="form-group">
                                  <textarea class="form-control" rows="3"
@@ -511,10 +509,7 @@ body {
                         <form method="get" name="cmtform"
                            action="${pageContext.request.contextPath}/lecture/lectureReview"
                            onsubmit="return validate();" id="orgin">
-                           <input type="hidden" value="${lecture.lecture_index}"
-                              name="lecture_review_lecture_index" id="lecture_review_lecture_index"/> <input type="hidden"
-                              value="${session_user.user_index}"
-                              name="lecture_review_writer_index" />
+
                            <h5 class="card-header">수강 후기</h5>
                            <div class="star-rating"
                               style="display: inline-block; margin-left: 15px; margin-top: 7px; cursor: pointer;">
@@ -557,6 +552,7 @@ body {
                            src="http://placehold.it/50x50" alt="">
                         <div class="media-body">
                            <span>${r.user_nickname } </span>
+	                      
                            <c:if test="${r.lecture_review_score == '1'}">
                               <span class="fa fa-star checked"></span>
                               <span class="fa fa-star "></span>
@@ -601,6 +597,10 @@ body {
                               value="${lecture.lecture_index} " class="lecture_index"
                               name="lecture_index" /> <input type="hidden"
                               value="${r.lecture_review_score }" class="score" />
+                              <span>${r.lecture_review_writer_index }</span>
+                          <input type="hidden" class="uindex" value="${r.lecture_review_writer_index }"/>
+                          <input type="hidden" class="nickname" value="${r.user_nickname }"/>
+                              
                            <c:if test="${ r.user_nickname eq  session_user.user_nickname  or session_user.user_level >1000 or session_user.user_type eq 'admin'  }">
                            <button type="button"
                               class="btn btn-sm btn-primary pull-right modiy">수정</button>
@@ -769,24 +769,42 @@ body {
             var content = $(this).siblings('.content').text();
             var rindex = $(this).siblings('.lecture_review_index').val();
             var score = $(this).siblings('.score').val();
-            /*  alert("score="+score);  */
+            var uindex = $(this).siblings('.uindex').val();
+            var nickname = $(this).siblings('.nickname').val();
+
             $(".hiddenTag").each(function(index, item){
                $(item).css('display','inline');
             });
             $("#orgin").children().find('#reviewTitle').val(title);
             $("#orgin").children().find('#lecture_review_content').val(content).focus();
-            $("#orgin").children().find('#lecture_review_index').val(rindex);
-               $('.lecture_review_score').val(score);  
-            $("#orgin").children().find('.card-header').text("수강후기 수정");
-            /* $("#mody").children().find('#').val(score) */
-            /*   location.href = "/lar/lectureReivewUpdate?index="+index+"&rindex="+rindex;  */
+            $("#orgin").children().find('#lecture_review_index').val(rindex);         
+            $('.lecture_review_score').val(score);
+            $('#review_writer').val(uindex);
+            $('#updaetName').text( "닉네임 :" +nickname);
+            $('.headrmody').text("수강후기 수정");
          });
-/*           var e = function validate();  */
-         
-      /*    $(".deleteReview").on("click",function(validate()){
-            return true;
-            
-         }) */
+       /*   
+         $(".modiy").toggle(function() {
+             var index = $(this).siblings(".lecture_index").val();
+             var title = $(this).siblings(".title").text();
+             var content = $(this).siblings('.content').text();
+             var rindex = $(this).siblings('.lecture_review_index').val();
+             var score = $(this).siblings('.score').val();
+             var uindex = $(this).siblings('.uindex').val();
+             var nickname = $(this).siblings('.nickname').val();
+             $(".hiddenTag").each(function(index, item){
+                $(item).css('display','inline');
+             });
+             $("#orgin").children().find('#reviewTitle').val(title);
+             $("#orgin").children().find('#lecture_review_content').val(content).focus();
+             $("#orgin").children().find('#lecture_review_index').val(rindex);
+             $('.lecture_review_score').val(score);
+             $('#review_writer').val(uindex);
+             $('#updaetName').text( "닉네임 :" +nickname);
+             $('.headrmody').text("수강후기 수정");
+          },function(){
+         	 location.reload();
+          }); */
                
       </script>
       <c:import url="/WEB-INF/views/common/_footer.jsp" />

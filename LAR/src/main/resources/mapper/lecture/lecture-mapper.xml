@@ -2,14 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lecture">
 	<!-- TABLE_LECTURE  -->
-	<insert id="insertLecture">
-		<selectKey keyProperty="lecture_index" resultType="_int" order="AFTER">
-		SELECT SEQ_LECTURE_INDEX.currval FROM DUAL
-		</selectKey>
-		INSERT INTO TABLE_LECTURE VALUES(
-  		SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index},#{lecture_instructor_index},#{lecture_thumbnail},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0
- 		)
-	</insert>
+<insert id="insertLecture">
+
+<selectKey order="AFTER" resultType="_int" keyProperty="lecture_index"> SELECT SEQ_LECTURE_INDEX.currval FROM DUAL </selectKey>
+INSERT INTO TABLE_LECTURE VALUES( SEQ_LECTURE_INDEX.NEXTVAL,#{lecture_category_index}, (select user_index from table_user where user_id = #{user_id}) ,#{lecture_thumbnail},#{lecture_title},#{lecture_intro},#{lecture_content},#{lecture_level},#{lecture_price},SYSDATE,0,0 ) 
+</insert>
 	
 	<select id="selectlectureTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM TABLE_LECTURE WHERE 
@@ -159,7 +156,7 @@
 	
 	<update id="updateStar">
 		UPDATE TABLE_LECTURE_TOTAL_SCORE 
-  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index})),
+  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index} AND LECTURE_IS_DELETED =0)),
         LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT+1
         WHERE TOTAL_LECTURE_INDEX = #{lecture_index}
 		
@@ -167,7 +164,7 @@
 	
 	<update id="reupdaetStar">
 		UPDATE TABLE_LECTURE_TOTAL_SCORE 
-  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index}))
+  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{lecture_index} AND LECTURE_IS_DELETED =0))
         WHERE TOTAL_LECTURE_INDEX = #{lecture_index}
 	
 	</update>
@@ -310,11 +307,15 @@
 	</select>
 	
 	<update id="deleteStar" parameterType="hashmap">
-	update TABLE_LECTURE_TOTAL_SCORE
+	<!-- update TABLE_LECTURE_TOTAL_SCORE
 	set LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT -1 ,
 	LECTURE_TOTAL_SCORE = LECTURE_TOTAL_SCORE - 
 	(select LECTURE_REVIEW_SCORE from TABLE_LECTURE_REVIEW where  LECTURE_REVIEW_INDEX=#{rindex})
-	where  TOTAL_LECTURE_INDEX =#{ index}
+	where  TOTAL_LECTURE_INDEX =#{ index} -->
+		UPDATE TABLE_LECTURE_TOTAL_SCORE 
+  	    SET LECTURE_TOTAL_SCORE = ((SELECT TRUNC(AVG(LECTURE_REVIEW_SCORE)) FROM TABLE_LECTURE_REVIEW WHERE LECTURE_REVIEW_LECTURE_INDEX=#{index} AND LECTURE_IS_DELETED =0)),
+        LECTURE_REVIEW_COUNT = LECTURE_REVIEW_COUNT-1
+        WHERE TOTAL_LECTURE_INDEX = #{index}
 	</update>
 	
 	<select id="barList" parameterType="_int" resultType="hashmap">
