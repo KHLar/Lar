@@ -37,7 +37,7 @@ public class InquireController {
 	
 	@MessageMapping("/question")
     @SendTo("/topic/greetings") 
-	public Inquire sendEcho(Inquire msg, @SessionAttribute("session_user") User user) throws Exception { 
+	public Map<String, Object> sendEcho(Inquire msg, @SessionAttribute("session_user") User user) throws Exception { 
 		System.out.println("sender : " + msg.getInquire_sender_index());
 		System.out.println("receiver : " + msg.getInquire_receiver_index());
 		System.out.println("receive message : " + msg.getInquire_content());
@@ -48,7 +48,10 @@ public class InquireController {
 		
 		Map<String, Object> msgMap = new HashMap<String, Object>();
 		
+		System.out.println("user Info : "+user.getUser_thumbnail());
+		
 		msgMap.put("msg", msg);
+		msgMap.put("user_thumbnail", user.getUser_thumbnail());
 		
 		if(user.getUser_level() == 1001) {
 			msgMap.put("level", "admin");
@@ -58,7 +61,7 @@ public class InquireController {
 		
 		((InquireServiceImpl) larService).insert(msgMap);
 		
-		return msg;
+		return msgMap;
 	}
 	
 	/**
