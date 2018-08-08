@@ -396,7 +396,7 @@ public class LectureController {
 				 } else {
 					 blist.get(i).put("hcheck", 0);
 				 }
-			 }
+			 } 
 		 }
 		
 		model.addAttribute("blist",blist).addAttribute("bLecture",bLecture).addAttribute("lecture_index",lecture_index).addAttribute("checkApply",checkApply);
