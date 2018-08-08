@@ -638,7 +638,7 @@ body {
                                     src="${pageContext.request.contextPath}/resources/images/play-icon.png">
                                  </td>
                            
-                                 <td class="play_title"><c:if test="${session_user.user_index != null and applyCount > 0 or lecture.lecture_instructor_index eq session_user.user_index }"><a class="lectureView2"></c:if>${bl.LECTURE_BOARD_TITLE}</a>
+                                 <td class="play_title"><c:if test="${session_user.user_index != null and applyCount > 0 or lecture.lecture_instructor_index eq session_user.user_index or session_user.user_type eq 'admin'  }"><a class="lectureView2"></c:if>${bl.LECTURE_BOARD_TITLE}</a>
                                     <input type="hidden" value="${bl.LECTURE_BOARD_INDEX}"
                                     class="my_boardLecture_index"  /> <input type="hidden"
                                     value="${lecture.lecture_index}" class="my_lecture_index" /></td>
