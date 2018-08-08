@@ -27,7 +27,7 @@
 	
 	<select id="userRecomandedList" parameterType="hashmap" resultType="lecture">
 	<choose>
-		<when test="user_index != 0 and wish_cnt != 0">
+		<when test="user_index != 0 or lecture_cnt != 0">
 			select * from (select * from (select * from (select * from (SELECT * FROM TABLE_LECTURE
 			WHERE LECTURE_CATEGORY_INDEX IN (select lecture_category_index
 	        from table_lecture_history
@@ -67,5 +67,9 @@
 	
 	<select id="wishCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM TABLE_WISH_LIST WHERE WISH_USER_INDEX = #{user_index}
+	</select>
+	
+	<select id="lectureCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM TABLE_LECTURE_HISTORY WHERE HISTORY_USER_INDEX = #{user_index}
 	</select>
 </mapper>

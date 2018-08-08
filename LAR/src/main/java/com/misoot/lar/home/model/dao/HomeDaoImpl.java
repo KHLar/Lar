@@ -62,4 +62,8 @@ public class HomeDaoImpl implements LarDao<Home> {
 	public int wishCount(int user_index) {
 		return sqlSession.selectOne("home.wishCount", user_index);
 	}
+
+	public int lectureCount(int user_index) {
+		return sqlSession.selectOne("home.lectureCount", user_index);
+	}
 }

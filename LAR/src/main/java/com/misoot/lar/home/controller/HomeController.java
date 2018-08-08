@@ -33,15 +33,18 @@ public class HomeController {
 		
 		int user_index = 0;	
 		int wish_cnt = 0;
+		int lecture_cnt = 0;
 		if(user != null) {
 			user_index = user.getUser_index();
 			wish_cnt = ((HomeServiceImpl)homeServiceImpl).wishCount(user_index);
+			lecture_cnt = ((HomeServiceImpl)homeServiceImpl).lectureCount(user_index);
 		}
 		
 		Map<String, Object> hmap = new HashMap<String, Object>();
 		
 		hmap.put("user_index", user_index);
 		hmap.put("wish_cnt", wish_cnt);
+		hmap.put("lecture_cnt", lecture_cnt);
 		
 		List<Lecture> recent_lecture_list = ((HomeServiceImpl)homeServiceImpl).selectLectureList("Recent", user_index);
 		List<Lecture> recomand_lecture_list = ((HomeServiceImpl)homeServiceImpl).recomandLectureList(hmap);

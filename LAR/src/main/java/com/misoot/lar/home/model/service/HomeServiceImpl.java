@@ -59,4 +59,8 @@ public class HomeServiceImpl implements LarService<Home> {
 	public int wishCount(int user_index) {
 		return ((HomeDaoImpl)homeDaoImpl).wishCount(user_index);
 	}
+
+	public int lectureCount(int user_index) {
+		return ((HomeDaoImpl)homeDaoImpl).lectureCount(user_index);
+	}
 }
