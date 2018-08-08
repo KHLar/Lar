@@ -10,29 +10,11 @@
 
 <script type="text/javascript">
 	google.charts.load("current", {packages:['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawVisualization);
-
-	function drawVisualization() {
-		var data = new google.visualization.DataTable();
-
-		data.addColumn('string', 'Month');
-		data.addColumn('number', 'Value');
-		data.addRows([['2014', 22], ['2015', 23]]);
-		
-		// {{"key":"18/08", "Value" : 9},{.....},{}}
-		
-		var options = {
-			title: 'Company Performance',
-			width: 400,
-			height: 300,
-			curveType: 'function',
-			legend: { position: 'bottom' }
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('users-weekly-chart'));
-
-		chart.draw(data, options);
-	}
+	google.charts.setOnLoadCallback(drawYearlySignupChart);
+	google.charts.setOnLoadCallback(drawYearlyPurchaseCountChart);
+	google.charts.setOnLoadCallback(drawYearlyPurchaseAmountChart);
+	google.charts.setOnLoadCallback(drawYearlyCommuChart);
+	google.charts.setOnLoadCallback(drawYearlyCommuReplyChart);
 </script>
 
 <div class="col-lg-12">
@@ -47,18 +29,19 @@
 
 	<table>
 		<tr>
-			<td><div id="users-weekly-chart"></div></td>
-			<td><div id="users-monthly-chart"></div></td>
+			<td><div id="YearlySignupChart"></div></td>
 		</tr>
 		<tr>
-			<td><div id="purchase-daily-chart"></div></td>
-			<td><div id="purchase-weekly-chart"></div></td>
-			<td><div id="purchase-monthly-chart"></div></td>
+			<td>
+				<div id="YearlyPurchaseCountChart"></div>
+			</td>
+			<td>
+				<div id="YearlyPurchaseAmountChart"></div>
+			</td>
 		</tr>
 		<tr>
-			<td><div id="lectures-daily-chart"></div></td>
-			<td><div id="lectures-weekly-chart"></div></td>
-			<td><div id="lectures-monthly-chart"></div></td>
+			<td><div id="YearlyCommuChart"></div></td>
+			<td><div id="YearlyCommuReplyChart"></div></td>
 		</tr>
 	</table>
 	

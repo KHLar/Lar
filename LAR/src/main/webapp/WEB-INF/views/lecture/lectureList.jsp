@@ -7,10 +7,10 @@
 <c:import url="/WEB-INF/views/common/_header.jsp">
 	<c:param value="강의 리스트" name="pageTitle" />
 </c:import>
-<link href="${pageContext.request.contextPath}/resources/css/blog-post.css" rel="stylesheet">	
+<link href="${pageContext.request.contextPath}/resources/css/blog-post.min.css" rel="stylesheet">	
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <link
-	href="${pageContext.request.contextPath}/resources/css/lar-board.css"
+	href="${pageContext.request.contextPath}/resources/css/lar-board.min.css"
 	rel="stylesheet">
  <style>
  
@@ -95,7 +95,7 @@
 	href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap1.min.css"
 	rel="stylesheet"> --%>
 <!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/resources/css/shop-item.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/shop-item.min.css" rel="stylesheet">
 
 <br>
 <br>
@@ -125,16 +125,15 @@ $(window).resize(function() {
 	<div class="row">
 		<div class="col-lg-3">
 			<ul class="list-group">
-				<button   id="cool2" type="button" class="list-group-item list-group-item-warning"
-					data-toggle="collapse" data-target="#cool1" aria-expanded="false">
+            <button   id="cool2" type="button" class="list-group-item list-group-item-warning"
+               data-toggle="collapse" data-target="#cool1" aria-expanded="false">
+               <a> 메뉴  </a> 
+            </button>
 
-					<a> 메뉴  </a> <span class="navbar-toggler-icon"></span>
-				</li>
-
-				<div id="cool1">
-					<div data-toggle="collapse" data-target="#cool1"
-						aria-expanded="false">				
-						<c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05' or category eq 'total') or (empty category or category eq '')}">
+            <div id="cool1" class="" >
+               <div data-toggle="collapse" data-target="#cool1"
+                  aria-expanded="false">            
+            <c:if test="${(category eq 'ptotal' or category eq 'L01'or category eq 'L02' or category eq 'L03' or category eq 'L04' or category eq 'L05') or (empty category or category eq '')}">
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L01">JAVA</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L02">C++</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L03">JavaScript</a></li>
@@ -142,6 +141,7 @@ $(window).resize(function() {
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L05">Python</a></li>
                   </c:if>
                   <c:if test="${category eq 'mtotal' or category eq 'L06'or category eq 'L07' or category eq 'L08' or category eq 'L09' or category eq 'L10' or category eq 'total'}">
+                  
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L06">Swift</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L07">FireBase</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L08">Android Studio</a></li>
@@ -149,16 +149,15 @@ $(window).resize(function() {
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L10">Hybrid</a></li>
                   </c:if>
                   <c:if test="${category eq 'dtotal' or category eq 'L11'or category eq 'L12' or category eq 'L13' or category eq 'L14' or category eq 'total'}">
+                  
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L11">Oracle</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L12">Mysql</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L13">MSsql</a></li>
                   <li class="list-group-item"><a href="${pageContext.request.contextPath}/lectureList?category=L14">Nosql</a></li>
-                  </c:if>						
-									</div>
-
-				</div>
-			</ul>
-
+                  </c:if>
+               </div>
+            </div>
+         </ul>
 		</div>
 		<div class="col-lg-7">
 			<br>

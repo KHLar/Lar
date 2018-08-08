@@ -6,7 +6,7 @@
 	<html>
 	<head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	 <script src="${pageContext.request.contextPath}/resources/js/lar.js"></script>   
+	 <script src="${pageContext.request.contextPath}/resources/js/lar.min.js"></script>   
 	
 	
     <title>LAR: 강의 동영상</title>
@@ -14,9 +14,9 @@
 	<!-- Bootstrap Core CSS -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link
-	href="${pageContext.request.contextPath}/resources/css/lar-board.css"
+	href="${pageContext.request.contextPath}/resources/css/lar-board.min.css"
 	rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/css/portfolio-item.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/portfolio-item.min.css" rel="stylesheet">
  
     <style>
     .youtubeWrap {

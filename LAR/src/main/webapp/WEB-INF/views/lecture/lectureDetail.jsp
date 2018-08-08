@@ -7,9 +7,9 @@
 	<c:param value="강의  소개" name="pageTitle" />
 </c:import>
 <link
-   href="${pageContext.request.contextPath}/resources/css/lar-board.css"
+   href="${pageContext.request.contextPath}/resources/css/lar-board.min.css"
    rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/blog-post.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/blog-post.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 <style>
 .youtubeWrap {

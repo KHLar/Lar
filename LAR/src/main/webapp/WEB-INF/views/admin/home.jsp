@@ -19,7 +19,66 @@
 	</div>
 
 	<div class="row">
-		
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-user fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${today_SignupCount}</div>
+							<div>New Users!</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-green">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-shopping-cart fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${today_PurchaseCount}</div>
+							<div>New Purchase!</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-yellow">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-pencil fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${today_CommuCount}</div>
+							<div>New Community Write!</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6">
+			<div class="panel panel-red">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-comments-o fa-5x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div class="huge">${today_CommuReply}</div>
+							<div>New Community Reply!</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

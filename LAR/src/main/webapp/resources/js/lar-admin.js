@@ -119,3 +119,163 @@ function adminActionModal(action, user_index, list, target_index, pre_list, pre_
 		}
 	});
 }
+
+function drawYearlySignupChart() {
+	var jsonData = JSON.parse($.ajax({
+		url: '/lar/admin/charts/signup/yearly',
+		dataType: 'json',
+		async: false
+	}).responseText);
+	
+	console.log(jsonData);
+	
+	var data = new google.visualization.DataTable();
+	
+	data.addColumn('string', 'Month');
+	data.addColumn('number', 'Value');
+	
+	for(var i=0; i<jsonData.length; i++) {
+		data.addRow(jsonData[i]);
+	}
+	
+	var options = {
+		title: '누적 회원 가입 수 변화',
+		width: 400,
+		height: 300,
+		curveType: 'function',
+		legend: { position: 'bottom' }
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('YearlySignupChart'));
+
+	chart.draw(data, options);
+}
+
+function drawYearlyPurchaseCountChart() {
+	var jsonData = JSON.parse($.ajax({
+		url: '/lar/admin/charts/purchase/yearly',
+		dataType: 'json',
+		data: {
+			type: 'count'
+		},
+		async: false
+	}).responseText);
+	
+	console.log(jsonData);
+	
+	var data = new google.visualization.DataTable();
+	
+	data.addColumn('string', 'Month');
+	data.addColumn('number', 'Value');
+	
+	for(var i=0; i<jsonData.length; i++) {
+		data.addRow(jsonData[i]);
+	}
+	
+	var options = {
+		title: '누적 결제 건 수 변화',
+		width: 400,
+		height: 300,
+		curveType: 'function',
+		legend: { position: 'bottom' }
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('YearlyPurchaseCountChart'));
+
+	chart.draw(data, options);
+}
+
+function drawYearlyPurchaseAmountChart() {
+	var jsonData = JSON.parse($.ajax({
+		url: '/lar/admin/charts/purchase/yearly',
+		data: {
+			type: 'amount'
+		},
+		dataType: 'json',
+		async: false
+	}).responseText);
+	
+	console.log(jsonData);
+	
+	var data = new google.visualization.DataTable();
+	
+	data.addColumn('string', 'Month');
+	data.addColumn('number', 'Value');
+	
+	for(var i=0; i<jsonData.length; i++) {
+		data.addRow(jsonData[i]);
+	}
+	
+	var options = {
+		title: '누적 결제 총 액 변화',
+		width: 400,
+		height: 300,
+		curveType: 'function',
+		legend: { position: 'bottom' }
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('YearlyPurchaseAmountChart'));
+
+	chart.draw(data, options);
+}
+
+function drawYearlyCommuChart() {
+	var jsonData = JSON.parse($.ajax({
+		url: '/lar/admin/charts/commu/yearly',
+		dataType: 'json',
+		async: false
+	}).responseText);
+	
+	console.log(jsonData);
+	
+	var data = new google.visualization.DataTable();
+	
+	data.addColumn('string', 'Month');
+	data.addColumn('number', 'Value');
+	
+	for(var i=0; i<jsonData.length; i++) {
+		data.addRow(jsonData[i]);
+	}
+	
+	var options = {
+		title: '누적 글 작성 수 변화',
+		width: 400,
+		height: 300,
+		curveType: 'function',
+		legend: { position: 'bottom' }
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('YearlyCommuChart'));
+
+	chart.draw(data, options);
+}
+function drawYearlyCommuReplyChart() {
+	var jsonData = JSON.parse($.ajax({
+		url: '/lar/admin/charts/commuReply/yearly',
+		dataType: 'json',
+		async: false
+	}).responseText);
+	
+	console.log(jsonData);
+	
+	var data = new google.visualization.DataTable();
+	
+	data.addColumn('string', 'Month');
+	data.addColumn('number', 'Value');
+	
+	for(var i=0; i<jsonData.length; i++) {
+		data.addRow(jsonData[i]);
+	}
+	
+	var options = {
+		title: '누적 댓글 작성 수 변화',
+		width: 400,
+		height: 300,
+		curveType: 'function',
+		legend: { position: 'bottom' }
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('YearlyCommuReplyChart'));
+
+	chart.draw(data, options);
+}

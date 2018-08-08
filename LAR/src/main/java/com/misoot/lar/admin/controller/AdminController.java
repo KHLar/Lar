@@ -12,7 +12,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +28,6 @@ import com.misoot.lar.common.interfaces.LarService;
 import com.misoot.lar.common.util.PageInfo;
 import com.misoot.lar.commu.model.vo.Commu;
 import com.misoot.lar.commu.model.vo.CommuReply;
-import com.misoot.lar.lecture.model.service.LectureServiceImpl;
 import com.misoot.lar.lecture.model.vo.Lecture;
 import com.misoot.lar.user.model.vo.Purchase;
 import com.misoot.lar.user.model.vo.User;
@@ -42,6 +40,21 @@ public class AdminController {
 	
 	@RequestMapping(value = {""})
 	public String home(Model model) {
+		// 당일 가입 건수 
+		// 당일 결제 건수
+		// 당일 글(커뮤니티) 건수
+		// 당일 댓글(커뮤니티) 건수
+		
+		int today_SignupCount = ((AdminServiceImpl) adminServiceImpl).getTodaySignupCount();
+		int today_PurchaseCount = ((AdminServiceImpl) adminServiceImpl).getTodayPurchaseCount();
+		int today_CommuCount = ((AdminServiceImpl) adminServiceImpl).getTodayCommuCount();
+		int today_CommuReply = ((AdminServiceImpl) adminServiceImpl).getTodayCommuReply();
+		
+		model.addAttribute("today_SignupCount", today_SignupCount)
+			.addAttribute("today_PurchaseCount", today_PurchaseCount)
+			.addAttribute("today_CommuCount", today_CommuCount)
+			.addAttribute("today_CommuReply", today_CommuReply);
+		
 		return "admin/home";
 	}
 	
@@ -53,23 +66,48 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value="/charts/{target}/{filter}")
 	public List<Object[]> getCharts(@PathVariable("target") String target,
-												@PathVariable("filter") String filter) {
-		List<Map<String, Integer>> charts = ((AdminServiceImpl) adminServiceImpl).getCharts();
+										@PathVariable("filter") String filter,
+										@RequestParam(value="type", required=false) String type) {
+		
+		System.out.println(target);
+		System.out.println(filter);
+		
+		List<Map<String, Integer>> charts = null;
+		
+		if (filter.equals("yearly")) {
+			if (target.equals("signup")) {
+				charts = ((AdminServiceImpl) adminServiceImpl).getYearlySignupChart();
+			} else if (target.equals("purchase")) {
+				if (type.equals("count")) {
+					charts = ((AdminServiceImpl) adminServiceImpl).getYearlyPurchaseCountChart();
+				} else if (type.equals("amount")) {
+					charts = ((AdminServiceImpl) adminServiceImpl).getYearlyPurchaseAmountChart();
+				}
+			} else if (target.equals("commu")) {
+				charts = ((AdminServiceImpl) adminServiceImpl).getYearlyCommuChart();
+			} else if (target.equals("commuReply")) {
+				charts = ((AdminServiceImpl) adminServiceImpl).getYearlyCommuReplyChart();
+			}
+		} 
+
 		List<Object[]> result = new ArrayList<Object[]>();
 		
-		for (Map<String, Integer> map : charts) {
-			Set<String> keySet = map.keySet();
-			Object[] arr = new Object[2];
-			int i = 0;
-			for (String key : keySet) {
-				arr[i++] = map.get(key);
-			}
-			result.add(arr);
-			
-			for (Object o : arr) {
-				System.out.println(o);
+		if (charts != null) {
+			for (Map<String, Integer> map : charts) {
+				Set<String> keySet = map.keySet();
+				Object[] arr = new Object[2];
+				int i = 0;
+				for (String key : keySet) {
+					arr[i++] = map.get(key);
+				}
+				result.add(arr);
+				
+				for (Object o : arr) {
+					System.out.println(o);
+				}
 			}
 		}
+		
 		return result;
 	}
 	
@@ -551,6 +589,8 @@ public class AdminController {
 		Purchase purchase = ((AdminServiceImpl)adminServiceImpl).selectPurchaseByPurchaseMap(selectMap);
 		List<Map<String, Object>> purchase_lecture_list = ((AdminServiceImpl)adminServiceImpl).selectPurchaseLectureList(target_index);
 		
+		System.out.println(purchase);
+		
 		model.addAttribute("user_index", user_index)
 			.addAttribute("purchase", purchase)
 			.addAttribute("purchase_lecture_list", purchase_lecture_list)
@@ -832,5 +872,6 @@ public class AdminController {
 		
 		return "redirect:/admin/lectures/list/1";
 	}
+	
 	
 }

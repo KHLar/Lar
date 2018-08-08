@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<link href="${pageContext.request.contextPath}/resources/css/chat.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/chat.min.css" rel="stylesheet">
 <script	src="${pageContext.request.contextPath}/resources/js/sockjs.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
