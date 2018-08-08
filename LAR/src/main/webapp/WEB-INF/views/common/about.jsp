@@ -99,14 +99,12 @@
             </div>
             
             <hr />
-            <div style="text-align:center; width:60%; margin:auto;" >
-                <h3>곡물 하나 하나 따로 먹으면 맛이 별로이지만 의외의 조합으로 여러 곡물을 갈아 섞어 물과 혼합하여 마시면 그만큼 좋은 영양간식이 없습니다.</h3.
-                >
-                <h4>우리는 그런 곡물 하나하나 이지만 여러 곡물이 섞여 미숫가루처럼 맛있는 그리고 몸에 좋은 결과를 만들기위해 노력했습니다. </h4>
+            <div style="text-align:center; width:60%; margin:auto;">
+                <h4>곡물 하나 하나 따로 먹으면 맛과 영양은 별로이지만 여러 곡물을 조합으로 갈아 섞어 물과 혼합하면 맛도 좋은 영양간식이 됩니다.</h4>
+                <h5>우리는 그런 곡물 하나하나 이지만 여러 곡물이 섞인 미숫가루처럼 맛있고 몸에 좋은 결과를 만들기위해 노력했습니다. </h5>
             </div>
             <hr />
-            
-            <div class="container">
+            <div class="container col-lg-12 col-md-12 col-sm-12">
                <div class="row">
                   <div class="col-lg-12 text-center">
                      <h2 class="section-heading text-uppercase">misoot Team</h2>
@@ -116,115 +114,55 @@
                <div class="row">
                   <div class="col-sm-4">
                      <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="img/team/1.jpg" alt="">
+                        <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160051357.png" alt="">
                         <h4>김낙용</h4>
-                        <p class="text-muted">Lead Designer</p>
-                        <ul class="list-inline social-buttons">
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-twitter"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-facebook"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-linkedin"></i>
-                           </a></li>
-                        </ul>
+                        <p class="text-muted">Kim nak yong</p>
+                        <p>hykimyong@naver.com</p>
                      </div>
                   </div>
                   <div class="col-sm-4">
                      <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="img/team/2.jpg" alt="">
+                        <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160038328.png"alt="">
                         <h4>박수현</h4>
-                        <p class="text-muted">Lead Marketer</p>
-                        <ul class="list-inline social-buttons">
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-twitter"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-facebook"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-linkedin"></i>
-                           </a></li>
-                        </ul>
+                        <p class="text-muted">Park su hyeon</p>
+                        <p>psh6185@naver.com</p>
                      </div>
                   </div>
                   <div class="col-sm-4">
                      <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt="">
+                        <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160042304.png" alt="">
                         <h4>박재은</h4>
-                        <p class="text-muted">Lead Developer</p>
-                        <ul class="list-inline social-buttons">
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-twitter"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-facebook"></i>
-                           </a></li>
-                           <li class="list-inline-item"><a href="#"> <i
-                                 class="fa fa-linkedin"></i>
-                           </a></li>
-                        </ul>
+                        <p class="text-muted">Park jae eun</p>
+                        <p>jae_s33@naver.com</p>
                      </div>
                   </div>
                </div>
                <div class="col-sm-4">
                   <div class="team-member">
-                     <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt="">
+                     <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160101529.png" alt="">
                      <h4>이득규</h4>
-                     <p class="text-muted">Lead Developer</p>
-                     <ul class="list-inline social-buttons">
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-twitter"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-facebook"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-linkedin"></i>
-                        </a></li>
-                     </ul>
+                     <p class="text-muted">Lee dk gu</p>
+                     <p>silent10z@naver.com</p>
                   </div>
                </div>
                <div class="col-sm-4">
                   <div class="team-member">
-                     <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt="">
+                     <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160046863.png" alt="">
                      <h4>이주형</h4>
-                     <p class="text-muted">Lead Developer</p>
-                     <ul class="list-inline social-buttons">
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-twitter"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-facebook"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-linkedin"></i>
-                        </a></li>
-                     </ul>
+                     <p class="text-muted">Lee joo hyeong</p>
+                     <p>tualfhal92@gmail.com</p>
                   </div>
                </div>
                <div class="col-sm-4">
                   <div class="team-member">
-                     <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt="">
+                     <img class="mx-auto rounded-circle" src="resources/images/KakaoTalk_20180808_160056217.png" alt="">
                      <h4>정주은</h4>
-                     <p class="text-muted">Lead Developer</p>
-                     <ul class="list-inline social-buttons">
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-twitter"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-facebook"></i>
-                        </a></li>
-                        <li class="list-inline-item"><a href="#"> <i
-                              class="fa fa-linkedin"></i>
-                        </a></li>
-                     </ul>
+                     <p class="text-muted">Jeong joo eun</p>
+                     <p>spacernet@naver.com</p>
                   </div>
                </div>
             </div>
-</div>
-         </div>
+      </div>
+     </div>
 
    <c:import url="/WEB-INF/views/common/_footer.jsp" />

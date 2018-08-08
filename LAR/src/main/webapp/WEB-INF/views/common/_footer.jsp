@@ -24,9 +24,8 @@
 			</div>
 			<div class="col-md-4">
 				<ul class="list-inline social-buttons">
-					<li><a href="#" onclick="javascript:window.open('https://twitter.com/intent/tweet?text=[%EA%B3%B5%EC%9C%A0]%20' +encodeURIComponent(document.URL)+'%20-%20'+encodeURIComponent(document.title), 'twittersharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
-                      target="_blank"><i class="fa fa-twitter"></i></a></li>
-					<!-- <li><a href="#"><i class="fa fa-facebook"></i></a></li> -->
+					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
 				</ul>
 			</div>
