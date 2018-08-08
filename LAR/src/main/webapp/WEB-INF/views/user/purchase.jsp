@@ -171,7 +171,7 @@
 			pay_method : "card",
 			merchant_uid : $('#inputEmail').val() + "_" + new Date().getTime(),
 			name : name,
-			amount : "101",
+			amount : data,
 			buyer_email : $('#inputEmail').val(),
 			buyer_name : $('#name').val(),
 			buyer_tel : $('#phone').val(),
