@@ -271,7 +271,7 @@ body {
                      by <a href="#">${lecture.user_nickname}</a> 
 					<span>
 					<c:if test="${applyCount == 0}">                  
-							<button class="btn btn-sm btn <btn-success></btn-success> pull-right" id="applyLecture">수강신청</button>
+							<button class="btn btn-sm btn btn-success pull-right" id="applyLecture">수강신청</button>
 							<input type="hidden" id="lecture_index_applyLecture" value="${lecture.lecture_index}"/>
 					</c:if>                   
                    <c:if test="${applyCount >0}">
@@ -547,8 +547,20 @@ body {
                   <c:forEach items="${rlist}" var="r">
                      <!-- Single Comment -->
                      <div class="media mb-2">
-                        <img class="d-flex mr-3 rounded-circle"
-                           src="http://placehold.it/50x50" alt="">
+                      <!--   <img class="d-flex mr-3 rounded-circle"
+                           src="http://placehold.it/50x50" alt=""> -->
+                    <c:if test="${r.user_thumbnail ne null}">
+                     <img
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/${r.user_thumbnail}"
+                        id="profile-image1" class="d-flex mr-3 rounded-circle"
+                        alt="User Pic" style="width: 50px; height: 50px"/>
+                  </c:if>
+                  <c:if test="${r.user_thumbnail eq null}">
+                     <img
+                        src="${pageContext.request.contextPath}/resources/uploadFiles/userthumbnail/defaultThumbnail.png"
+                        id="profile-image1" class="d-flex mr-3 rounded-circle"
+                        alt="User Pic" style="width: 50px; height: 50px"/>
+                  </c:if>
                         <div class="media-body">
                            <span>${r.user_nickname } </span>
 	                      
@@ -596,7 +608,6 @@ body {
                               value="${lecture.lecture_index} " class="lecture_index"
                               name="lecture_index" /> <input type="hidden"
                               value="${r.lecture_review_score }" class="score" />
-                              <span>${r.lecture_review_writer_index }</span>
                           <input type="hidden" class="uindex" value="${r.lecture_review_writer_index }"/>
                           <input type="hidden" class="nickname" value="${r.user_nickname }"/>
                               
